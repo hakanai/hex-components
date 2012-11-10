@@ -1,0 +1,54 @@
+<project name="hex-components" default="build">
+    <property file="app.properties"/>
+
+    <scriptdef name="run-all" language="JavaScript">
+        <attribute name="target"/>
+        <![CDATA[
+
+        var builds = new Array("util", "binary", "interpreter", "anno", "viewer");
+        var target = attributes.get("target");
+        for (i = 0; i < builds.length; i++) {
+            var task = project.createTask("ant");
+            task.setDir(new java.io.File(builds[i]));
+            if (target != null) {
+                task.setTarget(target);
+            }
+            task.perform();
+        }
+
+        ]]>
+    </scriptdef>
+
+    <target name="build" description="Runs each build in series">
+        <run-all/>
+    </target>
+
+    <target name="test" description="Tests each build in series">
+        <run-all target="test"/>
+    </target>
+
+    <target name="dist-cycle" depends="clean, build" description="Cleans and builds distribution files">
+        <mkdir dir="build"/>
+
+        <!-- Source -->
+        <tar destfile="build/hex-components-src-${app.version}.tar" longfile="gnu">
+            <zipfileset prefix="hex-components-src-${app.version}" dir="." excludes="build/, */build/, projectFilesBackup, **/.DS_Store, .idea/out/, .idea/workspace.xml, .idea/dictionaries/"/>
+        </tar>
+        <bzip2 destfile="build/hex-components-src-${app.version}.tar.bz2" src="build/hex-components-src-${app.version}.tar"/>
+
+        <!-- Binaries -->
+        <zip zipfile="build/hex-components-bin-${app.version}.zip">
+            <zipfileset prefix="hex-components-bin-${app.version}" dir="anno/build" includes="hex-anno.jar"/>
+            <zipfileset prefix="hex-components-bin-${app.version}" dir="binary/build" includes="hex-binary.jar"/>
+            <zipfileset prefix="hex-components-bin-${app.version}" dir="interpreter/build" includes="hex-interpreter.jar"/>
+            <zipfileset prefix="hex-components-bin-${app.version}" dir="util/build" includes="hex-util.jar"/>
+            <zipfileset prefix="hex-components-bin-${app.version}" dir="viewer/build" includes="hex-viewer.jar"/>
+            <zipfileset prefix="hex-components-bin-${app.version}" dir="." includes="COPYING, COPYING.LESSER, CHANGELOG, README.markdown"/>
+        </zip>
+    </target>
+
+    <target name="clean" description="Cleans generated files from each build">
+        <run-all target="clean"/>
+        <delete dir="build"/>
+    </target>
+</project>

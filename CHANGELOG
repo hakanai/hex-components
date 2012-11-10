@@ -1,0 +1,9 @@
+
+Version 0.3 (XXXX-XX-XX)
+
+ Changed: Separated the components usable in other apps into a reusable library, licenced under LGPL 3.
+ Changed: Zero-width annotations removed as they were causing altogether too much trouble (e.g. when sorting a list
+          of annotations, it's hard to know which one is first.)  The structure DSL is updated to not drop an
+          array annotation in if the length would be zero, which was the common cause for it.
+
+(Version 0.2 didn't really exist - this project was part of Hex at the time so the changelog can be found there.)

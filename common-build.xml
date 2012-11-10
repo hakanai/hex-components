@@ -1,0 +1,79 @@
+<!--
+  ~ Hex - a hex viewer and annotator
+  ~ Copyright (C) 2009  Trejkaz, Hex Project
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<project name="common">
+    <property file="${basedir}/build.properties"/>
+    <property name="common.classpath.compile" value=""/>
+    <property name="common.classpath.compile-test" value=""/>
+
+    <dirname property="common.basedir" file="${ant.file.common}"/>
+
+    <path id="classpath.compile">
+        <pathelement path="${common.classpath.compile}"/>
+    </path>
+
+    <path id="classpath.run">
+        <pathelement location="build/classes"/>
+        <path refid="classpath.compile"/>
+    </path>
+
+    <path id="classpath.compile-test">
+        <pathelement path="${common.classpath.compile-test}"/>
+        <pathelement location="build/classes"/>
+        <path refid="classpath.compile"/>
+        <pathelement location="${common.basedir}/lib/junit.jar"/>
+    </path>
+
+    <path id="classpath.test">
+         <pathelement location="build/testclasses"/>
+         <path refid="classpath.compile-test"/>
+         <path refid="classpath.run"/>
+    </path>
+    
+    <target name="compile" description="Compiles classes">
+        <mkdir dir="build/classes"/>
+        <javac srcdir="src/main" destdir="build/classes" debug="on" deprecation="on" classpathref="classpath.compile"/>
+    </target>
+
+    <target name="compile-test" depends="compile" description="Compiles test classes">
+        <mkdir dir="build/testclasses"/>
+        <javac srcdir="src/test" destdir="build/testclasses" debug="on" classpathref="classpath.compile-test"/>
+    </target>
+    
+    <target name="package" depends="compile" description="Create the jar file">
+        <jar jarfile="build/hex-${ant.project.name}.jar">
+            <fileset dir="build/classes"/>
+            <fileset dir="src/main" excludes="**/*.java"/>
+        </jar>
+    </target>
+
+    <target name="test" depends="compile-test" description="Runs unit tests">
+        <mkdir dir="build/testreports"/>
+        <junit printsummary="withOutAndErr" haltonfailure="yes">
+            <classpath refid="classpath.test"/>
+            <formatter type="plain"/>
+            <batchtest todir="build/testreports">
+                <fileset dir="src/test" includes="**/*.java"/>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="clean" description="Cleans generated files">
+        <delete dir="build"/>
+    </target>
+</project>
