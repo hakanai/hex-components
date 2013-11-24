@@ -31,7 +31,6 @@ public class MemoryAnnotationCollection extends AbstractAnnotationCollection {
     private final GroupAnnotation rootGroup;
 
     public MemoryAnnotationCollection(long length) {
-        // TODO: Support long.
         rootGroup = new SimpleMutableGroupAnnotation(0, length, null);
     }
 
