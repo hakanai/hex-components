@@ -44,7 +44,7 @@ public class SimpleDateTime implements DateTime {
         throw new UnsupportedOperationException("TODO: Haven't decided to keep this method yet");
     }
 
-    public int length() {
+    public long length() {
         return date.length() + time.length();
     }
 

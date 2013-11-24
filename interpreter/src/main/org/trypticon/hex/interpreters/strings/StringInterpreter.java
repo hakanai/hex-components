@@ -42,8 +42,12 @@ public class StringInterpreter extends AbstractInterpreter<StringValue> {
         return charset.name();
     }
 
-    public StringValue interpret(Binary binary, long position, int length) {
-        ByteBuffer buffer = ByteBuffer.allocate(length);
+    public StringValue interpret(Binary binary, long position, long length) {
+        if (length > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Strings cannot be longer than Integer.MAX_VALUE: " + length);
+        }
+
+        ByteBuffer buffer = ByteBuffer.allocate((int) length);
         binary.read(position, buffer);
         buffer.rewind();
 

@@ -30,5 +30,5 @@ public interface FixedLengthInterpreter<V extends Value> extends Interpreter<V> 
      *
      * @return the length of values returned from this interpreter.
      */
-    int getValueLength();
+    long getValueLength();
 }

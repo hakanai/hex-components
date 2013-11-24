@@ -34,7 +34,7 @@ public class NullInterpreter extends AbstractInterpreter<NullValue> {
         super(NullValue.class);
     }
 
-    public NullValue interpret(Binary binary, long position, int length) {
+    public NullValue interpret(Binary binary, long position, long length) {
         return new NullValue(length);
     }
 

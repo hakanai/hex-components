@@ -30,14 +30,14 @@ public abstract class AbstractFixedLengthInterpreter<V extends Value>
         extends AbstractInterpreter<V>
         implements FixedLengthInterpreter<V> {
 
-    private final int valueLength;
+    private final long valueLength;
 
-    protected AbstractFixedLengthInterpreter(Class<V> type, int valueLength) {
+    protected AbstractFixedLengthInterpreter(Class<V> type, long valueLength) {
         super(type);
         this.valueLength = valueLength;
     }
 
-    public int getValueLength() {
+    public long getValueLength() {
         return valueLength;
     }
 
@@ -50,7 +50,7 @@ public abstract class AbstractFixedLengthInterpreter<V extends Value>
      */
     protected abstract V interpret(Binary binary, long position);
 
-    public V interpret(Binary binary, long position, int length) {
+    public V interpret(Binary binary, long position, long length) {
         if (length != valueLength) {
             throw new IllegalArgumentException("Only supports values of length " + valueLength
                     + " but got " + length);

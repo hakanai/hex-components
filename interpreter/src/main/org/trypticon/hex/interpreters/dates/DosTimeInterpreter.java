@@ -60,7 +60,7 @@ public class DosTimeInterpreter extends AbstractFixedLengthInterpreter<Time> {
             return second.evaluate(value) * SECOND_RESOLUTION;
         }
 
-        public int length() {
+        public long length() {
             return 2;
         }
     }

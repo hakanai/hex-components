@@ -41,7 +41,7 @@ public interface Annotation {
      *
      * @return the length of the annotation.
      */
-    int getLength();
+    long getLength();
 
     /**
      * Gets the interpreter used to interpret the value at the given position.

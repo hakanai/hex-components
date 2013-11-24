@@ -55,7 +55,7 @@ public class Double extends Number implements Value {
         return value;
     }
 
-    public int length() {
+    public long length() {
         return 1;
     }
 

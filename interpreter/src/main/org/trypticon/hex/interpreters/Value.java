@@ -30,5 +30,5 @@ public interface Value {
      *
      * @return the length of the value.
      */
-    int length();
+    long length();
 }

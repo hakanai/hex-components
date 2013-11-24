@@ -29,11 +29,11 @@ import org.trypticon.hex.interpreters.Value;
  */
 public class SimpleMutableAnnotation implements MutableAnnotation {
     private long position;
-    private int length;
+    private long length;
     private Interpreter interpreter;
     private String note;
 
-    public SimpleMutableAnnotation(long position, int length, Interpreter interpreter, String note) {
+    public SimpleMutableAnnotation(long position, long length, Interpreter interpreter, String note) {
         if (interpreter == null) {
             throw new IllegalArgumentException("interpreter cannot be null");
         }
@@ -60,7 +60,7 @@ public class SimpleMutableAnnotation implements MutableAnnotation {
         this.position = position;
     }
 
-    public int getLength() {
+    public long getLength() {
         return length;
     }
 
@@ -106,7 +106,8 @@ public class SimpleMutableAnnotation implements MutableAnnotation {
     @Override
     public int hashCode() {
         int hashCode = 23 * (int) getPosition();
-        hashCode = hashCode * 71 + getLength();
+        long length = getLength();
+        hashCode = hashCode * 71 + (int)(length ^ (length >>> 32));
         hashCode = hashCode * 37 + getInterpreter().hashCode();
         if (note != null) {
             hashCode = hashCode * 51 + getNote().hashCode();

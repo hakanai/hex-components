@@ -60,7 +60,7 @@ public class DosDateInterpreter extends AbstractFixedLengthInterpreter<Date> {
             return day.evaluate(value);
         }
 
-        public int length() {
+        public long length() {
             return 2;
         }
     }

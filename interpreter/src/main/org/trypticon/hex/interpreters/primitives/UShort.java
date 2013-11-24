@@ -55,7 +55,7 @@ public class UShort extends Number implements Value {
         return value;
     }
 
-    public int length() {
+    public long length() {
         return 2;
     }
 

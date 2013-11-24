@@ -43,5 +43,5 @@ public interface Interpreter<V extends Value> {
      * @param length the length of the value to interpret.
      * @return the value.
      */
-    V interpret(Binary binary, long position, int length);
+    V interpret(Binary binary, long position, long length);
 }

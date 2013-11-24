@@ -26,13 +26,13 @@ import org.trypticon.hex.interpreters.Value;
  * @author trejkaz
  */
 public class NullValue implements Value {
-    private final int length;
+    private final long length;
 
-    NullValue(int length) {
+    NullValue(long length) {
         this.length = length;
     }
 
-    public int length() {
+    public long length() {
         return length;
     }
 

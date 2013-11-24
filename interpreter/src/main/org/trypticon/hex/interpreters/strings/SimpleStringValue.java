@@ -25,14 +25,14 @@ package org.trypticon.hex.interpreters.strings;
  */
 public class SimpleStringValue implements StringValue {
     private final String string;
-    private final int byteLength;
+    private final long byteLength;
 
-    public SimpleStringValue(String string, int byteLength) {
+    public SimpleStringValue(String string, long byteLength) {
         this.string = string;
         this.byteLength = byteLength;
     }
 
-    public int length() {
+    public long length() {
         return byteLength;
     }
 
