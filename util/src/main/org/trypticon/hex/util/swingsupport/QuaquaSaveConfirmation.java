@@ -32,10 +32,12 @@ import ch.randelshofer.quaqua.SheetListener;
  * @author trejkaz
  */
 public class QuaquaSaveConfirmation extends SaveConfirmation {
+    @Override
     protected Object showOptionPane(Component owner, JOptionPane optionPane) {
         class SaveSheetListener implements SheetListener {
             private Object selected;
 
+            @Override
             public void optionSelected(SheetEvent event) {
                 selected = event.getValue();
             }

@@ -41,6 +41,7 @@ public class UShort extends Number implements Value {
         return value & 0xFFFF;
     }
 
+    @Override
     public long longValue() {
         return value & 0xFFFF;
     }
@@ -55,6 +56,7 @@ public class UShort extends Number implements Value {
         return value;
     }
 
+    @Override
     public long length() {
         return 2;
     }

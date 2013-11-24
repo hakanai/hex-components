@@ -30,6 +30,7 @@ import java.awt.event.ActionEvent;
  * @author trejkaz
  */
 abstract class AbstractCursorMoveAction extends AbstractAction {
+    @Override
     public void actionPerformed(ActionEvent event) {
         HexViewer viewer = (HexViewer) event.getSource();
 

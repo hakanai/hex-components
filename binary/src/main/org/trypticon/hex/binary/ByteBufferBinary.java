@@ -62,10 +62,12 @@ class ByteBufferBinary extends AbstractBinary {
         this.buffer = buffer;
     }
 
+    @Override
     public long length() {
         return buffer.capacity();
     }
 
+    @Override
     public byte read(long position) {
         lock.readLock().lock();
         try {
@@ -76,6 +78,7 @@ class ByteBufferBinary extends AbstractBinary {
         }
     }
 
+    @Override
     public void read(long position, ByteBuffer buffer) {
         lock.readLock().lock();
         try {

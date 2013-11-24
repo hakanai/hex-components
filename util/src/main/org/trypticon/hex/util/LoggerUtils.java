@@ -31,6 +31,7 @@ public class LoggerUtils {
     private static StackStealer stackStealer;
     static {
         stackStealer = AccessController.doPrivileged(new PrivilegedAction<StackStealer>() {
+            @Override
             public StackStealer run() {
                 return new StackStealer();
             }

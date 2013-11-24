@@ -32,7 +32,7 @@ import java.util.List;
  * @author trejkaz
  */
 public class StackedBorder extends AbstractBorder {
-    private final List<Border> borders = new LinkedList<Border>();
+    private final List<Border> borders = new LinkedList<>();
 
     public StackedBorder(Border firstBorder) {
         borders.add(firstBorder);

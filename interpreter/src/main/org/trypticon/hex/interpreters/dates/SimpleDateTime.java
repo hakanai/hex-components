@@ -32,10 +32,12 @@ public class SimpleDateTime implements DateTime {
         this.time = time;
     }
 
+    @Override
     public Date getDate() {
         return date;
     }
 
+    @Override
     public Time getTime() {
         return time;
     }
@@ -44,6 +46,7 @@ public class SimpleDateTime implements DateTime {
         throw new UnsupportedOperationException("TODO: Haven't decided to keep this method yet");
     }
 
+    @Override
     public long length() {
         return date.length() + time.length();
     }

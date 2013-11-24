@@ -26,14 +26,17 @@ import java.nio.ByteBuffer;
  * @author trejkaz
  */
 public class EmptyBinary extends AbstractBinary {
+    @Override
     public long length() {
         return 0;
     }
 
+    @Override
     public byte read(long position) {
         throw new IndexOutOfBoundsException("Binary has no data");
     }
 
+    @Override
     public void read(long position, ByteBuffer buffer) {
         if (buffer.hasRemaining()) {
             throw new IndexOutOfBoundsException("Binary has no data");

@@ -37,9 +37,10 @@ public class NullInterpreterStorage implements InterpreterStorage {
         return Arrays.asList((InterpreterInfo) new NullInterpreterInfo());
     }
 
+    @Override
     public Map<String, Object> toMap(Interpreter interpreter) {
         if (interpreter.getClass() == NullInterpreter.class) {
-            Map<String, Object> map = new HashMap<String, Object>(2);
+            Map<String, Object> map = new HashMap<>(2);
             map.put("name", "null");
             return map;
         } else {
@@ -47,6 +48,7 @@ public class NullInterpreterStorage implements InterpreterStorage {
         }
     }
 
+    @Override
     public Interpreter fromMap(Map<String, Object> map) {
         if ("null".equals(map.get("name"))) {
             return new NullInterpreter();

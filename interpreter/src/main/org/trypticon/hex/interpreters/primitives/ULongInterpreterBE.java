@@ -31,10 +31,12 @@ public class ULongInterpreterBE extends AbstractFixedLengthInterpreter<ULong> {
         super(ULong.class, 8);
     }
 
+    @Override
     public Class<ULong> getType() {
         return ULong.class;
     }
 
+    @Override
     public ULong interpret(Binary binary, long position) {
         return new ULong(BigEndian.getLong(binary, position));
     }

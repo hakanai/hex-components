@@ -31,14 +31,17 @@ import org.trypticon.hex.interpreters.InterpreterInfo;
  * @author trejkaz
  */
 public class NullInterpreterInfo implements InterpreterInfo {
+    @Override
     public String getHumanName() {
         return "Unknown Value";
     }
 
+    @Override
     public List<Option> getOptions() {
         return Collections.emptyList();
     }
 
+    @Override
     public Interpreter create(Map<String, Object> options) {
         return new NullInterpreter();
     }

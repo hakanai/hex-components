@@ -32,14 +32,17 @@ import org.trypticon.hex.interpreters.Interpreter;
  */
 public class UShortInterpreterLEInfo implements InterpreterInfo {
 
+    @Override
     public String getHumanName() {
         return "Unsigned 16-bit Integer (Little Endian)";
     }
 
+    @Override
     public List<Option> getOptions() {
         return Collections.emptyList();
     }
 
+    @Override
     public Interpreter create(Map<String, Object> options) {
         return new UShortInterpreterLE();
     }

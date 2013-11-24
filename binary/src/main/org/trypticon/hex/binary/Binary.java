@@ -72,5 +72,6 @@ public interface Binary extends Closeable {
     /**
      * Closes the binary.  Other methods SHOULD NOT be used after closing.
      */
+    @Override
     void close();
 }

@@ -31,6 +31,7 @@ public class UShortInterpreterLE extends AbstractFixedLengthInterpreter<UShort> 
         super(UShort.class, 2);
     }
 
+    @Override
     public UShort interpret(Binary binary, long position) {
         return new UShort(LittleEndian.getShort(binary, position));
     }

@@ -8,7 +8,7 @@ import org.trypticon.hex.binary.BinaryFactory;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import java.awt.BorderLayout;
-import java.io.File;
+import java.nio.file.Paths;
 
 /**
  * Basic example for showing a hex viewer.
@@ -19,7 +19,7 @@ public class HexViewerExample {
     public static void main(String[] args) throws Exception {
         HexViewer viewer = new HexViewer();
         // Replace this with a file you have available.
-        Binary binary = BinaryFactory.open(new File("/Volumes/Media/Software/OS Updates/snowleopard.dmg"));
+        Binary binary = BinaryFactory.open(Paths.get("/Volumes/Media/Software/OS Updates/snowleopard.dmg"));
         viewer.setBinary(binary);
         viewer.setAnnotations(new MemoryAnnotationCollection(binary.length()));
 

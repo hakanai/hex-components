@@ -48,6 +48,7 @@ public class JointedLineBorder extends AbstractBorder {
         this.left = left;
     }
 
+    @Override
     public void paintBorder(Component component, Graphics graphics, int x, int y, int width, int height) {
         graphics.setColor(colour);
         if (top) {
@@ -70,10 +71,12 @@ public class JointedLineBorder extends AbstractBorder {
         return insets;
     }
 
+    @Override
     public Insets getBorderInsets(Component component) {
         return new Insets(0, 0, 0, 0);
     }
 
+    @Override
     public boolean isBorderOpaque() {
         return true;
     }

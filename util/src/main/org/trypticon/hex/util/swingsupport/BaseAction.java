@@ -36,6 +36,7 @@ import javax.swing.JOptionPane;
  */
 public abstract class BaseAction extends AbstractAction {
 
+    @Override
     public void actionPerformed(ActionEvent event) {
         Window sourceWindow = new SourceWindowFinder().findSourceWindow(event);
 

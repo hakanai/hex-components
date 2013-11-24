@@ -18,11 +18,12 @@
 
 package org.trypticon.hex.util;
 
-import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 
 /**
@@ -36,18 +37,18 @@ public class URLUtils {
     }
 
     /**
-     * Converts a {@link URL} into a {@link File}.
+     * Converts a {@link URL} into a {@link Path}.
      *
      * @param location the URL.
-     * @return the file.
+     * @return the path.
      */
-    public static File toFile(URL location) {
+    public static Path toPath(URL location) {
         try {
-            return new File(location.toURI());
+            return Paths.get(location.toURI());
         } catch (URISyntaxException e) {
             // Tolerance for bad URLs, but should not happen.
             LoggerUtils.get().log(Level.WARNING, "Illegal URI syntax in URL somehow: " + location, e);
-            return new File(location.getPath());
+            return Paths.get(location.getPath());
         }
     }
 

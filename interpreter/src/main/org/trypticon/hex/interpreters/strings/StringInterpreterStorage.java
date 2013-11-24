@@ -37,9 +37,10 @@ public class StringInterpreterStorage implements InterpreterStorage {
         return Arrays.asList((InterpreterInfo) new StringInterpreterInfo());
     }
 
+    @Override
     public Map<String, Object> toMap(Interpreter interpreter) {
         if (interpreter instanceof StringInterpreter) {
-            Map<String, Object> result = new HashMap<String, Object>(1);
+            Map<String, Object> result = new HashMap<>(1);
             result.put("name", "string");
             result.put("charset", ((StringInterpreter) interpreter).getCharset());
             return result;
@@ -48,6 +49,7 @@ public class StringInterpreterStorage implements InterpreterStorage {
         }
     }
 
+    @Override
     public Interpreter fromMap(Map<String, Object> map) {
         String name = (String) map.get("name");
         if ("string".equals(name)) {

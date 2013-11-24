@@ -38,6 +38,7 @@ public class DosTimeInterpreter extends AbstractFixedLengthInterpreter<Time> {
         super(Time.class, 2);
     }
 
+    @Override
     public Time interpret(Binary binary, long position) {
         return new DosTime(LittleEndian.getShort(binary, position));
     }
@@ -48,18 +49,22 @@ public class DosTimeInterpreter extends AbstractFixedLengthInterpreter<Time> {
             this.value = value;
         }
 
+        @Override
         public int getHour() {
             return hour.evaluate(value);
         }
 
+        @Override
         public int getMinute() {
             return minute.evaluate(value);
         }
 
+        @Override
         public int getSecond() {
             return second.evaluate(value) * SECOND_RESOLUTION;
         }
 
+        @Override
         public long length() {
             return 2;
         }

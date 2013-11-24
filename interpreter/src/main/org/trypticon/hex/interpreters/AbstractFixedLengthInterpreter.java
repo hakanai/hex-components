@@ -37,6 +37,7 @@ public abstract class AbstractFixedLengthInterpreter<V extends Value>
         this.valueLength = valueLength;
     }
 
+    @Override
     public long getValueLength() {
         return valueLength;
     }
@@ -50,6 +51,7 @@ public abstract class AbstractFixedLengthInterpreter<V extends Value>
      */
     protected abstract V interpret(Binary binary, long position);
 
+    @Override
     public V interpret(Binary binary, long position, long length) {
         if (length != valueLength) {
             throw new IllegalArgumentException("Only supports values of length " + valueLength

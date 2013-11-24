@@ -52,6 +52,7 @@ public class DelegatingActionListener implements ActionListener, PropertyChangeL
         manager.addPropertyChangeListener("permanentFocusOwner", this);
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent event) {
         Object o = event.getNewValue();
         if (o instanceof JComponent) {
@@ -61,6 +62,7 @@ public class DelegatingActionListener implements ActionListener, PropertyChangeL
         }
     }
 
+    @Override
     public void actionPerformed(ActionEvent event) {
         if (focusOwner == null) {
             return;

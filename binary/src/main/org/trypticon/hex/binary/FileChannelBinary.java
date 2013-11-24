@@ -1,10 +1,10 @@
 package org.trypticon.hex.binary;
 
 import java.io.Closeable;
-import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.nio.file.Path;
 
 /**
  * Binary which uses a file channel to access the data on demand.
@@ -29,15 +29,17 @@ public class FileChannelBinary extends AbstractBinary implements Binary, Closeab
      * @param file the file to open.
      * @throws IOException if an error occurs reading from the file.
      */
-    public FileChannelBinary(File file) throws IOException {
-        channel = FileChannel.open(file.toPath());
+    public FileChannelBinary(Path file) throws IOException {
+        channel = FileChannel.open(file);
         length = channel.size();
     }
 
+    @Override
     public long length() {
         return length;
     }
 
+    @Override
     public byte read(long position) {
         ByteBuffer buffer = ByteBuffer.allocate(1);
         try {
@@ -49,6 +51,7 @@ public class FileChannelBinary extends AbstractBinary implements Binary, Closeab
         return buffer.get();
     }
 
+    @Override
     public void read(long position, ByteBuffer buffer) {
         try {
             while (buffer.hasRemaining()) {

@@ -41,6 +41,7 @@ public class UByte extends Number implements Value {
         return value & 0xFF;
     }
 
+    @Override
     public long longValue() {
         return value & 0xFF;
     }
@@ -55,6 +56,7 @@ public class UByte extends Number implements Value {
         return value;
     }
 
+    @Override
     public long length() {
         return 1;
     }

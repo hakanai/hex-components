@@ -42,7 +42,7 @@ public class AnnotationRangeSearcher {
      * @return the list of annotations crossing that range.  Returns an empty list if there are no hits.
      */
     public List<AnnotationRangeSearchHit> findAllInRange(List<Annotation> list, Annotation annotation) {
-        List<AnnotationRangeSearchHit> results = new ArrayList<AnnotationRangeSearchHit>(10);
+        List<AnnotationRangeSearchHit> results = new ArrayList<>(10);
 
         int startMatch = binaryPositionSearch(list, annotation.getPosition());
 

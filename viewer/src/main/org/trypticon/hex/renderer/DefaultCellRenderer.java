@@ -50,6 +50,7 @@ public class DefaultCellRenderer extends JLabel implements CellRenderer {
         setOpaque(true);
     }
 
+    @Override
     public Component getRendererComponent(HexViewer viewer, boolean selected, boolean onCursorRow, boolean atCursor,
                                           long position, int valueDisplayMode) {
 

@@ -52,6 +52,7 @@ public class SimpleMutableAnnotation implements MutableAnnotation {
         this.note = note;
     }
 
+    @Override
     public long getPosition() {
         return position;
     }
@@ -60,6 +61,7 @@ public class SimpleMutableAnnotation implements MutableAnnotation {
         this.position = position;
     }
 
+    @Override
     public long getLength() {
         return length;
     }
@@ -68,6 +70,7 @@ public class SimpleMutableAnnotation implements MutableAnnotation {
         this.length = length;
     }
 
+    @Override
     public Interpreter getInterpreter() {
         return interpreter;
     }
@@ -76,14 +79,17 @@ public class SimpleMutableAnnotation implements MutableAnnotation {
         this.interpreter = interpreter;
     }
 
+    @Override
     public Value interpret(Binary binary) {
         return interpreter.interpret(binary, position, length);
     }
 
+    @Override
     public String getNote() {
         return note;
     }
 
+    @Override
     public void setNote(String note) {
         this.note = note;
     }

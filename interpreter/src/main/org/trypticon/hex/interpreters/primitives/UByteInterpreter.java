@@ -31,6 +31,7 @@ public class UByteInterpreter extends AbstractFixedLengthInterpreter<UByte> {
         super(UByte.class, 1);
     }
 
+    @Override
     public UByte interpret(Binary binary, long position) {
         return new UByte(binary.read(position));
     }

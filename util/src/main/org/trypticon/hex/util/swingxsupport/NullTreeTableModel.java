@@ -30,59 +30,74 @@ import org.jdesktop.swingx.treetable.TreeTableModel;
  * @author trejkaz
  */
 public class NullTreeTableModel implements TreeTableModel {
+    @Override
     public Class<?> getColumnClass(int i) {
         return Object.class;
     }
 
+    @Override
     public int getColumnCount() {
         return 0;
     }
 
+    @Override
     public String getColumnName(int i) {
         return null;
     }
 
+    @Override
     public int getHierarchicalColumn() {
         return 0;
     }
 
+    @Override
     public Object getValueAt(Object o, int i) {
         return null;
     }
 
+    @Override
     public boolean isCellEditable(Object o, int i) {
         return false;
     }
 
+    @Override
     public void setValueAt(Object o, Object o1, int i) {
     }
 
+    @Override
     public Object getRoot() {
         return null;
     }
 
+    @Override
     public Object getChild(Object parent, int index) {
         return null;
     }
 
+    @Override
     public int getChildCount(Object parent) {
         return 0;
     }
 
+    @Override
     public boolean isLeaf(Object node) {
         return true;
     }
 
+    @Override
     public void valueForPathChanged(TreePath path, Object newValue) {
     }
 
+    @Override
     public int getIndexOfChild(Object parent, Object child) {
         return -1;
     }
 
+    @Override
     public void addTreeModelListener(TreeModelListener l) {
     }
 
+    @Override
     public void removeTreeModelListener(TreeModelListener l) {
     }
 }

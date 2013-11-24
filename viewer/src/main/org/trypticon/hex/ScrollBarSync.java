@@ -30,6 +30,7 @@ class ScrollBarSync {
         scrollBar.setMaximum(MAXIMUM);
 
         scrollBar.addAdjustmentListener(new AdjustmentListener() {
+            @Override
             public void adjustmentValueChanged(AdjustmentEvent event) {
                 updatePositionFromScrollBar();
             }

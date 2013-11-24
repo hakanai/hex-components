@@ -18,10 +18,12 @@
 
 package org.trypticon.hex.util;
 
-import java.io.File;
-import java.net.URL;
-
 import org.junit.Test;
+
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -32,14 +34,14 @@ import static org.junit.Assert.assertEquals;
 public class URLUtilsTest {
 
     @Test
-    public void testToFile() throws Exception {
-        File file = new File(System.getProperty("user.home"));
-        assertEquals("Round trip gives the wrong result", file, URLUtils.toFile(file.toURI().toURL()));
+    public void testToPath() throws Exception {
+        Path file = Paths.get(System.getProperty("user.home"));
+        assertEquals("Round trip gives the wrong result", file, URLUtils.toPath(file.toUri().toURL()));
     }
 
     @Test
     public void testToFileForInvalidURL() throws Exception {
-        assertEquals("Wrong result for invalid URL case", new File("/path/with spaces"),
-                     URLUtils.toFile(new URL("file:/path/with spaces")));
+        assertEquals("Wrong result for invalid URL case", Paths.get("/path/with spaces"),
+                     URLUtils.toPath(new URL("file:/path/with spaces")));
     }
 }

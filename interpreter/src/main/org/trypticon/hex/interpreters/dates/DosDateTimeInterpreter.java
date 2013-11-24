@@ -35,6 +35,7 @@ public class DosDateTimeInterpreter extends AbstractFixedLengthInterpreter<DateT
         super(DateTime.class, 4);
     }
 
+    @Override
     public DateTime interpret(Binary binary, long position) {
         return new SimpleDateTime(dateInterpreter.interpret(binary, position + 2, 2),
                                   timeInterpreter.interpret(binary, position, 2));

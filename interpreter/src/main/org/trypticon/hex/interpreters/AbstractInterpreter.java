@@ -31,6 +31,7 @@ public abstract class AbstractInterpreter<V extends Value> implements Interprete
         this.type = type;
     }
 
+    @Override
     public Class<V> getType() {
         return type;
     }

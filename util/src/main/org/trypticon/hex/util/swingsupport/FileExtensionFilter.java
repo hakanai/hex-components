@@ -18,8 +18,8 @@
 
 package org.trypticon.hex.util.swingsupport;
 
-import java.io.File;
 import javax.swing.filechooser.FileFilter;
+import java.io.File;
 
 /**
  * Filters by file extension.
@@ -42,10 +42,12 @@ public abstract class FileExtensionFilter extends FileFilter {
      */
     protected abstract String getExtension();
 
+    @Override
     public boolean accept(File file) {
         return file.isDirectory() || file.getName().endsWith('.' + getExtension());
     }
 
+    @Override
     public String getDescription() {
         return String.format("%s (*.%s)", getShortDescription(), getExtension());
     }

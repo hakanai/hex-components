@@ -31,6 +31,7 @@ public class DoubleInterpreterBE extends AbstractFixedLengthInterpreter<Double> 
         super(Double.class, 8);
     }
 
+    @Override
     public Double interpret(Binary binary, long position) {
         return new Double(java.lang.Double.longBitsToDouble(BigEndian.getLong(binary, position)));
     }

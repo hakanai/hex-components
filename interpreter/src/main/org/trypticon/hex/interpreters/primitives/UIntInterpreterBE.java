@@ -31,6 +31,7 @@ public class UIntInterpreterBE extends AbstractFixedLengthInterpreter<UInt> {
         super(UInt.class, 4);
     }
 
+    @Override
     public UInt interpret(Binary binary, long position) {
         return new UInt(BigEndian.getInt(binary, position));
     }

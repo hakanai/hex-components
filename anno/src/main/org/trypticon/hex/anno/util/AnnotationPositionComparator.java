@@ -26,6 +26,7 @@ import java.util.Comparator;
  * Comparator which orders annotations by their position.
  */
 public class AnnotationPositionComparator implements Comparator<Annotation> {
+    @Override
     public int compare(Annotation annotation1, Annotation annotation2) {
         if (annotation1.getPosition() < annotation2.getPosition()) {
             return -1;

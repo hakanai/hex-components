@@ -38,14 +38,17 @@ public class MemoryAnnotationCollection extends AbstractAnnotationCollection {
         this.rootGroup = rootGroup;
     }
 
+    @Override
     public GroupAnnotation getRootGroup() {
         return rootGroup;
     }
 
+    @Override
     public List<Annotation> getTopLevel() {
         return rootGroup.getAnnotations();
     }
 
+    @Override
     public List<Annotation> getAnnotationPathAt(long position) {
         if (position < 0) {
             return null;
@@ -61,7 +64,7 @@ public class MemoryAnnotationCollection extends AbstractAnnotationCollection {
             }
 
             if (path == null) {
-                path = new LinkedList<Annotation>();
+                path = new LinkedList<>();
             }
             path.add(annotation);
         }
@@ -69,11 +72,13 @@ public class MemoryAnnotationCollection extends AbstractAnnotationCollection {
         return path;
     }
 
+    @Override
     public void add(Annotation annotation) throws OverlappingAnnotationException {
         ((SimpleMutableGroupAnnotation) rootGroup).add(annotation);
         fireAnnotationsChanged();
     }
 
+    @Override
     public void remove(Annotation annotation) {
         ((SimpleMutableGroupAnnotation) rootGroup).remove(annotation);
         fireAnnotationsChanged();

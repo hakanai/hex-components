@@ -40,6 +40,7 @@ public abstract class AbstractAnnotationCollection implements AnnotationCollecti
         }
     }
 
+    @Override
     public void addAnnotationCollectionListener(AnnotationCollectionListener listener) {
         if (listenerList == null) {
             listenerList = new EventListenerList();
@@ -47,6 +48,7 @@ public abstract class AbstractAnnotationCollection implements AnnotationCollecti
         listenerList.add(AnnotationCollectionListener.class, listener);
     }
 
+    @Override
     public void removeAnnotationCollectionListener(AnnotationCollectionListener listener) {
         if (listenerList != null) {
             listenerList.remove(AnnotationCollectionListener.class, listener);

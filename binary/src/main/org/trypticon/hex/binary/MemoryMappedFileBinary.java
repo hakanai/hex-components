@@ -18,12 +18,12 @@
 
 package org.trypticon.hex.binary;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.Closeable;
+import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
+import java.nio.file.Path;
 
 /**
  * Binary which maps a file into memory.
@@ -43,28 +43,29 @@ class MemoryMappedFileBinary extends AbstractBinary implements Binary, Closeable
      * @param file the file to map into memory.
      * @throws IOException if the file could not be read.
      */
-    public MemoryMappedFileBinary(File file) throws IOException {
-        FileInputStream stream = new FileInputStream(file);
-        try {
-            ByteBuffer mapped = stream.getChannel().map(MapMode.READ_ONLY, 0, file.length());
+    public MemoryMappedFileBinary(Path file) throws IOException {
+        try (FileChannel channel = FileChannel.open(file)) {
+            ByteBuffer mapped = channel.map(MapMode.READ_ONLY, 0, channel.size());
             delegate = new ByteBufferBinary(mapped);
-        } finally {
-            stream.close();
         }
     }
 
+    @Override
     public long length() {
         return delegate.length();
     }
 
+    @Override
     public byte read(long position) {
         return delegate.read(position);
     }
 
+    @Override
     public void read(long position, ByteBuffer buffer) {
         delegate.read(position, buffer);
     }
 
+    @Override
     public void close() {
         delegate.close();
     }

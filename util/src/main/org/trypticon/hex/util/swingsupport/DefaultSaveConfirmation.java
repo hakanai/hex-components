@@ -29,6 +29,7 @@ import javax.swing.JOptionPane;
  * @author trejkaz
  */
 public class DefaultSaveConfirmation extends SaveConfirmation {
+    @Override
     protected Object showOptionPane(Component owner, JOptionPane optionPane) {
         JDialog dialog = optionPane.createDialog(owner, "Save Confirmation");
         dialog.setVisible(true);

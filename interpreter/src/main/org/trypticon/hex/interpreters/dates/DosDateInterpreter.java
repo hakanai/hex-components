@@ -38,6 +38,7 @@ public class DosDateInterpreter extends AbstractFixedLengthInterpreter<Date> {
         super(Date.class, 2);
     }
 
+    @Override
     public Date interpret(Binary binary, long position) {
         return new DosDate(LittleEndian.getShort(binary, position));
     }
@@ -48,18 +49,22 @@ public class DosDateInterpreter extends AbstractFixedLengthInterpreter<Date> {
             this.value = value;
         }
 
+        @Override
         public int getYear() {
             return year.evaluate(value) + YEAR_OFFSET;
         }
 
+        @Override
         public int getMonth() {
             return month.evaluate(value);
         }
 
+        @Override
         public int getDay() {
             return day.evaluate(value);
         }
 
+        @Override
         public long length() {
             return 2;
         }

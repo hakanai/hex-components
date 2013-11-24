@@ -31,6 +31,7 @@ public class FloatInterpreterBE extends AbstractFixedLengthInterpreter<Float> {
         super(Float.class, 4);
     }
 
+    @Override
     public Float interpret(Binary binary, long position) {
         return new Float(java.lang.Float.intBitsToFloat(BigEndian.getInt(binary, position)));
     }

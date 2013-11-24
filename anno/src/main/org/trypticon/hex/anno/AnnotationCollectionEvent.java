@@ -30,6 +30,7 @@ public class AnnotationCollectionEvent extends EventObject {
         super(collection);
     }
 
+    @Override
     public AnnotationCollection getSource() {
         return (AnnotationCollection) super.getSource();
     }

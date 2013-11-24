@@ -32,6 +32,7 @@ public class SimpleStringValue implements StringValue {
         this.byteLength = byteLength;
     }
 
+    @Override
     public long length() {
         return byteLength;
     }

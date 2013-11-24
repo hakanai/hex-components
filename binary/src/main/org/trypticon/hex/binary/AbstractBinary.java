@@ -27,16 +27,19 @@ import java.nio.ByteBuffer;
  */
 public abstract class AbstractBinary implements Binary {
 
+    @Override
     public void read(long position, byte[] buffer) {
         ByteBuffer wrapped = ByteBuffer.wrap(buffer, 0, buffer.length);
         read(position, wrapped);
     }
 
+    @Override
     public void read(long position, byte[] buffer, int offset, int length) {
         ByteBuffer wrapped = ByteBuffer.wrap(buffer, offset, length);
         read(position, wrapped);
     }
 
+    @Override
     public void close() {
     }
 }

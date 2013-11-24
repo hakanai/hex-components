@@ -122,14 +122,14 @@ public class AnnotationRangeSearcherTest {
     }
 
     private void makeList(int... positionsAndLengths) {
-        list = new ArrayList<Annotation>(positionsAndLengths.length / 2);
+        list = new ArrayList<>(positionsAndLengths.length / 2);
         for (int i = 0; i < positionsAndLengths.length; i += 2) {
             list.add(new SimpleMutableAnnotation(positionsAndLengths[i], positionsAndLengths[i + 1], new NullInterpreter(), null));
         }
     }
 
     private void expect(Object... indicesAndRelations) {
-        expected = new ArrayList<AnnotationRangeSearchHit>(indicesAndRelations.length / 2);
+        expected = new ArrayList<>(indicesAndRelations.length / 2);
         for (int i = 0; i < indicesAndRelations.length; i += 2) {
             int index = (Integer) indicesAndRelations[i];
             AnnotationRangeSearchHit.Relation relation = (AnnotationRangeSearchHit.Relation) indicesAndRelations[i + 1];

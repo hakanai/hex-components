@@ -64,6 +64,7 @@ public abstract class AbstractTreeTableModel implements TreeTableModel {
         }
     }
 
+    @Override
     public void addTreeModelListener(TreeModelListener listener) {
         if (listenerList == null) {
             listenerList = new EventListenerList();
@@ -71,6 +72,7 @@ public abstract class AbstractTreeTableModel implements TreeTableModel {
         listenerList.add(TreeModelListener.class, listener);
     }
 
+    @Override
     public void removeTreeModelListener(TreeModelListener listener) {
         if (listenerList != null) {
             listenerList.remove(TreeModelListener.class, listener);

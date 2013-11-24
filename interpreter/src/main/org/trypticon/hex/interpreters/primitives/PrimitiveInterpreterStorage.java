@@ -34,9 +34,9 @@ import org.trypticon.hex.interpreters.InterpreterStorage;
  */
 public class PrimitiveInterpreterStorage implements InterpreterStorage {
     private final Map<Class<? extends Interpreter>, String> classToName =
-            new HashMap<Class<? extends Interpreter>, String>(10);
+            new HashMap<>(10);
     private final Map<String, Class<? extends Interpreter>> nameToClass =
-            new HashMap<String, Class<? extends Interpreter>>(10);
+            new HashMap<>(10);
 
     public PrimitiveInterpreterStorage() {
         register("uint8", UByteInterpreter.class);
@@ -73,10 +73,11 @@ public class PrimitiveInterpreterStorage implements InterpreterStorage {
                              new DoubleInterpreterLEInfo());
     }
 
+    @Override
     public Map<String, Object> toMap(Interpreter interpreter) {
         String name = classToName.get(interpreter.getClass());
         if (name != null) {
-            Map<String, Object> result = new HashMap<String, Object>(1);
+            Map<String, Object> result = new HashMap<>(1);
             result.put("name", name);
             return result;
         } else {
@@ -84,6 +85,7 @@ public class PrimitiveInterpreterStorage implements InterpreterStorage {
         }
     }
 
+    @Override
     public Interpreter fromMap(Map<String, Object> map) {
         String name = (String) map.get("name");
         Class<? extends Interpreter> klass = nameToClass.get(name);

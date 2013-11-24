@@ -18,14 +18,15 @@
 
 package org.trypticon.hex.binary;
 
-import java.io.File;
+import org.trypticon.hex.util.URLUtils;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ByteArrayOutputStream;
-import java.nio.ByteBuffer;
 import java.net.URL;
-
-import org.trypticon.hex.util.URLUtils;
+import java.nio.ByteBuffer;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
  * Factory for creating binary implementations for common things.
@@ -64,8 +65,8 @@ public class BinaryFactory {
      * @return the binary.
      * @throws IOException if the file could not be opened for reading.
      */
-    public static Binary open(File file) throws IOException {
-        if (file.length() < Integer.MAX_VALUE) {
+    public static Binary open(Path file) throws IOException {
+        if (Files.size(file) < Integer.MAX_VALUE) {
             return new MemoryMappedFileBinary(file);
         } else {
             return new FileChannelBinary(file);
@@ -83,19 +84,16 @@ public class BinaryFactory {
      */
     public static Binary open(URL location) throws IOException {
         if ("file".equals(location.getProtocol())) {
-            return open(URLUtils.toFile(location));
+            return open(URLUtils.toPath(location));
         } else {
             // TODO: This could be improved to load in the background.
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            InputStream in = location.openStream();
-            try {
-                byte[] buf = new byte[16*1024];
+            try (InputStream in = location.openStream()) {
+                byte[] buf = new byte[16 * 1024];
                 int bytesRead;
                 while ((bytesRead = in.read(buf)) != -1) {
                     baos.write(buf, 0, bytesRead);
                 }
-            } finally {
-                in.close();
             }
             return wrap(baos.toByteArray());
         }

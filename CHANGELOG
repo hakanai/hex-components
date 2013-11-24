@@ -9,6 +9,8 @@ Version X.X (XXXX-XX-XX)
    Fixed: Fixed loading a file larger than Integer.MAX_VALUE using BinaryFactory. Larger files will now use
           a slower FileChannel approach instead of memory mapping.
 
+ Changed: The code now requires Java 7 to run.
+
 Version 0.3 (2012-11-09)
 
  Changed: Separated the components usable in other apps into a reusable library, licenced under LGPL 3.

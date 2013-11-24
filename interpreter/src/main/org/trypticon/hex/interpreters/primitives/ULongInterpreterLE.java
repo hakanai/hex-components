@@ -31,6 +31,7 @@ public class ULongInterpreterLE extends AbstractFixedLengthInterpreter<ULong> {
         super(ULong.class, 8);
     }
 
+    @Override
     public ULong interpret(Binary binary, long position) {
         return new ULong(LittleEndian.getLong(binary, position));
     }

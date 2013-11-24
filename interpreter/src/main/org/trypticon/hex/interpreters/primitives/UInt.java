@@ -56,6 +56,7 @@ public class UInt extends Number implements Value {
         return value;
     }
 
+    @Override
     public long length() {
         return 4;
     }

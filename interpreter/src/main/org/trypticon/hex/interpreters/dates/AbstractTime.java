@@ -25,6 +25,7 @@ package org.trypticon.hex.interpreters.dates;
  */
 public abstract class AbstractTime implements Time {
 
+    @Override
     public int getNanos() {
         return 0;
     }

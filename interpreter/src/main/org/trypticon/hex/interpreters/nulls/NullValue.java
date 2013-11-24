@@ -32,6 +32,7 @@ public class NullValue implements Value {
         this.length = length;
     }
 
+    @Override
     public long length() {
         return length;
     }

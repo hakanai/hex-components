@@ -29,6 +29,7 @@ import org.trypticon.hex.HexViewer;
  * @author trejkaz
  */
 class SelectAllAction extends AbstractAction {
+    @Override
     public void actionPerformed(ActionEvent event) {
         HexViewer viewer = (HexViewer) event.getSource();
         viewer.getSelectionModel().setCursor(viewer.getBinary().length() - 1);

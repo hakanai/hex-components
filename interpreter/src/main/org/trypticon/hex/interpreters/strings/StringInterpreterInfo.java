@@ -31,14 +31,17 @@ import org.trypticon.hex.interpreters.InterpreterInfo;
  * @author trejkaz
  */
 public class StringInterpreterInfo implements InterpreterInfo {
+    @Override
     public String getHumanName() {
         return "String";
     }
 
+    @Override
     public List<Option> getOptions() {
         return Arrays.asList(new Option("charset", String.class, true));
     }
 
+    @Override
     public Interpreter create(Map<String, Object> options) {
         String charset = (String) options.get("charset");
         return new StringInterpreter(charset);

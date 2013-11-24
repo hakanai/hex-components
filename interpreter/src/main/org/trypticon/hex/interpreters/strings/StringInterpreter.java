@@ -42,6 +42,7 @@ public class StringInterpreter extends AbstractInterpreter<StringValue> {
         return charset.name();
     }
 
+    @Override
     public StringValue interpret(Binary binary, long position, long length) {
         if (length > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("Strings cannot be longer than Integer.MAX_VALUE: " + length);

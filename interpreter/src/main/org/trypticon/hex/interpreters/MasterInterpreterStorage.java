@@ -34,7 +34,7 @@ import org.trypticon.hex.interpreters.strings.StringInterpreterStorage;
  * @author trejkaz
  */
 public class MasterInterpreterStorage implements InterpreterStorage {
-    private List<InterpreterStorage> providers = new ArrayList<InterpreterStorage>(10);
+    private List<InterpreterStorage> providers = new ArrayList<>(10);
 
     public MasterInterpreterStorage() {
         // TODO: Look up using Service Provider API.
@@ -43,6 +43,7 @@ public class MasterInterpreterStorage implements InterpreterStorage {
         providers.add(new StringInterpreterStorage());
     }
 
+    @Override
     public Map<String, Object> toMap(Interpreter interpreter) {
         for (InterpreterStorage provider : providers) {
             Map<String, Object> map = provider.toMap(interpreter);
@@ -53,6 +54,7 @@ public class MasterInterpreterStorage implements InterpreterStorage {
         return null;
     }
 
+    @Override
     public Interpreter fromMap(Map<String, Object> map) {
         for (InterpreterStorage provider : providers) {
             Interpreter interpreter = provider.fromMap(map);

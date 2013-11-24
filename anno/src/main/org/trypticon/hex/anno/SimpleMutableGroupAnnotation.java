@@ -41,7 +41,7 @@ public class SimpleMutableGroupAnnotation extends SimpleMutableAnnotation implem
         //       have the Interpreter only on the leaf annotations?
         super(position, length, new NullInterpreter(), note);
 
-        annotations = new ArrayList<Annotation>(4);
+        annotations = new ArrayList<>(4);
     }
 
     public SimpleMutableGroupAnnotation(long position, int length, String note, List<Annotation> annotations) {
@@ -49,13 +49,15 @@ public class SimpleMutableGroupAnnotation extends SimpleMutableAnnotation implem
         //       have the Interpreter only on the leaf annotations?
         super(position, length, new NullInterpreter(), note);
 
-        this.annotations = new ArrayList<Annotation>(annotations);
+        this.annotations = new ArrayList<>(annotations);
     }
 
+    @Override
     public List<Annotation> getAnnotations() {
         return Collections.unmodifiableList(annotations);
     }
 
+    @Override
     public Annotation findAnnotationAt(long position) {
         if (position < 0) {
             return null;
@@ -86,6 +88,7 @@ public class SimpleMutableGroupAnnotation extends SimpleMutableAnnotation implem
         }
     }
 
+    @Override
     public GroupAnnotation findDeepestGroupAnnotationAt(long position) {
         Annotation annotation = findAnnotationAt(position);
         if (!(annotation instanceof GroupAnnotation)) {
@@ -101,6 +104,7 @@ public class SimpleMutableGroupAnnotation extends SimpleMutableAnnotation implem
         }
     }
 
+    @Override
     public void add(Annotation annotation) throws OverlappingAnnotationException {
         List<AnnotationRangeSearchHit> hits = new AnnotationRangeSearcher().findAllInRange(annotations, annotation);
         if (hits.size() == 0) {
@@ -182,6 +186,7 @@ public class SimpleMutableGroupAnnotation extends SimpleMutableAnnotation implem
 
     }
 
+    @Override
     public void remove(Annotation annotation) {
         Annotation foundAnnotation = findAnnotationAt(annotation.getPosition());
 
@@ -239,6 +244,7 @@ public class SimpleMutableGroupAnnotation extends SimpleMutableAnnotation implem
         if (!super.equals(o)) {
             return false;
         }
+        //noinspection RedundantIfStatement
         if (!annotations.equals(((SimpleMutableGroupAnnotation) o).getAnnotations())) {
             return false;
         }

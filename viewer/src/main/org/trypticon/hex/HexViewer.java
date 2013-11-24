@@ -115,6 +115,7 @@ public class HexViewer extends JComponent {
         setTransferHandler(new HexViewerTransferHandler());
 
         selectionModel.addChangeListener(new ChangeListener() {
+            @Override
             public void stateChanged(ChangeEvent event) {
                 repaint();
             }
@@ -201,6 +202,7 @@ public class HexViewer extends JComponent {
         if (annotations != null) {
             if (repaintListener == null) {
                 repaintListener = new AnnotationCollectionListener() {
+                    @Override
                     public void annotationsChanged(AnnotationCollectionEvent event) {
                         repaint();
                     }

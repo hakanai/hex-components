@@ -41,6 +41,7 @@ public class Float extends Number implements Value {
         return (int) value;
     }
 
+    @Override
     public long longValue() {
         return (long) value;
     }
@@ -55,6 +56,7 @@ public class Float extends Number implements Value {
         return value;
     }
 
+    @Override
     public long length() {
         return 1;
     }

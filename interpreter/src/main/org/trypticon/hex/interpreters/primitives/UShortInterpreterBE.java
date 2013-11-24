@@ -31,10 +31,12 @@ public class UShortInterpreterBE extends AbstractFixedLengthInterpreter<UShort> 
         super(UShort.class, 2);
     }
 
+    @Override
     public Class<UShort> getType() {
         return UShort.class;
     }
 
+    @Override
     public UShort interpret(Binary binary, long position) {
         return new UShort(BigEndian.getShort(binary, position));
     }
