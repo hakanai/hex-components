@@ -23,11 +23,11 @@
 
 package org.trypticon.hex.binary;
 
+import sun.nio.ch.DirectBuffer;
+
 import java.nio.ByteBuffer;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-
-import sun.nio.ch.DirectBuffer;
 
 /**
  * Binary which wraps a byte buffer.
@@ -76,14 +76,14 @@ class ByteBufferBinary extends AbstractBinary {
         }
     }
 
-    public void read(long position, ByteBuffer buffer, int length) {
+    public void read(long position, ByteBuffer buffer) {
         lock.readLock().lock();
         try {
             throwIfClosed();
 
             ByteBuffer dup = this.buffer.duplicate();
             dup.position((int) position);
-            dup.limit(length + (int) position);
+            dup.limit(buffer.limit() + (int) position);
             buffer.put(dup);
         } finally {
             lock.readLock().unlock();

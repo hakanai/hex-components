@@ -66,9 +66,8 @@ public interface Binary extends Closeable {
      *
      * @param position the position to begin reading from.
      * @param buffer the buffer to read into.
-     * @param length the length to read.
      */
-    public void read(long position, ByteBuffer buffer, int length);
+    public void read(long position, ByteBuffer buffer);
 
     /**
      * Closes the binary.  Other methods SHOULD NOT be used after closing.

@@ -29,12 +29,12 @@ public abstract class AbstractBinary implements Binary {
 
     public void read(long position, byte[] buffer) {
         ByteBuffer wrapped = ByteBuffer.wrap(buffer, 0, buffer.length);
-        read(position, wrapped, buffer.length);
+        read(position, wrapped);
     }
 
     public void read(long position, byte[] buffer, int offset, int length) {
         ByteBuffer wrapped = ByteBuffer.wrap(buffer, offset, length);
-        read(position, wrapped, length);
+        read(position, wrapped);
     }
 
     public void close() {

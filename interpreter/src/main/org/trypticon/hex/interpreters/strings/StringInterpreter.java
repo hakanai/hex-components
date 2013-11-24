@@ -18,12 +18,12 @@
 
 package org.trypticon.hex.interpreters.strings;
 
+import org.trypticon.hex.binary.Binary;
+import org.trypticon.hex.interpreters.AbstractInterpreter;
+
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
-
-import org.trypticon.hex.interpreters.AbstractInterpreter;
-import org.trypticon.hex.binary.Binary;
 
 /**
  * Interpreter for string values.
@@ -44,7 +44,7 @@ public class StringInterpreter extends AbstractInterpreter<StringValue> {
 
     public StringValue interpret(Binary binary, long position, int length) {
         ByteBuffer buffer = ByteBuffer.allocate(length);
-        binary.read(position, buffer, length);
+        binary.read(position, buffer);
         buffer.rewind();
 
         CharBuffer charBuffer = charset.decode(buffer);

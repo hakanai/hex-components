@@ -34,11 +34,8 @@ public class EmptyBinary extends AbstractBinary {
         throw new IndexOutOfBoundsException("Binary has no data");
     }
 
-    public void read(long position, ByteBuffer buffer, int length) {
-        if (length < 0) {
-            throw new IndexOutOfBoundsException("Length cannot be negative");
-        }
-        if (length > 0) {
+    public void read(long position, ByteBuffer buffer) {
+        if (buffer.hasRemaining()) {
             throw new IndexOutOfBoundsException("Binary has no data");
         }
     }

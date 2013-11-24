@@ -61,8 +61,8 @@ class MemoryMappedFileBinary extends AbstractBinary implements Binary, Closeable
         return delegate.read(position);
     }
 
-    public void read(long position, ByteBuffer buffer, int length) {
-        delegate.read(position, buffer, length);
+    public void read(long position, ByteBuffer buffer) {
+        delegate.read(position, buffer);
     }
 
     public void close() {
