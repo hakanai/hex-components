@@ -77,6 +77,11 @@ public class HexViewer extends JComponent {
      */
     private CellRenderer cellRenderer = new DefaultCellRenderer();
 
+    /**
+     * The number of digits shown in the offset column.
+     */
+    private int offsetColumnDigits;
+
     // Colours.
     // XXX: These should probably come from UIDefaults.
     private Color offsetForeground = Color.GRAY;
@@ -181,6 +186,8 @@ public class HexViewer extends JComponent {
     public void setBinary(Binary binary) {
         this.binary = binary;
 
+        offsetColumnDigits = Long.toString(binary.length(), 16).length();
+
         if (annotations == null) {
             annotations = new MemoryAnnotationCollection(binary.length());
         }
@@ -256,6 +263,15 @@ public class HexViewer extends JComponent {
         // Need to update the precomputed values...
         FontMetrics metrics = getFontMetrics(font);
         rowHeight = metrics.getHeight();
+    }
+
+    /**
+     * Gets the number of digits shown in the offset column.
+     *
+     * @return the number of digits shown in the offset column.
+     */
+    public int getOffsetColumnDigits() {
+        return offsetColumnDigits;
     }
 
     /**
@@ -538,7 +554,7 @@ public class HexViewer extends JComponent {
     private int getPreferredWidth() {
         FontMetrics metrics = getFontMetrics(getFont());
         return metrics.charWidth('D') *
-                (3 + 8 + 1 + 1 + (bytesPerRow * 3) + 2 + 16 + 3) +
+                (3 + offsetColumnDigits + 1 + 1 + (bytesPerRow * 3) + 2 + bytesPerRow + 3) +
                 verticalScrollBar.getPreferredSize().width;
     }
 

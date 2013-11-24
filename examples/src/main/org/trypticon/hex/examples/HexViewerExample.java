@@ -19,7 +19,8 @@ public class HexViewerExample {
     public static void main(String[] args) throws Exception {
         HexViewer viewer = new HexViewer();
         // Replace this with a file you have available.
-        Binary binary = BinaryFactory.open(Paths.get("/Volumes/Media/Software/OS Updates/snowleopard.dmg"));
+        //Binary binary = BinaryFactory.open(Paths.get("/Volumes/Media/Software/OS Updates/snowleopard.dmg"));
+        Binary binary = BinaryFactory.open(Paths.get("/Users/Trejkaz/Downloads/lol emoticons.rtf"));
         viewer.setBinary(binary);
         viewer.setAnnotations(new MemoryAnnotationCollection(binary.length()));
 

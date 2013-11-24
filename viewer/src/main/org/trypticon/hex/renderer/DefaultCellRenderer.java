@@ -147,7 +147,8 @@ public class DefaultCellRenderer extends JLabel implements CellRenderer {
 
         switch (valueDisplayMode) {
             case ROW_OFFSET:
-                str = String.format("%08x", position);
+                String format = "%0" + viewer.getOffsetColumnDigits() + "x";
+                str = String.format(format, position);
                 break;
             case HEX:
                 if (b == ERROR_PLACEHOLDER) {

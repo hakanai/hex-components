@@ -167,7 +167,7 @@ public class BasicHexViewerUI extends HexViewerUI {
         // Width computations
         int charWidth = computeCharWidth(viewer);
         int hexColWidth = charWidth * 3;
-        int addressLineX = 12 * charWidth;
+        int addressLineX = (3 + viewer.getOffsetColumnDigits() + 1) * charWidth;
         int firstDataColumnX = addressLineX + charWidth;
         int firstAsciiColumnX = firstDataColumnX +
                 (bytesPerRow * hexColWidth) + 2 * charWidth;
