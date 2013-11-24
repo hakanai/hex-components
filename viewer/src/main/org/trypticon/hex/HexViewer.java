@@ -79,6 +79,7 @@ public class HexViewer extends JComponent {
     // Colours.
     // XXX: These should probably come from UIDefaults.
     private Color offsetForeground = Color.GRAY;
+    private Color errorForeground = Color.RED;
     private Color cursorForeground = null;
     private Color cursorBackground = new Color(236, 235, 163);
     private Color cursorRowBackground = new Color(233, 239, 248);
@@ -265,6 +266,24 @@ public class HexViewer extends JComponent {
      */
     public void setOffsetForeground(Color offsetForeground) {
         this.offsetForeground = offsetForeground;
+    }
+
+    /**
+     * Gets the colour used to paint the text when there is an error.
+     *
+     * @return the error foreground.
+     */
+    public Color getErrorForeground() {
+        return errorForeground;
+    }
+
+    /**
+     * Sets the colour used to paint the text when there is an error.
+     *
+     * @param errorForeground the error foreground.
+     */
+    public void setErrorForeground(Color errorForeground) {
+        this.errorForeground = errorForeground;
     }
 
     /**

@@ -18,17 +18,17 @@
 
 package org.trypticon.hex.renderer;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.util.List;
-import javax.swing.JLabel;
-import javax.swing.border.Border;
-
 import org.trypticon.hex.HexUtils;
 import org.trypticon.hex.HexViewer;
 import org.trypticon.hex.anno.Annotation;
 import org.trypticon.hex.anno.AnnotationCollection;
 import org.trypticon.hex.anno.GroupAnnotation;
+
+import javax.swing.JLabel;
+import javax.swing.border.Border;
+import java.awt.Color;
+import java.awt.Component;
+import java.util.List;
 
 /**
  * Default cell renderer implementation, using a Swing label as the component.
@@ -36,6 +36,8 @@ import org.trypticon.hex.anno.GroupAnnotation;
  * @author trejkaz
  */
 public class DefaultCellRenderer extends JLabel implements CellRenderer {
+    private static final int ERROR_PLACEHOLDER = -1;
+
     private static final Color transparent = new Color(0, 0, 0, 0);
 
     // TODO: These should be based on what kind of annotation is being coloured,
@@ -65,10 +67,23 @@ public class DefaultCellRenderer extends JLabel implements CellRenderer {
         Color background = transparent;
         Color foreground;
 
+        // XXX: This is redundant if rendering the address column.
+        int b;
+        try {
+            b = viewer.getBinary().read(position);
+        } catch (Exception e) {
+            // Eat the exception but mark it as an error
+            b = ERROR_PLACEHOLDER;
+        }
+
         if (valueDisplayMode == ROW_OFFSET) {
             foreground = viewer.getOffsetForeground();
         } else {
-            foreground = viewer.getForeground();
+            if (b == ERROR_PLACEHOLDER) {
+                foreground = viewer.getErrorForeground();
+            } else {
+                foreground = viewer.getForeground();
+            }
 
             AnnotationCollection annotations = viewer.getAnnotations();
             List<Annotation> annotationPath = annotations.getAnnotationPathAt(position);
@@ -128,8 +143,6 @@ public class DefaultCellRenderer extends JLabel implements CellRenderer {
         setBackground(background);
         setForeground(foreground);
 
-        // XXX: This is redundant if rendering the address column.
-        byte b = viewer.getBinary().read(position);
         String str;
 
         switch (valueDisplayMode) {
@@ -137,10 +150,18 @@ public class DefaultCellRenderer extends JLabel implements CellRenderer {
                 str = String.format("%08x", position);
                 break;
             case HEX:
-                str = HexUtils.toHex(b);
+                if (b == ERROR_PLACEHOLDER) {
+                    str = "\u00D7\u00D7";
+                } else {
+                    str = HexUtils.toHex((byte) b);
+                }
                 break;
             case ASCII:
-                str = HexUtils.toAscii(b);
+                if (b == ERROR_PLACEHOLDER) {
+                    str = "\u00D7";
+                } else {
+                    str = HexUtils.toAscii((byte) b);
+                }
                 break;
             default:
                 throw new IllegalStateException("Unimplemented display mode: " + valueDisplayMode);
