@@ -32,13 +32,13 @@ public class HexUtils {
     static {
         ascii = new char[256];
         for (int i = 0; i < 32; i++) {
-            ascii[i] = '.';
+            ascii[i] = '\u00b7';
         }
         for (int i = 32; i < 128; i++) {
             ascii[i] = (char) i;
         }
         for (int i = 128; i < 256; i++) {
-            ascii[i] = '.';
+            ascii[i] = '\u00b7';
         }
     }
 
