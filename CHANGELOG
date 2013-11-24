@@ -1,5 +1,15 @@
 
-Version 0.3 (XXXX-XX-XX)
+Version X.X (XXXX-XX-XX)
+
+     New: HexViewer now contains its own scroll bar, rather than having you put it in a scroll pane.
+          This is primarily so that painting the component is no longer constrained by Swing dimensions,
+          meaning that much larger files can be viewed now.
+
+   Fixed: Fixed an issue where creating an annotation group larger than Integer.MAX_VALUE would overflow.
+   Fixed: Fixed loading a file larger than Integer.MAX_VALUE using BinaryFactory. Larger files will now use
+          a slower FileChannel approach instead of memory mapping.
+
+Version 0.3 (2012-11-09)
 
  Changed: Separated the components usable in other apps into a reusable library, licenced under LGPL 3.
  Changed: Zero-width annotations removed as they were causing altogether too much trouble (e.g. when sorting a list
