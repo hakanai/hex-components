@@ -18,6 +18,16 @@
 
 package org.trypticon.hex.plaf;
 
+import org.trypticon.hex.HexViewer;
+import org.trypticon.hex.binary.Binary;
+import org.trypticon.hex.renderer.CellRenderer;
+
+import javax.swing.Action;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
+import javax.swing.TransferHandler;
 import java.awt.BasicStroke;
 import java.awt.Component;
 import java.awt.Graphics;
@@ -28,16 +38,6 @@ import java.awt.Toolkit;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Line2D;
-import javax.swing.Action;
-import javax.swing.ActionMap;
-import javax.swing.InputMap;
-import javax.swing.JComponent;
-import javax.swing.KeyStroke;
-import javax.swing.TransferHandler;
-
-import org.trypticon.hex.HexViewer;
-import org.trypticon.hex.binary.Binary;
-import org.trypticon.hex.renderer.CellRenderer;
 
 /**
  * Basic user interface for the hex viewer.
@@ -56,15 +56,15 @@ public class BasicHexViewerUI extends HexViewerUI {
         int charWidth = computeCharWidth(viewer);
         int rowHeight = viewer.getRowHeight();
 
-        int bytesY = (int) (pos / bytesPerRow);
+        long bytesY = (pos / bytesPerRow);
         int bytesX = (int) (pos - bytesPerRow * bytesY);
 
         int xFixed = bytesX * (3 * charWidth);
-        int yFixed = bytesY * rowHeight;
+        long yFixed = bytesY * rowHeight;
 
         // Now adjust for the margins again...
         return new Rectangle(xFixed + 13 * charWidth,
-                             yFixed + rowHeight,
+                             (int) (yFixed - viewer.getFirstVisibleRow()),
                              3 * charWidth,
                              rowHeight);
     }
@@ -76,8 +76,8 @@ public class BasicHexViewerUI extends HexViewerUI {
 
         long binaryLength = viewer.getBinary().length();
         int bytesPerRow = viewer.getBytesPerRow();
-        int maxBytesX = viewer.getBytesPerRow() - 1;
-        long maxBytesY = (int) (binaryLength / viewer.getBytesPerRow());
+        int maxBytesX = bytesPerRow - 1;
+        long maxBytesY = (int) (binaryLength / bytesPerRow);
 
         // Threshold for detecting that the user clicked in the ASCII column is half way between the two columns.
         int hexLeftX = 13 * charWidth;
@@ -98,15 +98,15 @@ public class BasicHexViewerUI extends HexViewerUI {
         }
 
         int xFixed = point.x - leftX;
-        int yFixed = point.y - rowHeight;
+        long yFixed = point.y;
 
         int bytesX = xFixed / cellWidth;
-        int bytesY = yFixed / rowHeight;
+        long bytesY = (yFixed / rowHeight) + viewer.getFirstVisibleRow();
 
         bytesX = Math.max(0, Math.min(maxBytesX, bytesX));
-        bytesY = Math.max(0, (int) Math.min(maxBytesY, bytesY));
+        bytesY = Math.max(0, Math.min(maxBytesY, bytesY));
 
-        long pos = (long) bytesY * bytesPerRow + bytesX;
+        long pos = bytesY * bytesPerRow + bytesX;
         assert pos >= 0;
         if (pos >= binaryLength) {
             pos = binaryLength - 1;
@@ -166,11 +166,11 @@ public class BasicHexViewerUI extends HexViewerUI {
 
         // Height computations
         int rowHeight = viewer.getRowHeight();
-        int firstVisibleRow = Math.max(0, clipBounds.y / rowHeight - 1);
-        int lastVisibleRow = Math.max(firstVisibleRow,
-                                      (clipBounds.y + clipBounds.height) / rowHeight - 1);
+        long firstVisibleRow = viewer.getFirstVisibleRow();
+        int visibleRowCount = viewer.getVisibleRowCount();
+        long lastModelRow = viewer.getRowCount() - 1;
 
-        int y = rowHeight * (firstVisibleRow + 2);
+        int y = 0;
         long position = firstVisibleRow * bytesPerRow;
 
         CellRenderer renderer = viewer.getCellRenderer();
@@ -180,22 +180,24 @@ public class BasicHexViewerUI extends HexViewerUI {
 
         long cursorRow = cursor / bytesPerRow;
 
-        for (int row = firstVisibleRow;
-             row <= lastVisibleRow && position < binary.length();
-             row++) {
+        for (int viewRow = 0; viewRow < visibleRowCount; viewRow++) {
+            long modelRow = firstVisibleRow + viewRow;
 
-            // Background highlight for the row the cursor is on.
-            if (row == cursorRow) {
-                g.setColor(viewer.getCursorRowBackground());
-                g.fillRect(0, row * rowHeight + rowHeight, viewer.getWidth(), rowHeight);
+            // Skipping rows with no binary on them.
+            if (modelRow >= 0 && modelRow <= lastModelRow) {
+                // Background highlight for the row the cursor is on.
+                if (modelRow == cursorRow) {
+                    g.setColor(viewer.getCursorRowBackground());
+                    g.fillRect(0, viewRow * rowHeight, viewer.getWidth(), rowHeight);
+                }
+
+                int rowDataLength = (int) Math.min(bytesPerRow, binary.length() - position);
+
+                paintRow(viewer, g, position, rowDataLength, selectionStart, selectionEnd, modelRow == cursorRow, cursor,
+                         hexColWidth, charWidth, rowHeight, y,
+                         addressLineX, firstDataColumnX, firstAsciiColumnX,
+                         renderer);
             }
-
-            int rowDataLength = (int) Math.min(bytesPerRow, binary.length() - position);
-
-            paintRow(viewer, g, position, rowDataLength, selectionStart, selectionEnd, row == cursorRow, cursor,
-                     hexColWidth, charWidth, rowHeight, y,
-                     addressLineX, firstDataColumnX, firstAsciiColumnX,
-                     renderer);
 
             position += bytesPerRow;
             y += rowHeight;
@@ -204,8 +206,8 @@ public class BasicHexViewerUI extends HexViewerUI {
         // Address divider line.
         g.setColor(viewer.getOffsetForeground());
         g.setStroke(new BasicStroke(1.0f));
-        g.draw(new Line2D.Float(addressLineX, rowHeight * firstVisibleRow,
-                                addressLineX, rowHeight * (lastVisibleRow + 1)));
+        g.draw(new Line2D.Float(addressLineX, 0,
+                                addressLineX, rowHeight * (visibleRowCount + 1)));
     }
 
     // Painting a row is split out to give IDEA a bit of a help with the inspection.
@@ -223,10 +225,10 @@ public class BasicHexViewerUI extends HexViewerUI {
             // Row offset
             comp = renderer.getRendererComponent(viewer, false, onCursorRow, false,
                                                  position, CellRenderer.ROW_OFFSET);
-            comp.setBounds(asciiColWidth, y - rowHeight, addressLineX - asciiColWidth*2, rowHeight);
-            g2.translate(asciiColWidth, y - rowHeight);
+            comp.setBounds(asciiColWidth, y, addressLineX - asciiColWidth*2, rowHeight);
+            g2.translate(asciiColWidth, y);
             comp.paint(g2);
-            g2.translate(-asciiColWidth, -y + rowHeight);
+            g2.translate(-asciiColWidth, -y);
 
             // Hex digits for this row
             int hexX = firstDataColumnX;
@@ -239,18 +241,18 @@ public class BasicHexViewerUI extends HexViewerUI {
                 // Hex column
                 comp = renderer.getRendererComponent(viewer, insideSelection, onCursorRow, atCursor,
                                                      position, CellRenderer.HEX);
-                comp.setBounds(hexX, y - rowHeight, hexColWidth, rowHeight);
-                g2.translate(hexX, y - rowHeight);
+                comp.setBounds(hexX, y, hexColWidth, rowHeight);
+                g2.translate(hexX, y);
                 comp.paint(g2);
-                g2.translate(-hexX, -y + rowHeight);
+                g2.translate(-hexX, -y);
 
                 // ASCII column
                 comp = renderer.getRendererComponent(viewer, insideSelection, onCursorRow, atCursor,
                                                      position, CellRenderer.ASCII);
-                comp.setBounds(asciiX, y - rowHeight, asciiColWidth, rowHeight);
-                g2.translate(asciiX, y - rowHeight);
+                comp.setBounds(asciiX, y, asciiColWidth, rowHeight);
+                g2.translate(asciiX, y);
                 comp.paint(g2);
-                g2.translate(-asciiX, -y + rowHeight);
+                g2.translate(-asciiX, -y);
 
                 position++;
                 hexX += hexColWidth;
@@ -312,6 +314,7 @@ public class BasicHexViewerUI extends HexViewerUI {
         BasicMouseAdapter mouseAdapter = new BasicMouseAdapter();
         viewer.addMouseListener(mouseAdapter);
         viewer.addMouseMotionListener(mouseAdapter);
+        viewer.addMouseWheelListener(mouseAdapter);
     }
 
 

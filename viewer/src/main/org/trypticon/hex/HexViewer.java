@@ -18,22 +18,6 @@
 
 package org.trypticon.hex;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Rectangle;
-
-import javax.swing.JComponent;
-import javax.swing.JViewport;
-import javax.swing.Scrollable;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import org.trypticon.hex.anno.AnnotationCollection;
 import org.trypticon.hex.anno.AnnotationCollectionEvent;
 import org.trypticon.hex.anno.AnnotationCollectionListener;
@@ -44,12 +28,25 @@ import org.trypticon.hex.plaf.HexViewerUI;
 import org.trypticon.hex.renderer.CellRenderer;
 import org.trypticon.hex.renderer.DefaultCellRenderer;
 
+import javax.swing.JComponent;
+import javax.swing.JScrollBar;
+import javax.swing.UIManager;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
+
 /**
  * Swing widget for viewing binary in hexadecimal form.
  *
  * @author trejkaz
  */
-public class HexViewer extends JComponent implements Scrollable {
+public class HexViewer extends JComponent {
     /**
      * The number of bytes of binary which will be displayed per row.
      */
@@ -93,6 +90,22 @@ public class HexViewer extends JComponent implements Scrollable {
     private AnnotationCollectionListener repaintListener;
 
     /**
+     * The first visible row at the current scroll position.
+     * This will be {@code -1} if you're positioned at the top, because of the blank line above the first row.
+     */
+    private long firstVisibleRow = -1;
+
+    /**
+     * The vertical scroll bar.
+     */
+    private JScrollBar verticalScrollBar;
+
+    /**
+     * Takes care of syncing the view with the scroll bar.
+     */
+    private ScrollBarSync scrollBarSync;
+
+    /**
      * Constructs the hex viewer.
      */
     public HexViewer() {
@@ -106,6 +119,10 @@ public class HexViewer extends JComponent implements Scrollable {
                 repaint();
             }
         });
+
+        verticalScrollBar = new JScrollBar(JScrollBar.VERTICAL);
+        scrollBarSync = new ScrollBarSync(this, verticalScrollBar);
+        add(verticalScrollBar);
 
         setOpaque(true);
         updateUI();
@@ -362,11 +379,79 @@ public class HexViewer extends JComponent implements Scrollable {
     }
 
     /**
+     * Gets the first visible row.
+     *
+     * @return the first visible row.
+     */
+    public long getFirstVisibleRow() {
+        return firstVisibleRow;
+    }
+
+    /**
+     * Sets the first visible row.
+     *
+     * @param firstVisibleRow the first visible row.
+     */
+    public void setFirstVisibleRow(long firstVisibleRow) {
+        this.firstVisibleRow = firstVisibleRow;
+
+        repaint();
+        scrollBarSync.updateScrollBarFromPosition();
+    }
+
+    /**
+     * Gets the number of rows visible in the viewer.
+     * Includes the partial row at the end, if one is present.
+     *
+     * @return the visible row count.
+     */
+    public int getVisibleRowCount() {
+        return (getHeight() - 1) / rowHeight + 1;
+    }
+
+    /**
+     * Gets the number of rows of binary present (not just the number visible.)
+     *
+     * @return the row count.
+     */
+    public long getRowCount() {
+        if (binary == null) {
+            return 0;
+        }
+        return ((binary.length() - 1) / bytesPerRow + 1);
+    }
+
+    /**
+     * Scrolls the view to make the given byte position visible.
+     *
+     * @param pos the position.
+     */
+    public void scrollPosToVisible(long pos) {
+        if (pos < 0 || pos >= binary.length()) {
+            throw new IllegalArgumentException("Position out of bounds: " + pos);
+        }
+
+        long firstVisibleRow = getFirstVisibleRow();
+        int visibleRowCount = getVisibleRowCount();
+        long lastVisibleRow = firstVisibleRow + visibleRowCount - 2; // disregard the partial row
+
+        long row = pos / bytesPerRow;
+
+        // Scroll the shortest distance possible to make it visible.
+        if (row < firstVisibleRow) {
+            setFirstVisibleRow(row);
+        } else if (row > lastVisibleRow) {
+            setFirstVisibleRow(row - visibleRowCount + 1);
+        } // else already visible
+    }
+
+    /**
      * Gets the bounds for the given position within the binary.  This will match up to where we draw the background for
      * selected bytes.
      *
      * @param pos the position.
-     * @return the bounds.
+     * @return the bounds. Warning: the bounds will only make sense if the position you pass is visible or nearby.
+     *         If you pass a position which is very far away, you may overflow the limit of the size of an integer.
      */
     public Rectangle getBoundsForPosition(long pos) {
         return getUI().modelToView(this, pos);
@@ -389,18 +474,24 @@ public class HexViewer extends JComponent implements Scrollable {
     }
 
     @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(getPreferredWidth(), getPreferredHeight());
+    public void doLayout() {
+        super.doLayout();
+
+        int scrollBarWidth = verticalScrollBar.getPreferredSize().width;
+        verticalScrollBar.setBounds(getWidth() - scrollBarWidth, 0, scrollBarWidth, getHeight());
+        scrollBarSync.updateScrollBarFromView();
     }
 
-    public Dimension getPreferredScrollableViewportSize() {
+    @Override
+    public Dimension getPreferredSize() {
         return new Dimension(getPreferredWidth(), getPreferredHeight(20));
     }
 
     private int getPreferredWidth() {
         FontMetrics metrics = getFontMetrics(getFont());
         return metrics.charWidth('D') *
-                (3 + 8 + 1 + 1 + (bytesPerRow * 3) + 2 + 16 + 3);
+                (3 + 8 + 1 + 1 + (bytesPerRow * 3) + 2 + 16 + 3) +
+                verticalScrollBar.getPreferredSize().width;
     }
 
     private int getPreferredHeight(int numRows) {
@@ -409,38 +500,6 @@ public class HexViewer extends JComponent implements Scrollable {
     }
 
     private int getPreferredHeight() {
-        return getPreferredHeight(binary == null ? 20 :
-                (int) ((binary.length() - 1) / bytesPerRow + 1));
-    }
-
-    public boolean getScrollableTracksViewportWidth() {
-        return true;
-    }
-
-    public boolean getScrollableTracksViewportHeight() {
-        return getParent() instanceof JViewport &&
-                getParent().getHeight() > getPreferredHeight();
-    }
-
-    public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
-        switch (orientation) {
-            case SwingConstants.HORIZONTAL:
-                return 0;
-            case SwingConstants.VERTICAL:
-                return getFontMetrics(getFont()).getHeight();
-            default:
-                throw new IllegalArgumentException("Illegal orientation: " + orientation);
-        }
-    }
-
-    public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
-        switch (orientation) {
-            case SwingConstants.HORIZONTAL:
-                return 0;
-            case SwingConstants.VERTICAL:
-                return visibleRect.height;
-            default:
-                throw new IllegalArgumentException("Illegal orientation: " + orientation);
-        }
+        return getPreferredHeight(binary == null ? 20 : (int) getRowCount());
     }
 }

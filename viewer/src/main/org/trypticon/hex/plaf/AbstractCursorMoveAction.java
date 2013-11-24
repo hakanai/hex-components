@@ -18,11 +18,11 @@
 
 package org.trypticon.hex.plaf;
 
+import org.trypticon.hex.HexViewer;
+
+import javax.swing.AbstractAction;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
-
-import org.trypticon.hex.HexViewer;
 
 /**
  * Base class for actions which move the cursor.
@@ -46,7 +46,7 @@ abstract class AbstractCursorMoveAction extends AbstractAction {
 
         moveCursorTo(viewer, newCursorPos);
 
-        viewer.scrollRectToVisible(viewer.getBoundsForPosition(newCursorPos));
+        viewer.scrollPosToVisible(newCursorPos);
     }
 
     /**

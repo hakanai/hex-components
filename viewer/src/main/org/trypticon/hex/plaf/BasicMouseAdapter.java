@@ -18,10 +18,11 @@
 
 package org.trypticon.hex.plaf;
 
-import java.awt.event.MouseEvent;
-import javax.swing.event.MouseInputAdapter;
-
 import org.trypticon.hex.HexViewer;
+
+import javax.swing.event.MouseInputAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 
 /**
  * Handles mouse events on the viewer.
@@ -55,7 +56,34 @@ class BasicMouseAdapter extends MouseInputAdapter {
             // TODO: An option for disabling autoscroll on selection would
             //       fit with the rest of Swing but I don't need it immediately.
 
-            viewer.scrollRectToVisible(viewer.getBoundsForPosition(pos));
+            viewer.scrollPosToVisible(pos);
         }
+    }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent event) {
+        HexViewer viewer = (HexViewer) event.getSource();
+
+        long firstVisibleRow = viewer.getFirstVisibleRow();
+        int visibleRowCount = viewer.getVisibleRowCount();
+
+        // TODO: Support precise scrolling. Unfortunately this is rather fiddly because we already have to
+        //       deal with the number of lines offset and this would add an additional fractional value.
+        int moveRows = event.getWheelRotation();
+        switch (event.getScrollType()) {
+            case MouseWheelEvent.WHEEL_BLOCK_SCROLL:
+                moveRows *= (visibleRowCount - 1);
+                break;
+            case MouseWheelEvent.WHEEL_UNIT_SCROLL:
+                moveRows *= event.getScrollAmount();
+                break;
+            default:
+                return;
+        }
+
+        long row = firstVisibleRow;
+        row += moveRows;
+        row = Math.min(Math.max(-1, row), viewer.getRowCount() - visibleRowCount + 1);
+        viewer.setFirstVisibleRow(row);
     }
 }
