@@ -25,7 +25,7 @@ import org.trypticon.hex.HexViewer;
  *
  * @author trejkaz
  */
-class CursorUpAction extends AbstractCursorMoveAction {
+class CursorUpAction extends AbstractRelativeCursorMoveAction {
     @Override
     protected int getShift(HexViewer viewer) {
         return -viewer.getBytesPerRow();

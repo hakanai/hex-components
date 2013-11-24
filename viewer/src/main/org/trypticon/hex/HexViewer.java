@@ -23,8 +23,8 @@ import org.trypticon.hex.anno.AnnotationCollectionEvent;
 import org.trypticon.hex.anno.AnnotationCollectionListener;
 import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.datatransfer.HexViewerTransferHandler;
-import org.trypticon.hex.plaf.BasicHexViewerUI;
 import org.trypticon.hex.plaf.HexViewerUI;
+import org.trypticon.hex.plaf.LookAndFeelExtensions;
 import org.trypticon.hex.renderer.CellRenderer;
 import org.trypticon.hex.renderer.DefaultCellRenderer;
 
@@ -47,6 +47,10 @@ import java.awt.Rectangle;
  * @author trejkaz
  */
 public class HexViewer extends JComponent {
+    static {
+        LookAndFeelExtensions.ensureInitialised();
+    }
+
     /**
      * The number of bytes of binary which will be displayed per row.
      */
@@ -109,7 +113,6 @@ public class HexViewer extends JComponent {
      * Constructs the hex viewer.
      */
     public HexViewer() {
-        setUI(new BasicHexViewerUI());
         setFont(new Font("Courier New", Font.PLAIN, 12));
         setFocusable(true);
         setTransferHandler(new HexViewerTransferHandler());
@@ -127,6 +130,11 @@ public class HexViewer extends JComponent {
 
         setOpaque(true);
         updateUI();
+    }
+
+    @Override
+    public String getUIClassID() {
+        return "HexViewerUI";
     }
 
     /**
@@ -148,9 +156,10 @@ public class HexViewer extends JComponent {
     }
 
     @Override
-    public void updateUI()
-    {
-        setBackground(UIManager.getColor("TextArea.background"));
+    public void updateUI() {
+        super.updateUI();
+
+        setUI((HexViewerUI) UIManager.getUI(this));
     }
 
     /**
@@ -472,7 +481,10 @@ public class HexViewer extends JComponent {
 
     @Override
     public void paintComponent(Graphics g) {
-        getUI().paint(g, this);
+        HexViewerUI ui = getUI();
+        if (ui != null) {
+            ui.paint(g, this);
+        }
     }
 
     @Override

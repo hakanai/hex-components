@@ -26,17 +26,16 @@ import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
-import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
+import javax.swing.UIManager;
+import javax.swing.plaf.ComponentUI;
 import java.awt.BasicStroke;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
 import java.awt.geom.Line2D;
 
 /**
@@ -45,6 +44,15 @@ import java.awt.geom.Line2D;
  * @author trejkaz
  */
 public class BasicHexViewerUI extends HexViewerUI {
+    /**
+     * Factory method called by Swing to construct the instance.
+     *
+     * @param component the component the UI is being created for.
+     * @return the UI.
+     */
+    public static ComponentUI createUI(JComponent component) {
+        return new BasicHexViewerUI();
+    }
 
     private int computeCharWidth(HexViewer viewer) {
         return viewer.getFontMetrics(viewer.getFont()).charWidth('D');
@@ -265,42 +273,45 @@ public class BasicHexViewerUI extends HexViewerUI {
 
     @Override
     public void installUI(JComponent c) {
+        installDefaults((HexViewer) c);
         installKeyboardActions((HexViewer) c);
         installListeners((HexViewer) c);
     }
 
+    protected void installDefaults(HexViewer viewer) {
+        viewer.setBackground(UIManager.getColor("TextArea.background"));
+    }
+
     protected void installKeyboardActions(HexViewer viewer) {
-        int shortcutMask = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+        SwingUtilities.replaceUIInputMap(viewer, JComponent.WHEN_FOCUSED,
+                                         (InputMap) UIManager.get("HexViewer.focusInputMap"));
 
-        InputMap focusedMap = viewer.getInputMap(JComponent.WHEN_FOCUSED);
-        focusedMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "cursor-down");
-        focusedMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "cursor-up");
-        focusedMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "cursor-left");
-        focusedMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "cursor-right");
-        focusedMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, InputEvent.SHIFT_DOWN_MASK), "selection-down");
-        focusedMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, InputEvent.SHIFT_DOWN_MASK), "selection-up");
-        focusedMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, InputEvent.SHIFT_DOWN_MASK), "selection-left");
-        focusedMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.SHIFT_DOWN_MASK), "selection-right");
-        focusedMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, shortcutMask), "select-all");
+        SwingUtilities.replaceUIActionMap(viewer, createActionMap());
+    }
 
-        // These are redundant when running inside HexFrame but I figure it will help someone.
-        focusedMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, shortcutMask),
-                       TransferHandler.getCutAction().getValue(Action.NAME));
-        focusedMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, shortcutMask),
-                       TransferHandler.getCopyAction().getValue(Action.NAME));
-        focusedMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, shortcutMask),
-                       TransferHandler.getPasteAction().getValue(Action.NAME));
-
-        ActionMap actions = viewer.getActionMap();
-        actions.put("cursor-down", new CursorDownAction());
-        actions.put("cursor-up", new CursorUpAction());
-        actions.put("cursor-left", new CursorLeftAction());
-        actions.put("cursor-right", new CursorRightAction());
-        actions.put("selection-down", new SelectionDownAction());
-        actions.put("selection-up", new SelectionUpAction());
-        actions.put("selection-left", new SelectionLeftAction());
-        actions.put("selection-right", new SelectionRightAction());
-        actions.put("select-all", new SelectAllAction());
+    protected ActionMap createActionMap() {
+        ActionMap actions = new ActionMap();
+        actions.put("cursorDown", new CursorDownAction());
+        actions.put("cursorPageDown", new CursorPageDownAction());
+        actions.put("cursorUp", new CursorUpAction());
+        actions.put("cursorPageUp", new CursorPageUpAction());
+        actions.put("cursorLeft", new CursorLeftAction());
+        actions.put("cursorLineStart", new CursorLineStartAction());
+        actions.put("cursorRight", new CursorRightAction());
+        actions.put("cursorLineEnd", new CursorLineEndAction());
+        actions.put("cursorHome", new CursorHomeAction());
+        actions.put("cursorEnd", new CursorEndAction());
+        actions.put("selectionDown", new SelectionDownAction());
+        actions.put("selectionPageDown", new SelectionPageDownAction());
+        actions.put("selectionUp", new SelectionUpAction());
+        actions.put("selectionPageUp", new SelectionPageUpAction());
+        actions.put("selectionLeft", new SelectionLeftAction());
+        actions.put("selectionLineStart", new SelectionLineStartAction());
+        actions.put("selectionRight", new SelectionRightAction());
+        actions.put("selectionLineEnd", new SelectionLineEndAction());
+        actions.put("selectionHome", new SelectionHomeAction());
+        actions.put("selectionEnd", new SelectionEndAction());
+        actions.put("selectAll", new SelectAllAction());
 
         actions.put(TransferHandler.getCutAction().getValue(Action.NAME),
                     TransferHandler.getCutAction());
@@ -308,6 +319,7 @@ public class BasicHexViewerUI extends HexViewerUI {
                     TransferHandler.getCopyAction());
         actions.put(TransferHandler.getPasteAction().getValue(Action.NAME),
                     TransferHandler.getPasteAction());
+        return actions;
     }
 
     protected void installListeners(HexViewer viewer) {

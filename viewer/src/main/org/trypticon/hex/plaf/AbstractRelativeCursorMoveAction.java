@@ -21,13 +21,24 @@ package org.trypticon.hex.plaf;
 import org.trypticon.hex.HexViewer;
 
 /**
- * Action to move the cursor right one column.
+ * Base class for actions which move the cursor.
  *
  * @author trejkaz
  */
-class CursorRightAction extends AbstractRelativeCursorMoveAction {
+abstract class AbstractRelativeCursorMoveAction extends AbstractCursorMoveAction {
     @Override
-    protected int getShift(HexViewer viewer) {
-        return 1;
+    protected long getNewCursorPos(HexViewer viewer) {
+        return viewer.getSelectionModel().getCursor() + getShift(viewer);
     }
+
+    /**
+     * Gets the amount by which the cursor should shift when performing this action (positive is forwards, negative is
+     * backwards.)  The value returned can bring the cursor to an illegal position; this is properly checked before
+     * actually setting the position.
+     *
+     * @param viewer the hex viewer.
+     * @return the amount by which the cursor should shift.
+     */
+    protected abstract int getShift(HexViewer viewer);
+
 }

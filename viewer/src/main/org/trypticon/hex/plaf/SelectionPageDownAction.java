@@ -21,13 +21,13 @@ package org.trypticon.hex.plaf;
 import org.trypticon.hex.HexViewer;
 
 /**
- * Action to move the cursor right one column.
+ * Action to move the selection down one page.
  *
  * @author trejkaz
  */
-class CursorRightAction extends AbstractRelativeCursorMoveAction {
+class SelectionPageDownAction extends AbstractRelativeSelectionMoveAction {
     @Override
     protected int getShift(HexViewer viewer) {
-        return 1;
+        return viewer.getBytesPerRow() * (viewer.getVisibleRowCount() - 1);
     }
 }

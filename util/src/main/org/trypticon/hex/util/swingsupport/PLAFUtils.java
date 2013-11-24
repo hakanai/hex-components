@@ -26,6 +26,21 @@ import javax.swing.UIManager;
  * @author trejkaz
  */
 public class PLAFUtils {
+    private PLAFUtils() {
+    }
+
+    /**
+     * Tests if the look and feel is Aqua or a derivative (e.g. Quaqua.)
+     *
+     * @return {@code true} if using Aqua, otherwise {@code false}.
+     */
+    public static boolean isAqua() {
+        String lafClassName = UIManager.getLookAndFeel().getClass().getName();
+        return "ch.randelshofer.quaqua.QuaquaLookAndFeel".equals(lafClassName) ||
+                "apple.laf.AquaLookAndFeel".equals(lafClassName) ||
+                "com.apple.laf.AquaLookAndFeel".equals(lafClassName);
+    }
+
     /**
      * Tests if the look and feel is Quaqua, which we use on Mac to get better look and feel for Mac.
      *

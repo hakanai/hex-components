@@ -34,7 +34,7 @@ abstract class AbstractCursorMoveAction extends AbstractAction {
     public void actionPerformed(ActionEvent event) {
         HexViewer viewer = (HexViewer) event.getSource();
 
-        long newCursorPos = viewer.getSelectionModel().getCursor() + getShift(viewer);
+        long newCursorPos = getNewCursorPos(viewer);
         long length = viewer.getBinary().length();
 
         if (newCursorPos >= length) {
@@ -51,6 +51,14 @@ abstract class AbstractCursorMoveAction extends AbstractAction {
     }
 
     /**
+     * Gets the new cursor position.
+     *
+     * @param viewer the hex viewer.
+     * @return the new (absolute) cursor position.
+     */
+    protected abstract long getNewCursorPos(HexViewer viewer);
+
+    /**
      * Called to move the cursor.
      *
      * @param viewer the hex viewer.
@@ -59,15 +67,4 @@ abstract class AbstractCursorMoveAction extends AbstractAction {
     void moveCursorTo(HexViewer viewer, long newCursorPos) {
         viewer.getSelectionModel().setCursor(newCursorPos);
     }
-
-    /**
-     * Gets the amount by which the cursor should shift when performing this action (positive is forwards, negative is
-     * backwards.)  The value returned can bring the cursor to an illegal position; this is properly checked before
-     * actually setting the position.
-     *
-     * @param viewer the hex viewer.
-     * @return the amount by which the cursor should shift.
-     */
-    protected abstract int getShift(HexViewer viewer);
-
 }

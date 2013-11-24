@@ -21,13 +21,13 @@ package org.trypticon.hex.plaf;
 import org.trypticon.hex.HexViewer;
 
 /**
- * Action to move the cursor right one column.
+ * Action to move the selection to the start of the line.
  *
  * @author trejkaz
  */
-class CursorRightAction extends AbstractRelativeCursorMoveAction {
+class SelectionLineStartAction extends AbstractSelectionMoveAction {
     @Override
-    protected int getShift(HexViewer viewer) {
-        return 1;
+    protected long getNewCursorPos(HexViewer viewer) {
+        return (viewer.getSelectionModel().getCursor() / viewer.getBytesPerRow()) * viewer.getBytesPerRow();
     }
 }

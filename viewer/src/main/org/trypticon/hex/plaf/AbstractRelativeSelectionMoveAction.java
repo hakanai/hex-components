@@ -21,13 +21,13 @@ package org.trypticon.hex.plaf;
 import org.trypticon.hex.HexViewer;
 
 /**
- * Action to move the cursor right one column.
+ * Base class for actions which move the cursor and extend the selection.
  *
  * @author trejkaz
  */
-class CursorRightAction extends AbstractRelativeCursorMoveAction {
+abstract class AbstractRelativeSelectionMoveAction extends AbstractRelativeCursorMoveAction {
     @Override
-    protected int getShift(HexViewer viewer) {
-        return 1;
+    void moveCursorTo(HexViewer viewer, long newCursorPos) {
+        viewer.getSelectionModel().setCursorAndExtendSelection(newCursorPos);
     }
 }

@@ -21,13 +21,13 @@ package org.trypticon.hex.plaf;
 import org.trypticon.hex.HexViewer;
 
 /**
- * Action to move the cursor right one column.
+ * Action to move the cursor to the start of the binary.
  *
  * @author trejkaz
  */
-class CursorRightAction extends AbstractRelativeCursorMoveAction {
+class CursorHomeAction extends AbstractCursorMoveAction {
     @Override
-    protected int getShift(HexViewer viewer) {
-        return 1;
+    protected long getNewCursorPos(HexViewer viewer) {
+        return 0;
     }
 }
