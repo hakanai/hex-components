@@ -65,7 +65,11 @@ public class BinaryFactory {
      * @throws IOException if the file could not be opened for reading.
      */
     public static Binary open(File file) throws IOException {
-        return new MemoryMappedFileBinary(file);
+        if (file.length() < Integer.MAX_VALUE) {
+            return new MemoryMappedFileBinary(file);
+        } else {
+            return new FileChannelBinary(file);
+        }
     }
 
     /**
