@@ -11,6 +11,8 @@ Version X.X (XXXX-XX-XX)
           a slower FileChannel approach instead of memory mapping.
 
  Changed: The code now requires Java 7 to run.
+ Changed: When navigating to the top or bottom row, the view scrolls one line further, so that the border
+          is visible.
 
 Version 0.3 (2012-11-09)
 

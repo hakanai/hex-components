@@ -448,10 +448,17 @@ public class HexViewer extends JComponent {
 
         long row = pos / bytesPerRow;
 
-        // Scroll the shortest distance possible to make it visible.
+        // Scroll the shortest distance possible to make it visible. If we land at the first or last line, show
+        // one additional line so that we can see the border when navigating around using only the keyboard.
         if (row < firstVisibleRow) {
+            if (row == 0) {
+                row--;
+            }
             setFirstVisibleRow(row);
         } else if (row > lastVisibleRow) {
+            if (row == getRowCount() - 1) {
+                row++;
+            }
             setFirstVisibleRow(row - visibleRowCount + 1);
         } // else already visible
     }

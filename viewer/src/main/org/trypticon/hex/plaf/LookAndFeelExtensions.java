@@ -53,7 +53,7 @@ public class LookAndFeelExtensions {
                     "alt DOWN",         "cursorPageDown",
                     "UP",               "cursorUp",
                     "PAGE_UP",          "cursorPageUp",
-                    "alt PAGE_UP",      "cursorPageUp",
+                    "alt UP",           "cursorPageUp",
                     "LEFT",             "cursorLeft",
                     "meta LEFT",        "cursorLineStart",
                     "RIGHT",            "cursorRight",
