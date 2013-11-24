@@ -17,6 +17,7 @@ Version X.X (XXXX-XX-XX)
           is visible.
  Changed: Unprintable ASCII characters are now a distinct kind of dot which users hopefully won't confuse
           for a normal period.
+ Changed: setBinary() now sets an empty annotation collection as a side-effect, if the collection is null.
 
 Version 0.3 (2012-11-09)
 

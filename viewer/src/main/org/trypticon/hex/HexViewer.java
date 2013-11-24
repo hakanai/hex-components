@@ -21,6 +21,7 @@ package org.trypticon.hex;
 import org.trypticon.hex.anno.AnnotationCollection;
 import org.trypticon.hex.anno.AnnotationCollectionEvent;
 import org.trypticon.hex.anno.AnnotationCollectionListener;
+import org.trypticon.hex.anno.MemoryAnnotationCollection;
 import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.datatransfer.HexViewerTransferHandler;
 import org.trypticon.hex.plaf.HexViewerUI;
@@ -179,6 +180,10 @@ public class HexViewer extends JComponent {
      */
     public void setBinary(Binary binary) {
         this.binary = binary;
+
+        if (annotations == null) {
+            annotations = new MemoryAnnotationCollection(binary.length());
+        }
 
         selectionModel.setCursor(0);
         selectionModel.setCursorAndExtendSelection(0);
