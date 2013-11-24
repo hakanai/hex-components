@@ -239,6 +239,9 @@ public class HexViewer extends JComponent {
      */
     public void setBytesPerRow(int bytesPerRow) {
         this.bytesPerRow = bytesPerRow;
+
+        invalidate();
+        repaint();
     }
 
     @Override

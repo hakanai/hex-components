@@ -10,6 +10,7 @@ Version X.X (XXXX-XX-XX)
    Fixed: Fixed an issue where creating an annotation group larger than Integer.MAX_VALUE would overflow.
    Fixed: Fixed loading a file larger than Integer.MAX_VALUE using BinaryFactory. Larger files will now use
           a slower FileChannel approach instead of memory mapping.
+   Fixed: HexViewer#setBytesPerRow() now calls invalidate, so that the GUI properly updates the layout.
 
  Changed: The code now requires Java 7 to run.
  Changed: When navigating to the top or bottom row, the view scrolls one line further, so that the border
