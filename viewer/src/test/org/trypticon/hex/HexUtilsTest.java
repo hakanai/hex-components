@@ -36,15 +36,15 @@ public class HexUtilsTest {
 
     @Test
     public void testToAscii() {
-        assertEquals("Should be replaced", ".", HexUtils.toAscii((byte) 0x00));
-        assertEquals("Should be replaced", ".", HexUtils.toAscii((byte) 0x1F));
+        assertEquals("Should be replaced", "·", HexUtils.toAscii((byte) 0x00));
+        assertEquals("Should be replaced", "·", HexUtils.toAscii((byte) 0x1F));
 
         assertEquals("Wrong ASCII", " ", HexUtils.toAscii((byte) 0x20));
         assertEquals("Wrong ASCII", "U", HexUtils.toAscii((byte) 0x55));
 
-        assertEquals("Should be replaced", ".", HexUtils.toAscii((byte) 0xCA));
-        assertEquals("Should be replaced", ".", HexUtils.toAscii((byte) 0xFE));
-        assertEquals("Should be replaced", ".", HexUtils.toAscii((byte) 0xBA));
-        assertEquals("Should be replaced", ".", HexUtils.toAscii((byte) 0xBE));
+        assertEquals("Should be replaced", "·", HexUtils.toAscii((byte) 0xCA));
+        assertEquals("Should be replaced", "·", HexUtils.toAscii((byte) 0xFE));
+        assertEquals("Should be replaced", "·", HexUtils.toAscii((byte) 0xBA));
+        assertEquals("Should be replaced", "·", HexUtils.toAscii((byte) 0xBE));
     }
 }
