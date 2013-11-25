@@ -83,7 +83,6 @@ class BasicMouseAdapter extends MouseInputAdapter {
 
         long row = firstVisibleRow;
         row += moveRows;
-        row = Math.min(Math.max(-1, row), viewer.getRowCount() - visibleRowCount + 1);
         viewer.setFirstVisibleRow(row);
     }
 }

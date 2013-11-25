@@ -470,6 +470,9 @@ public class HexViewer extends JComponent {
      * @param firstVisibleRow the first visible row.
      */
     public void setFirstVisibleRow(long firstVisibleRow) {
+        // Don't let it get positioned anywhere strange.
+        firstVisibleRow = Math.max(-1, Math.min(getRowCount() - getVisibleRowCount() + 2, firstVisibleRow));
+
         this.firstVisibleRow = firstVisibleRow;
 
         repaint();
@@ -567,6 +570,12 @@ public class HexViewer extends JComponent {
         int scrollBarWidth = verticalScrollBar.getPreferredSize().width;
         verticalScrollBar.setBounds(getWidth() - scrollBarWidth, 0, scrollBarWidth, getHeight());
         scrollBarSync.updateScrollBarFromView();
+
+        // If resizing lands us in a position we wouldn't normally be able to get to, set the position
+        // back to somewhere sensible.
+        if (firstVisibleRow < -1 || firstVisibleRow > getRowCount() - getVisibleRowCount() + 2) {
+            setFirstVisibleRow(firstVisibleRow);
+        }
     }
 
     @Override
