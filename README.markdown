@@ -6,7 +6,7 @@ Copyright (C) 2009-2012  Trejkaz, Hex Project
 BUILDING
 --------
 
-You'll need a Java build environment.  I'm developing this on Java 6 at
+You'll need a Java build environment.  I'm developing this on Java 7 at
 the moment.
 
 You'll also need Ant.  All the other dependencies should be bundled.
