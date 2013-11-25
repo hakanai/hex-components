@@ -71,7 +71,8 @@ public class BasicHexViewerUI extends HexViewerUI {
         long yFixed = bytesY * rowHeight;
 
         // Now adjust for the margins again...
-        return new Rectangle(xFixed + 13 * charWidth,
+
+        return new Rectangle(xFixed + 3 + viewer.getOffsetColumnDigits() + 1 + 1 * charWidth,
                              (int) (yFixed - viewer.getFirstVisibleRow()),
                              3 * charWidth,
                              rowHeight);
@@ -88,7 +89,7 @@ public class BasicHexViewerUI extends HexViewerUI {
         long maxBytesY = (int) (binaryLength / bytesPerRow);
 
         // Threshold for detecting that the user clicked in the ASCII column is half way between the two columns.
-        int hexLeftX = 13 * charWidth;
+        int hexLeftX = (3 + viewer.getOffsetColumnDigits() + 1 + 1) * charWidth;
         int hexRightX = hexLeftX + 3 * charWidth * bytesPerRow;
         int asciiLeftX = hexRightX + 2 * charWidth;
 
