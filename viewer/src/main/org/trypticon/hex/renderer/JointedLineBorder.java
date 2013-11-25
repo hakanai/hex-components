@@ -18,12 +18,13 @@
 
 package org.trypticon.hex.renderer;
 
-import java.awt.Color;
+import javax.swing.border.AbstractBorder;
 import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Insets;
-import javax.swing.border.AbstractBorder;
-import javax.swing.border.Border;
+import java.awt.Paint;
+import java.awt.Stroke;
 
 /**
  * A Swing border similar to {@code LineBorder} but which can paint only some
@@ -34,14 +35,16 @@ import javax.swing.border.Border;
  * @author trejkaz
  */
 public class JointedLineBorder extends AbstractBorder {
-    private final Color colour;
+    private final Stroke stroke;
+    private final Paint paint;
     private final boolean top;
     private final boolean right;
     private final boolean bottom;
     private final boolean left;
 
-    public JointedLineBorder(Color colour, boolean top, boolean right, boolean bottom, boolean left) {
-        this.colour = colour;
+    public JointedLineBorder(Stroke stroke, Paint paint, boolean top, boolean right, boolean bottom, boolean left) {
+        this.stroke = stroke;
+        this.paint = paint;
         this.top = top;
         this.right = right;
         this.bottom = bottom;
@@ -50,7 +53,9 @@ public class JointedLineBorder extends AbstractBorder {
 
     @Override
     public void paintBorder(Component component, Graphics graphics, int x, int y, int width, int height) {
-        graphics.setColor(colour);
+        Graphics2D graphics2D = (Graphics2D) graphics;
+        graphics2D.setStroke(stroke);
+        graphics2D.setPaint(paint);
         if (top) {
             graphics.drawLine(x, y, width - 1, y);
         }

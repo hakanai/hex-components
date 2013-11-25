@@ -92,6 +92,11 @@ public class HexViewer extends JComponent {
     private Color selectionForeground = null;
     private Color selectionBackground = new Color(176, 197, 227);
 
+    /**
+     * The annotation style scheme.
+     */
+    private AnnotationStyleScheme annotationStyleScheme = new DefaultAnnotationStyleScheme();
+
     // Cached dimensions
     private int rowHeight;
 
@@ -402,6 +407,24 @@ public class HexViewer extends JComponent {
      */
     public void setSelectionBackground(Color selectionBackground) {
         this.selectionBackground = selectionBackground;
+    }
+
+    /**
+     * Gets the style scheme to use when painting annotations.
+     *
+     * @return the annotation style scheme.
+     */
+    public AnnotationStyleScheme getAnnotationStyleScheme() {
+        return annotationStyleScheme;
+    }
+
+    /**
+     * Sets the style scheme to use when painting annotations.
+     *
+     * @param annotationStyleScheme the annotation style scheme.
+     */
+    public void setAnnotationStyleScheme(AnnotationStyleScheme annotationStyleScheme) {
+        this.annotationStyleScheme = annotationStyleScheme;
     }
 
     /**

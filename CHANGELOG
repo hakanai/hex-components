@@ -6,11 +6,13 @@ Version X.X (XXXX-XX-XX)
           meaning that much larger files can be viewed now.
      New: Filled in a lot of common keyboard shortcuts for the basic UI and their equivalents for Mac OS X.
      New: Errors reading from the binary now render as a red cross placeholder.
+     New: AnnotationColourScheme decides which colours to paint for each annotation.
 
    Fixed: Fixed an issue where creating an annotation group larger than Integer.MAX_VALUE would overflow.
    Fixed: Fixed loading a file larger than Integer.MAX_VALUE using BinaryFactory. Larger files will now use
           a slower FileChannel approach instead of memory mapping.
    Fixed: HexViewer#setBytesPerRow() now calls invalidate, so that the GUI properly updates the layout.
+   Fixed: Annotation borders paint properly for values other than 16 bytes per row.
 
  Changed: The code now requires Java 7 to run.
  Changed: When navigating to the top or bottom row, the view scrolls one line further, so that the border

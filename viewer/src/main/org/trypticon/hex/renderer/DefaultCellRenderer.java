@@ -18,16 +18,20 @@
 
 package org.trypticon.hex.renderer;
 
+import org.trypticon.hex.AnnotationStyle;
+import org.trypticon.hex.AnnotationStyleScheme;
 import org.trypticon.hex.HexUtils;
 import org.trypticon.hex.HexViewer;
 import org.trypticon.hex.anno.Annotation;
 import org.trypticon.hex.anno.AnnotationCollection;
-import org.trypticon.hex.anno.GroupAnnotation;
 
 import javax.swing.JLabel;
 import javax.swing.border.Border;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.util.List;
 
 /**
@@ -40,13 +44,7 @@ public class DefaultCellRenderer extends JLabel implements CellRenderer {
 
     private static final Color transparent = new Color(0, 0, 0, 0);
 
-    // TODO: These should be based on what kind of annotation is being coloured,
-    //       and there should be a policy to choose which to use.
-    private static final Color annotationBorder = Color.RED;
-    private static final Color annotationBackground = new Color(255, 240, 240);
-
-    private static final Color groupAnnotationBorder = Color.GRAY;
-    private static final Color groupAnnotationBackground = new Color(240, 240, 240);
+    private Paint backgroundPaint;
 
     public DefaultCellRenderer() {
         setOpaque(true);
@@ -64,13 +62,13 @@ public class DefaultCellRenderer extends JLabel implements CellRenderer {
 
         setHorizontalAlignment(valueDisplayMode == ROW_OFFSET ? RIGHT : CENTER);
 
-        Color background = transparent;
+        Paint backgroundPaint = transparent;
         Color foreground;
 
         // XXX: This is redundant if rendering the address column.
         int b;
         try {
-            b = viewer.getBinary().read(position);
+            b = viewer.getBinary().read(position) & 0xFF;
         } catch (Exception e) {
             // Eat the exception but mark it as an error
             b = ERROR_PLACEHOLDER;
@@ -86,6 +84,9 @@ public class DefaultCellRenderer extends JLabel implements CellRenderer {
             }
 
             AnnotationCollection annotations = viewer.getAnnotations();
+            AnnotationStyleScheme annotationStyleScheme = viewer.getAnnotationStyleScheme();
+            int bytesPerRow = viewer.getBytesPerRow();
+
             List<Annotation> annotationPath = annotations.getAnnotationPathAt(position);
             if (annotationPath != null) {
                 Border border = null;
@@ -94,16 +95,16 @@ public class DefaultCellRenderer extends JLabel implements CellRenderer {
                     long annoStart = annotation.getPosition();
                     long annoEnd = annoStart + annotation.getLength() - 1;
 
-                    // TODO: This 16 is technically a magic number, we should pass in the row length.
-                    boolean top = position < annoStart + 16;
-                    boolean right = position == annoEnd && (position % 16 != 15 || top);
-                    boolean bottom = position > annoEnd - 16;
-                    boolean left = position == annoStart && (position % 16 != 0 || bottom);
+                    boolean top = position < annoStart + bytesPerRow;
+                    boolean right = position == annoEnd && (position % bytesPerRow != bytesPerRow - 1 || top);
+                    boolean bottom = position > annoEnd - bytesPerRow;
+                    boolean left = position == annoStart && (position % bytesPerRow != 0 || bottom);
+
+                    AnnotationStyle colours = annotationStyleScheme.getStyle(annotation);
 
                     if (top || right || bottom || left) {
-                        Border nextBorder = new JointedLineBorder(
-                                annotation instanceof GroupAnnotation ? groupAnnotationBorder : annotationBorder,
-                                top, right, bottom, left);
+                        Border nextBorder = new JointedLineBorder(colours.getBorderStroke(), colours.getBorderPaint(),
+                                                                  top, right, bottom, left);
                         if (border == null) {
                             border = nextBorder;
                         } else if (border instanceof StackedBorder) {
@@ -118,29 +119,28 @@ public class DefaultCellRenderer extends JLabel implements CellRenderer {
                     setBorder(border);
                 }
 
-                if (annotationPath.get(annotationPath.size() - 1) instanceof GroupAnnotation) {
-                    background = groupAnnotationBackground;
-                } else {
-                    background = annotationBackground;
-                }
+                AnnotationStyle colours = annotationStyleScheme.getStyle(
+                        annotationPath.get(annotationPath.size() - 1));
+                backgroundPaint = colours.getBackgroundPaint();
             }
 
             if (selected && viewer.getSelectionBackground() != null) {
-                background = viewer.getSelectionBackground();
+                backgroundPaint = viewer.getSelectionBackground();
             }
             if (selected && viewer.getSelectionForeground() != null) {
                 foreground = viewer.getSelectionForeground();
             }
 
             if (atCursor && viewer.getCursorBackground() != null) {
-                background = viewer.getCursorBackground();
+                backgroundPaint = viewer.getCursorBackground();
             }
             if (atCursor && viewer.getCursorForeground() != null) {
                 foreground = viewer.getCursorForeground();
             }
         }
 
-        setBackground(background);
+        this.backgroundPaint = backgroundPaint;
+        setBackground(transparent); // so that the UI doesn't paint it
         setForeground(foreground);
 
         String str;
@@ -171,5 +171,15 @@ public class DefaultCellRenderer extends JLabel implements CellRenderer {
         setText(str);
 
         return this;
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        // Paint the fancy background so that it's possible to use a Paint (setBackground only supports a Color.)
+        Graphics2D graphics2D = (Graphics2D) g;
+        graphics2D.setPaint(backgroundPaint);
+        graphics2D.fillRect(0, 0, getWidth(), getHeight());
+
+        super.paintComponent(g);
     }
 }
