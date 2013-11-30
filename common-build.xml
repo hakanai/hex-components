@@ -47,12 +47,12 @@
     
     <target name="compile" description="Compiles classes">
         <mkdir dir="build/classes"/>
-        <javac srcdir="src/main" destdir="build/classes" debug="on" deprecation="on" classpathref="classpath.compile"/>
+        <javac srcdir="src/main" destdir="build/classes" debug="on" deprecation="on" classpathref="classpath.compile" includeantruntime="false"/>
     </target>
 
     <target name="compile-test" depends="compile" description="Compiles test classes">
         <mkdir dir="build/testclasses"/>
-        <javac srcdir="src/test" destdir="build/testclasses" debug="on" classpathref="classpath.compile-test"/>
+        <javac srcdir="src/test" destdir="build/testclasses" debug="on" classpathref="classpath.compile-test" includeantruntime="false"/>
     </target>
     
     <target name="package" depends="compile" description="Create the jar file">
