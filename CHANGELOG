@@ -1,5 +1,5 @@
 
-Version X.X (XXXX-XX-XX)
+Version 0.4 (2013-12-01)
 
      New: HexViewer now contains its own scroll bar, rather than having you put it in a scroll pane.
           This is primarily so that painting the component is no longer constrained by Swing dimensions,
