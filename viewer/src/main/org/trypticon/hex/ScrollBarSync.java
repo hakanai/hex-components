@@ -116,7 +116,7 @@ class ScrollBarSync {
             // minPosition accounts for the extra blank row at the start
             // maxPosition accounts for the extra blank row at the end
             minPosition = -1;
-            maxPosition = viewer.getRowCount() - viewer.getVisibleRowCount() + 1;
+            maxPosition = viewer.getRowCount() + 1;
             range = maxPosition - minPosition;
         }
     }
