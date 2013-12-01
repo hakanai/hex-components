@@ -1,6 +1,6 @@
 Hex Components - A simple hex viewer written in Java.
 
-Copyright (C) 2009-2012  Trejkaz, Hex Project
+Copyright (C) 2009-2013  Trejkaz, Hex Project
 
 
 BUILDING
