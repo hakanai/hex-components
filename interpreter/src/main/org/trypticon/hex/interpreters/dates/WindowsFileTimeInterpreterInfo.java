@@ -18,31 +18,31 @@
 
 package org.trypticon.hex.interpreters.dates;
 
-import org.trypticon.hex.interpreters.AbstractInterpreterStorage;
+import org.trypticon.hex.interpreters.Interpreter;
 import org.trypticon.hex.interpreters.InterpreterInfo;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
- * Storage support for date interpreters.
+ * Info for {@link WindowsFileTimeInterpreter}.
  *
  * @author trejkaz
  */
-public class DateInterpreterStorage extends AbstractInterpreterStorage {
-    public DateInterpreterStorage() {
-        register("dos_date", DosDateInterpreter.class);
-        register("dos_time", DosTimeInterpreter.class);
-        register("dos_date_time", DosDateTimeInterpreter.class);
+public class WindowsFileTimeInterpreterInfo implements InterpreterInfo {
+    @Override
+    public String getHumanName() {
+        return "64-bit Windows NT FILETIME";
     }
 
-    public List<InterpreterInfo> getInterpreterInfos() {
-        // TODO: Interpreter info should be structured to allow categorising them as well, for menus.
-
-        return Arrays.asList(new DosDateInterpreterInfo(),
-                             new DosTimeInterpreterInfo(),
-                             new DosDateTimeInterpreterInfo(),
-                             new WindowsFileTimeInterpreterInfo());
+    @Override
+    public List<Option> getOptions() {
+        return Collections.emptyList();
     }
 
+    @Override
+    public Interpreter create(Map<String, Object> options) {
+        return new WindowsFileTimeInterpreter();
+    }
 }
