@@ -23,30 +23,23 @@ import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 import org.trypticon.hex.interpreters.primitives.BigEndian;
 
 /**
- * Interpreter for NeXTSTEP/Mac OS X {@code NSDate} / {@code CFDateRef} values.
+ * Interpreter for classic Mac OS (up to v9) date values.
  *
  * @author trejkaz
  */
-public class NSDateInterpreter extends AbstractFixedLengthInterpreter<DateTime> {
-    // Computed using Calendar for January 1, 2001 00:00 UTC and then just taking the value.
-    private static final long EPOCH = 978307200000L;
+public class MacClassicDateInterpreter extends AbstractFixedLengthInterpreter<DateTime> {
+    // Computed using Calendar for January 1, 1904 00:00 UTC and then just taking the value.
+    private static final long EPOCH = -2082844800000L;
 
-    protected NSDateInterpreter() {
-        super(DateTime.class, 8);
+    public MacClassicDateInterpreter() {
+        super(DateTime.class, 4);
     }
 
     @Override
     protected DateTime interpret(Binary binary, long position) {
-        // Value is the number of seconds since January 1, 2001 (UTC)
-        double value = Double.longBitsToDouble(BigEndian.getLong(binary, position));
+        // Value is the number of seconds since January 1, 1904 (UTC)
+        long value = BigEndian.getUInt(binary, position);
 
-        long wholeSeconds = (long) Math.floor(value);
-        long nanosInSecond = (long) (Math.abs(value - wholeSeconds) * DateConversion.NANOS_IN_SECOND);
-
-        long millis = wholeSeconds * DateConversion.MILLIS_IN_SECOND +
-                      nanosInSecond / DateConversion.NANOS_IN_MILLISECOND;
-        int remainingNanos = (int) (nanosInSecond % DateConversion.NANOS_IN_MILLISECOND);
-
-        return new EpochDateTime(8, EPOCH, millis, remainingNanos);
+        return new EpochDateTime(4, EPOCH, value * DateConversion.MILLIS_IN_SECOND, 0);
     }
 }

@@ -26,14 +26,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Info for {@link NSDateInterpreter}.
+ * Info for {@link MacNSDateInterpreter}.
  *
  * @author trejkaz
  */
-public class NSDateInterpreterInfo implements InterpreterInfo {
+public class MacNSDateInterpreterInfo implements InterpreterInfo {
     @Override
     public String getHumanName() {
-        return "64-bit OSX NSDate";
+        return "64-bit Mac OS X NSDate";
     }
 
     @Override
@@ -43,6 +43,6 @@ public class NSDateInterpreterInfo implements InterpreterInfo {
 
     @Override
     public Interpreter create(Map<String, Object> options) {
-        return new NSDateInterpreter();
+        return new MacNSDateInterpreter();
     }
 }

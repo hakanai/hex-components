@@ -41,6 +41,13 @@ public class BigEndian {
                                  binary.read(position + 3));
     }
 
+    public static long getUInt(Binary binary, long position) {
+        return Primitives.getUInt(binary.read(position),
+                                  binary.read(position + 1),
+                                  binary.read(position + 2),
+                                  binary.read(position + 3));
+    }
+
     public static long getLong(Binary binary, long position) {
         return Primitives.getLong(binary.read(position),
                                   binary.read(position + 1),

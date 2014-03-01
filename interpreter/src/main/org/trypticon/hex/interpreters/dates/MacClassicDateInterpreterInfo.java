@@ -16,31 +16,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives;
+package org.trypticon.hex.interpreters.dates;
+
+import org.trypticon.hex.interpreters.Interpreter;
+import org.trypticon.hex.interpreters.InterpreterInfo;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
- * Utilities for building primitives from bytes.
+ * Info for {@link MacClassicDateInterpreter}.
  *
  * @author trejkaz
  */
-public class Primitives {
-    static short getShort(byte b1, byte b2) {
-        return (short) getUShort(b1, b2);
+public class MacClassicDateInterpreterInfo implements InterpreterInfo {
+    @Override
+    public String getHumanName() {
+        return "32-bit Mac Classic Date";
     }
 
-    static int getUShort(byte b1, byte b2) {
-        return ((b1 & 0xFF) << 8) | (b2 & 0xFF);
+    @Override
+    public List<InterpreterInfo.Option> getOptions() {
+        return Collections.emptyList();
     }
 
-    static int getInt(byte b1, byte b2, byte b3, byte b4) {
-        return ((b1 & 0xFF) << 24) | ((b2 & 0xFF) << 16) | ((b3 & 0xFF) << 8) | (b4 & 0xFF);
-    }
-
-    static long getUInt(byte b1, byte b2, byte b3, byte b4) {
-        return (long) getInt(b1, b2, b3, b4) & 0xFFFFFFFFL;
-    }
-
-    static long getLong(byte b1, byte b2, byte b3, byte b4, byte b5, byte b6, byte b7, byte b8) {
-        return (long) getInt(b1, b2, b3, b4) << 32 | getInt(b5, b6, b7, b8);
+    @Override
+    public Interpreter create(Map<String, Object> options) {
+        return new MacClassicDateInterpreter();
     }
 }

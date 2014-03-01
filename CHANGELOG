@@ -7,6 +7,7 @@ Version X.X (XXXX-XX-XX)
      New: Added interpreter for Windows OLE VT_DATE / PT_APPTIME.
      New: Added interpreter for IBM Notes TIMEDATE.
      New: Added interpreter for Mac OS X NSDate / CFDateRef.
+     New: Added interpreter for classic Mac OS dates.
 
 Version 0.4 (2013-12-01)
 
