@@ -19,12 +19,33 @@
 package org.trypticon.hex.interpreters.dates;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 /**
- * Abstract date-time value using {@link Calendar} to compute the date.
+ * A date-time value using {@link Calendar} to compute the date based on an epoch
+ * and the offsets the subclass passes in.
  */
-public abstract class AbstractCalendarDateTime implements DateTime {
+public class EpochDateTime implements DateTime {
+    private final int length;
+    private final long millis;
+    private final int remainingNanos;
     private Calendar calendar;
+
+    /**
+     * Constructs the date-time.
+     *
+     * @param length the length of the structure.
+     * @param epoch the epoch to calculate the time from
+     * @param millisSinceEpoch the number of milliseconds since the epoch.
+     * @param remainingNanos any remaining nanoseconds which should be taken into account (workaround for
+     *                       the APIs not letting us put them into the date value until Java 8.)
+     */
+    public EpochDateTime(int length, long epoch, long millisSinceEpoch, int remainingNanos) {
+        this.length = length;
+        this.millis = epoch + millisSinceEpoch;
+        this.remainingNanos = remainingNanos;
+    }
 
     @Override
     public Date getDate() {
@@ -36,21 +57,21 @@ public abstract class AbstractCalendarDateTime implements DateTime {
         return new CalendarTime();
     }
 
+    @Override
+    public long length() {
+        return length;
+    }
+
     private Calendar getCalendar() {
         if (calendar == null) {
-            calendar = createCalendar();
+            calendar = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+            // add() doesn't support long so we manually add it like this.
+            calendar.setTimeInMillis(millis);
         }
         return calendar;
     }
 
-    /**
-     * Implemented by subclasses to create a calendar pointing at the appropriate date/time.
-     *
-     * @return the calendar.
-     */
-    protected abstract Calendar createCalendar();
-
-    protected class CalendarDate extends AbstractDate {
+    private class CalendarDate extends AbstractDate {
         @Override
         public int getYear() {
             return getCalendar().get(Calendar.YEAR);
@@ -73,7 +94,7 @@ public abstract class AbstractCalendarDateTime implements DateTime {
         }
     }
 
-    protected class CalendarTime extends AbstractTime {
+    private class CalendarTime extends AbstractTime {
         @Override
         public int getHour() {
             return getCalendar().get(Calendar.HOUR_OF_DAY);
@@ -91,7 +112,7 @@ public abstract class AbstractCalendarDateTime implements DateTime {
 
         @Override
         public int getNanos() {
-            return getCalendar().get(Calendar.MILLISECOND) * 1000000;
+            return getCalendar().get(Calendar.MILLISECOND) * 1000000 + remainingNanos;
         }
 
         @Override

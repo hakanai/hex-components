@@ -22,16 +22,14 @@ import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 import org.trypticon.hex.interpreters.primitives.LittleEndian;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
-
 /**
  * Interpreter for Windows NT {@code FILETIME} values, which are used in a number of other formats.
  *
  * @author trejkaz
  */
 public class WindowsFileTimeInterpreter extends AbstractFixedLengthInterpreter<DateTime> {
+    // Computed using Calendar for January 1, 1601 00:00 UTC and then just taking the value.
+    private static final long EPOCH = -11644473600000L;
 
     public WindowsFileTimeInterpreter() {
         super(DateTime.class, 8);
@@ -39,44 +37,12 @@ public class WindowsFileTimeInterpreter extends AbstractFixedLengthInterpreter<D
 
     @Override
     protected DateTime interpret(Binary binary, long position) {
-        return new FileTime(LittleEndian.getLong(binary, position));
-    }
+        // Value is the number of 100-nanosecond intervals since January 1, 1601 (UTC)
+        long value = LittleEndian.getLong(binary, position);
 
-    private static class FileTime extends AbstractCalendarDateTime {
-        // Computed using Calendar for the appropriate date and time and then just taking the value.
-        private static final long EPOCH = -11644473600000L;
+        long millis = value / 10000;
+        int remainingNanos = (int) (value % 10000) * 100;
 
-        private final long millis;
-        private final int remainingNanos;
-
-        private FileTime(long value) {
-            // Value is the number of 100-nanosecond intervals since January 1, 1601 (UTC)
-            millis = value / 10000;
-            remainingNanos = (int) (value - millis * 10000) * 100;
-        }
-
-        @Override
-        protected Calendar createCalendar() {
-            Calendar calendar = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
-            // add() doesn't support long so we manually add it like this.
-            calendar.setTimeInMillis(EPOCH + millis);
-            return calendar;
-        }
-
-        @Override
-        public Time getTime() {
-            return new CalendarTime() {
-                @Override
-                public int getNanos() {
-                    // Adding back the nanoseconds we had to take off to conform to the Calendar API.
-                    return super.getNanos() + remainingNanos;
-                }
-            };
-        }
-
-        @Override
-        public long length() {
-            return 8;
-        }
+        return new EpochDateTime(8, EPOCH, millis, remainingNanos);
     }
 }
