@@ -37,6 +37,7 @@ public class DateInterpreterStorage extends AbstractInterpreterStorage {
         register("win_file_time", WindowsFileTimeInterpreter.class);
         register("win_system_time", WindowsSystemTimeInterpreter.class);
         register("win_ole_date", WindowsOleDateInterpreter.class);
+        register("notes_time_date", NotesTimeDateInterpreter.class);
     }
 
     public List<InterpreterInfo> getInterpreterInfos() {
@@ -47,7 +48,8 @@ public class DateInterpreterStorage extends AbstractInterpreterStorage {
                              new DosDateTimeInterpreterInfo(),
                              new WindowsFileTimeInterpreterInfo(),
                              new WindowsSystemTimeInterpreterInfo(),
-                             new WindowsOleDateInterpreterInfo());
+                             new WindowsOleDateInterpreterInfo(),
+                             new NotesTimeDateInterpreterInfo());
     }
 
 }

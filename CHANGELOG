@@ -5,6 +5,7 @@ Version X.X (XXXX-XX-XX)
      New: Added interpreter for Windows NT FILETIME.
      New: Added interpreter for Windows NT SYSTEMTIME.
      New: Added interpreter for Windows OLE VT_DATE / PT_APPTIME.
+     New: Added interpreter for IBM Notes TIMEDATE.
 
 Version 0.4 (2013-12-01)
 

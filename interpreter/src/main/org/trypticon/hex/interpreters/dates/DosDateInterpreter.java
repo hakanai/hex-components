@@ -29,11 +29,6 @@ import org.trypticon.hex.interpreters.primitives.LittleEndian;
  * @author trejkaz
  */
 public class DosDateInterpreter extends AbstractFixedLengthInterpreter<Date> {
-    private static final BitField day = BitField.lowest(5);
-    private static final BitField month = day.next(4);
-    private static final BitField year = month.next(7);
-    private static final int YEAR_OFFSET = 1980;
-
     public DosDateInterpreter() {
         super(Date.class, 2);
     }
@@ -44,7 +39,13 @@ public class DosDateInterpreter extends AbstractFixedLengthInterpreter<Date> {
     }
 
     private static class DosDate extends AbstractDate {
+        private static final BitField day = BitField.lowest(5);
+        private static final BitField month = day.next(4);
+        private static final BitField year = month.next(7);
+        private static final int YEAR_OFFSET = 1980;
+
         private final short value;
+
         private DosDate(short value) {
             this.value = value;
         }

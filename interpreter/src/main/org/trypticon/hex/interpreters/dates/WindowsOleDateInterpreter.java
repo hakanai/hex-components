@@ -28,6 +28,7 @@ import org.trypticon.hex.interpreters.primitives.LittleEndian;
  * @author trejkaz
  */
 public class WindowsOleDateInterpreter extends AbstractFixedLengthInterpreter<DateTime> {
+    // Computed using Calendar for December 30, 1899 00:00 UTC and then just taking the value.
     private static final long EPOCH = -2209161600000L;
     private static final long MILLIS_IN_DAY = 86400000L;
     private static final long NANOS_IN_DAY = MILLIS_IN_DAY * 1000000;
