@@ -34,6 +34,11 @@ public class LittleEndian {
                                    binary.read(position));
     }
 
+    public static int getUShort(Binary binary, long position) {
+        return Primitives.getUShort(binary.read(position + 1),
+                                    binary.read(position));
+    }
+
     public static int getInt(Binary binary, long position) {
         return Primitives.getInt(binary.read(position + 3),
                                  binary.read(position + 2),

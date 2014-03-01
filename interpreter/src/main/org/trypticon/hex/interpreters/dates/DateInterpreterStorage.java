@@ -34,6 +34,8 @@ public class DateInterpreterStorage extends AbstractInterpreterStorage {
         register("dos_date", DosDateInterpreter.class);
         register("dos_time", DosTimeInterpreter.class);
         register("dos_date_time", DosDateTimeInterpreter.class);
+        register("win_file_time", WindowsFileTimeInterpreter.class);
+        register("win_system_time", WindowsSystemTimeInterpreter.class);
     }
 
     public List<InterpreterInfo> getInterpreterInfos() {
@@ -42,7 +44,8 @@ public class DateInterpreterStorage extends AbstractInterpreterStorage {
         return Arrays.asList(new DosDateInterpreterInfo(),
                              new DosTimeInterpreterInfo(),
                              new DosDateTimeInterpreterInfo(),
-                             new WindowsFileTimeInterpreterInfo());
+                             new WindowsFileTimeInterpreterInfo(),
+                             new WindowsSystemTimeInterpreterInfo());
     }
 
 }

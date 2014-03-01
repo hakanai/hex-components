@@ -18,13 +18,11 @@
 
 package org.trypticon.hex.interpreters.primitives;
 
-import org.junit.Assert;
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-
 import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.binary.BinaryFactory;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for {@link LittleEndian}.
@@ -38,5 +36,12 @@ public class LittleEndianTest {
         Binary binary = BinaryFactory.wrap(new byte[] { 0x01, 0x02, (byte) 0xC1, (byte) 0xC2 });
         assertEquals("Wrong value", (short) 0x0201, LittleEndian.getShort(binary, 0));
         assertEquals("Wrong value", (short) 0xC2C1, LittleEndian.getShort(binary, 2));
+    }
+
+    @Test
+    public void testGetUShort() {
+        Binary binary = BinaryFactory.wrap(new byte[] { 0x01, 0x02, (byte) 0xC1, (byte) 0xC2 });
+        assertEquals("Wrong value", 0x0201, LittleEndian.getUShort(binary, 0));
+        assertEquals("Wrong value", 0xC2C1, LittleEndian.getUShort(binary, 2));
     }
 }
