@@ -30,7 +30,6 @@ import org.trypticon.hex.interpreters.primitives.LittleEndian;
 public class NotesTimeDateInterpreter extends AbstractFixedLengthInterpreter<DateTime> {
     // Computed using Calendar for January 1, 4713 BC 00:00 UTC and then just taking the value.
     private static final long EPOCH = -210866803200000L;
-    private static final long MILLIS_IN_DAY = 86400000L;
 
     public NotesTimeDateInterpreter() {
         super(DateTime.class, 8);
@@ -59,7 +58,7 @@ public class NotesTimeDateInterpreter extends AbstractFixedLengthInterpreter<Dat
         //      Bits 27-24 contain the number of hours difference between the time zone and Greenwich mean time
         //      and bits 29-28 contain the number of 15-minute intervals in the difference."
 
-        long millis = (0xFFFFFF & dateValue) * MILLIS_IN_DAY + timeValue * 10;
+        long millis = (0xFFFFFF & dateValue) * DateConversion.MILLIS_IN_DAY + timeValue * 10;
 
         return new EpochDateTime(8, EPOCH, millis, 0);
     }

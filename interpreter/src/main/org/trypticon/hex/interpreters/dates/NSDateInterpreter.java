@@ -20,30 +20,32 @@ package org.trypticon.hex.interpreters.dates;
 
 import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
-import org.trypticon.hex.interpreters.primitives.LittleEndian;
+import org.trypticon.hex.interpreters.primitives.BigEndian;
 
 /**
- * Interpreter for Windows NT {@code FILETIME} values, which are used in a number of other formats.
+ * Interpreter for NeXTSTEP/Mac OS X {@code NSDate} / {@code CFDateRef} values.
  *
  * @author trejkaz
  */
-public class WindowsFileTimeInterpreter extends AbstractFixedLengthInterpreter<DateTime> {
-    // Computed using Calendar for January 1, 1601 00:00 UTC and then just taking the value.
-    private static final long EPOCH = -11644473600000L;
-    private static final int NANOS_PER_TIME_UNIT = 100;
-    private static final int TIME_UNITS_PER_MILLISECOND = 10000;
+public class NSDateInterpreter extends AbstractFixedLengthInterpreter<DateTime> {
+    // Computed using Calendar for January 1, 2001 00:00 UTC and then just taking the value.
+    private static final long EPOCH = 978307200000L;
 
-    public WindowsFileTimeInterpreter() {
+    protected NSDateInterpreter() {
         super(DateTime.class, 8);
     }
 
     @Override
     protected DateTime interpret(Binary binary, long position) {
-        // Value is the number of 100-nanosecond intervals since January 1, 1601 (UTC)
-        long value = LittleEndian.getLong(binary, position);
+        // Value is the number of seconds since January 1, 2001 (UTC)
+        double value = Double.longBitsToDouble(BigEndian.getLong(binary, position));
 
-        long millis = value / TIME_UNITS_PER_MILLISECOND;
-        int remainingNanos = (int) (value % TIME_UNITS_PER_MILLISECOND) * NANOS_PER_TIME_UNIT;
+        long wholeSeconds = (long) Math.floor(value);
+        long nanosInSecond = (long) (Math.abs(value - wholeSeconds) * DateConversion.NANOS_IN_SECOND);
+
+        long millis = wholeSeconds * DateConversion.MILLIS_IN_SECOND +
+                      nanosInSecond / DateConversion.NANOS_IN_MILLISECOND;
+        int remainingNanos = (int) (nanosInSecond % DateConversion.NANOS_IN_MILLISECOND);
 
         return new EpochDateTime(8, EPOCH, millis, remainingNanos);
     }

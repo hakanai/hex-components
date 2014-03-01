@@ -119,7 +119,7 @@ public class WindowsSystemTimeInterpreter extends AbstractFixedLengthInterpreter
 
         @Override
         public int getNanos() {
-            return millisecond * 1000000;
+            return millisecond * DateConversion.NANOS_IN_MILLISECOND;
         }
 
         @Override

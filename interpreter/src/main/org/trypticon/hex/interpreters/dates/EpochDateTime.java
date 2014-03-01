@@ -112,7 +112,7 @@ public class EpochDateTime implements DateTime {
 
         @Override
         public int getNanos() {
-            return getCalendar().get(Calendar.MILLISECOND) * 1000000 + remainingNanos;
+            return getCalendar().get(Calendar.MILLISECOND) * DateConversion.NANOS_IN_MILLISECOND + remainingNanos;
         }
 
         @Override

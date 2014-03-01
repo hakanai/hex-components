@@ -30,8 +30,6 @@ import org.trypticon.hex.interpreters.primitives.LittleEndian;
 public class WindowsOleDateInterpreter extends AbstractFixedLengthInterpreter<DateTime> {
     // Computed using Calendar for December 30, 1899 00:00 UTC and then just taking the value.
     private static final long EPOCH = -2209161600000L;
-    private static final long MILLIS_IN_DAY = 86400000L;
-    private static final long NANOS_IN_DAY = MILLIS_IN_DAY * 1000000;
 
     public WindowsOleDateInterpreter() {
         super(DateTime.class, 8);
@@ -53,10 +51,10 @@ public class WindowsOleDateInterpreter extends AbstractFixedLengthInterpreter<Da
 
         int wholeDays = value > 0 ? (int) Math.floor(value)
                                   : (int) Math.ceil(value);
-        int nanosInDay = (int) (Math.abs(value - wholeDays) * NANOS_IN_DAY);
+        long nanosInDay = (long) (Math.abs(value - wholeDays) * DateConversion.NANOS_IN_DAY);
 
-        long millis = wholeDays * MILLIS_IN_DAY + nanosInDay / 1000000;
-        int remainingNanos = nanosInDay % 1000000;
+        long millis = wholeDays * DateConversion.MILLIS_IN_DAY + nanosInDay / DateConversion.NANOS_IN_MILLISECOND;
+        int remainingNanos = (int) (nanosInDay % DateConversion.NANOS_IN_MILLISECOND);
 
         return new EpochDateTime(8, EPOCH, millis, remainingNanos);
     }
