@@ -16,25 +16,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.nulls;
+package org.trypticon.hex.interpreters.dates;
 
-import org.trypticon.hex.interpreters.AbstractInterpreterStorage;
+import org.trypticon.hex.interpreters.Interpreter;
 import org.trypticon.hex.interpreters.InterpreterInfo;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
- * Interpreter storage for null values.
+ * Info for {@link DosDateInterpreter}.
  *
  * @author trejkaz
  */
-public class NullInterpreterStorage extends AbstractInterpreterStorage {
-    public NullInterpreterStorage() {
-        register("null", NullInterpreter.class);
+public class DosDateInterpreterInfo implements InterpreterInfo {
+    @Override
+    public String getHumanName() {
+        return "16-bit MS-DOS Date";
     }
 
-    public List<InterpreterInfo> getInterpreterInfos() {
-        return Arrays.asList((InterpreterInfo) new NullInterpreterInfo());
+    @Override
+    public List<Option> getOptions() {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public Interpreter create(Map<String, Object> options) {
+        return new DosDateInterpreter();
     }
 }

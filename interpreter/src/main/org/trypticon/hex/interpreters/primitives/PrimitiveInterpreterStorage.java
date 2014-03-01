@@ -18,25 +18,18 @@
 
 package org.trypticon.hex.interpreters.primitives;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Arrays;
-
+import org.trypticon.hex.interpreters.AbstractInterpreterStorage;
 import org.trypticon.hex.interpreters.InterpreterInfo;
-import org.trypticon.hex.interpreters.Interpreter;
-import org.trypticon.hex.interpreters.InterpreterStorage;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Storage support for primitive interpreters.
  *
  * @author trejkaz
  */
-public class PrimitiveInterpreterStorage implements InterpreterStorage {
-    private final Map<Class<? extends Interpreter>, String> classToName =
-            new HashMap<>(10);
-    private final Map<String, Class<? extends Interpreter>> nameToClass =
-            new HashMap<>(10);
+public class PrimitiveInterpreterStorage extends AbstractInterpreterStorage {
 
     public PrimitiveInterpreterStorage() {
         register("uint8", UByteInterpreter.class);
@@ -50,11 +43,6 @@ public class PrimitiveInterpreterStorage implements InterpreterStorage {
         register("float32_le", FloatInterpreterLE.class);
         register("float64_be", DoubleInterpreterBE.class);
         register("float64_le", DoubleInterpreterLE.class);
-    }
-
-    private void register(String name, Class<? extends Interpreter> klass) {
-        classToName.put(klass, name);
-        nameToClass.put(name, klass);
     }
 
     public List<InterpreterInfo> getInterpreterInfos() {
@@ -71,34 +59,5 @@ public class PrimitiveInterpreterStorage implements InterpreterStorage {
                              new FloatInterpreterLEInfo(),
                              new DoubleInterpreterBEInfo(),
                              new DoubleInterpreterLEInfo());
-    }
-
-    @Override
-    public Map<String, Object> toMap(Interpreter interpreter) {
-        String name = classToName.get(interpreter.getClass());
-        if (name != null) {
-            Map<String, Object> result = new HashMap<>(1);
-            result.put("name", name);
-            return result;
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    public Interpreter fromMap(Map<String, Object> map) {
-        String name = (String) map.get("name");
-        Class<? extends Interpreter> klass = nameToClass.get(name);
-        if (klass != null) {
-            try {
-                return klass.newInstance();
-            } catch (InstantiationException e) {
-                throw new IllegalStateException("Constructor should have been no-op", e);
-            } catch (IllegalAccessException e) {
-                throw new IllegalStateException("Constructor should have been accessible", e);
-            }
-        } else {
-            return null;
-        }
     }
 }

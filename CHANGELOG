@@ -1,4 +1,8 @@
 
+Version X.X (XXXX-XX-XX)
+
+     New: DateInterpreterStorage for storage and retrieval of date interpreters.
+
 Version 0.4 (2013-12-01)
 
      New: HexViewer now contains its own scroll bar, rather than having you put it in a scroll pane.

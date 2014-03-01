@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.nulls;
+package org.trypticon.hex.interpreters.dates;
 
 import org.trypticon.hex.interpreters.AbstractInterpreterStorage;
 import org.trypticon.hex.interpreters.InterpreterInfo;
@@ -25,16 +25,23 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Interpreter storage for null values.
+ * Storage support for date interpreters.
  *
  * @author trejkaz
  */
-public class NullInterpreterStorage extends AbstractInterpreterStorage {
-    public NullInterpreterStorage() {
-        register("null", NullInterpreter.class);
+public class DateInterpreterStorage extends AbstractInterpreterStorage {
+    public DateInterpreterStorage() {
+        register("dos_date", DosDateInterpreter.class);
+        register("dos_time", DosTimeInterpreter.class);
+        register("dos_date_time", DosDateTimeInterpreter.class);
     }
 
     public List<InterpreterInfo> getInterpreterInfos() {
-        return Arrays.asList((InterpreterInfo) new NullInterpreterInfo());
+        // TODO: Interpreter info should be structured to allow categorising them as well, for menus.
+
+        return Arrays.asList(new DosDateInterpreterInfo(),
+                             new DosTimeInterpreterInfo(),
+                             new DosDateTimeInterpreterInfo());
     }
+
 }
