@@ -31,29 +31,39 @@ import java.util.List;
  */
 public class DateInterpreterStorage extends AbstractInterpreterStorage {
     public DateInterpreterStorage() {
+        register("c_time32_be", CTimeInterpreterBE32.class);
+        register("c_time32_le", CTimeInterpreterLE32.class);
+        register("c_time64_be", CTimeInterpreterBE64.class);
+        register("c_time64_le", CTimeInterpreterLE64.class);
+        register("java_time", JavaTimeInterpreter.class);
         register("dos_date", DosDateInterpreter.class);
         register("dos_time", DosTimeInterpreter.class);
         register("dos_date_time", DosDateTimeInterpreter.class);
         register("win_file_time", WindowsFileTimeInterpreter.class);
         register("win_system_time", WindowsSystemTimeInterpreter.class);
         register("win_ole_date", WindowsOleDateInterpreter.class);
-        register("notes_time_date", NotesTimeDateInterpreter.class);
         register("mac_osx_nsdate", MacNSDateInterpreter.class);
         register("mac_classic_date", MacClassicDateInterpreter.class);
+        register("notes_time_date", NotesTimeDateInterpreter.class);
     }
 
     public List<InterpreterInfo> getInterpreterInfos() {
         // TODO: Interpreter info should be structured to allow categorising them as well, for menus.
 
-        return Arrays.asList(new DosDateInterpreterInfo(),
+        return Arrays.asList(new CTimeInterpreterBE32Info(),
+                             new CTimeInterpreterLE32Info(),
+                             new CTimeInterpreterBE64Info(),
+                             new CTimeInterpreterLE64Info(),
+                             new JavaTimeInterpreterInfo(),
+                             new DosDateInterpreterInfo(),
                              new DosTimeInterpreterInfo(),
                              new DosDateTimeInterpreterInfo(),
                              new WindowsFileTimeInterpreterInfo(),
                              new WindowsSystemTimeInterpreterInfo(),
                              new WindowsOleDateInterpreterInfo(),
-                             new NotesTimeDateInterpreterInfo(),
                              new MacNSDateInterpreterInfo(),
-                             new MacClassicDateInterpreterInfo());
+                             new MacClassicDateInterpreterInfo(),
+                             new NotesTimeDateInterpreterInfo());
     }
 
 }

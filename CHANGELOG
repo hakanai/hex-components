@@ -2,12 +2,15 @@
 Version X.X (XXXX-XX-XX)
 
      New: DateInterpreterStorage for storage and retrieval of date interpreters.
-     New: Added interpreter for Windows NT FILETIME.
-     New: Added interpreter for Windows NT SYSTEMTIME.
-     New: Added interpreter for Windows OLE VT_DATE / PT_APPTIME.
-     New: Added interpreter for IBM Notes TIMEDATE.
-     New: Added interpreter for Mac OS X NSDate / CFDateRef.
-     New: Added interpreter for classic Mac OS dates.
+     New: Added new interpreters for dates and times:
+        * C time_t values
+        * Java time values
+        * Windows NT FILETIME
+        * Windows NT SYSTEMTIME
+        * Windows OLE VT_DATE / PT_APPTIME
+        * IBM Notes TIMEDATE
+        * Mac OS X NSDate / CFDateRef
+        * Mac OS classic dates
 
 Version 0.4 (2013-12-01)
 
