@@ -170,7 +170,9 @@ public class BasicHexViewerUI extends HexViewerUI {
             return;
         }
         Border border = UIManager.getBorder("ScrollPane.border");
-        border.paintBorder(viewer, g, 0, 0, viewer.getWidth() - scrollBar.getWidth(), viewer.getHeight());
+        if (border != null) {
+            border.paintBorder(viewer, g, 0, 0, viewer.getWidth() - scrollBar.getWidth(), viewer.getHeight());
+        }
     }
 
     /**
