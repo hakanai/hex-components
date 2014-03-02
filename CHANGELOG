@@ -12,6 +12,8 @@ Version X.X (XXXX-XX-XX)
         * Mac OS X NSDate / CFDateRef
         * Mac OS classic dates
 
+   Fixed: The hex viewport now properly paints its border so that you can see where your focus is.
+
 Version 0.4 (2013-12-01)
 
      New: HexViewer now contains its own scroll bar, rather than having you put it in a scroll pane.

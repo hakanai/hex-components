@@ -26,9 +26,11 @@ import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
+import javax.swing.JScrollBar;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 import javax.swing.UIManager;
+import javax.swing.border.Border;
 import javax.swing.plaf.ComponentUI;
 import java.awt.BasicStroke;
 import java.awt.Component;
@@ -36,6 +38,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseAdapter;
 import java.awt.geom.Line2D;
 
 /**
@@ -44,6 +49,9 @@ import java.awt.geom.Line2D;
  * @author trejkaz
  */
 public class BasicHexViewerUI extends HexViewerUI {
+    MouseAdapter mouseAdapter;
+    FocusListener focusAdapter;
+
     /**
      * Factory method called by Swing to construct the instance.
      *
@@ -140,16 +148,39 @@ public class BasicHexViewerUI extends HexViewerUI {
             g.fillRect(0, 0, clip.width, clip.height);
         }
 
-        paint((Graphics2D) g, (HexViewer) c);
+        paintHex((Graphics2D) g, (HexViewer) c);
+        paintBorder((Graphics2D) g, (HexViewer) c);
     }
 
     /**
-     * Paints the viewer.
+     * Paints the border.
      *
      * @param g the graphics context.
      * @param viewer the viewer.
      */
-    protected void paint(Graphics2D g, HexViewer viewer) {
+    protected void paintBorder(Graphics2D g, HexViewer viewer) {
+        JScrollBar scrollBar = null;
+        for (Component component : viewer.getComponents()) {
+            if (component instanceof JScrollBar) {
+                scrollBar = (JScrollBar) component;
+                break;
+            }
+        }
+        if (scrollBar == null) {
+            return;
+        }
+        Border border = UIManager.getBorder("ScrollPane.border");
+        border.paintBorder(viewer, g, 0, 0, viewer.getWidth() - scrollBar.getWidth(), viewer.getHeight());
+    }
+
+    /**
+     * Paints the hex display.
+     *
+     * @param g the graphics context.
+     * @param viewer the viewer.
+     */
+    protected void paintHex(Graphics2D g, HexViewer viewer) {
+
         Binary binary = viewer.getBinary();
         if (binary == null) {
             return;
@@ -279,6 +310,11 @@ public class BasicHexViewerUI extends HexViewerUI {
         installListeners((HexViewer) c);
     }
 
+    @Override
+    public void uninstallUI(JComponent c) {
+        uninstallListeners((HexViewer) c);
+    }
+
     protected void installDefaults(HexViewer viewer) {
         viewer.setBackground(UIManager.getColor("TextArea.background"));
     }
@@ -324,11 +360,37 @@ public class BasicHexViewerUI extends HexViewerUI {
     }
 
     protected void installListeners(HexViewer viewer) {
-        BasicMouseAdapter mouseAdapter = new BasicMouseAdapter();
+        mouseAdapter = new BasicMouseAdapter();
         viewer.addMouseListener(mouseAdapter);
         viewer.addMouseMotionListener(mouseAdapter);
         viewer.addMouseWheelListener(mouseAdapter);
+
+        focusAdapter = new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                e.getComponent().repaint();
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                e.getComponent().repaint();
+            }
+        };
+        viewer.addFocusListener(focusAdapter);
     }
 
+    protected void uninstallListeners(HexViewer viewer) {
+        if (mouseAdapter != null) {
+            viewer.removeMouseListener(mouseAdapter);
+            viewer.addMouseMotionListener(mouseAdapter);
+            viewer.addMouseWheelListener(mouseAdapter);
+            mouseAdapter = null;
+        }
+
+        if (focusAdapter != null) {
+            viewer.removeFocusListener(focusAdapter);
+            focusAdapter = null;
+        }
+    }
 
 }
