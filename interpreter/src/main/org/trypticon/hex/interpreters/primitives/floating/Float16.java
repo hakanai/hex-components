@@ -90,4 +90,8 @@ public class Float16 extends Number implements Value {
     public long length() {
         return 2;
     }
+
+    public String toString() {
+        return String.format("%.4G", 0.00000111f);
+    }
 }
