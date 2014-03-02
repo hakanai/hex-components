@@ -20,14 +20,18 @@ package org.trypticon.hex.interpreters.primitives;
 
 import org.trypticon.hex.interpreters.AbstractInterpreterStorage;
 import org.trypticon.hex.interpreters.InterpreterInfo;
-import org.trypticon.hex.interpreters.primitives.floating.DoubleInterpreterBE;
-import org.trypticon.hex.interpreters.primitives.floating.DoubleInterpreterBEInfo;
-import org.trypticon.hex.interpreters.primitives.floating.DoubleInterpreterLE;
-import org.trypticon.hex.interpreters.primitives.floating.DoubleInterpreterLEInfo;
-import org.trypticon.hex.interpreters.primitives.floating.FloatInterpreterBE;
-import org.trypticon.hex.interpreters.primitives.floating.FloatInterpreterBEInfo;
-import org.trypticon.hex.interpreters.primitives.floating.FloatInterpreterLE;
-import org.trypticon.hex.interpreters.primitives.floating.FloatInterpreterLEInfo;
+import org.trypticon.hex.interpreters.primitives.floating.Float16InterpreterBE;
+import org.trypticon.hex.interpreters.primitives.floating.Float16InterpreterBEInfo;
+import org.trypticon.hex.interpreters.primitives.floating.Float16InterpreterLE;
+import org.trypticon.hex.interpreters.primitives.floating.Float16InterpreterLEInfo;
+import org.trypticon.hex.interpreters.primitives.floating.Float32InterpreterBE;
+import org.trypticon.hex.interpreters.primitives.floating.Float32InterpreterBEInfo;
+import org.trypticon.hex.interpreters.primitives.floating.Float32InterpreterLE;
+import org.trypticon.hex.interpreters.primitives.floating.Float32InterpreterLEInfo;
+import org.trypticon.hex.interpreters.primitives.floating.Float64InterpreterBE;
+import org.trypticon.hex.interpreters.primitives.floating.Float64InterpreterBEInfo;
+import org.trypticon.hex.interpreters.primitives.floating.Float64InterpreterLE;
+import org.trypticon.hex.interpreters.primitives.floating.Float64InterpreterLEInfo;
 import org.trypticon.hex.interpreters.primitives.signed.SByteInterpreter;
 import org.trypticon.hex.interpreters.primitives.signed.SByteInterpreterInfo;
 import org.trypticon.hex.interpreters.primitives.signed.SIntInterpreterBE;
@@ -82,10 +86,12 @@ public class PrimitiveInterpreterStorage extends AbstractInterpreterStorage {
         register("uint32_le", UIntInterpreterLE.class);
         register("uint64_be", ULongInterpreterBE.class);
         register("uint64_le", ULongInterpreterLE.class);
-        register("float32_be", FloatInterpreterBE.class);
-        register("float32_le", FloatInterpreterLE.class);
-        register("float64_be", DoubleInterpreterBE.class);
-        register("float64_le", DoubleInterpreterLE.class);
+        register("float16_be", Float16InterpreterBE.class);
+        register("float16_le", Float16InterpreterLE.class);
+        register("float32_be", Float32InterpreterBE.class);
+        register("float32_le", Float32InterpreterLE.class);
+        register("float64_be", Float64InterpreterBE.class);
+        register("float64_le", Float64InterpreterLE.class);
     }
 
     @Override
@@ -105,9 +111,11 @@ public class PrimitiveInterpreterStorage extends AbstractInterpreterStorage {
                 new UIntInterpreterLEInfo(),
                 new ULongInterpreterBEInfo(),
                 new ULongInterpreterLEInfo(),
-                new FloatInterpreterBEInfo(),
-                new FloatInterpreterLEInfo(),
-                new DoubleInterpreterBEInfo(),
-                new DoubleInterpreterLEInfo());
+                new Float16InterpreterBEInfo(),
+                new Float16InterpreterLEInfo(),
+                new Float32InterpreterBEInfo(),
+                new Float32InterpreterLEInfo(),
+                new Float64InterpreterBEInfo(),
+                new Float64InterpreterLEInfo());
     }
 }

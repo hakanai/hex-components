@@ -24,17 +24,17 @@ import org.trypticon.hex.interpreters.Interpreter;
 import java.util.Map;
 
 /**
- * Info for {@link DoubleInterpreterBE}.
+ * Info for {@link Float64InterpreterLE}.
  *
  * @author trejkaz
  */
-public class DoubleInterpreterBEInfo extends AbstractInternalInterpreterInfo {
-    public DoubleInterpreterBEInfo() {
-        super("DoubleBE");
+public class Float64InterpreterLEInfo extends AbstractInternalInterpreterInfo {
+    public Float64InterpreterLEInfo() {
+        super("Float64LE");
     }
 
     @Override
     public Interpreter create(Map<String, Object> options) {
-        return new DoubleInterpreterBE();
+        return new Float64InterpreterLE();
     }
 }

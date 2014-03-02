@@ -16,25 +16,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives;
+package org.trypticon.hex.interpreters.primitives.floating;
 
-import java.math.BigInteger;
+import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
+import org.trypticon.hex.interpreters.Interpreter;
 
-import org.junit.Test;
-import org.trypticon.hex.interpreters.primitives.unsigned.ULong;
-
-import static org.junit.Assert.assertEquals;
+import java.util.Map;
 
 /**
- * Tests for {@link org.trypticon.hex.interpreters.primitives.unsigned.ULong}.
+ * Info for {@link Float32InterpreterLE}.
  *
  * @author trejkaz
  */
-public class ULongTest {
+public class Float32InterpreterLEInfo extends AbstractInternalInterpreterInfo {
+    public Float32InterpreterLEInfo() {
+        super("Float32LE");
+    }
 
-    @Test
-    public void testToString() {
-        BigInteger oneAboveMaxLong = BigInteger.valueOf(Long.MAX_VALUE).add(BigInteger.ONE);
-        assertEquals("Wrong string value", oneAboveMaxLong.toString(), new ULong(0x8000000000000000L).toString());
+    @Override
+    public Interpreter create(Map<String, Object> options) {
+        return new Float32InterpreterLE();
     }
 }

@@ -25,32 +25,32 @@ import org.trypticon.hex.interpreters.primitives.BigEndian;
 import java.lang.*;
 
 /**
- * Interprets 8-byte floating point numbers in IEEE754 format.
+ * Interprets 4-byte floating point numbers in IEEE754 format.
  *
  * @author trejkaz
  */
-public class DoubleInterpreterBE extends AbstractFixedLengthInterpreter<Double> {
-    public DoubleInterpreterBE() {
-        super(Double.class, 8);
+public class Float32InterpreterBE extends AbstractFixedLengthInterpreter<Float32> {
+    public Float32InterpreterBE() {
+        super(Float32.class, 4);
     }
 
     @Override
-    public Double interpret(Binary binary, long position) {
-        return new Double(java.lang.Double.longBitsToDouble(BigEndian.getLong(binary, position)));
+    public Float32 interpret(Binary binary, long position) {
+        return new Float32(java.lang.Float.intBitsToFloat(BigEndian.getInt(binary, position)));
     }
 
     @Override
     public boolean equals(Object o) {
-        return o == this || o instanceof DoubleInterpreterBE;
+        return o == this || o instanceof Float32InterpreterBE;
     }
 
     @Override
     public int hashCode() {
-        return 101641;
+        return 101321;
     }
 
     @Override
     public String toString() {
-        return "float8be";
+        return "float4be";
     }
 }

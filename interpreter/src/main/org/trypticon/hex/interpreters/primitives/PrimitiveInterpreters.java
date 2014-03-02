@@ -19,12 +19,15 @@
 package org.trypticon.hex.interpreters.primitives;
 
 import org.trypticon.hex.interpreters.Interpreter;
-import org.trypticon.hex.interpreters.primitives.floating.Double;
-import org.trypticon.hex.interpreters.primitives.floating.DoubleInterpreterBE;
-import org.trypticon.hex.interpreters.primitives.floating.DoubleInterpreterLE;
-import org.trypticon.hex.interpreters.primitives.floating.Float;
-import org.trypticon.hex.interpreters.primitives.floating.FloatInterpreterBE;
-import org.trypticon.hex.interpreters.primitives.floating.FloatInterpreterLE;
+import org.trypticon.hex.interpreters.primitives.floating.Float16;
+import org.trypticon.hex.interpreters.primitives.floating.Float16InterpreterBE;
+import org.trypticon.hex.interpreters.primitives.floating.Float16InterpreterLE;
+import org.trypticon.hex.interpreters.primitives.floating.Float32;
+import org.trypticon.hex.interpreters.primitives.floating.Float32InterpreterBE;
+import org.trypticon.hex.interpreters.primitives.floating.Float32InterpreterLE;
+import org.trypticon.hex.interpreters.primitives.floating.Float64;
+import org.trypticon.hex.interpreters.primitives.floating.Float64InterpreterBE;
+import org.trypticon.hex.interpreters.primitives.floating.Float64InterpreterLE;
 import org.trypticon.hex.interpreters.primitives.signed.SByte;
 import org.trypticon.hex.interpreters.primitives.signed.SByteInterpreter;
 import org.trypticon.hex.interpreters.primitives.signed.SInt;
@@ -70,8 +73,10 @@ public class PrimitiveInterpreters {
     public static final Interpreter<ULong> UINT64_BE = new ULongInterpreterBE();
     public static final Interpreter<ULong> UINT64_LE = new ULongInterpreterLE();
 
-    public static final Interpreter<Float> FLOAT32_BE = new FloatInterpreterBE();
-    public static final Interpreter<Float> FLOAT32_LE = new FloatInterpreterLE();
-    public static final Interpreter<Double> FLOAT64_BE = new DoubleInterpreterBE();
-    public static final Interpreter<Double> FLOAT64_LE = new DoubleInterpreterLE();
+    public static final Interpreter<Float16> FLOAT16_BE = new Float16InterpreterBE();
+    public static final Interpreter<Float16> FLOAT16_LE = new Float16InterpreterLE();
+    public static final Interpreter<Float32> FLOAT32_BE = new Float32InterpreterBE();
+    public static final Interpreter<Float32> FLOAT32_LE = new Float32InterpreterLE();
+    public static final Interpreter<Float64> FLOAT64_BE = new Float64InterpreterBE();
+    public static final Interpreter<Float64> FLOAT64_LE = new Float64InterpreterLE();
 }

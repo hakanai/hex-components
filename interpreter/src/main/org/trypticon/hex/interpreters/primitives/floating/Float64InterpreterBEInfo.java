@@ -18,50 +18,23 @@
 
 package org.trypticon.hex.interpreters.primitives.floating;
 
-import org.trypticon.hex.interpreters.Value;
+import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
+import org.trypticon.hex.interpreters.Interpreter;
+
+import java.util.Map;
 
 /**
- * Wraps a Java {@code float} as a {@code Value}.
+ * Info for {@link Float64InterpreterBE}.
  *
  * @author trejkaz
  */
-public class Float extends Number implements Value {
-    private final float value;
-
-    public Float(float value) {
-        this.value = value;
-    }
-
-    public byte getValue() {
-        return (byte) value;
+public class Float64InterpreterBEInfo extends AbstractInternalInterpreterInfo {
+    public Float64InterpreterBEInfo() {
+        super("Float64BE");
     }
 
     @Override
-    public int intValue() {
-        return (int) value;
-    }
-
-    @Override
-    public long longValue() {
-        return (long) value;
-    }
-
-    @Override
-    public float floatValue() {
-        return value;
-    }
-
-    @Override
-    public double doubleValue() {
-        return value;
-    }
-
-    @Override
-    public long length() {
-        return 1;
-    }
-
-    public String toString() {
-        return String.valueOf(value);
+    public Interpreter create(Map<String, Object> options) {
+        return new Float64InterpreterBE();
     }
 }

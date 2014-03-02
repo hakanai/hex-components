@@ -20,37 +20,35 @@ package org.trypticon.hex.interpreters.primitives.floating;
 
 import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
-import org.trypticon.hex.interpreters.primitives.LittleEndian;
-
-import java.lang.*;
+import org.trypticon.hex.interpreters.primitives.BigEndian;
 
 /**
- * Interprets 8-byte floating point numbers in IEEE754 format.
+ * Interprets 2-byte floating point numbers in IEEE754 format.
  *
  * @author trejkaz
  */
-public class DoubleInterpreterLE extends AbstractFixedLengthInterpreter<Double> {
-    public DoubleInterpreterLE() {
-        super(Double.class, 8);
+public class Float16InterpreterBE extends AbstractFixedLengthInterpreter<Float16> {
+    public Float16InterpreterBE() {
+        super(Float16.class, 2);
     }
 
     @Override
-    public Double interpret(Binary binary, long position) {
-        return new Double(java.lang.Double.longBitsToDouble(LittleEndian.getLong(binary, position)));
+    public Float16 interpret(Binary binary, long position) {
+        return new Float16(BigEndian.getShort(binary, position));
     }
 
     @Override
     public boolean equals(Object o) {
-        return o == this || o instanceof DoubleInterpreterLE;
+        return o == this || o instanceof Float16InterpreterBE;
     }
 
     @Override
     public int hashCode() {
-        return 101642;
+        return 101161;
     }
 
     @Override
     public String toString() {
-        return "float8le";
+        return "float2be";
     }
 }

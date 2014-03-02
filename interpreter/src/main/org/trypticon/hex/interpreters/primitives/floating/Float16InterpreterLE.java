@@ -18,50 +18,37 @@
 
 package org.trypticon.hex.interpreters.primitives.floating;
 
-import org.trypticon.hex.interpreters.Value;
+import org.trypticon.hex.binary.Binary;
+import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
+import org.trypticon.hex.interpreters.primitives.LittleEndian;
 
 /**
- * Wraps a Java {@code double} as a {@code Value}.
+ * Interprets 2-byte floating point numbers in IEEE754 format.
  *
  * @author trejkaz
  */
-public class Double extends Number implements Value {
-    private final double value;
-
-    public Double(double value) {
-        this.value = value;
-    }
-
-    public byte getValue() {
-        return (byte) value;
+public class Float16InterpreterLE extends AbstractFixedLengthInterpreter<Float16> {
+    public Float16InterpreterLE() {
+        super(Float16.class, 2);
     }
 
     @Override
-    public int intValue() {
-        return (int) value;
+    public Float16 interpret(Binary binary, long position) {
+        return new Float16(LittleEndian.getShort(binary, position));
     }
 
     @Override
-    public long longValue() {
-        return (long) value;
+    public boolean equals(Object o) {
+        return o == this || o instanceof Float16InterpreterLE;
     }
 
     @Override
-    public float floatValue() {
-        return (float) value;
+    public int hashCode() {
+        return 101161;
     }
 
     @Override
-    public double doubleValue() {
-        return value;
-    }
-
-    @Override
-    public long length() {
-        return 1;
-    }
-
     public String toString() {
-        return String.valueOf(value);
+        return "float2le";
     }
 }

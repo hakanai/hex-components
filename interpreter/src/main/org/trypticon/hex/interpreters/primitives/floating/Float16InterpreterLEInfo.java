@@ -24,17 +24,17 @@ import org.trypticon.hex.interpreters.Interpreter;
 import java.util.Map;
 
 /**
- * Info for {@link DoubleInterpreterLE}.
+ * Info for {@link org.trypticon.hex.interpreters.primitives.floating.Float16InterpreterLE}.
  *
  * @author trejkaz
  */
-public class DoubleInterpreterLEInfo extends AbstractInternalInterpreterInfo {
-    public DoubleInterpreterLEInfo() {
-        super("DoubleLE");
+public class Float16InterpreterLEInfo extends AbstractInternalInterpreterInfo {
+    public Float16InterpreterLEInfo() {
+        super("Float16LE");
     }
 
     @Override
     public Interpreter create(Map<String, Object> options) {
-        return new DoubleInterpreterLE();
+        return new Float16InterpreterLE();
     }
 }

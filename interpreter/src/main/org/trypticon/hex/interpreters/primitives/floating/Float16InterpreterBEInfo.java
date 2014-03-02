@@ -18,39 +18,23 @@
 
 package org.trypticon.hex.interpreters.primitives.floating;
 
-import org.trypticon.hex.binary.Binary;
-import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
-import org.trypticon.hex.interpreters.primitives.LittleEndian;
+import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
+import org.trypticon.hex.interpreters.Interpreter;
 
-import java.lang.*;
+import java.util.Map;
 
 /**
- * Interprets 4-byte floating point numbers in IEEE754 format.
+ * Info for {@link org.trypticon.hex.interpreters.primitives.floating.Float16InterpreterBE}.
  *
  * @author trejkaz
  */
-public class FloatInterpreterLE extends AbstractFixedLengthInterpreter<Float> {
-    public FloatInterpreterLE() {
-        super(Float.class, 4);
+public class Float16InterpreterBEInfo extends AbstractInternalInterpreterInfo {
+    public Float16InterpreterBEInfo() {
+        super("Float16BE");
     }
 
     @Override
-    public Float interpret(Binary binary, long position) {
-        return new Float(java.lang.Float.intBitsToFloat(LittleEndian.getInt(binary, position)));
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        return o == this || o instanceof FloatInterpreterLE;
-    }
-
-    @Override
-    public int hashCode() {
-        return 101321;
-    }
-
-    @Override
-    public String toString() {
-        return "float4le";
+    public Interpreter create(Map<String, Object> options) {
+        return new Float16InterpreterBE();
     }
 }

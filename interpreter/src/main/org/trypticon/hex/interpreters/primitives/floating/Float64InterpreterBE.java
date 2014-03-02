@@ -18,23 +18,39 @@
 
 package org.trypticon.hex.interpreters.primitives.floating;
 
-import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
-import org.trypticon.hex.interpreters.Interpreter;
+import org.trypticon.hex.binary.Binary;
+import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
+import org.trypticon.hex.interpreters.primitives.BigEndian;
 
-import java.util.Map;
+import java.lang.*;
 
 /**
- * Info for {@link FloatInterpreterBE}.
+ * Interprets 8-byte floating point numbers in IEEE754 format.
  *
  * @author trejkaz
  */
-public class FloatInterpreterBEInfo extends AbstractInternalInterpreterInfo {
-    public FloatInterpreterBEInfo() {
-        super("FloatBE");
+public class Float64InterpreterBE extends AbstractFixedLengthInterpreter<Float64> {
+    public Float64InterpreterBE() {
+        super(Float64.class, 8);
     }
 
     @Override
-    public Interpreter create(Map<String, Object> options) {
-        return new FloatInterpreterBE();
+    public Float64 interpret(Binary binary, long position) {
+        return new Float64(java.lang.Double.longBitsToDouble(BigEndian.getLong(binary, position)));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o == this || o instanceof Float64InterpreterBE;
+    }
+
+    @Override
+    public int hashCode() {
+        return 101641;
+    }
+
+    @Override
+    public String toString() {
+        return "float8be";
     }
 }
