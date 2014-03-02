@@ -20,6 +20,28 @@ package org.trypticon.hex.interpreters.primitives;
 
 import org.trypticon.hex.interpreters.AbstractInterpreterStorage;
 import org.trypticon.hex.interpreters.InterpreterInfo;
+import org.trypticon.hex.interpreters.primitives.floating.DoubleInterpreterBE;
+import org.trypticon.hex.interpreters.primitives.floating.DoubleInterpreterBEInfo;
+import org.trypticon.hex.interpreters.primitives.floating.DoubleInterpreterLE;
+import org.trypticon.hex.interpreters.primitives.floating.DoubleInterpreterLEInfo;
+import org.trypticon.hex.interpreters.primitives.floating.FloatInterpreterBE;
+import org.trypticon.hex.interpreters.primitives.floating.FloatInterpreterBEInfo;
+import org.trypticon.hex.interpreters.primitives.floating.FloatInterpreterLE;
+import org.trypticon.hex.interpreters.primitives.floating.FloatInterpreterLEInfo;
+import org.trypticon.hex.interpreters.primitives.unsigned.UByteInterpreter;
+import org.trypticon.hex.interpreters.primitives.unsigned.UByteInterpreterInfo;
+import org.trypticon.hex.interpreters.primitives.unsigned.UIntInterpreterBE;
+import org.trypticon.hex.interpreters.primitives.unsigned.UIntInterpreterBEInfo;
+import org.trypticon.hex.interpreters.primitives.unsigned.UIntInterpreterLE;
+import org.trypticon.hex.interpreters.primitives.unsigned.UIntInterpreterLEInfo;
+import org.trypticon.hex.interpreters.primitives.unsigned.ULongInterpreterBE;
+import org.trypticon.hex.interpreters.primitives.unsigned.ULongInterpreterBEInfo;
+import org.trypticon.hex.interpreters.primitives.unsigned.ULongInterpreterLE;
+import org.trypticon.hex.interpreters.primitives.unsigned.ULongInterpreterLEInfo;
+import org.trypticon.hex.interpreters.primitives.unsigned.UShortInterpreterBE;
+import org.trypticon.hex.interpreters.primitives.unsigned.UShortInterpreterBEInfo;
+import org.trypticon.hex.interpreters.primitives.unsigned.UShortInterpreterLE;
+import org.trypticon.hex.interpreters.primitives.unsigned.UShortInterpreterLEInfo;
 
 import java.util.Arrays;
 import java.util.List;

@@ -16,39 +16,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives;
+package org.trypticon.hex.interpreters.primitives.unsigned;
 
 import org.trypticon.hex.interpreters.Value;
 
 /**
- * Wraps a Java {@code double} as a {@code Value}.
+ * An unsigned short value.
  *
  * @author trejkaz
  */
-public class Double extends Number implements Value {
-    private final double value;
+public class UShort extends Number implements Value {
+    private final short value;
 
-    public Double(double value) {
+    public UShort(short value) {
         this.value = value;
     }
 
-    public byte getValue() {
-        return (byte) value;
+    public short getValue() {
+        return value;
     }
 
     @Override
     public int intValue() {
-        return (int) value;
+        return value & 0xFFFF;
     }
 
     @Override
     public long longValue() {
-        return (long) value;
+        return value & 0xFFFF;
     }
 
     @Override
     public float floatValue() {
-        return (float) value;
+        return value;
     }
 
     @Override
@@ -58,10 +58,10 @@ public class Double extends Number implements Value {
 
     @Override
     public long length() {
-        return 1;
+        return 2;
     }
 
     public String toString() {
-        return String.valueOf(value);
+        return String.valueOf(value & 0xFFFF);
     }
 }

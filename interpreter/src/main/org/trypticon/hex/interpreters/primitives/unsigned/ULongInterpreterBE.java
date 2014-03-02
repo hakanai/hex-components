@@ -16,52 +16,44 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives;
+package org.trypticon.hex.interpreters.primitives.unsigned;
 
-import org.trypticon.hex.interpreters.Value;
+import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
+import org.trypticon.hex.binary.Binary;
+import org.trypticon.hex.interpreters.primitives.BigEndian;
 
 /**
- * An unsigned int value.
+ * Interpreter for unsigned long values.
  *
  * @author trejkaz
  */
-public class UInt extends Number implements Value {
-    private final int value;
-
-    public UInt(int value) {
-        this.value = value;
-    }
-
-    public int getValue() {
-        return value;
+public class ULongInterpreterBE extends AbstractFixedLengthInterpreter<ULong> {
+    public ULongInterpreterBE() {
+        super(ULong.class, 8);
     }
 
     @Override
-    public int intValue() {
-        return value;
+    public Class<ULong> getType() {
+        return ULong.class;
     }
 
     @Override
-    public long longValue() {
-        return value & 0xFFFFFFFFL;
+    public ULong interpret(Binary binary, long position) {
+        return new ULong(BigEndian.getLong(binary, position));
     }
 
     @Override
-    public float floatValue() {
-        return value;
+    public boolean equals(Object o) {
+        return o == this || o instanceof ULongInterpreterBE;
     }
 
     @Override
-    public double doubleValue() {
-        return value;
+    public int hashCode() {
+        return 100641;
     }
 
     @Override
-    public long length() {
-        return 4;
-    }
-
     public String toString() {
-        return String.valueOf(value & 0xFFFFFFFFL);
+        return "uint8be";
     }
 }

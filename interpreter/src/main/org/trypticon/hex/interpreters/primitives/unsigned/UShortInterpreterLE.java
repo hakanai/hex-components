@@ -16,58 +16,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives;
+package org.trypticon.hex.interpreters.primitives.unsigned;
 
-import java.math.BigInteger;
-
-import org.trypticon.hex.interpreters.Value;
+import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
+import org.trypticon.hex.binary.Binary;
+import org.trypticon.hex.interpreters.primitives.LittleEndian;
 
 /**
- * An unsigned int value.
+ * Interpreter for unsigned short values.
  *
  * @author trejkaz
  */
-public class ULong extends Number implements Value {
-    private final long value;
-
-    public ULong(long value) {
-        this.value = value;
-    }
-
-    public long getValue() {
-        return value;
+public class UShortInterpreterLE extends AbstractFixedLengthInterpreter<UShort> {
+    public UShortInterpreterLE() {
+        super(UShort.class, 2);
     }
 
     @Override
-    public int intValue() {
-        return (int) value;
+    public UShort interpret(Binary binary, long position) {
+        return new UShort(LittleEndian.getShort(binary, position));
     }
 
     @Override
-    public long longValue() {
-        return value;
+    public boolean equals(Object o) {
+        return o == this || o instanceof UShortInterpreterLE;
     }
 
     @Override
-    public float floatValue() {
-        return value;
+    public int hashCode() {
+        return 100162;
     }
 
     @Override
-    public double doubleValue() {
-        return value;
-    }
-
-    @Override
-    public long length() {
-        return 8;
-    }
-
     public String toString() {
-        BigInteger signed = BigInteger.valueOf(value);
-        if (signed.signum() < 0) {
-            signed = signed.add(BigInteger.ONE.shiftLeft(64));
-        }
-        return signed.toString();
+        return "uint2le";
     }
 }

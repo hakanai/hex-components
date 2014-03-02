@@ -16,38 +16,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives;
+package org.trypticon.hex.interpreters.primitives.floating;
 
-import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 import org.trypticon.hex.binary.Binary;
+import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
+import org.trypticon.hex.interpreters.primitives.LittleEndian;
+
+import java.lang.*;
 
 /**
- * Interpreter for unsigned short values.
+ * Interprets 8-byte floating point numbers in IEEE754 format.
  *
  * @author trejkaz
  */
-public class UShortInterpreterLE extends AbstractFixedLengthInterpreter<UShort> {
-    public UShortInterpreterLE() {
-        super(UShort.class, 2);
+public class DoubleInterpreterLE extends AbstractFixedLengthInterpreter<Double> {
+    public DoubleInterpreterLE() {
+        super(Double.class, 8);
     }
 
     @Override
-    public UShort interpret(Binary binary, long position) {
-        return new UShort(LittleEndian.getShort(binary, position));
+    public Double interpret(Binary binary, long position) {
+        return new Double(java.lang.Double.longBitsToDouble(LittleEndian.getLong(binary, position)));
     }
 
     @Override
     public boolean equals(Object o) {
-        return o == this || o instanceof UShortInterpreterLE;
+        return o == this || o instanceof DoubleInterpreterLE;
     }
 
     @Override
     public int hashCode() {
-        return 100162;
+        return 101642;
     }
 
     @Override
     public String toString() {
-        return "uint2le";
+        return "float8le";
     }
 }

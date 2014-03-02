@@ -16,38 +16,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives;
+package org.trypticon.hex.interpreters.primitives.unsigned;
 
-import org.trypticon.hex.binary.Binary;
-import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
+import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
+import org.trypticon.hex.interpreters.Interpreter;
+
+import java.util.Map;
 
 /**
- * Interprets 4-byte floating point numbers in IEEE754 format.
+ * Info for {@link UShortInterpreterBE}.
  *
  * @author trejkaz
  */
-public class FloatInterpreterBE extends AbstractFixedLengthInterpreter<Float> {
-    public FloatInterpreterBE() {
-        super(Float.class, 4);
+public class UShortInterpreterBEInfo extends AbstractInternalInterpreterInfo {
+    public UShortInterpreterBEInfo() {
+        super("UShortBE");
     }
 
     @Override
-    public Float interpret(Binary binary, long position) {
-        return new Float(java.lang.Float.intBitsToFloat(BigEndian.getInt(binary, position)));
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        return o == this || o instanceof FloatInterpreterBE;
-    }
-
-    @Override
-    public int hashCode() {
-        return 101321;
-    }
-
-    @Override
-    public String toString() {
-        return "float4be";
+    public Interpreter create(Map<String, Object> options) {
+        return new UShortInterpreterBE();
     }
 }

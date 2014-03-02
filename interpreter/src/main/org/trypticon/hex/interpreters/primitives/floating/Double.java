@@ -16,25 +16,52 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives;
+package org.trypticon.hex.interpreters.primitives.floating;
 
-import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
-import org.trypticon.hex.interpreters.Interpreter;
-
-import java.util.Map;
+import org.trypticon.hex.interpreters.Value;
 
 /**
- * Info for {@link UShortInterpreterBE}.
+ * Wraps a Java {@code double} as a {@code Value}.
  *
  * @author trejkaz
  */
-public class UShortInterpreterBEInfo extends AbstractInternalInterpreterInfo {
-    public UShortInterpreterBEInfo() {
-        super("UShortBE");
+public class Double extends Number implements Value {
+    private final double value;
+
+    public Double(double value) {
+        this.value = value;
+    }
+
+    public byte getValue() {
+        return (byte) value;
     }
 
     @Override
-    public Interpreter create(Map<String, Object> options) {
-        return new UShortInterpreterBE();
+    public int intValue() {
+        return (int) value;
+    }
+
+    @Override
+    public long longValue() {
+        return (long) value;
+    }
+
+    @Override
+    public float floatValue() {
+        return (float) value;
+    }
+
+    @Override
+    public double doubleValue() {
+        return value;
+    }
+
+    @Override
+    public long length() {
+        return 1;
+    }
+
+    public String toString() {
+        return String.valueOf(value);
     }
 }

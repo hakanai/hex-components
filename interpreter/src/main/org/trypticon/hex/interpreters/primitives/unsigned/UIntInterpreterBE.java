@@ -16,38 +16,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives;
+package org.trypticon.hex.interpreters.primitives.unsigned;
 
-import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
+import org.trypticon.hex.binary.Binary;
+import org.trypticon.hex.interpreters.primitives.BigEndian;
 
 /**
- * Interprets 8-byte floating point numbers in IEEE754 format.
+ * Interpreter for unsigned int values.
  *
  * @author trejkaz
  */
-public class DoubleInterpreterBE extends AbstractFixedLengthInterpreter<Double> {
-    public DoubleInterpreterBE() {
-        super(Double.class, 8);
+public class UIntInterpreterBE extends AbstractFixedLengthInterpreter<UInt> {
+    public UIntInterpreterBE() {
+        super(UInt.class, 4);
     }
 
     @Override
-    public Double interpret(Binary binary, long position) {
-        return new Double(java.lang.Double.longBitsToDouble(BigEndian.getLong(binary, position)));
+    public UInt interpret(Binary binary, long position) {
+        return new UInt(BigEndian.getInt(binary, position));
     }
 
     @Override
     public boolean equals(Object o) {
-        return o == this || o instanceof DoubleInterpreterBE;
+        return o == this || o instanceof UIntInterpreterBE;
     }
 
     @Override
     public int hashCode() {
-        return 101641;
+        return 100321;
     }
 
     @Override
     public String toString() {
-        return "float8be";
+        return "uint4be";
     }
 }

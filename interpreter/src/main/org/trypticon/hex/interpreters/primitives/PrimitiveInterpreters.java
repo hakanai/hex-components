@@ -19,6 +19,20 @@
 package org.trypticon.hex.interpreters.primitives;
 
 import org.trypticon.hex.interpreters.Interpreter;
+import org.trypticon.hex.interpreters.primitives.floating.*;
+import org.trypticon.hex.interpreters.primitives.floating.Double;
+import org.trypticon.hex.interpreters.primitives.floating.Float;
+import org.trypticon.hex.interpreters.primitives.unsigned.UByte;
+import org.trypticon.hex.interpreters.primitives.unsigned.UByteInterpreter;
+import org.trypticon.hex.interpreters.primitives.unsigned.UInt;
+import org.trypticon.hex.interpreters.primitives.unsigned.UIntInterpreterBE;
+import org.trypticon.hex.interpreters.primitives.unsigned.UIntInterpreterLE;
+import org.trypticon.hex.interpreters.primitives.unsigned.ULong;
+import org.trypticon.hex.interpreters.primitives.unsigned.ULongInterpreterBE;
+import org.trypticon.hex.interpreters.primitives.unsigned.ULongInterpreterLE;
+import org.trypticon.hex.interpreters.primitives.unsigned.UShort;
+import org.trypticon.hex.interpreters.primitives.unsigned.UShortInterpreterBE;
+import org.trypticon.hex.interpreters.primitives.unsigned.UShortInterpreterLE;
 
 /**
  * Convenience class holding a bunch of instances to primitive interpreters.
@@ -36,6 +50,6 @@ public class PrimitiveInterpreters {
 
     public static final Interpreter<Float> FLOAT32_BE = new FloatInterpreterBE();
     public static final Interpreter<Float> FLOAT32_LE = new FloatInterpreterLE();
-    public static final Interpreter<Double> FLOAT64_BE = new DoubleInterpreterBE();
+    public static final Interpreter<org.trypticon.hex.interpreters.primitives.floating.Double> FLOAT64_BE = new DoubleInterpreterBE();
     public static final Interpreter<Double> FLOAT64_LE = new DoubleInterpreterLE();
 }

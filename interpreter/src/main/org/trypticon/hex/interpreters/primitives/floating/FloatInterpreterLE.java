@@ -16,52 +16,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives;
+package org.trypticon.hex.interpreters.primitives.floating;
 
-import org.trypticon.hex.interpreters.Value;
+import org.trypticon.hex.binary.Binary;
+import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
+import org.trypticon.hex.interpreters.primitives.LittleEndian;
+
+import java.lang.*;
 
 /**
- * Wraps a Java {@code float} as a {@code Value}.
+ * Interprets 4-byte floating point numbers in IEEE754 format.
  *
  * @author trejkaz
  */
-public class Float extends Number implements Value {
-    private final float value;
-
-    public Float(float value) {
-        this.value = value;
-    }
-
-    public byte getValue() {
-        return (byte) value;
+public class FloatInterpreterLE extends AbstractFixedLengthInterpreter<Float> {
+    public FloatInterpreterLE() {
+        super(Float.class, 4);
     }
 
     @Override
-    public int intValue() {
-        return (int) value;
+    public Float interpret(Binary binary, long position) {
+        return new Float(java.lang.Float.intBitsToFloat(LittleEndian.getInt(binary, position)));
     }
 
     @Override
-    public long longValue() {
-        return (long) value;
+    public boolean equals(Object o) {
+        return o == this || o instanceof FloatInterpreterLE;
     }
 
     @Override
-    public float floatValue() {
-        return value;
+    public int hashCode() {
+        return 101321;
     }
 
     @Override
-    public double doubleValue() {
-        return value;
-    }
-
-    @Override
-    public long length() {
-        return 1;
-    }
-
     public String toString() {
-        return String.valueOf(value);
+        return "float4le";
     }
 }

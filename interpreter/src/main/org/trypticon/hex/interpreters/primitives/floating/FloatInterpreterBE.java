@@ -16,38 +16,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives;
+package org.trypticon.hex.interpreters.primitives.floating;
 
-import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 import org.trypticon.hex.binary.Binary;
+import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
+import org.trypticon.hex.interpreters.primitives.BigEndian;
+
+import java.lang.*;
 
 /**
- * Interpreter for unsigned int values.
+ * Interprets 4-byte floating point numbers in IEEE754 format.
  *
  * @author trejkaz
  */
-public class UIntInterpreterBE extends AbstractFixedLengthInterpreter<UInt> {
-    public UIntInterpreterBE() {
-        super(UInt.class, 4);
+public class FloatInterpreterBE extends AbstractFixedLengthInterpreter<Float> {
+    public FloatInterpreterBE() {
+        super(Float.class, 4);
     }
 
     @Override
-    public UInt interpret(Binary binary, long position) {
-        return new UInt(BigEndian.getInt(binary, position));
+    public Float interpret(Binary binary, long position) {
+        return new Float(java.lang.Float.intBitsToFloat(BigEndian.getInt(binary, position)));
     }
 
     @Override
     public boolean equals(Object o) {
-        return o == this || o instanceof UIntInterpreterBE;
+        return o == this || o instanceof FloatInterpreterBE;
     }
 
     @Override
     public int hashCode() {
-        return 100321;
+        return 101321;
     }
 
     @Override
     public String toString() {
-        return "uint4be";
+        return "float4be";
     }
 }

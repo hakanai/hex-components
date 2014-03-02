@@ -16,38 +16,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives;
+package org.trypticon.hex.interpreters.primitives.floating;
 
-import org.trypticon.hex.binary.Binary;
-import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
+import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
+import org.trypticon.hex.interpreters.Interpreter;
+
+import java.util.Map;
 
 /**
- * Interprets 8-byte floating point numbers in IEEE754 format.
+ * Info for {@link FloatInterpreterBE}.
  *
  * @author trejkaz
  */
-public class DoubleInterpreterLE extends AbstractFixedLengthInterpreter<Double> {
-    public DoubleInterpreterLE() {
-        super(Double.class, 8);
+public class FloatInterpreterBEInfo extends AbstractInternalInterpreterInfo {
+    public FloatInterpreterBEInfo() {
+        super("FloatBE");
     }
 
     @Override
-    public Double interpret(Binary binary, long position) {
-        return new Double(java.lang.Double.longBitsToDouble(LittleEndian.getLong(binary, position)));
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        return o == this || o instanceof DoubleInterpreterLE;
-    }
-
-    @Override
-    public int hashCode() {
-        return 101642;
-    }
-
-    @Override
-    public String toString() {
-        return "float8le";
+    public Interpreter create(Map<String, Object> options) {
+        return new FloatInterpreterBE();
     }
 }

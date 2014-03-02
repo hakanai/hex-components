@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives;
+package org.trypticon.hex.interpreters.primitives.floating;
 
 import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
 import org.trypticon.hex.interpreters.Interpreter;
@@ -24,17 +24,17 @@ import org.trypticon.hex.interpreters.Interpreter;
 import java.util.Map;
 
 /**
- * Info for {@link org.trypticon.hex.interpreters.primitives.DoubleInterpreterBE}.
+ * Info for {@link FloatInterpreterLE}.
  *
  * @author trejkaz
  */
-public class DoubleInterpreterBEInfo extends AbstractInternalInterpreterInfo {
-    public DoubleInterpreterBEInfo() {
-        super("DoubleBE");
+public class FloatInterpreterLEInfo extends AbstractInternalInterpreterInfo {
+    public FloatInterpreterLEInfo() {
+        super("FloatLE");
     }
 
     @Override
     public Interpreter create(Map<String, Object> options) {
-        return new DoubleInterpreterBE();
+        return new FloatInterpreterLE();
     }
 }

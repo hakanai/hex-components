@@ -16,25 +16,52 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives;
+package org.trypticon.hex.interpreters.primitives.unsigned;
 
-import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
-import org.trypticon.hex.interpreters.Interpreter;
-
-import java.util.Map;
+import org.trypticon.hex.interpreters.Value;
 
 /**
- * Info for {@link FloatInterpreterBE}.
+ * An unsigned byte value.
  *
  * @author trejkaz
  */
-public class FloatInterpreterBEInfo extends AbstractInternalInterpreterInfo {
-    public FloatInterpreterBEInfo() {
-        super("FloatBE");
+public class UByte extends Number implements Value {
+    private final byte value;
+
+    public UByte(byte value) {
+        this.value = value;
+    }
+
+    public byte getValue() {
+        return value;
     }
 
     @Override
-    public Interpreter create(Map<String, Object> options) {
-        return new FloatInterpreterBE();
+    public int intValue() {
+        return value & 0xFF;
+    }
+
+    @Override
+    public long longValue() {
+        return value & 0xFF;
+    }
+
+    @Override
+    public float floatValue() {
+        return value;
+    }
+
+    @Override
+    public double doubleValue() {
+        return value;
+    }
+
+    @Override
+    public long length() {
+        return 1;
+    }
+
+    public String toString() {
+        return String.valueOf(value & 0xFF);
     }
 }

@@ -16,43 +16,44 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives;
+package org.trypticon.hex.interpreters.primitives.unsigned;
 
 import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 import org.trypticon.hex.binary.Binary;
+import org.trypticon.hex.interpreters.primitives.BigEndian;
 
 /**
- * Interpreter for unsigned long values.
+ * Interpreter for unsigned short values.
  *
  * @author trejkaz
  */
-public class ULongInterpreterBE extends AbstractFixedLengthInterpreter<ULong> {
-    public ULongInterpreterBE() {
-        super(ULong.class, 8);
+public class UShortInterpreterBE extends AbstractFixedLengthInterpreter<UShort> {
+    public UShortInterpreterBE() {
+        super(UShort.class, 2);
     }
 
     @Override
-    public Class<ULong> getType() {
-        return ULong.class;
+    public Class<UShort> getType() {
+        return UShort.class;
     }
 
     @Override
-    public ULong interpret(Binary binary, long position) {
-        return new ULong(BigEndian.getLong(binary, position));
+    public UShort interpret(Binary binary, long position) {
+        return new UShort(BigEndian.getShort(binary, position));
     }
 
     @Override
     public boolean equals(Object o) {
-        return o == this || o instanceof ULongInterpreterBE;
+        return o == this || o instanceof UShortInterpreterBE;
     }
 
     @Override
     public int hashCode() {
-        return 100641;
+        return 100161;
     }
 
     @Override
     public String toString() {
-        return "uint8be";
+        return "uint2be";
     }
 }

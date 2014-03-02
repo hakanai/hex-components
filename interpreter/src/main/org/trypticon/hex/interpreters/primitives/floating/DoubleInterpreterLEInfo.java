@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives;
+package org.trypticon.hex.interpreters.primitives.floating;
 
 import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
 import org.trypticon.hex.interpreters.Interpreter;
@@ -24,17 +24,17 @@ import org.trypticon.hex.interpreters.Interpreter;
 import java.util.Map;
 
 /**
- * Info for {@link UIntInterpreterLE}.
+ * Info for {@link DoubleInterpreterLE}.
  *
  * @author trejkaz
  */
-public class UIntInterpreterLEInfo extends AbstractInternalInterpreterInfo {
-    public UIntInterpreterLEInfo() {
-        super("UIntLE");
+public class DoubleInterpreterLEInfo extends AbstractInternalInterpreterInfo {
+    public DoubleInterpreterLEInfo() {
+        super("DoubleLE");
     }
 
     @Override
     public Interpreter create(Map<String, Object> options) {
-        return new UIntInterpreterLE();
+        return new DoubleInterpreterLE();
     }
 }

@@ -16,25 +16,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives;
+package org.trypticon.hex.interpreters.primitives.unsigned;
 
-import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
-import org.trypticon.hex.interpreters.Interpreter;
-
-import java.util.Map;
+import org.trypticon.hex.binary.Binary;
+import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 
 /**
- * Info for {@link ULongInterpreterLE}.
+ * Interpreter for unsigned byte values.
  *
  * @author trejkaz
  */
-public class ULongInterpreterLEInfo extends AbstractInternalInterpreterInfo {
-    public ULongInterpreterLEInfo() {
-        super("ULongLE");
+public class UByteInterpreter extends AbstractFixedLengthInterpreter<UByte> {
+    public UByteInterpreter() {
+        super(UByte.class, 1);
     }
 
     @Override
-    public Interpreter create(Map<String, Object> options) {
-        return new ULongInterpreterLE();
+    public UByte interpret(Binary binary, long position) {
+        return new UByte(binary.read(position));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o == this || o instanceof UByteInterpreter;
+    }
+
+    @Override
+    public int hashCode() {
+        return 100081;
+    }
+
+    @Override
+    public String toString() {
+        return "uint1";
     }
 }

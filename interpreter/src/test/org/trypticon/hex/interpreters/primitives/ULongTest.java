@@ -21,11 +21,12 @@ package org.trypticon.hex.interpreters.primitives;
 import java.math.BigInteger;
 
 import org.junit.Test;
+import org.trypticon.hex.interpreters.primitives.unsigned.ULong;
 
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for {@link ULong}.
+ * Tests for {@link org.trypticon.hex.interpreters.primitives.unsigned.ULong}.
  *
  * @author trejkaz
  */

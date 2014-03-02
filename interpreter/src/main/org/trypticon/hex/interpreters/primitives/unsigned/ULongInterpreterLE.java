@@ -16,25 +16,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives;
+package org.trypticon.hex.interpreters.primitives.unsigned;
 
-import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
-import org.trypticon.hex.interpreters.Interpreter;
-
-import java.util.Map;
+import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
+import org.trypticon.hex.binary.Binary;
+import org.trypticon.hex.interpreters.primitives.LittleEndian;
 
 /**
- * Info for {@link org.trypticon.hex.interpreters.primitives.FloatInterpreterLE}.
+ * Interpreter for unsigned long values.
  *
  * @author trejkaz
  */
-public class FloatInterpreterLEInfo extends AbstractInternalInterpreterInfo {
-    public FloatInterpreterLEInfo() {
-        super("FloatLE");
+public class ULongInterpreterLE extends AbstractFixedLengthInterpreter<ULong> {
+    public ULongInterpreterLE() {
+        super(ULong.class, 8);
     }
 
     @Override
-    public Interpreter create(Map<String, Object> options) {
-        return new FloatInterpreterLE();
+    public ULong interpret(Binary binary, long position) {
+        return new ULong(LittleEndian.getLong(binary, position));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o == this || o instanceof ULongInterpreterLE;
+    }
+
+    @Override
+    public int hashCode() {
+        return 100642;
+    }
+
+    @Override
+    public String toString() {
+        return "uint8le";
     }
 }

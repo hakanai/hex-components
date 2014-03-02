@@ -16,38 +16,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives;
+package org.trypticon.hex.interpreters.primitives.floating;
 
 import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
+import org.trypticon.hex.interpreters.primitives.BigEndian;
+
+import java.lang.*;
 
 /**
- * Interprets 4-byte floating point numbers in IEEE754 format.
+ * Interprets 8-byte floating point numbers in IEEE754 format.
  *
  * @author trejkaz
  */
-public class FloatInterpreterLE extends AbstractFixedLengthInterpreter<Float> {
-    public FloatInterpreterLE() {
-        super(Float.class, 4);
+public class DoubleInterpreterBE extends AbstractFixedLengthInterpreter<Double> {
+    public DoubleInterpreterBE() {
+        super(Double.class, 8);
     }
 
     @Override
-    public Float interpret(Binary binary, long position) {
-        return new Float(java.lang.Float.intBitsToFloat(LittleEndian.getInt(binary, position)));
+    public Double interpret(Binary binary, long position) {
+        return new Double(java.lang.Double.longBitsToDouble(BigEndian.getLong(binary, position)));
     }
 
     @Override
     public boolean equals(Object o) {
-        return o == this || o instanceof FloatInterpreterLE;
+        return o == this || o instanceof DoubleInterpreterBE;
     }
 
     @Override
     public int hashCode() {
-        return 101321;
+        return 101641;
     }
 
     @Override
     public String toString() {
-        return "float4le";
+        return "float8be";
     }
 }

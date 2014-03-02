@@ -16,34 +16,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives;
+package org.trypticon.hex.interpreters.primitives.unsigned;
 
 import org.trypticon.hex.interpreters.Value;
 
 /**
- * An unsigned short value.
+ * An unsigned int value.
  *
  * @author trejkaz
  */
-public class UShort extends Number implements Value {
-    private final short value;
+public class UInt extends Number implements Value {
+    private final int value;
 
-    public UShort(short value) {
+    public UInt(int value) {
         this.value = value;
     }
 
-    public short getValue() {
+    public int getValue() {
         return value;
     }
 
     @Override
     public int intValue() {
-        return value & 0xFFFF;
+        return value;
     }
 
     @Override
     public long longValue() {
-        return value & 0xFFFF;
+        return value & 0xFFFFFFFFL;
     }
 
     @Override
@@ -58,10 +58,10 @@ public class UShort extends Number implements Value {
 
     @Override
     public long length() {
-        return 2;
+        return 4;
     }
 
     public String toString() {
-        return String.valueOf(value & 0xFFFF);
+        return String.valueOf(value & 0xFFFFFFFFL);
     }
 }
