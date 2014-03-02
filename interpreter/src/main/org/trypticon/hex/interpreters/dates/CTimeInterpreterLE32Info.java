@@ -18,25 +18,17 @@
 
 package org.trypticon.hex.interpreters.dates;
 
+import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
 import org.trypticon.hex.interpreters.Interpreter;
-import org.trypticon.hex.interpreters.InterpreterInfo;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Info for {@link CTimeInterpreterLE32}.
  */
-public class CTimeInterpreterLE32Info implements InterpreterInfo {
-    @Override
-    public String getHumanName() {
-        return "32-bit C Time (Little Endian)";
-    }
-
-    @Override
-    public List<Option> getOptions() {
-        return Collections.emptyList();
+public class CTimeInterpreterLE32Info extends AbstractInternalInterpreterInfo {
+    public CTimeInterpreterLE32Info() {
+        super("CTimeLE32");
     }
 
     @Override

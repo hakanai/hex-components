@@ -16,25 +16,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives;
-
-import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
-import org.trypticon.hex.interpreters.Interpreter;
-
-import java.util.Map;
+package org.trypticon.hex.interpreters;
 
 /**
- * Info for {@link org.trypticon.hex.interpreters.primitives.DoubleInterpreterBE}.
+ * Enumeration of name styles used for localisation.
  *
  * @author trejkaz
  */
-public class DoubleInterpreterBEInfo extends AbstractInternalInterpreterInfo {
-    public DoubleInterpreterBEInfo() {
-        super("DoubleBE");
-    }
+public enum NameStyle {
+    /**
+     * Short name. Appropriate when you have a lot of information to pack into a small space.
+     */
+    SHORT,
 
-    @Override
-    public Interpreter create(Map<String, Object> options) {
-        return new DoubleInterpreterBE();
-    }
+    /**
+     * Long name. Appropriate when showing lists of options to the user.
+     */
+    LONG
 }

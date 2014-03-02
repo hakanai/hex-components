@@ -18,22 +18,21 @@
 
 package org.trypticon.hex.interpreters.strings;
 
+import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
+import org.trypticon.hex.interpreters.Interpreter;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import org.trypticon.hex.interpreters.Interpreter;
-import org.trypticon.hex.interpreters.InterpreterInfo;
 
 /**
  * Information about the string interpreter.
  *
  * @author trejkaz
  */
-public class StringInterpreterInfo implements InterpreterInfo {
-    @Override
-    public String getHumanName() {
-        return "String";
+public class StringInterpreterInfo extends AbstractInternalInterpreterInfo {
+    public StringInterpreterInfo() {
+        super("String");
     }
 
     @Override

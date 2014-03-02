@@ -18,28 +18,19 @@
 
 package org.trypticon.hex.interpreters.primitives;
 
-import java.util.List;
-import java.util.Collections;
-import java.util.Map;
-
+import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
 import org.trypticon.hex.interpreters.Interpreter;
-import org.trypticon.hex.interpreters.InterpreterInfo;
+
+import java.util.Map;
 
 /**
  * Info for {@link UShortInterpreterBE}.
  *
  * @author trejkaz
  */
-public class UShortInterpreterBEInfo implements InterpreterInfo {
-
-    @Override
-    public String getHumanName() {
-        return "Unsigned 16-bit Integer (Big Endian)";
-    }
-
-    @Override
-    public List<Option> getOptions() {
-        return Collections.emptyList();
+public class UShortInterpreterBEInfo extends AbstractInternalInterpreterInfo {
+    public UShortInterpreterBEInfo() {
+        super("UShortBE");
     }
 
     @Override

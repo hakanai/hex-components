@@ -18,25 +18,17 @@
 
 package org.trypticon.hex.interpreters.dates;
 
+import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
 import org.trypticon.hex.interpreters.Interpreter;
-import org.trypticon.hex.interpreters.InterpreterInfo;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Info for {@link org.trypticon.hex.interpreters.dates.CTimeInterpreterBE64}.
  */
-public class CTimeInterpreterBE64Info implements InterpreterInfo {
-    @Override
-    public String getHumanName() {
-        return "64-bit C Time (Big Endian)";
-    }
-
-    @Override
-    public List<Option> getOptions() {
-        return Collections.emptyList();
+public class CTimeInterpreterBE64Info extends AbstractInternalInterpreterInfo {
+    public CTimeInterpreterBE64Info() {
+        super("CTimeBE64");
     }
 
     @Override

@@ -18,11 +18,9 @@
 
 package org.trypticon.hex.interpreters.dates;
 
+import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
 import org.trypticon.hex.interpreters.Interpreter;
-import org.trypticon.hex.interpreters.InterpreterInfo;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,15 +28,9 @@ import java.util.Map;
  *
  * @author trejkaz
  */
-public class NotesTimeDateInterpreterInfo implements InterpreterInfo {
-    @Override
-    public String getHumanName() {
-        return "64-bit IBM Notes TIMEDATE";
-    }
-
-    @Override
-    public List<Option> getOptions() {
-        return Collections.emptyList();
+public class NotesTimeDateInterpreterInfo extends AbstractInternalInterpreterInfo {
+    public NotesTimeDateInterpreterInfo() {
+        super("NotesTimeDate");
     }
 
     @Override

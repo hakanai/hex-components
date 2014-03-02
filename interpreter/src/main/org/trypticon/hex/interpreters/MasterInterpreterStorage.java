@@ -24,6 +24,7 @@ import org.trypticon.hex.interpreters.primitives.PrimitiveInterpreterStorage;
 import org.trypticon.hex.interpreters.strings.StringInterpreterStorage;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -43,6 +44,16 @@ public class MasterInterpreterStorage implements InterpreterStorage {
         providers.add(new PrimitiveInterpreterStorage());
         providers.add(new DateInterpreterStorage());
         providers.add(new StringInterpreterStorage());
+    }
+
+    @Override
+    public List<InterpreterInfo> getInterpreterInfos() {
+        // TODO: Interpreter info should be structured to allow categorising them as well, for menus.
+        List<InterpreterInfo> infos = new ArrayList<>();
+        for (InterpreterStorage provider : providers) {
+            infos.addAll(provider.getInterpreterInfos());
+        }
+        return Collections.unmodifiableList(infos);
     }
 
     @Override

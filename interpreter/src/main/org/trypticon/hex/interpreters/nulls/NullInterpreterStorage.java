@@ -34,7 +34,8 @@ public class NullInterpreterStorage extends AbstractInterpreterStorage {
         register("null", NullInterpreter.class);
     }
 
+    @Override
     public List<InterpreterInfo> getInterpreterInfos() {
-        return Arrays.asList((InterpreterInfo) new NullInterpreterInfo());
+        return Arrays.<InterpreterInfo>asList(new NullInterpreterInfo());
     }
 }

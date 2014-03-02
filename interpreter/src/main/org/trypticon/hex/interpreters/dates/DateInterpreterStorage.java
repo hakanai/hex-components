@@ -47,23 +47,23 @@ public class DateInterpreterStorage extends AbstractInterpreterStorage {
         register("notes_time_date", NotesTimeDateInterpreter.class);
     }
 
+    @Override
     public List<InterpreterInfo> getInterpreterInfos() {
-        // TODO: Interpreter info should be structured to allow categorising them as well, for menus.
-
-        return Arrays.asList(new CTimeInterpreterBE32Info(),
-                             new CTimeInterpreterLE32Info(),
-                             new CTimeInterpreterBE64Info(),
-                             new CTimeInterpreterLE64Info(),
-                             new JavaTimeInterpreterInfo(),
-                             new DosDateInterpreterInfo(),
-                             new DosTimeInterpreterInfo(),
-                             new DosDateTimeInterpreterInfo(),
-                             new WindowsFileTimeInterpreterInfo(),
-                             new WindowsSystemTimeInterpreterInfo(),
-                             new WindowsOleDateInterpreterInfo(),
-                             new MacNSDateInterpreterInfo(),
-                             new MacClassicDateInterpreterInfo(),
-                             new NotesTimeDateInterpreterInfo());
+        return Arrays.<InterpreterInfo>asList(
+                new CTimeInterpreterBE32Info(),
+                new CTimeInterpreterLE32Info(),
+                new CTimeInterpreterBE64Info(),
+                new CTimeInterpreterLE64Info(),
+                new JavaTimeInterpreterInfo(),
+                new DosDateInterpreterInfo(),
+                new DosTimeInterpreterInfo(),
+                new DosDateTimeInterpreterInfo(),
+                new WindowsFileTimeInterpreterInfo(),
+                new WindowsSystemTimeInterpreterInfo(),
+                new WindowsOleDateInterpreterInfo(),
+                new MacNSDateInterpreterInfo(),
+                new MacClassicDateInterpreterInfo(),
+                new NotesTimeDateInterpreterInfo());
     }
 
 }

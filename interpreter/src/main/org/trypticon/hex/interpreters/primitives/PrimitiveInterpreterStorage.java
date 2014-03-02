@@ -45,19 +45,19 @@ public class PrimitiveInterpreterStorage extends AbstractInterpreterStorage {
         register("float64_le", DoubleInterpreterLE.class);
     }
 
+    @Override
     public List<InterpreterInfo> getInterpreterInfos() {
-        // TODO: Interpreter info should be structured to allow categorising them as well, for menus.
-
-        return Arrays.asList(new UByteInterpreterInfo(),
-                             new UShortInterpreterBEInfo(),
-                             new UShortInterpreterLEInfo(),
-                             new UIntInterpreterBEInfo(),
-                             new UIntInterpreterLEInfo(),
-                             new ULongInterpreterBEInfo(),
-                             new ULongInterpreterLEInfo(),
-                             new FloatInterpreterBEInfo(),
-                             new FloatInterpreterLEInfo(),
-                             new DoubleInterpreterBEInfo(),
-                             new DoubleInterpreterLEInfo());
+        return Arrays.<InterpreterInfo>asList(
+                new UByteInterpreterInfo(),
+                new UShortInterpreterBEInfo(),
+                new UShortInterpreterLEInfo(),
+                new UIntInterpreterBEInfo(),
+                new UIntInterpreterLEInfo(),
+                new ULongInterpreterBEInfo(),
+                new ULongInterpreterLEInfo(),
+                new FloatInterpreterBEInfo(),
+                new FloatInterpreterLEInfo(),
+                new DoubleInterpreterBEInfo(),
+                new DoubleInterpreterLEInfo());
     }
 }

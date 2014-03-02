@@ -18,14 +18,14 @@
 
 package org.trypticon.hex.interpreters.strings;
 
+import org.trypticon.hex.interpreters.Interpreter;
+import org.trypticon.hex.interpreters.InterpreterInfo;
+import org.trypticon.hex.interpreters.InterpreterStorage;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.trypticon.hex.interpreters.Interpreter;
-import org.trypticon.hex.interpreters.InterpreterInfo;
-import org.trypticon.hex.interpreters.InterpreterStorage;
 
 /**
  * Storage support for string interpreters.
@@ -34,7 +34,7 @@ import org.trypticon.hex.interpreters.InterpreterStorage;
  */
 public class StringInterpreterStorage implements InterpreterStorage {
     public List<InterpreterInfo> getInterpreterInfos() {
-        return Arrays.asList((InterpreterInfo) new StringInterpreterInfo());
+        return Arrays.<InterpreterInfo>asList(new StringInterpreterInfo());
     }
 
     @Override

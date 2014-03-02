@@ -18,11 +18,9 @@
 
 package org.trypticon.hex.interpreters.dates;
 
+import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
 import org.trypticon.hex.interpreters.Interpreter;
-import org.trypticon.hex.interpreters.InterpreterInfo;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,15 +28,9 @@ import java.util.Map;
  *
  * @author trejkaz
  */
-public class DosDateInterpreterInfo implements InterpreterInfo {
-    @Override
-    public String getHumanName() {
-        return "16-bit MS-DOS Date";
-    }
-
-    @Override
-    public List<Option> getOptions() {
-        return Collections.emptyList();
+public class DosDateInterpreterInfo extends AbstractInternalInterpreterInfo {
+    public DosDateInterpreterInfo() {
+        super("DosDate");
     }
 
     @Override

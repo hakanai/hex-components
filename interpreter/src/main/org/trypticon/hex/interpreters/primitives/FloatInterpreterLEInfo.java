@@ -18,11 +18,9 @@
 
 package org.trypticon.hex.interpreters.primitives;
 
+import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
 import org.trypticon.hex.interpreters.Interpreter;
-import org.trypticon.hex.interpreters.InterpreterInfo;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,16 +28,9 @@ import java.util.Map;
  *
  * @author trejkaz
  */
-public class FloatInterpreterLEInfo implements InterpreterInfo {
-
-    @Override
-    public String getHumanName() {
-        return "32-bit Floating Point (Little Endian)";
-    }
-
-    @Override
-    public List<Option> getOptions() {
-        return Collections.emptyList();
+public class FloatInterpreterLEInfo extends AbstractInternalInterpreterInfo {
+    public FloatInterpreterLEInfo() {
+        super("FloatLE");
     }
 
     @Override

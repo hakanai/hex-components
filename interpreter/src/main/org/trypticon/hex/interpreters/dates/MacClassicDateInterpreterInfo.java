@@ -18,11 +18,9 @@
 
 package org.trypticon.hex.interpreters.dates;
 
+import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
 import org.trypticon.hex.interpreters.Interpreter;
-import org.trypticon.hex.interpreters.InterpreterInfo;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,15 +28,9 @@ import java.util.Map;
  *
  * @author trejkaz
  */
-public class MacClassicDateInterpreterInfo implements InterpreterInfo {
-    @Override
-    public String getHumanName() {
-        return "32-bit Mac Classic Date";
-    }
-
-    @Override
-    public List<InterpreterInfo.Option> getOptions() {
-        return Collections.emptyList();
+public class MacClassicDateInterpreterInfo extends AbstractInternalInterpreterInfo {
+    public MacClassicDateInterpreterInfo() {
+        super("MacClassicDate");
     }
 
     @Override

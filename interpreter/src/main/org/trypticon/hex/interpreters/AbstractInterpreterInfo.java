@@ -16,25 +16,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives;
+package org.trypticon.hex.interpreters;
 
-import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
-import org.trypticon.hex.interpreters.Interpreter;
-
-import java.util.Map;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
 /**
- * Info for {@link org.trypticon.hex.interpreters.primitives.DoubleInterpreterBE}.
+ * Base convenience class for implementing interpreter information.
  *
  * @author trejkaz
  */
-public class DoubleInterpreterBEInfo extends AbstractInternalInterpreterInfo {
-    public DoubleInterpreterBEInfo() {
-        super("DoubleBE");
+public abstract class AbstractInterpreterInfo implements InterpreterInfo {
+
+    @Override
+    public final String getLocalisedName(NameStyle nameStyle) {
+        return getLocalisedName(nameStyle, Locale.getDefault(Locale.Category.DISPLAY));
     }
 
     @Override
-    public Interpreter create(Map<String, Object> options) {
-        return new DoubleInterpreterBE();
+    public List<Option> getOptions() {
+        return Collections.emptyList();
     }
+
 }

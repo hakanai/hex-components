@@ -18,27 +18,19 @@
 
 package org.trypticon.hex.interpreters.nulls;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
+import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
 import org.trypticon.hex.interpreters.Interpreter;
-import org.trypticon.hex.interpreters.InterpreterInfo;
+
+import java.util.Map;
 
 /**
  * Information about the null interpreter.
  *
  * @author trejkaz
  */
-public class NullInterpreterInfo implements InterpreterInfo {
-    @Override
-    public String getHumanName() {
-        return "Unknown Value";
-    }
-
-    @Override
-    public List<Option> getOptions() {
-        return Collections.emptyList();
+public class NullInterpreterInfo extends AbstractInternalInterpreterInfo {
+    public NullInterpreterInfo() {
+        super("Null");
     }
 
     @Override

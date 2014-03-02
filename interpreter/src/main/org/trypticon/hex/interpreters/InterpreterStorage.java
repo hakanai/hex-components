@@ -18,6 +18,7 @@
 
 package org.trypticon.hex.interpreters;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,6 +30,13 @@ import java.util.Map;
  */
 public interface InterpreterStorage {
     /**
+     * Gets a list of information about all interpreters this storage utility knows about.
+     *
+     * @return the list of interpreter info.
+     */
+    List<InterpreterInfo> getInterpreterInfos();
+
+    /**
      * Converts an interpreter into a map.  The returned map generally
      * has a "name" property containing the interpreter name, which needs
      * to be unique across the whole system.
@@ -39,7 +47,7 @@ public interface InterpreterStorage {
      * @return the map.  Returns {@code null} if the interpreter is not one
      *         known by this storage.
      */
-    public abstract Map<String, Object> toMap(Interpreter interpreter);
+    Map<String, Object> toMap(Interpreter interpreter);
 
     /**
      * Converts a map into an interpreter.
@@ -48,5 +56,5 @@ public interface InterpreterStorage {
      * @return the interpreter.  Returns {@code null} if this storage does not
      *         know about an interpreter with the name specified in the map.
      */
-    public abstract Interpreter fromMap(Map<String, Object> map);
+    Interpreter fromMap(Map<String, Object> map);
 }

@@ -18,8 +18,9 @@
 
 package org.trypticon.hex.interpreters;
 
-import java.util.Map;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * Holds information about an interpreter.
@@ -29,13 +30,21 @@ import java.util.List;
 public interface InterpreterInfo {
 
     /**
-     * Gets the name the user would see in the application.
+     * Gets a localised name for the interpreter.
      *
-     * XXX: Should be localised.
-     *
-     * @return the human-readable name.
+     * @param style the type of name to get.
+     * @return the name.
      */
-    String getHumanName();
+    String getLocalisedName(NameStyle style);
+
+    /**
+     * Gets a short localised name for the interpreter.
+     *
+     * @param style the type of name to get.
+     * @param locale the locale to get the name for.
+     * @return the short name.
+     */
+    String getLocalisedName(NameStyle style, Locale locale);
 
     /**
      * Gets the list of options supported by the interpreter.
