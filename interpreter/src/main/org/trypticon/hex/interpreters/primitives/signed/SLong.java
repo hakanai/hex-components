@@ -16,25 +16,52 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives.unsigned;
+package org.trypticon.hex.interpreters.primitives.signed;
 
-import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
-import org.trypticon.hex.interpreters.Interpreter;
-
-import java.util.Map;
+import org.trypticon.hex.interpreters.Value;
 
 /**
- * Info for {@link UByteInterpreter}.
+ * A signed int value.
  *
  * @author trejkaz
  */
-public class UByteInterpreterInfo extends AbstractInternalInterpreterInfo {
-    public UByteInterpreterInfo() {
-        super("UInt8");
+public class SLong extends Number implements Value {
+    private final long value;
+
+    public SLong(long value) {
+        this.value = value;
+    }
+
+    public long getValue() {
+        return value;
     }
 
     @Override
-    public Interpreter create(Map<String, Object> options) {
-        return new UByteInterpreter();
+    public int intValue() {
+        return (int) value;
+    }
+
+    @Override
+    public long longValue() {
+        return value;
+    }
+
+    @Override
+    public float floatValue() {
+        return value;
+    }
+
+    @Override
+    public double doubleValue() {
+        return value;
+    }
+
+    @Override
+    public long length() {
+        return 8;
+    }
+
+    public String toString() {
+        return String.valueOf(value);
     }
 }

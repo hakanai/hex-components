@@ -2,6 +2,7 @@
 Version X.X (XXXX-XX-XX)
 
      New: DateInterpreterStorage for storage and retrieval of date interpreters.
+     New: Added new interpreters for signed types.
      New: Added new interpreters for dates and times:
         * C time_t values
         * Java time values

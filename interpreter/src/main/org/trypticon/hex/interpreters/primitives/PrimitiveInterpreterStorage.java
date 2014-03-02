@@ -28,6 +28,20 @@ import org.trypticon.hex.interpreters.primitives.floating.FloatInterpreterBE;
 import org.trypticon.hex.interpreters.primitives.floating.FloatInterpreterBEInfo;
 import org.trypticon.hex.interpreters.primitives.floating.FloatInterpreterLE;
 import org.trypticon.hex.interpreters.primitives.floating.FloatInterpreterLEInfo;
+import org.trypticon.hex.interpreters.primitives.signed.SByteInterpreter;
+import org.trypticon.hex.interpreters.primitives.signed.SByteInterpreterInfo;
+import org.trypticon.hex.interpreters.primitives.signed.SIntInterpreterBE;
+import org.trypticon.hex.interpreters.primitives.signed.SIntInterpreterBEInfo;
+import org.trypticon.hex.interpreters.primitives.signed.SIntInterpreterLE;
+import org.trypticon.hex.interpreters.primitives.signed.SIntInterpreterLEInfo;
+import org.trypticon.hex.interpreters.primitives.signed.SLongInterpreterBE;
+import org.trypticon.hex.interpreters.primitives.signed.SLongInterpreterBEInfo;
+import org.trypticon.hex.interpreters.primitives.signed.SLongInterpreterLE;
+import org.trypticon.hex.interpreters.primitives.signed.SLongInterpreterLEInfo;
+import org.trypticon.hex.interpreters.primitives.signed.SShortInterpreterBE;
+import org.trypticon.hex.interpreters.primitives.signed.SShortInterpreterBEInfo;
+import org.trypticon.hex.interpreters.primitives.signed.SShortInterpreterLE;
+import org.trypticon.hex.interpreters.primitives.signed.SShortInterpreterLEInfo;
 import org.trypticon.hex.interpreters.primitives.unsigned.UByteInterpreter;
 import org.trypticon.hex.interpreters.primitives.unsigned.UByteInterpreterInfo;
 import org.trypticon.hex.interpreters.primitives.unsigned.UIntInterpreterBE;
@@ -54,6 +68,13 @@ import java.util.List;
 public class PrimitiveInterpreterStorage extends AbstractInterpreterStorage {
 
     public PrimitiveInterpreterStorage() {
+        register("sint8", SByteInterpreter.class);
+        register("sint16_be", SShortInterpreterBE.class);
+        register("sint16_le", SShortInterpreterLE.class);
+        register("sint32_be", SIntInterpreterBE.class);
+        register("sint32_le", SIntInterpreterLE.class);
+        register("sint64_be", SLongInterpreterBE.class);
+        register("sint64_le", SLongInterpreterLE.class);
         register("uint8", UByteInterpreter.class);
         register("uint16_be", UShortInterpreterBE.class);
         register("uint16_le", UShortInterpreterLE.class);
@@ -70,6 +91,13 @@ public class PrimitiveInterpreterStorage extends AbstractInterpreterStorage {
     @Override
     public List<InterpreterInfo> getInterpreterInfos() {
         return Arrays.<InterpreterInfo>asList(
+                new SByteInterpreterInfo(),
+                new SShortInterpreterBEInfo(),
+                new SShortInterpreterLEInfo(),
+                new SIntInterpreterBEInfo(),
+                new SIntInterpreterLEInfo(),
+                new SLongInterpreterBEInfo(),
+                new SLongInterpreterLEInfo(),
                 new UByteInterpreterInfo(),
                 new UShortInterpreterBEInfo(),
                 new UShortInterpreterLEInfo(),

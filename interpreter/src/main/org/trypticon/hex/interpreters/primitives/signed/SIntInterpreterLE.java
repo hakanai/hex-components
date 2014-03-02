@@ -16,25 +16,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives.unsigned;
+package org.trypticon.hex.interpreters.primitives.signed;
 
-import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
-import org.trypticon.hex.interpreters.Interpreter;
-
-import java.util.Map;
+import org.trypticon.hex.binary.Binary;
+import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
+import org.trypticon.hex.interpreters.primitives.LittleEndian;
 
 /**
- * Info for {@link UByteInterpreter}.
+ * Interpreter for signed int values.
  *
  * @author trejkaz
  */
-public class UByteInterpreterInfo extends AbstractInternalInterpreterInfo {
-    public UByteInterpreterInfo() {
-        super("UInt8");
+public class SIntInterpreterLE extends AbstractFixedLengthInterpreter<SInt> {
+    public SIntInterpreterLE() {
+        super(SInt.class, 4);
     }
 
     @Override
-    public Interpreter create(Map<String, Object> options) {
-        return new UByteInterpreter();
+    public SInt interpret(Binary binary, long position) {
+        return new SInt(LittleEndian.getInt(binary, position));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o == this || o instanceof SIntInterpreterLE;
+    }
+
+    @Override
+    public int hashCode() {
+        return 100322;
+    }
+
+    @Override
+    public String toString() {
+        return "sint4le";
     }
 }

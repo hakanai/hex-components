@@ -30,7 +30,7 @@ import java.util.Map;
  */
 public class ULongInterpreterLEInfo extends AbstractInternalInterpreterInfo {
     public ULongInterpreterLEInfo() {
-        super("ULongLE");
+        super("UInt64LE");
     }
 
     @Override

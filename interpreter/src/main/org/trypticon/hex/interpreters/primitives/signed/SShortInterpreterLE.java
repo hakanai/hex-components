@@ -16,25 +16,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives.unsigned;
+package org.trypticon.hex.interpreters.primitives.signed;
 
-import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
-import org.trypticon.hex.interpreters.Interpreter;
-
-import java.util.Map;
+import org.trypticon.hex.binary.Binary;
+import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
+import org.trypticon.hex.interpreters.primitives.LittleEndian;
 
 /**
- * Info for {@link UByteInterpreter}.
+ * Interpreter for signed short values.
  *
  * @author trejkaz
  */
-public class UByteInterpreterInfo extends AbstractInternalInterpreterInfo {
-    public UByteInterpreterInfo() {
-        super("UInt8");
+public class SShortInterpreterLE extends AbstractFixedLengthInterpreter<SShort> {
+    public SShortInterpreterLE() {
+        super(SShort.class, 2);
     }
 
     @Override
-    public Interpreter create(Map<String, Object> options) {
-        return new UByteInterpreter();
+    public SShort interpret(Binary binary, long position) {
+        return new SShort(LittleEndian.getShort(binary, position));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o == this || o instanceof SShortInterpreterLE;
+    }
+
+    @Override
+    public int hashCode() {
+        return 100162;
+    }
+
+    @Override
+    public String toString() {
+        return "sint2le";
     }
 }

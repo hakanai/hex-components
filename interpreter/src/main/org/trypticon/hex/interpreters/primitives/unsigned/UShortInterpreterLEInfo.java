@@ -30,7 +30,7 @@ import java.util.Map;
  */
 public class UShortInterpreterLEInfo extends AbstractInternalInterpreterInfo {
     public UShortInterpreterLEInfo() {
-        super("UShortLE");
+        super("UInt16LE");
     }
 
     @Override

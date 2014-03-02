@@ -30,7 +30,7 @@ import java.util.Map;
  */
 public class UShortInterpreterBEInfo extends AbstractInternalInterpreterInfo {
     public UShortInterpreterBEInfo() {
-        super("UShortBE");
+        super("UInt16BE");
     }
 
     @Override

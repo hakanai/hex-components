@@ -19,9 +19,23 @@
 package org.trypticon.hex.interpreters.primitives;
 
 import org.trypticon.hex.interpreters.Interpreter;
-import org.trypticon.hex.interpreters.primitives.floating.*;
 import org.trypticon.hex.interpreters.primitives.floating.Double;
+import org.trypticon.hex.interpreters.primitives.floating.DoubleInterpreterBE;
+import org.trypticon.hex.interpreters.primitives.floating.DoubleInterpreterLE;
 import org.trypticon.hex.interpreters.primitives.floating.Float;
+import org.trypticon.hex.interpreters.primitives.floating.FloatInterpreterBE;
+import org.trypticon.hex.interpreters.primitives.floating.FloatInterpreterLE;
+import org.trypticon.hex.interpreters.primitives.signed.SByte;
+import org.trypticon.hex.interpreters.primitives.signed.SByteInterpreter;
+import org.trypticon.hex.interpreters.primitives.signed.SInt;
+import org.trypticon.hex.interpreters.primitives.signed.SIntInterpreterBE;
+import org.trypticon.hex.interpreters.primitives.signed.SIntInterpreterLE;
+import org.trypticon.hex.interpreters.primitives.signed.SLong;
+import org.trypticon.hex.interpreters.primitives.signed.SLongInterpreterBE;
+import org.trypticon.hex.interpreters.primitives.signed.SLongInterpreterLE;
+import org.trypticon.hex.interpreters.primitives.signed.SShort;
+import org.trypticon.hex.interpreters.primitives.signed.SShortInterpreterBE;
+import org.trypticon.hex.interpreters.primitives.signed.SShortInterpreterLE;
 import org.trypticon.hex.interpreters.primitives.unsigned.UByte;
 import org.trypticon.hex.interpreters.primitives.unsigned.UByteInterpreter;
 import org.trypticon.hex.interpreters.primitives.unsigned.UInt;
@@ -40,6 +54,14 @@ import org.trypticon.hex.interpreters.primitives.unsigned.UShortInterpreterLE;
  * @author trejkaz
  */
 public class PrimitiveInterpreters {
+    public static final Interpreter<SByte> SINT8 = new SByteInterpreter();
+    public static final Interpreter<SShort> SINT16_BE = new SShortInterpreterBE();
+    public static final Interpreter<SShort> SINT16_LE = new SShortInterpreterLE();
+    public static final Interpreter<SInt> SINT32_BE = new SIntInterpreterBE();
+    public static final Interpreter<SInt> SINT32_LE = new SIntInterpreterLE();
+    public static final Interpreter<SLong> SINT64_BE = new SLongInterpreterBE();
+    public static final Interpreter<SLong> SINT64_LE = new SLongInterpreterLE();
+
     public static final Interpreter<UByte> UINT8 = new UByteInterpreter();
     public static final Interpreter<UShort> UINT16_BE = new UShortInterpreterBE();
     public static final Interpreter<UShort> UINT16_LE = new UShortInterpreterLE();
@@ -50,6 +72,6 @@ public class PrimitiveInterpreters {
 
     public static final Interpreter<Float> FLOAT32_BE = new FloatInterpreterBE();
     public static final Interpreter<Float> FLOAT32_LE = new FloatInterpreterLE();
-    public static final Interpreter<org.trypticon.hex.interpreters.primitives.floating.Double> FLOAT64_BE = new DoubleInterpreterBE();
+    public static final Interpreter<Double> FLOAT64_BE = new DoubleInterpreterBE();
     public static final Interpreter<Double> FLOAT64_LE = new DoubleInterpreterLE();
 }
