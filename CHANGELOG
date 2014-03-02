@@ -11,6 +11,8 @@ Version X.X (XXXX-XX-XX)
         * IBM Notes TIMEDATE
         * Mac OS X NSDate / CFDateRef
         * Mac OS classic dates
+     New: Added an accessory bar component which shows where you are in the viewer and allows entering
+          a new offset and length to jump to.
 
    Fixed: The hex viewport now properly paints its border so that you can see where your focus is.
 

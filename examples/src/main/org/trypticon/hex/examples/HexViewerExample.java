@@ -19,11 +19,13 @@
 package org.trypticon.hex.examples;
 
 import org.trypticon.hex.HexViewer;
+import org.trypticon.hex.accessory.LocationAccessoryBar;
 import org.trypticon.hex.anno.MemoryAnnotationCollection;
 import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.binary.BinaryFactory;
 
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 import java.awt.BorderLayout;
 import java.nio.file.Paths;
@@ -35,18 +37,27 @@ import java.nio.file.Paths;
  */
 public class HexViewerExample {
     public static void main(String[] args) throws Exception {
-        HexViewer viewer = new HexViewer();
         // Replace this with a file you have available.
-        //Binary binary = BinaryFactory.open(Paths.get("/Volumes/Media/Software/OS Updates/snowleopard.dmg"));
-        Binary binary = BinaryFactory.open(Paths.get("/Users/Trejkaz/Downloads/lol emoticons.rtf"));
-        viewer.setBinary(binary);
-        viewer.setAnnotations(new MemoryAnnotationCollection(binary.length()));
+        //final Binary binary = BinaryFactory.open(Paths.get("/Volumes/Media/Software/OS Updates/snowleopard.dmg"));
+        final Binary binary = BinaryFactory.open(Paths.get("/Users/Trejkaz/Downloads/lol emoticons.rtf"));
 
-        JFrame frame = new JFrame("Example");
-        frame.setLayout(new BorderLayout());
-        frame.add(viewer, BorderLayout.CENTER);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                HexViewer viewer = new HexViewer();
+                viewer.setBinary(binary);
+                viewer.setAnnotations(new MemoryAnnotationCollection(binary.length()));
+
+                LocationAccessoryBar locationBar = new LocationAccessoryBar(viewer);
+
+                JFrame frame = new JFrame("Example");
+                frame.setLayout(new BorderLayout());
+                frame.add(viewer, BorderLayout.CENTER);
+                frame.add(locationBar, BorderLayout.SOUTH);
+                frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                frame.pack();
+                frame.setVisible(true);
+            }
+        });
     }
 }
