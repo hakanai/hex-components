@@ -58,7 +58,7 @@ public class Float32 extends Number implements Value {
 
     @Override
     public long length() {
-        return 1;
+        return 4;
     }
 
     public String toString() {

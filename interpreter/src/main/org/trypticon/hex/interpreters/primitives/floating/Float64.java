@@ -58,7 +58,7 @@ public class Float64 extends Number implements Value {
 
     @Override
     public long length() {
-        return 1;
+        return 8;
     }
 
     public String toString() {
