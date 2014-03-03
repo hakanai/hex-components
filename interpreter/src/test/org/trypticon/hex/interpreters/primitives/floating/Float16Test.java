@@ -25,6 +25,8 @@ import static org.junit.Assert.assertThat;
 
 /**
  * Tests for {@link Float16}.
+ *
+ * @author trejkaz
  */
 public class Float16Test {
 

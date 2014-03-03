@@ -19,7 +19,7 @@
 package org.trypticon.hex.interpreters.primitives.floating;
 
 import org.trypticon.hex.interpreters.Value;
-import org.trypticon.hex.interpreters.primitives.BitField;
+import org.trypticon.hex.interpreters.primitives.IntBitField;
 
 import java.lang.*;
 
@@ -30,9 +30,9 @@ import java.lang.*;
  */
 public class Float16 extends Number implements Value {
     // Breakdown of the format.
-    private static final BitField mantissaField = BitField.lowest(10);
-    private static final BitField exponentField = mantissaField.next(5);
-    private static final BitField signField = exponentField.next(1);
+    private static final IntBitField mantissaField = IntBitField.lowest(10);
+    private static final IntBitField exponentField = mantissaField.next(5);
+    private static final IntBitField signField = exponentField.next(1);
 
     private final short encodedValue;
 

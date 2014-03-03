@@ -20,6 +20,10 @@ package org.trypticon.hex.interpreters.primitives;
 
 import org.trypticon.hex.interpreters.AbstractInterpreterStorage;
 import org.trypticon.hex.interpreters.InterpreterInfo;
+import org.trypticon.hex.interpreters.primitives.floating.Float128InterpreterBE;
+import org.trypticon.hex.interpreters.primitives.floating.Float128InterpreterBEInfo;
+import org.trypticon.hex.interpreters.primitives.floating.Float128InterpreterLE;
+import org.trypticon.hex.interpreters.primitives.floating.Float128InterpreterLEInfo;
 import org.trypticon.hex.interpreters.primitives.floating.Float16InterpreterBE;
 import org.trypticon.hex.interpreters.primitives.floating.Float16InterpreterBEInfo;
 import org.trypticon.hex.interpreters.primitives.floating.Float16InterpreterLE;
@@ -92,6 +96,8 @@ public class PrimitiveInterpreterStorage extends AbstractInterpreterStorage {
         register("float32_le", Float32InterpreterLE.class);
         register("float64_be", Float64InterpreterBE.class);
         register("float64_le", Float64InterpreterLE.class);
+        register("float128_be", Float128InterpreterBE.class);
+        register("float128_le", Float128InterpreterLE.class);
     }
 
     @Override
@@ -116,6 +122,8 @@ public class PrimitiveInterpreterStorage extends AbstractInterpreterStorage {
                 new Float32InterpreterBEInfo(),
                 new Float32InterpreterLEInfo(),
                 new Float64InterpreterBEInfo(),
-                new Float64InterpreterLEInfo());
+                new Float64InterpreterLEInfo(),
+                new Float128InterpreterBEInfo(),
+                new Float128InterpreterLEInfo());
     }
 }

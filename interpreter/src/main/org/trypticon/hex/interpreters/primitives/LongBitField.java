@@ -24,18 +24,20 @@ package org.trypticon.hex.interpreters.primitives;
  *
  * @author trejkaz
  */
-public class BitField {
+public class LongBitField {
     private final int shift;
     private final int nextShift;
-    private final int mask;
+    private final long mask;
 
-    private BitField(int shift, int nextShift, int mask) {
+    private LongBitField(int shift, int nextShift, long mask) {
         this.shift = shift;
         this.nextShift = nextShift;
         this.mask = mask;
     }
 
-    public int evaluate(int value) {
+    //TODO: Consider checking whether shift&mask exceeds the precision of the number passed in.
+
+    public long evaluate(long value) {
         return (value >> shift) & mask;
     }
 
@@ -48,10 +50,10 @@ public class BitField {
      * @return the bit field.
      * @see #next(int)
      */
-    public static BitField lowest(int numBits) {
+    public static LongBitField lowest(int numBits) {
         int shift = 0;
-        int mask = (1 << numBits) - 1;
-        return new BitField(shift, numBits, mask);
+        long mask = (1L << numBits) - 1;
+        return new LongBitField(shift, numBits, mask);
     }
 
     /**
@@ -61,9 +63,9 @@ public class BitField {
      * @param numBits the number of bits.
      * @return the bit field.
      */
-    public BitField next(int numBits) {
+    public LongBitField next(int numBits) {
         int shift = this.nextShift;
-        int mask = (1 << numBits) - 1;
-        return new BitField(shift, shift + numBits, mask);
+        long mask = (1L << numBits) - 1;
+        return new LongBitField(shift, shift + numBits, mask);
     }
 }

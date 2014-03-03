@@ -20,7 +20,7 @@ package org.trypticon.hex.interpreters.dates;
 
 import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 import org.trypticon.hex.binary.Binary;
-import org.trypticon.hex.interpreters.primitives.BitField;
+import org.trypticon.hex.interpreters.primitives.IntBitField;
 import org.trypticon.hex.interpreters.primitives.LittleEndian;
 
 /**
@@ -39,9 +39,9 @@ public class DosDateInterpreter extends AbstractFixedLengthInterpreter<Date> {
     }
 
     private static class DosDate extends AbstractDate {
-        private static final BitField day = BitField.lowest(5);
-        private static final BitField month = day.next(4);
-        private static final BitField year = month.next(7);
+        private static final IntBitField day = IntBitField.lowest(5);
+        private static final IntBitField month = day.next(4);
+        private static final IntBitField year = month.next(7);
         private static final int YEAR_OFFSET = 1980;
 
         private final short value;

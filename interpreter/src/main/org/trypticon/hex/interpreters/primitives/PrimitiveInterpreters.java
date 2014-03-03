@@ -19,6 +19,9 @@
 package org.trypticon.hex.interpreters.primitives;
 
 import org.trypticon.hex.interpreters.Interpreter;
+import org.trypticon.hex.interpreters.primitives.floating.Float128;
+import org.trypticon.hex.interpreters.primitives.floating.Float128InterpreterBE;
+import org.trypticon.hex.interpreters.primitives.floating.Float128InterpreterLE;
 import org.trypticon.hex.interpreters.primitives.floating.Float16;
 import org.trypticon.hex.interpreters.primitives.floating.Float16InterpreterBE;
 import org.trypticon.hex.interpreters.primitives.floating.Float16InterpreterLE;
@@ -79,4 +82,6 @@ public class PrimitiveInterpreters {
     public static final Interpreter<Float32> FLOAT32_LE = new Float32InterpreterLE();
     public static final Interpreter<Float64> FLOAT64_BE = new Float64InterpreterBE();
     public static final Interpreter<Float64> FLOAT64_LE = new Float64InterpreterLE();
+    public static final Interpreter<Float128> FLOAT128_BE = new Float128InterpreterBE();
+    public static final Interpreter<Float128> FLOAT128_LE = new Float128InterpreterLE();
 }

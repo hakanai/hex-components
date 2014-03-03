@@ -16,27 +16,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives;
+package org.trypticon.hex.interpreters.primitives.floating;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
+import org.trypticon.hex.interpreters.Interpreter;
 
-import static org.junit.Assert.assertEquals;
+import java.util.Map;
 
 /**
- * Tests for {@link BitField}.
+ * Info for {@link org.trypticon.hex.interpreters.primitives.floating.Float128InterpreterLE}.
  *
  * @author trejkaz
  */
-public class BitFieldTest {
+public class Float128InterpreterLEInfo extends AbstractInternalInterpreterInfo {
+    public Float128InterpreterLEInfo() {
+        super("Float128LE");
+    }
 
-    @Test
-    public void testBitFieldConstruction() {
-
-        // Three reads of 5 bits at a time, just to make sure it shifts correctly.
-        BitField last5Bits = BitField.lowest(5);
-        assertEquals("Wrong value", 0x1F, last5Bits.evaluate(0xFFFF));
-        assertEquals("Wrong value", 0x1F, last5Bits.next(5).evaluate(0xFFFF));
-        assertEquals("Wrong value", 0x1F, last5Bits.next(5).next(5).evaluate(0xFFFF));
+    @Override
+    public Interpreter create(Map<String, Object> options) {
+        return new Float128InterpreterLE();
     }
 }

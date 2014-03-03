@@ -20,7 +20,7 @@ package org.trypticon.hex.interpreters.dates;
 
 import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 import org.trypticon.hex.binary.Binary;
-import org.trypticon.hex.interpreters.primitives.BitField;
+import org.trypticon.hex.interpreters.primitives.IntBitField;
 import org.trypticon.hex.interpreters.primitives.LittleEndian;
 
 /**
@@ -29,9 +29,9 @@ import org.trypticon.hex.interpreters.primitives.LittleEndian;
  * @author trejkaz
  */
 public class DosTimeInterpreter extends AbstractFixedLengthInterpreter<Time> {
-    private static final BitField second = BitField.lowest(5);
-    private static final BitField minute = second.next(6);
-    private static final BitField hour = minute.next(5);
+    private static final IntBitField second = IntBitField.lowest(5);
+    private static final IntBitField minute = second.next(6);
+    private static final IntBitField hour = minute.next(5);
     private static final int SECOND_RESOLUTION = 2;
 
     public DosTimeInterpreter() {
