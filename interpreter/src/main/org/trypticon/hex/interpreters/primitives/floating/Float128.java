@@ -97,7 +97,6 @@ public class Float128 extends Number implements Value {
             long mantissaHigh = mantissaField.evaluate(encodedValueHigh);
             BigInteger mantissaLow = BigInteger.valueOf(encodedValueLow)
                     .and(BigInteger.ONE.shiftLeft(64).subtract(BigInteger.ONE));
-            //TODO: If encodedValueLow is negative, this fucks up
             mantissa = BigInteger.valueOf(mantissaHigh).shiftLeft(64).or(mantissaLow);
             exponent = (int) exponentField.evaluate(encodedValueHigh);
             sign = (int) signField.evaluate(encodedValueHigh);
