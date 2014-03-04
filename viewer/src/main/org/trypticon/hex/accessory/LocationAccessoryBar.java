@@ -143,9 +143,9 @@ public class LocationAccessoryBar extends AccessoryBar {
     }
 
     private class HexFormattedTextField extends StealthFormattedTextField {
+        // setFormatter() appears to have no effect. Swing uses its own default number formatter.
         private HexFormattedTextField() {
-            // setFormatter() appears to have no effect. Swing uses its own default number formatter.
-            setFormatterFactory(new AbstractFormatterFactory() {
+            super(new AbstractFormatterFactory() {
                 @Override
                 public AbstractFormatter getFormatter(JFormattedTextField tf) {
                     return new AbstractFormatter() {

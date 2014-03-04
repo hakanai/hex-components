@@ -30,10 +30,15 @@ import java.awt.event.FocusEvent;
  * A text field for displaying values which looks a lot like a label when it isn't being used to edit text.
  */
 public class StealthFormattedTextField extends JFormattedTextField {
-    JLabel labelTemplate;
-    JTextField textFieldTemplate;
+    private JLabel labelTemplate;
+    private JTextField textFieldTemplate;
 
     public StealthFormattedTextField() {
+        commonInit();
+    }
+
+    public StealthFormattedTextField(AbstractFormatterFactory factory) {
+        super(factory);
         commonInit();
     }
 
