@@ -25,6 +25,8 @@ import javax.swing.JTextField;
 import java.awt.Insets;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * A text field for displaying values which looks a lot like a label when it isn't being used to edit text.
@@ -43,21 +45,35 @@ public class StealthFormattedTextField extends JFormattedTextField {
     }
 
     private void commonInit() {
+        addPropertyChangeListener("JComponent.sizeVariant", new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent event) {
+                updateProperties();
+            }
+        });
         addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent event) {
-                updateBorder();
+                updateProperties();
             }
 
             @Override
             public void focusLost(FocusEvent event) {
-                updateBorder();
+                updateProperties();
             }
         });
         updateUI();
     }
 
-    private void updateBorder() {
+    private void updateProperties() {
+        labelTemplate.putClientProperty("JComponent.sizeVariant", getClientProperty("JComponent.sizeVariant"));
+        textFieldTemplate.putClientProperty("JComponent.sizeVariant", getClientProperty("JComponent.sizeVariant"));
+
+        // Make the label insets the same as the text field to stop the UI jumping around every time the state changes.
+        Insets insets = textFieldTemplate.getBorder().getBorderInsets(this);
+        labelTemplate.setBorder(BorderFactory.createEmptyBorder(insets.top, insets.left, insets.bottom, insets.right));
+
+        setFont(labelTemplate.getFont());
         if (hasFocus()) {
             textFieldTemplate.setEditable(isEditable());
             setBorder(textFieldTemplate.getBorder());
@@ -68,7 +84,6 @@ public class StealthFormattedTextField extends JFormattedTextField {
             setForeground(labelTemplate.getForeground());
             setBackground(labelTemplate.getBackground());
         }
-        getParent().revalidate();
     }
 
     @Override
@@ -78,12 +93,6 @@ public class StealthFormattedTextField extends JFormattedTextField {
         labelTemplate = new JLabel();
         textFieldTemplate = new JTextField();
 
-        Insets insets = textFieldTemplate.getBorder().getBorderInsets(this);
-        labelTemplate.setBorder(BorderFactory.createEmptyBorder(insets.top, insets.left, insets.bottom, insets.right));
-
-        setFont(labelTemplate.getFont());
-        setForeground(labelTemplate.getForeground());
-        setBackground(labelTemplate.getBackground());
-        setBorder(labelTemplate.getBorder());
+        updateProperties();
     }
 }
