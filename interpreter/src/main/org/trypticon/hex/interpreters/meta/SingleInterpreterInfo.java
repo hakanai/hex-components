@@ -16,26 +16,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.dates;
+package org.trypticon.hex.interpreters.meta;
 
 import org.trypticon.hex.interpreters.AbstractInterpreterInfo;
 import org.trypticon.hex.interpreters.Interpreter;
-import org.trypticon.hex.util.LocalisedName;
+import org.trypticon.hex.util.Name;
 
 import java.util.Map;
 
 /**
- * Info for {@link DosTimeInterpreter}.
- *
- * @author trejkaz
+ * Implements the common case of a single interpreter with no options.
  */
-public class DosTimeInterpreterInfo extends AbstractInterpreterInfo {
-    public DosTimeInterpreterInfo() {
-        super(new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.DosTime"));
+public class SingleInterpreterInfo extends AbstractInterpreterInfo {
+    // Since interpreters are assumed to carry no state, you can share the instances.
+    private final Interpreter interpreter;
+
+    public SingleInterpreterInfo(Name name, Interpreter interpreter) {
+        super(name);
+        this.interpreter = interpreter;
     }
 
     @Override
     public Interpreter create(Map<String, Object> options) {
-        return new DosTimeInterpreter();
+        return interpreter;
     }
 }
