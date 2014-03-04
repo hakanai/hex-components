@@ -30,6 +30,17 @@ import java.util.Map;
  */
 public interface InterpreterStorage {
     /**
+     * Gets a list of information about all interpreters this storage utility knows about,
+     * grouping together options with common behaviour, e.g. all the types which are essentially
+     * the same can be grouped together into a single interpreter for handling that type with
+     * different lengths, or big and little endian implementations can be grouped together into
+     * a single interpreter info which allows choosing the endian-ness.
+     *
+     * @return the list of interpreter info.
+     */
+    List<InterpreterInfo> getGroupedInterpreterInfos();
+
+    /**
      * Gets a list of information about all interpreters this storage utility knows about.
      *
      * @return the list of interpreter info.

@@ -18,17 +18,18 @@
 
 package org.trypticon.hex.interpreters.dates;
 
-import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
+import org.trypticon.hex.interpreters.AbstractInterpreterInfo;
 import org.trypticon.hex.interpreters.Interpreter;
+import org.trypticon.hex.util.LocalisedName;
 
 import java.util.Map;
 
 /**
  * Info for {@link JavaTimeInterpreter}.
  */
-public class JavaTimeInterpreterInfo extends AbstractInternalInterpreterInfo {
+public class JavaTimeInterpreterInfo extends AbstractInterpreterInfo {
     public JavaTimeInterpreterInfo() {
-        super("JavaTime");
+        super(new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.JavaTime"));
     }
 
     @Override

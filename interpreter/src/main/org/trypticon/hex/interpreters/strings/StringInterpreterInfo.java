@@ -18,8 +18,9 @@
 
 package org.trypticon.hex.interpreters.strings;
 
-import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
+import org.trypticon.hex.interpreters.AbstractInterpreterInfo;
 import org.trypticon.hex.interpreters.Interpreter;
+import org.trypticon.hex.util.LocalisedName;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,9 +31,9 @@ import java.util.Map;
  *
  * @author trejkaz
  */
-public class StringInterpreterInfo extends AbstractInternalInterpreterInfo {
+public class StringInterpreterInfo extends AbstractInterpreterInfo {
     public StringInterpreterInfo() {
-        super("String");
+        super(new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.String"));
     }
 
     @Override

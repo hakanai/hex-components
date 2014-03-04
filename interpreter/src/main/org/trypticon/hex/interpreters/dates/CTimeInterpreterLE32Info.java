@@ -18,17 +18,18 @@
 
 package org.trypticon.hex.interpreters.dates;
 
-import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
+import org.trypticon.hex.interpreters.AbstractInterpreterInfo;
 import org.trypticon.hex.interpreters.Interpreter;
+import org.trypticon.hex.util.LocalisedName;
 
 import java.util.Map;
 
 /**
  * Info for {@link CTimeInterpreterLE32}.
  */
-public class CTimeInterpreterLE32Info extends AbstractInternalInterpreterInfo {
+public class CTimeInterpreterLE32Info extends AbstractInterpreterInfo {
     public CTimeInterpreterLE32Info() {
-        super("CTimeLE32");
+        super(new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.CTimeLE32"));
     }
 
     @Override

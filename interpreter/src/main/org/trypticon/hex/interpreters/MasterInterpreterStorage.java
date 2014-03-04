@@ -47,8 +47,16 @@ public class MasterInterpreterStorage implements InterpreterStorage {
     }
 
     @Override
+    public List<InterpreterInfo> getGroupedInterpreterInfos() {
+        List<InterpreterInfo> infos = new ArrayList<>();
+        for (InterpreterStorage provider : providers) {
+            infos.addAll(provider.getGroupedInterpreterInfos());
+        }
+        return Collections.unmodifiableList(infos);
+    }
+
+    @Override
     public List<InterpreterInfo> getInterpreterInfos() {
-        // TODO: Interpreter info should be structured to allow categorising them as well, for menus.
         List<InterpreterInfo> infos = new ArrayList<>();
         for (InterpreterStorage provider : providers) {
             infos.addAll(provider.getInterpreterInfos());

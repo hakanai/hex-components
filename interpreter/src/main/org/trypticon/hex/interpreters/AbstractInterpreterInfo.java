@@ -18,6 +18,9 @@
 
 package org.trypticon.hex.interpreters;
 
+import org.trypticon.hex.util.Name;
+import org.trypticon.hex.util.NameStyle;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -28,10 +31,20 @@ import java.util.Locale;
  * @author trejkaz
  */
 public abstract class AbstractInterpreterInfo implements InterpreterInfo {
+    private final Name name;
+
+    protected AbstractInterpreterInfo(Name name) {
+        this.name = name;
+    }
 
     @Override
     public final String getLocalisedName(NameStyle nameStyle) {
-        return getLocalisedName(nameStyle, Locale.getDefault(Locale.Category.DISPLAY));
+        return name.getLocalisedName(nameStyle);
+    }
+
+    @Override
+    public final String getLocalisedName(NameStyle style, Locale locale) {
+        return name.getLocalisedName(style, locale);
     }
 
     @Override

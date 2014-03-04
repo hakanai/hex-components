@@ -16,26 +16,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.dates;
+package org.trypticon.hex.util;
 
-import org.trypticon.hex.interpreters.AbstractInterpreterInfo;
-import org.trypticon.hex.interpreters.Interpreter;
-import org.trypticon.hex.util.LocalisedName;
-
-import java.util.Map;
+import java.util.Locale;
 
 /**
- * Info for {@link DosTimeInterpreter}.
- *
- * @author trejkaz
+ * Interface implemented by localisable objects.
  */
-public class DosTimeInterpreterInfo extends AbstractInterpreterInfo {
-    public DosTimeInterpreterInfo() {
-        super(new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.DosTime"));
-    }
+public interface Name {
+    /**
+     * Gets a localised name for the object.
+     *
+     * @param style the type of name to get.
+     * @return the name.
+     */
+    String getLocalisedName(NameStyle style);
 
-    @Override
-    public Interpreter create(Map<String, Object> options) {
-        return new DosTimeInterpreter();
-    }
+    /**
+     * Gets a short localised name for the object.
+     *
+     * @param style the type of name to get.
+     * @param locale the locale to get the name for.
+     * @return the short name.
+     */
+    String getLocalisedName(NameStyle style, Locale locale);
 }

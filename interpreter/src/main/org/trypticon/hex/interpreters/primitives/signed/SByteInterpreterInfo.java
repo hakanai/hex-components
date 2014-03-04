@@ -18,8 +18,9 @@
 
 package org.trypticon.hex.interpreters.primitives.signed;
 
-import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
+import org.trypticon.hex.interpreters.AbstractInterpreterInfo;
 import org.trypticon.hex.interpreters.Interpreter;
+import org.trypticon.hex.util.LocalisedName;
 
 import java.util.Map;
 
@@ -28,9 +29,9 @@ import java.util.Map;
  *
  * @author trejkaz
  */
-public class SByteInterpreterInfo extends AbstractInternalInterpreterInfo {
+public class SByteInterpreterInfo extends AbstractInterpreterInfo {
     public SByteInterpreterInfo() {
-        super("SInt8");
+        super(new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.SInt8"));
     }
 
     @Override

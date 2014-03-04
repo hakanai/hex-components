@@ -18,8 +18,9 @@
 
 package org.trypticon.hex.interpreters.primitives.floating;
 
-import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
+import org.trypticon.hex.interpreters.AbstractInterpreterInfo;
 import org.trypticon.hex.interpreters.Interpreter;
+import org.trypticon.hex.util.LocalisedName;
 
 import java.util.Map;
 
@@ -28,9 +29,9 @@ import java.util.Map;
  *
  * @author trejkaz
  */
-public class Float32InterpreterBEInfo extends AbstractInternalInterpreterInfo {
+public class Float32InterpreterBEInfo extends AbstractInterpreterInfo {
     public Float32InterpreterBEInfo() {
-        super("Float32BE");
+        super(new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.Float32BE"));
     }
 
     @Override

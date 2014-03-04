@@ -16,26 +16,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.dates;
-
-import org.trypticon.hex.interpreters.AbstractInterpreterInfo;
-import org.trypticon.hex.interpreters.Interpreter;
-import org.trypticon.hex.util.LocalisedName;
-
-import java.util.Map;
+package org.trypticon.hex.util;
 
 /**
- * Info for {@link DosTimeInterpreter}.
+ * Enumeration of name styles used for {@link Name}.
  *
  * @author trejkaz
  */
-public class DosTimeInterpreterInfo extends AbstractInterpreterInfo {
-    public DosTimeInterpreterInfo() {
-        super(new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.DosTime"));
-    }
+public enum NameStyle {
+    /**
+     * Short name. Appropriate when you have a lot of information to pack into a small space.
+     */
+    SHORT,
 
-    @Override
-    public Interpreter create(Map<String, Object> options) {
-        return new DosTimeInterpreter();
-    }
+    /**
+     * Long name. Appropriate when showing lists of options to the user.
+     */
+    LONG
 }

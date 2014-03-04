@@ -18,8 +18,9 @@
 
 package org.trypticon.hex.interpreters.dates;
 
-import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
+import org.trypticon.hex.interpreters.AbstractInterpreterInfo;
 import org.trypticon.hex.interpreters.Interpreter;
+import org.trypticon.hex.util.LocalisedName;
 
 import java.util.Map;
 
@@ -28,9 +29,9 @@ import java.util.Map;
  *
  * @author trejkaz
  */
-public class WindowsSystemTimeInterpreterInfo extends AbstractInternalInterpreterInfo {
+public class WindowsSystemTimeInterpreterInfo extends AbstractInterpreterInfo {
     public WindowsSystemTimeInterpreterInfo() {
-        super("WindowsSystemTime");
+        super(new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.WindowsSystemTime"));
     }
 
     @Override

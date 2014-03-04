@@ -35,6 +35,11 @@ public class NullInterpreterStorage extends AbstractInterpreterStorage {
     }
 
     @Override
+    public List<InterpreterInfo> getGroupedInterpreterInfos() {
+        return getInterpreterInfos();
+    }
+
+    @Override
     public List<InterpreterInfo> getInterpreterInfos() {
         return Arrays.<InterpreterInfo>asList(new NullInterpreterInfo());
     }

@@ -18,8 +18,9 @@
 
 package org.trypticon.hex.interpreters.primitives.signed;
 
-import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
+import org.trypticon.hex.interpreters.AbstractInterpreterInfo;
 import org.trypticon.hex.interpreters.Interpreter;
+import org.trypticon.hex.util.LocalisedName;
 
 import java.util.Map;
 
@@ -28,9 +29,9 @@ import java.util.Map;
  *
  * @author trejkaz
  */
-public class SIntInterpreterLEInfo extends AbstractInternalInterpreterInfo {
+public class SIntInterpreterLEInfo extends AbstractInterpreterInfo {
     public SIntInterpreterLEInfo() {
-        super("SInt32LE");
+        super(new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.SInt32LE"));
     }
 
     @Override

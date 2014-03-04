@@ -16,21 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters;
+package org.trypticon.hex.accessory;
 
 /**
- * Enumeration of name styles used for localisation.
+ * An accessory bar which shows the interpretation of the selected bytes as a value.
  *
  * @author trejkaz
  */
-public enum NameStyle {
-    /**
-     * Short name. Appropriate when you have a lot of information to pack into a small space.
-     */
-    SHORT,
-
-    /**
-     * Long name. Appropriate when showing lists of options to the user.
-     */
-    LONG
+public class InterpreterAccessoryBar extends AccessoryBar {
 }

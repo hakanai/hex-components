@@ -33,6 +33,11 @@ import java.util.Map;
  * @author trejkaz
  */
 public class StringInterpreterStorage implements InterpreterStorage {
+    @Override
+    public List<InterpreterInfo> getGroupedInterpreterInfos() {
+        return getInterpreterInfos();
+    }
+
     public List<InterpreterInfo> getInterpreterInfos() {
         return Arrays.<InterpreterInfo>asList(new StringInterpreterInfo());
     }

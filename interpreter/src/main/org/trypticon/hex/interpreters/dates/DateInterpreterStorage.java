@@ -20,6 +20,9 @@ package org.trypticon.hex.interpreters.dates;
 
 import org.trypticon.hex.interpreters.AbstractInterpreterStorage;
 import org.trypticon.hex.interpreters.InterpreterInfo;
+import org.trypticon.hex.interpreters.meta.AutoLengthInterpreter;
+import org.trypticon.hex.interpreters.meta.EndianOptionInterpreterInfo;
+import org.trypticon.hex.util.LocalisedName;
 
 import java.util.Arrays;
 import java.util.List;
@@ -45,6 +48,24 @@ public class DateInterpreterStorage extends AbstractInterpreterStorage {
         register("mac_osx_nsdate", MacNSDateInterpreter.class);
         register("mac_classic_date", MacClassicDateInterpreter.class);
         register("notes_time_date", NotesTimeDateInterpreter.class);
+    }
+
+    @Override
+    public List<InterpreterInfo> getGroupedInterpreterInfos() {
+        return Arrays.<InterpreterInfo>asList(
+                new EndianOptionInterpreterInfo(new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.GroupedCTime"),
+                        new AutoLengthInterpreter(new CTimeInterpreterBE32(), new CTimeInterpreterBE64()),
+                        new AutoLengthInterpreter(new CTimeInterpreterLE32(), new CTimeInterpreterLE64())),
+                new JavaTimeInterpreterInfo(),
+                new DosDateInterpreterInfo(),
+                new DosTimeInterpreterInfo(),
+                new DosDateTimeInterpreterInfo(),
+                new WindowsFileTimeInterpreterInfo(),
+                new WindowsSystemTimeInterpreterInfo(),
+                new WindowsOleDateInterpreterInfo(),
+                new MacNSDateInterpreterInfo(),
+                new MacClassicDateInterpreterInfo(),
+                new NotesTimeDateInterpreterInfo());
     }
 
     @Override

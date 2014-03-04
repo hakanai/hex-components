@@ -19,8 +19,10 @@
 package org.trypticon.hex.interpreters;
 
 import org.junit.Test;
+import org.trypticon.hex.util.NameStyle;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -32,6 +34,11 @@ import static org.junit.Assert.fail;
 public class TestConsistency {
     @Test
     public void testInternationalisation() {
+        check(new MasterInterpreterStorage().getGroupedInterpreterInfos());
+        check(new MasterInterpreterStorage().getInterpreterInfos());
+    }
+
+    private void check(List<InterpreterInfo> infos) {
         Set<String> shortNames = new LinkedHashSet<>();
         Set<String> longNames = new LinkedHashSet<>();
         for (InterpreterInfo info : new MasterInterpreterStorage().getInterpreterInfos()) {

@@ -18,8 +18,9 @@
 
 package org.trypticon.hex.interpreters.dates;
 
-import org.trypticon.hex.interpreters.AbstractInternalInterpreterInfo;
+import org.trypticon.hex.interpreters.AbstractInterpreterInfo;
 import org.trypticon.hex.interpreters.Interpreter;
+import org.trypticon.hex.util.LocalisedName;
 
 import java.util.Map;
 
@@ -28,9 +29,9 @@ import java.util.Map;
  *
  * @author trejkaz
  */
-public class NotesTimeDateInterpreterInfo extends AbstractInternalInterpreterInfo {
+public class NotesTimeDateInterpreterInfo extends AbstractInterpreterInfo {
     public NotesTimeDateInterpreterInfo() {
-        super("NotesTimeDate");
+        super(new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.NotesTimeDate"));
     }
 
     @Override

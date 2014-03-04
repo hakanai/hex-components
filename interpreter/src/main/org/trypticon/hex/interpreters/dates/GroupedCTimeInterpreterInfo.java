@@ -18,24 +18,21 @@
 
 package org.trypticon.hex.interpreters.dates;
 
-import org.trypticon.hex.interpreters.AbstractInterpreterInfo;
 import org.trypticon.hex.interpreters.Interpreter;
+import org.trypticon.hex.interpreters.meta.EndianOptionInterpreterInfo;
+import org.trypticon.hex.interpreters.meta.AutoLengthInterpreter;
 import org.trypticon.hex.util.LocalisedName;
-
-import java.util.Map;
+import org.trypticon.hex.util.Name;
 
 /**
- * Info for {@link DosTimeInterpreter}.
+ * Grouped interpreter for C times.
  *
  * @author trejkaz
  */
-public class DosTimeInterpreterInfo extends AbstractInterpreterInfo {
-    public DosTimeInterpreterInfo() {
-        super(new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.DosTime"));
-    }
-
-    @Override
-    public Interpreter create(Map<String, Object> options) {
-        return new DosTimeInterpreter();
+public class GroupedCTimeInterpreterInfo extends EndianOptionInterpreterInfo {
+    public GroupedCTimeInterpreterInfo(Name name, Interpreter<?> bigEndianInterpreter, Interpreter<?> littleEndianInterpreter) {
+        super(new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.GroupedCTime"),
+              new AutoLengthInterpreter(new CTimeInterpreterBE32(), new CTimeInterpreterBE64()),
+              new AutoLengthInterpreter(new CTimeInterpreterLE32(), new CTimeInterpreterLE64()));
     }
 }

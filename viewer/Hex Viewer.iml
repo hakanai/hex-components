@@ -13,6 +13,7 @@
     <orderEntry type="module" module-name="Binary API" />
     <orderEntry type="library" name="JUnit" level="project" />
     <orderEntry type="module" module-name="Utilities" />
+    <orderEntry type="module" module-name="Interpreter API" />
   </component>
 </module>
 

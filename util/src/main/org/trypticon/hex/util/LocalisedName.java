@@ -16,30 +16,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters;
+package org.trypticon.hex.util;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- * Base class for interpreter information implemented in this module where we know the location of
- * the resource bundle and the convention for all the resource keys.
+ * An object used as a delegate to get the name of other objects from a resource bundle.
+ * This exists as a separate utility to avoid having to write the code more than once.
  */
-public abstract class AbstractInternalInterpreterInfo extends AbstractInterpreterInfo {
+public class LocalisedName implements Name {
+    private final String bundleName;
     private final String baseKey;
 
-    /**
-     * Constructs the interpreter info.
-     *
-     * @param baseKey the base key for looking up the names of the interpreter in the resources.
-     */
-    protected AbstractInternalInterpreterInfo(String baseKey) {
+    public LocalisedName(String bundleName, String baseKey) {
+        this.bundleName = bundleName;
         this.baseKey = baseKey;
     }
 
     @Override
-    public final String getLocalisedName(NameStyle style, Locale locale) {
-        return ResourceBundle.getBundle("org/trypticon/hex/interpreters/Bundle")
-                .getString(String.format("Interpreters.%s.%s", baseKey, style));
+    public String getLocalisedName(NameStyle style) {
+        return getLocalisedName(style, Locale.getDefault(Locale.Category.DISPLAY));
+    }
+
+    @Override
+    public String getLocalisedName(NameStyle style, Locale locale) {
+        return ResourceBundle.getBundle(bundleName, locale, Thread.currentThread().getContextClassLoader())
+                .getString(baseKey + '.' + style.name());
     }
 }
