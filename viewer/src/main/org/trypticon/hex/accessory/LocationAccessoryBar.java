@@ -20,6 +20,7 @@ package org.trypticon.hex.accessory;
 
 import org.trypticon.hex.HexViewer;
 import org.trypticon.hex.HexViewerSelectionModel;
+import org.trypticon.hex.util.swingsupport.StealthFormattedTextField;
 
 import javax.swing.GroupLayout;
 import javax.swing.JFormattedTextField;
@@ -141,7 +142,7 @@ public class LocationAccessoryBar extends AccessoryBar {
         }
     }
 
-    private class HexFormattedTextField extends JFormattedTextField {
+    private class HexFormattedTextField extends StealthFormattedTextField {
         private HexFormattedTextField() {
             // setFormatter() appears to have no effect. Swing uses its own default number formatter.
             setFormatterFactory(new AbstractFormatterFactory() {
