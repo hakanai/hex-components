@@ -19,6 +19,10 @@
 package org.trypticon.hex.interpreters.primitives.floating;
 
 import org.trypticon.hex.interpreters.Value;
+import org.trypticon.hex.util.NameStyle;
+
+import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
  * Wraps a Java {@code double} as a {@code Value}.
@@ -59,6 +63,16 @@ public class Float64 extends Number implements Value {
     @Override
     public long length() {
         return 8;
+    }
+
+    @Override
+    public String getLocalisedName(NameStyle style) {
+        return getLocalisedName(style, Locale.getDefault(Locale.Category.FORMAT));
+    }
+
+    @Override
+    public String getLocalisedName(NameStyle style, Locale locale) {
+        return NumberFormat.getInstance().format(doubleValue());
     }
 
     public String toString() {

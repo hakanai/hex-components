@@ -18,6 +18,10 @@
 
 package org.trypticon.hex.interpreters.strings;
 
+import org.trypticon.hex.util.NameStyle;
+
+import java.util.Locale;
+
 /**
  * Simple implementation of a string value.
  *
@@ -35,6 +39,16 @@ public class SimpleStringValue implements StringValue {
     @Override
     public long length() {
         return byteLength;
+    }
+
+    @Override
+    public String getLocalisedName(NameStyle style) {
+        return string;
+    }
+
+    @Override
+    public String getLocalisedName(NameStyle style, Locale locale) {
+        return string;
     }
 
     @Override

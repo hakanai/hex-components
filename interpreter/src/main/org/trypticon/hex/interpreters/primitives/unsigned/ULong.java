@@ -18,9 +18,12 @@
 
 package org.trypticon.hex.interpreters.primitives.unsigned;
 
-import java.math.BigInteger;
-
 import org.trypticon.hex.interpreters.Value;
+import org.trypticon.hex.util.NameStyle;
+
+import java.math.BigInteger;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
  * An unsigned int value.
@@ -63,11 +66,25 @@ public class ULong extends Number implements Value {
         return 8;
     }
 
-    public String toString() {
-        BigInteger signed = BigInteger.valueOf(value);
-        if (signed.signum() < 0) {
-            signed = signed.add(BigInteger.ONE.shiftLeft(64));
+    @Override
+    public String getLocalisedName(NameStyle style) {
+        return getLocalisedName(style, Locale.getDefault(Locale.Category.FORMAT));
+    }
+
+    @Override
+    public String getLocalisedName(NameStyle style, Locale locale) {
+        return NumberFormat.getInstance().format(toBigInteger());
+    }
+
+    private BigInteger toBigInteger() {
+        BigInteger bigInteger = BigInteger.valueOf(value);
+        if (bigInteger.signum() < 0) {
+            bigInteger = bigInteger.add(BigInteger.ONE.shiftLeft(64));
         }
-        return signed.toString();
+        return bigInteger;
+    }
+
+    public String toString() {
+        return toBigInteger().toString();
     }
 }

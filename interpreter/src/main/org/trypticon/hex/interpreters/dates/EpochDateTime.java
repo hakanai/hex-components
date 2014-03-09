@@ -26,7 +26,7 @@ import java.util.TimeZone;
  * A date-time value using {@link Calendar} to compute the date based on an epoch
  * and the offsets the subclass passes in.
  */
-public class EpochDateTime implements DateTime {
+public class EpochDateTime extends AbstractDateTime {
     private final int length;
     private final long millis;
     private final int remainingNanos;

@@ -20,8 +20,11 @@ package org.trypticon.hex.interpreters.primitives.floating;
 
 import org.trypticon.hex.interpreters.Value;
 import org.trypticon.hex.interpreters.primitives.IntBitField;
+import org.trypticon.hex.util.NameStyle;
 
 import java.lang.*;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
  * IEEE 754 half-precision (16-bit) floating point.
@@ -89,6 +92,17 @@ public class Float16 extends Number implements Value {
     @Override
     public long length() {
         return 2;
+    }
+
+    @Override
+    public String getLocalisedName(NameStyle style) {
+        return getLocalisedName(style, Locale.getDefault(Locale.Category.FORMAT));
+    }
+
+    @Override
+    public String getLocalisedName(NameStyle style, Locale locale) {
+        //TODO: This is likely to be too precise.
+        return NumberFormat.getInstance().format(floatValue());
     }
 
     public String toString() {

@@ -18,6 +18,13 @@
 
 package org.trypticon.hex.interpreters.dates;
 
+import org.trypticon.hex.util.NameStyle;
+
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+
 /**
  * Helper abstract class for defining new types of time.
  *
@@ -54,6 +61,20 @@ public abstract class AbstractTime implements Time {
         result = 31 * result + getSecond();
         result = 31 * result + getNanos();
         return result;
+    }
+
+    @Override
+    public String getLocalisedName(NameStyle style) {
+        return getLocalisedName(style, Locale.getDefault(Locale.Category.FORMAT));
+    }
+
+    @Override
+    public String getLocalisedName(NameStyle style, Locale locale) {
+        //TODO: How do nanoseconds fit into this?
+        DateFormat format = DateFormat.getTimeInstance(DateFormat.LONG, locale);
+        Calendar calendar = new GregorianCalendar(locale);
+        calendar.set(2001, Calendar.JANUARY, 1, getHour(), getMinute(), getSecond());
+        return format.format(calendar.getTime());
     }
 
     @Override

@@ -19,6 +19,9 @@
 package org.trypticon.hex.interpreters.nulls;
 
 import org.trypticon.hex.interpreters.Value;
+import org.trypticon.hex.util.NameStyle;
+
+import java.util.Locale;
 
 /**
  * A value with no meaning.
@@ -35,6 +38,16 @@ public class NullValue implements Value {
     @Override
     public long length() {
         return length;
+    }
+
+    @Override
+    public String getLocalisedName(NameStyle style) {
+        return "";
+    }
+
+    @Override
+    public String getLocalisedName(NameStyle style, Locale locale) {
+        return "";
     }
 
     @Override

@@ -20,11 +20,14 @@ package org.trypticon.hex.interpreters.primitives.floating;
 
 import org.trypticon.hex.interpreters.Value;
 import org.trypticon.hex.interpreters.primitives.LongBitField;
+import org.trypticon.hex.util.NameStyle;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
  * IEEE 754 quadruple-precision (128-bit) floating point.
@@ -63,6 +66,19 @@ public class Float128 extends Number implements Value {
     @Override
     public long length() {
         return 16;
+    }
+
+    @Override
+    public String getLocalisedName(NameStyle style) {
+        return getLocalisedName(style, Locale.getDefault(Locale.Category.FORMAT));
+    }
+
+    @Override
+    public String getLocalisedName(NameStyle style, Locale locale) {
+        //TODO: This is likely not to be precise *enough*
+        NumberFormat format = NumberFormat.getInstance();
+//        format.setMaximumIntegerDigits(Float128Fields.toStringMathContext.getPrecision());
+        return format.format(new Float128Fields(encodedValueHigh, encodedValueLow).toBigDecimal());
     }
 
     @Override

@@ -19,6 +19,10 @@
 package org.trypticon.hex.interpreters.primitives.signed;
 
 import org.trypticon.hex.interpreters.Value;
+import org.trypticon.hex.util.NameStyle;
+
+import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
  * A signed short value.
@@ -59,6 +63,16 @@ public class SShort extends Number implements Value {
     @Override
     public long length() {
         return 2;
+    }
+
+    @Override
+    public String getLocalisedName(NameStyle style) {
+        return getLocalisedName(style, Locale.getDefault(Locale.Category.FORMAT));
+    }
+
+    @Override
+    public String getLocalisedName(NameStyle style, Locale locale) {
+        return NumberFormat.getInstance().format(shortValue());
     }
 
     public String toString() {

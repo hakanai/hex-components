@@ -19,6 +19,10 @@
 package org.trypticon.hex.interpreters.primitives.unsigned;
 
 import org.trypticon.hex.interpreters.Value;
+import org.trypticon.hex.util.NameStyle;
+
+import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
  * An unsigned int value.
@@ -59,6 +63,16 @@ public class UInt extends Number implements Value {
     @Override
     public long length() {
         return 4;
+    }
+
+    @Override
+    public String getLocalisedName(NameStyle style) {
+        return getLocalisedName(style, Locale.getDefault(Locale.Category.FORMAT));
+    }
+
+    @Override
+    public String getLocalisedName(NameStyle style, Locale locale) {
+        return NumberFormat.getInstance().format(longValue());
     }
 
     public String toString() {

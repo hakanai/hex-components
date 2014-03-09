@@ -18,6 +18,13 @@
 
 package org.trypticon.hex.interpreters.dates;
 
+import org.trypticon.hex.util.NameStyle;
+
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+
 /**
  * Helper abstract class for defining new types of date.
  *
@@ -49,7 +56,20 @@ public abstract class AbstractDate implements Date {
     }
 
     @Override
+    public String getLocalisedName(NameStyle style) {
+        return getLocalisedName(style, Locale.getDefault(Locale.Category.FORMAT));
+    }
+
+    @Override
+    public String getLocalisedName(NameStyle style, Locale locale) {
+        DateFormat format = DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
+        Calendar calendar = new GregorianCalendar(locale);
+        calendar.set(getYear(), getMonth() - 1, getDay());
+        return format.format(calendar.getTime());
+    }
+
+    @Override
     public String toString() {
-        return String.format("%04d/%02d/%02d", getYear(), getMonth(), getDay());
+        return getLocalisedName(NameStyle.LONG, Locale.ROOT);
     }
 }

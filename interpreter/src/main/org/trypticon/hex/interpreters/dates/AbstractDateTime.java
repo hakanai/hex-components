@@ -16,55 +16,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives.unsigned;
+package org.trypticon.hex.interpreters.dates;
 
-import org.trypticon.hex.interpreters.Value;
 import org.trypticon.hex.util.NameStyle;
 
-import java.text.NumberFormat;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 /**
- * An unsigned byte value.
+ * Base class for implementing date and time.
  *
  * @author trejkaz
  */
-public class UByte extends Number implements Value {
-    private final byte value;
-
-    public UByte(byte value) {
-        this.value = value;
-    }
-
-    public byte getValue() {
-        return value;
-    }
-
-    @Override
-    public int intValue() {
-        return value & 0xFF;
-    }
-
-    @Override
-    public long longValue() {
-        return value & 0xFF;
-    }
-
-    @Override
-    public float floatValue() {
-        return value;
-    }
-
-    @Override
-    public double doubleValue() {
-        return value;
-    }
-
-    @Override
-    public long length() {
-        return 1;
-    }
-
+public abstract class AbstractDateTime implements DateTime {
     @Override
     public String getLocalisedName(NameStyle style) {
         return getLocalisedName(style, Locale.getDefault(Locale.Category.FORMAT));
@@ -72,10 +38,15 @@ public class UByte extends Number implements Value {
 
     @Override
     public String getLocalisedName(NameStyle style, Locale locale) {
-        return NumberFormat.getInstance().format(shortValue());
+        DateFormat format = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, locale);
+        Calendar calendar = new GregorianCalendar(locale);
+        calendar.set(getDate().getYear(), getDate().getMonth() - 1, getDate().getDay(),
+                     getTime().getHour(), getTime().getMinute(), getTime().getSecond());
+        return format.format(calendar.getTime());
     }
 
+    @Override
     public String toString() {
-        return String.valueOf(value & 0xFF);
+        return getLocalisedName(NameStyle.LONG, Locale.ROOT);
     }
 }

@@ -23,7 +23,7 @@ package org.trypticon.hex.interpreters.dates;
  *
  * @author trejkaz
  */
-public class SimpleDateTime implements DateTime {
+public class SimpleDateTime extends AbstractDateTime {
     private final Date date;
     private final Time time;
 
