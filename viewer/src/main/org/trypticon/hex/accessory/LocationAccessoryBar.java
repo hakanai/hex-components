@@ -40,8 +40,8 @@ import java.util.ResourceBundle;
  */
 public class LocationAccessoryBar extends AccessoryBar {
     private final HexViewer viewer;
-    private final HexFormattedTextField offsetField;
-    private final HexFormattedTextField lengthField;
+    private final CustomHexFormattedTextField offsetField;
+    private final CustomHexFormattedTextField lengthField;
     private final Handler handler;
 
     public LocationAccessoryBar(HexViewer viewer) {
@@ -50,9 +50,9 @@ public class LocationAccessoryBar extends AccessoryBar {
 
         ResourceBundle bundle = ResourceBundle.getBundle("org/trypticon/hex/Bundle");
         JLabel offsetLabel = new JLabel(bundle.getString("AccessoryBars.Location.selectedOffset"));
-        offsetField = new HexFormattedTextField();
+        offsetField = new CustomHexFormattedTextField();
         JLabel lengthLabel = new JLabel(bundle.getString("AccessoryBars.Location.length"));
-        lengthField = new HexFormattedTextField();
+        lengthField = new CustomHexFormattedTextField();
 
         offsetLabel.putClientProperty("JComponent.sizeVariant", "small");
         offsetField.putClientProperty("JComponent.sizeVariant", "small");
@@ -63,15 +63,15 @@ public class LocationAccessoryBar extends AccessoryBar {
         setLayout(layout);
 
         layout.setHorizontalGroup(layout.createSequentialGroup()
-                                          .addContainerGap()
-                                          .addComponent(offsetLabel)
-                                          .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                          .addComponent(offsetField, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                          .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                          .addComponent(lengthLabel)
-                                          .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                          .addComponent(lengthField, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                          .addContainerGap());
+                .addContainerGap()
+                .addComponent(offsetLabel)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(offsetField, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lengthLabel)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lengthField, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addContainerGap());
 
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(offsetLabel)
@@ -142,9 +142,9 @@ public class LocationAccessoryBar extends AccessoryBar {
         }
     }
 
-    private class HexFormattedTextField extends StealthFormattedTextField {
+    private class CustomHexFormattedTextField extends StealthFormattedTextField {
         // setFormatter() appears to have no effect. Swing uses its own default number formatter.
-        private HexFormattedTextField() {
+        CustomHexFormattedTextField() {
             super(new AbstractFormatterFactory() {
                 @Override
                 public AbstractFormatter getFormatter(JFormattedTextField tf) {

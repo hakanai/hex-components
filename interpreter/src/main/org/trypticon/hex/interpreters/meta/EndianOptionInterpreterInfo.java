@@ -54,6 +54,10 @@ public class EndianOptionInterpreterInfo extends AbstractInterpreterInfo {
     @Override
     public Interpreter create(Map<String, Object> options) {
         ByteOrder byteOrder = (ByteOrder) options.get("byteOrder");
+        if (byteOrder == null) {
+            throw new IllegalArgumentException("Options do not contain required option: byteOrder");
+        }
+
         return byteOrder == ByteOrder.BIG_ENDIAN ? bigEndianInterpreter : littleEndianInterpreter;
     }
 }

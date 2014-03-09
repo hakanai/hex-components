@@ -15,6 +15,8 @@ Version X.X (XXXX-XX-XX)
         * Mac OS classic dates
      New: Added an accessory bar component which shows where you are in the viewer and allows entering
           a new offset and length to jump to.
+     New: Added an accessory bar component which shows what value you have selected.
+     New: Value classes now know how to convert themselves to localised strings.
 
  Changed: The hex viewport now properly paints its border so that you can see where your focus is.
  Changed: Replaced InterpreterInfo#getHumanName method with a proper getLocalisedName which looks up from
