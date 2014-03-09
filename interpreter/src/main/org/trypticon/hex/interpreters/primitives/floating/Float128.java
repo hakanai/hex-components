@@ -18,7 +18,7 @@
 
 package org.trypticon.hex.interpreters.primitives.floating;
 
-import org.trypticon.hex.interpreters.Value;
+import org.trypticon.hex.interpreters.primitives.AbstractNumberValue;
 import org.trypticon.hex.interpreters.primitives.LongBitField;
 import org.trypticon.hex.util.Format;
 
@@ -34,7 +34,7 @@ import java.util.Locale;
  *
  * @author trejkaz
  */
-public class Float128 extends Number implements Value {
+public class Float128 extends AbstractNumberValue {
     private final long encodedValueHigh;
     private final long encodedValueLow;
 
@@ -69,21 +69,13 @@ public class Float128 extends Number implements Value {
     }
 
     @Override
-    public String getLocalisedName(Format style) {
-        return getLocalisedName(style, Locale.getDefault(Locale.Category.FORMAT));
-    }
-
-    @Override
     public String getLocalisedName(Format style, Locale locale) {
         //TODO: This is likely not to be precise *enough*
         NumberFormat format = NumberFormat.getInstance();
+        // Non-localised version which might be better:
+//        return new Float128Fields(encodedValueHigh, encodedValueLow).toString();
 //        format.setMaximumIntegerDigits(Float128Fields.toStringMathContext.getPrecision());
         return format.format(new Float128Fields(encodedValueHigh, encodedValueLow).toBigDecimal());
-    }
-
-    @Override
-    public String toString() {
-        return new Float128Fields(encodedValueHigh, encodedValueLow).toString();
     }
 
     /**

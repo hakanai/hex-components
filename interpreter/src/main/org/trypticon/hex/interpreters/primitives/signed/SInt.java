@@ -18,7 +18,7 @@
 
 package org.trypticon.hex.interpreters.primitives.signed;
 
-import org.trypticon.hex.interpreters.Value;
+import org.trypticon.hex.interpreters.primitives.AbstractNumberValue;
 import org.trypticon.hex.util.Format;
 
 import java.text.NumberFormat;
@@ -29,7 +29,7 @@ import java.util.Locale;
  *
  * @author trejkaz
  */
-public class SInt extends Number implements Value {
+public class SInt extends AbstractNumberValue {
     private final int value;
 
     public SInt(int value) {
@@ -66,16 +66,7 @@ public class SInt extends Number implements Value {
     }
 
     @Override
-    public String getLocalisedName(Format style) {
-        return getLocalisedName(style, Locale.getDefault(Locale.Category.FORMAT));
-    }
-
-    @Override
     public String getLocalisedName(Format style, Locale locale) {
         return NumberFormat.getInstance().format(intValue());
-    }
-
-    public String toString() {
-        return String.valueOf(value);
     }
 }

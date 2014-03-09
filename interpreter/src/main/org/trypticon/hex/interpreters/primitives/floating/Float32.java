@@ -18,7 +18,7 @@
 
 package org.trypticon.hex.interpreters.primitives.floating;
 
-import org.trypticon.hex.interpreters.Value;
+import org.trypticon.hex.interpreters.primitives.AbstractNumberValue;
 import org.trypticon.hex.util.Format;
 
 import java.text.NumberFormat;
@@ -29,7 +29,7 @@ import java.util.Locale;
  *
  * @author trejkaz
  */
-public class Float32 extends Number implements Value {
+public class Float32 extends AbstractNumberValue {
     private final float value;
 
     public Float32(float value) {
@@ -66,17 +66,10 @@ public class Float32 extends Number implements Value {
     }
 
     @Override
-    public String getLocalisedName(Format style) {
-        return getLocalisedName(style, Locale.getDefault(Locale.Category.FORMAT));
-    }
-
-    @Override
     public String getLocalisedName(Format style, Locale locale) {
         //TODO: This is likely to be too precise.
+        // Non-localised version which gives about the right result:
+//        return String.valueOf(value);
         return NumberFormat.getInstance().format(floatValue());
-    }
-
-    public String toString() {
-        return String.valueOf(value);
     }
 }

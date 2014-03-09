@@ -18,7 +18,7 @@
 
 package org.trypticon.hex.interpreters.nulls;
 
-import org.trypticon.hex.interpreters.Value;
+import org.trypticon.hex.interpreters.AbstractValue;
 import org.trypticon.hex.util.Format;
 
 import java.util.Locale;
@@ -28,7 +28,7 @@ import java.util.Locale;
  *
  * @author trejkaz
  */
-public class NullValue implements Value {
+public class NullValue extends AbstractValue {
     private final long length;
 
     NullValue(long length) {
@@ -41,17 +41,7 @@ public class NullValue implements Value {
     }
 
     @Override
-    public String getLocalisedName(Format style) {
-        return "";
-    }
-
-    @Override
     public String getLocalisedName(Format style, Locale locale) {
-        return "";
-    }
-
-    @Override
-    public String toString() {
         return "";
     }
 }

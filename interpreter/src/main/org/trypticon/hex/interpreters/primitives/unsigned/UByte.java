@@ -18,7 +18,7 @@
 
 package org.trypticon.hex.interpreters.primitives.unsigned;
 
-import org.trypticon.hex.interpreters.Value;
+import org.trypticon.hex.interpreters.primitives.AbstractNumberValue;
 import org.trypticon.hex.util.Format;
 
 import java.text.NumberFormat;
@@ -29,7 +29,7 @@ import java.util.Locale;
  *
  * @author trejkaz
  */
-public class UByte extends Number implements Value {
+public class UByte extends AbstractNumberValue {
     private final byte value;
 
     public UByte(byte value) {
@@ -66,16 +66,7 @@ public class UByte extends Number implements Value {
     }
 
     @Override
-    public String getLocalisedName(Format style) {
-        return getLocalisedName(style, Locale.getDefault(Locale.Category.FORMAT));
-    }
-
-    @Override
     public String getLocalisedName(Format style, Locale locale) {
         return NumberFormat.getInstance().format(shortValue());
-    }
-
-    public String toString() {
-        return String.valueOf(value & 0xFF);
     }
 }

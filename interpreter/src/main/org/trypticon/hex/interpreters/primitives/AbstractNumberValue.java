@@ -16,57 +16,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives.signed;
+package org.trypticon.hex.interpreters.primitives;
 
-import org.trypticon.hex.interpreters.primitives.AbstractNumberValue;
+import org.trypticon.hex.interpreters.AbstractValue;
+import org.trypticon.hex.interpreters.Value;
 import org.trypticon.hex.util.Format;
 
-import java.text.NumberFormat;
+import java.lang.Number;
 import java.util.Locale;
 
 /**
- * A signed byte value.
+ * <p>Combination of {@link AbstractValue} and {@link Number}.</p>
  *
- * @author trejkaz
+ * <p>Will probably become redundant in Java 8 once we can move the default implementations to the
+ *    {@link Value} interface.</p>
  */
-public class SByte extends AbstractNumberValue {
-    private final byte value;
-
-    public SByte(byte value) {
-        this.value = value;
-    }
-
-    public byte getValue() {
-        return value;
+public abstract class AbstractNumberValue extends Number implements Value {
+    @Override
+    public final String getLocalisedName(Format style) {
+        return getLocalisedName(style, Locale.getDefault(Locale.Category.FORMAT));
     }
 
     @Override
-    public int intValue() {
-        return value;
-    }
-
-    @Override
-    public long longValue() {
-        return value;
-    }
-
-    @Override
-    public float floatValue() {
-        return value;
-    }
-
-    @Override
-    public double doubleValue() {
-        return value;
-    }
-
-    @Override
-    public long length() {
-        return 1;
-    }
-
-    @Override
-    public String getLocalisedName(Format style, Locale locale) {
-        return NumberFormat.getInstance().format(byteValue());
+    public final String toString() {
+        return getLocalisedName(Format.LONG, Locale.ROOT);
     }
 }

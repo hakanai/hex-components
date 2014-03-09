@@ -18,11 +18,10 @@
 
 package org.trypticon.hex.interpreters.primitives.floating;
 
-import org.trypticon.hex.interpreters.Value;
+import org.trypticon.hex.interpreters.primitives.AbstractNumberValue;
 import org.trypticon.hex.interpreters.primitives.IntBitField;
 import org.trypticon.hex.util.Format;
 
-import java.lang.*;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -31,7 +30,7 @@ import java.util.Locale;
  *
  * @author trejkaz
  */
-public class Float16 extends Number implements Value {
+public class Float16 extends AbstractNumberValue {
     // Breakdown of the format.
     private static final IntBitField mantissaField = IntBitField.lowest(10);
     private static final IntBitField exponentField = mantissaField.next(5);
@@ -95,17 +94,12 @@ public class Float16 extends Number implements Value {
     }
 
     @Override
-    public String getLocalisedName(Format style) {
-        return getLocalisedName(style, Locale.getDefault(Locale.Category.FORMAT));
-    }
-
-    @Override
     public String getLocalisedName(Format style, Locale locale) {
         //TODO: This is likely to be too precise.
+        // Non-localised version which gives about the right result:
+//        public String toString() {
+//            return String.format("%.4G", 0.00000111f);
+//        }
         return NumberFormat.getInstance().format(floatValue());
-    }
-
-    public String toString() {
-        return String.format("%.4G", 0.00000111f);
     }
 }

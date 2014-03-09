@@ -18,6 +18,7 @@
 
 package org.trypticon.hex.interpreters.strings;
 
+import org.trypticon.hex.interpreters.AbstractValue;
 import org.trypticon.hex.util.Format;
 
 import java.util.Locale;
@@ -27,7 +28,7 @@ import java.util.Locale;
  *
  * @author trejkaz
  */
-public class SimpleStringValue implements StringValue {
+public class SimpleStringValue extends AbstractValue implements StringValue {
     private final String string;
     private final long byteLength;
 
@@ -42,17 +43,7 @@ public class SimpleStringValue implements StringValue {
     }
 
     @Override
-    public String getLocalisedName(Format style) {
-        return string;
-    }
-
-    @Override
     public String getLocalisedName(Format style, Locale locale) {
-        return string;
-    }
-
-    @Override
-    public String toString() {
         return string;
     }
 }

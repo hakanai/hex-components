@@ -16,57 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.primitives.signed;
+package org.trypticon.hex.interpreters;
 
-import org.trypticon.hex.interpreters.primitives.AbstractNumberValue;
 import org.trypticon.hex.util.Format;
 
-import java.text.NumberFormat;
 import java.util.Locale;
 
 /**
- * A signed byte value.
- *
- * @author trejkaz
+ * Base class for implementing values.
  */
-public class SByte extends AbstractNumberValue {
-    private final byte value;
-
-    public SByte(byte value) {
-        this.value = value;
-    }
-
-    public byte getValue() {
-        return value;
+public abstract class AbstractValue implements Value {
+    @Override
+    public final String getLocalisedName(Format style) {
+        return getLocalisedName(style, Locale.getDefault(Locale.Category.FORMAT));
     }
 
     @Override
-    public int intValue() {
-        return value;
-    }
-
-    @Override
-    public long longValue() {
-        return value;
-    }
-
-    @Override
-    public float floatValue() {
-        return value;
-    }
-
-    @Override
-    public double doubleValue() {
-        return value;
-    }
-
-    @Override
-    public long length() {
-        return 1;
-    }
-
-    @Override
-    public String getLocalisedName(Format style, Locale locale) {
-        return NumberFormat.getInstance().format(byteValue());
+    public final String toString() {
+        return getLocalisedName(Format.LONG, Locale.ROOT);
     }
 }

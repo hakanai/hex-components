@@ -18,7 +18,7 @@
 
 package org.trypticon.hex.interpreters.primitives.unsigned;
 
-import org.trypticon.hex.interpreters.Value;
+import org.trypticon.hex.interpreters.primitives.AbstractNumberValue;
 import org.trypticon.hex.util.Format;
 
 import java.math.BigInteger;
@@ -30,7 +30,7 @@ import java.util.Locale;
  *
  * @author trejkaz
  */
-public class ULong extends Number implements Value {
+public class ULong extends AbstractNumberValue {
     private final long value;
 
     public ULong(long value) {
@@ -67,11 +67,6 @@ public class ULong extends Number implements Value {
     }
 
     @Override
-    public String getLocalisedName(Format style) {
-        return getLocalisedName(style, Locale.getDefault(Locale.Category.FORMAT));
-    }
-
-    @Override
     public String getLocalisedName(Format style, Locale locale) {
         return NumberFormat.getInstance().format(toBigInteger());
     }
@@ -82,9 +77,5 @@ public class ULong extends Number implements Value {
             bigInteger = bigInteger.add(BigInteger.ONE.shiftLeft(64));
         }
         return bigInteger;
-    }
-
-    public String toString() {
-        return toBigInteger().toString();
     }
 }
