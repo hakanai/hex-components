@@ -18,7 +18,7 @@
 
 package org.trypticon.hex.interpreters.dates;
 
-import org.trypticon.hex.util.NameStyle;
+import org.trypticon.hex.util.Format;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -64,12 +64,12 @@ public abstract class AbstractTime implements Time {
     }
 
     @Override
-    public String getLocalisedName(NameStyle style) {
+    public String getLocalisedName(Format style) {
         return getLocalisedName(style, Locale.getDefault(Locale.Category.FORMAT));
     }
 
     @Override
-    public String getLocalisedName(NameStyle style, Locale locale) {
+    public String getLocalisedName(Format style, Locale locale) {
         //TODO: How do nanoseconds fit into this?
         DateFormat format = DateFormat.getTimeInstance(DateFormat.LONG, locale);
         Calendar calendar = new GregorianCalendar(locale);

@@ -19,7 +19,7 @@
 package org.trypticon.hex.interpreters;
 
 import org.junit.Test;
-import org.trypticon.hex.util.NameStyle;
+import org.trypticon.hex.util.Format;
 
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -42,11 +42,11 @@ public class TestConsistency {
         Set<String> shortNames = new LinkedHashSet<>();
         Set<String> longNames = new LinkedHashSet<>();
         for (InterpreterInfo info : new MasterInterpreterStorage().getInterpreterInfos()) {
-            String shortName = info.getLocalisedName(NameStyle.SHORT, Locale.ROOT);
+            String shortName = info.getLocalisedName(Format.SHORT, Locale.ROOT);
             if (!shortNames.add(shortName)) {
                 fail("Duplicate short name: " + shortName);
             }
-            String longName = info.getLocalisedName(NameStyle.LONG, Locale.ROOT);
+            String longName = info.getLocalisedName(Format.LONG, Locale.ROOT);
             if (!longNames.add(longName)) {
                 fail("Duplicate long name: " + longName);
             }

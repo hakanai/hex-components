@@ -18,16 +18,16 @@
 
 package org.trypticon.hex.util.swingsupport;
 
-import org.trypticon.hex.util.Name;
+import org.trypticon.hex.util.Localisable;
 
 import javax.swing.ListCellRenderer;
 
 /**
- * A combo box which renders the elements using {@link Name}
+ * A combo box which renders the elements using {@link org.trypticon.hex.util.Localisable}
  *
  * @author trejkaz
  */
-public class NameRenderingComboBox<E extends Name> extends DelegateRenderingComboBox<E> {
+public class NameRenderingComboBox<E extends Localisable> extends DelegateRenderingComboBox<E> {
     public NameRenderingComboBox(E[] items) {
         super(items);
     }

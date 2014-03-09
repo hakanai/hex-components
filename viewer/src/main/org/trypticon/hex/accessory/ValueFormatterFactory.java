@@ -19,7 +19,7 @@
 package org.trypticon.hex.accessory;
 
 import org.trypticon.hex.interpreters.Value;
-import org.trypticon.hex.util.NameStyle;
+import org.trypticon.hex.util.Format;
 
 import javax.swing.JFormattedTextField;
 import java.text.ParseException;
@@ -46,7 +46,7 @@ class ValueFormatterFactory extends JFormattedTextField.AbstractFormatterFactory
             if (value == null) {
                 return "";
             } else if (value instanceof Value) {
-                return ((Value) value).getLocalisedName(NameStyle.LONG);
+                return ((Value) value).getLocalisedName(Format.LONG);
             } else if (value instanceof String) {
                 return (String) value;
             }

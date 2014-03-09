@@ -18,14 +18,14 @@
 
 package org.trypticon.hex.interpreters;
 
-import org.trypticon.hex.util.Name;
+import org.trypticon.hex.util.Localisable;
 
 /**
  * An interpreted value.
  *
  * @author trejkaz
  */
-public interface Value extends Name { // TODO: Name should probably be renamed to Localised or something.
+public interface Value extends Localisable {
 
     /**
      * Gets the length of the value, in bytes.

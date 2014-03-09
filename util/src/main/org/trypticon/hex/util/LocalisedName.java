@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
  * An object used as a delegate to get the name of other objects from a resource bundle.
  * This exists as a separate utility to avoid having to write the code more than once.
  */
-public class LocalisedName implements Name {
+public class LocalisedName implements Localisable {
     private final String bundleName;
     private final String baseKey;
 
@@ -35,12 +35,12 @@ public class LocalisedName implements Name {
     }
 
     @Override
-    public String getLocalisedName(NameStyle style) {
+    public String getLocalisedName(Format style) {
         return getLocalisedName(style, Locale.getDefault(Locale.Category.DISPLAY));
     }
 
     @Override
-    public String getLocalisedName(NameStyle style, Locale locale) {
+    public String getLocalisedName(Format style, Locale locale) {
         return ResourceBundle.getBundle(bundleName, locale, Thread.currentThread().getContextClassLoader())
                 .getString(baseKey + '.' + style.name());
     }

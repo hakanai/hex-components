@@ -19,18 +19,18 @@
 package org.trypticon.hex.util;
 
 /**
- * Enumeration of name styles used for {@link Name}.
+ * Enumeration of format styles used for {@link Localisable}.
  *
  * @author trejkaz
  */
-public enum NameStyle {
+public enum Format {
     /**
-     * Short name. Appropriate when you have a lot of information to pack into a small space.
+     * Short format. Appropriate when you have a lot of information to pack into a small space.
      */
     SHORT,
 
     /**
-     * Long name. Appropriate when showing lists of options to the user.
+     * Long format. Appropriate when showing lists of options to the user.
      */
     LONG
 }

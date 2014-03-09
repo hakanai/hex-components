@@ -18,7 +18,7 @@
 
 package org.trypticon.hex.interpreters.dates;
 
-import org.trypticon.hex.util.NameStyle;
+import org.trypticon.hex.util.Format;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -56,12 +56,12 @@ public abstract class AbstractDate implements Date {
     }
 
     @Override
-    public String getLocalisedName(NameStyle style) {
+    public String getLocalisedName(Format style) {
         return getLocalisedName(style, Locale.getDefault(Locale.Category.FORMAT));
     }
 
     @Override
-    public String getLocalisedName(NameStyle style, Locale locale) {
+    public String getLocalisedName(Format style, Locale locale) {
         DateFormat format = DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
         Calendar calendar = new GregorianCalendar(locale);
         calendar.set(getYear(), getMonth() - 1, getDay());
@@ -70,6 +70,6 @@ public abstract class AbstractDate implements Date {
 
     @Override
     public String toString() {
-        return getLocalisedName(NameStyle.LONG, Locale.ROOT);
+        return getLocalisedName(Format.LONG, Locale.ROOT);
     }
 }

@@ -23,14 +23,14 @@ import java.util.Locale;
 /**
  * Interface implemented by localisable objects.
  */
-public interface Name {
+public interface Localisable {
     /**
      * Gets a localised name for the object.
      *
      * @param style the type of name to get.
      * @return the name.
      */
-    String getLocalisedName(NameStyle style);
+    String getLocalisedName(Format style);
 
     /**
      * Gets a short localised name for the object.
@@ -39,5 +39,5 @@ public interface Name {
      * @param locale the locale to get the name for.
      * @return the short name.
      */
-    String getLocalisedName(NameStyle style, Locale locale);
+    String getLocalisedName(Format style, Locale locale);
 }

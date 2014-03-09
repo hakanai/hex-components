@@ -18,7 +18,7 @@
 
 package org.trypticon.hex.interpreters;
 
-import org.trypticon.hex.util.Name;
+import org.trypticon.hex.util.Localisable;
 
 import java.util.List;
 import java.util.Map;
@@ -28,7 +28,7 @@ import java.util.Map;
  *
  * @author trejkaz
  */
-public interface InterpreterInfo extends Name {
+public interface InterpreterInfo extends Localisable {
 
     /**
      * Gets the list of options supported by the interpreter.

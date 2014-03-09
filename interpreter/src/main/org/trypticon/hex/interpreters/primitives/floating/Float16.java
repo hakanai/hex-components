@@ -20,7 +20,7 @@ package org.trypticon.hex.interpreters.primitives.floating;
 
 import org.trypticon.hex.interpreters.Value;
 import org.trypticon.hex.interpreters.primitives.IntBitField;
-import org.trypticon.hex.util.NameStyle;
+import org.trypticon.hex.util.Format;
 
 import java.lang.*;
 import java.text.NumberFormat;
@@ -95,12 +95,12 @@ public class Float16 extends Number implements Value {
     }
 
     @Override
-    public String getLocalisedName(NameStyle style) {
+    public String getLocalisedName(Format style) {
         return getLocalisedName(style, Locale.getDefault(Locale.Category.FORMAT));
     }
 
     @Override
-    public String getLocalisedName(NameStyle style, Locale locale) {
+    public String getLocalisedName(Format style, Locale locale) {
         //TODO: This is likely to be too precise.
         return NumberFormat.getInstance().format(floatValue());
     }

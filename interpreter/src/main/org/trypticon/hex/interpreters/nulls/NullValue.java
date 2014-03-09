@@ -19,7 +19,7 @@
 package org.trypticon.hex.interpreters.nulls;
 
 import org.trypticon.hex.interpreters.Value;
-import org.trypticon.hex.util.NameStyle;
+import org.trypticon.hex.util.Format;
 
 import java.util.Locale;
 
@@ -41,12 +41,12 @@ public class NullValue implements Value {
     }
 
     @Override
-    public String getLocalisedName(NameStyle style) {
+    public String getLocalisedName(Format style) {
         return "";
     }
 
     @Override
-    public String getLocalisedName(NameStyle style, Locale locale) {
+    public String getLocalisedName(Format style, Locale locale) {
         return "";
     }
 

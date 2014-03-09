@@ -18,19 +18,19 @@
 
 package org.trypticon.hex.util.swingsupport;
 
-import org.trypticon.hex.util.Name;
-import org.trypticon.hex.util.NameStyle;
+import org.trypticon.hex.util.Format;
+import org.trypticon.hex.util.Localisable;
 
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import java.awt.Component;
 
 /**
- * A list cell renderer which can use an object's {@link Name}.
+ * A list cell renderer which can use an object's {@link org.trypticon.hex.util.Localisable}.
  *
  * @author trejkaz
  */
-//XXX: I want this to be DelegatingListCellRenderer<Name> but if you do that, the super call is invalid.
+//XXX: I want this to be DelegatingListCellRenderer<Localisable> but if you do that, the super call is invalid.
 public class NameListCellRenderer extends DelegatingListCellRenderer<Object> {
     protected NameListCellRenderer(ListCellRenderer<Object> delegate) {
         super(delegate);
@@ -38,8 +38,8 @@ public class NameListCellRenderer extends DelegatingListCellRenderer<Object> {
 
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-        if (value instanceof Name) {
-            value = ((Name) value).getLocalisedName(NameStyle.LONG);
+        if (value instanceof Localisable) {
+            value = ((Localisable) value).getLocalisedName(Format.LONG);
         }
         return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
     }

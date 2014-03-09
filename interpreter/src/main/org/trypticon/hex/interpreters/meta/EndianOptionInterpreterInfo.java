@@ -20,7 +20,7 @@ package org.trypticon.hex.interpreters.meta;
 
 import org.trypticon.hex.interpreters.AbstractInterpreterInfo;
 import org.trypticon.hex.interpreters.Interpreter;
-import org.trypticon.hex.util.Name;
+import org.trypticon.hex.util.Localisable;
 
 import java.nio.ByteOrder;
 import java.util.Arrays;
@@ -37,7 +37,7 @@ public class EndianOptionInterpreterInfo extends AbstractInterpreterInfo {
     private final Interpreter<?> bigEndianInterpreter;
     private final Interpreter<?> littleEndianInterpreter;
 
-    public EndianOptionInterpreterInfo(Name name,
+    public EndianOptionInterpreterInfo(Localisable name,
                                        Interpreter<?> bigEndianInterpreter,
                                        Interpreter<?> littleEndianInterpreter)
     {

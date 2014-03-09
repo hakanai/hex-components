@@ -20,7 +20,7 @@ package org.trypticon.hex.interpreters.meta;
 
 import org.trypticon.hex.interpreters.AbstractInterpreterInfo;
 import org.trypticon.hex.interpreters.Interpreter;
-import org.trypticon.hex.util.Name;
+import org.trypticon.hex.util.Localisable;
 
 import java.util.Map;
 
@@ -31,7 +31,7 @@ public class SingleInterpreterInfo extends AbstractInterpreterInfo {
     // Since interpreters are assumed to carry no state, you can share the instances.
     private final Interpreter interpreter;
 
-    public SingleInterpreterInfo(Name name, Interpreter interpreter) {
+    public SingleInterpreterInfo(Localisable name, Interpreter interpreter) {
         super(name);
         this.interpreter = interpreter;
     }
