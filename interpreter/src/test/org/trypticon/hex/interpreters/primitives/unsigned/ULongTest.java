@@ -18,10 +18,9 @@
 
 package org.trypticon.hex.interpreters.primitives.unsigned;
 
-import java.math.BigInteger;
-
 import org.junit.Test;
-import org.trypticon.hex.interpreters.primitives.unsigned.ULong;
+
+import java.math.BigInteger;
 
 import static org.junit.Assert.assertEquals;
 
