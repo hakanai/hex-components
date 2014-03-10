@@ -19,18 +19,16 @@
 package org.trypticon.hex.examples;
 
 import org.trypticon.hex.HexViewer;
-import org.trypticon.hex.accessory.InterpreterAccessoryBar;
-import org.trypticon.hex.accessory.LocationAccessoryBar;
+import org.trypticon.hex.accessory.AccessoryBar;
+import org.trypticon.hex.accessory.ExpandableAccessoryBar;
 import org.trypticon.hex.anno.MemoryAnnotationCollection;
 import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.binary.BinaryFactory;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.nio.file.Paths;
 
 /**
@@ -51,17 +49,12 @@ public class HexViewerExample {
                 viewer.setBinary(binary);
                 viewer.setAnnotations(new MemoryAnnotationCollection(binary.length()));
 
-                InterpreterAccessoryBar interpreterBar = new InterpreterAccessoryBar(viewer);
-                LocationAccessoryBar locationBar = new LocationAccessoryBar(viewer);
-
-                JPanel accessoryBars = new JPanel(new GridLayout(2, 1));
-                accessoryBars.add(interpreterBar);
-                accessoryBars.add(locationBar);
+                AccessoryBar accessoryBar = new ExpandableAccessoryBar(viewer);
 
                 JFrame frame = new JFrame("Example");
                 frame.setLayout(new BorderLayout());
                 frame.add(viewer, BorderLayout.CENTER);
-                frame.add(accessoryBars, BorderLayout.SOUTH);
+                frame.add(accessoryBar, BorderLayout.SOUTH);
                 frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);

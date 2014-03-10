@@ -13,9 +13,10 @@ Version X.X (XXXX-XX-XX)
         * IBM Notes TIMEDATE
         * Mac OS X NSDate / CFDateRef
         * Mac OS classic dates
-     New: Added an accessory bar component which shows where you are in the viewer and allows entering
-          a new offset and length to jump to.
-     New: Added an accessory bar component which shows what value you have selected.
+     New: Added accessory bar components which can go at the bottom of the viewer. One shows where you are
+          in the viewer and allows entering a new offset and length to jump to. The other shows the selected
+          value using a selected interpreter. A combined ExpandableAccessoryBar ties these together with UI
+          to expand and collapse the bars.
      New: Value classes now know how to convert themselves to localised strings.
 
  Changed: The hex viewport now properly paints its border so that you can see where your focus is.
