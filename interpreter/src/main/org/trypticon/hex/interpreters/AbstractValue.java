@@ -24,6 +24,8 @@ import java.util.Locale;
 
 /**
  * Base class for implementing values.
+ *
+ * @author trejkaz
  */
 public abstract class AbstractValue implements Value {
     @Override
