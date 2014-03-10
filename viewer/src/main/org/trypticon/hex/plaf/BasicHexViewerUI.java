@@ -36,6 +36,7 @@ import java.awt.BasicStroke;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.FocusEvent;
@@ -135,7 +136,8 @@ public class BasicHexViewerUI extends HexViewerUI {
 
     /**
      * Paints the component.  If the component is opaque, paints the background colour.  The rest of the painting is
-     * delegated to {@link #paint(java.awt.Graphics2D, org.trypticon.hex.HexViewer).
+     * delegated to {@link #paintBorder(java.awt.Graphics2D, org.trypticon.hex.HexViewer)} and
+     * {@link #paintHex(java.awt.Graphics2D, org.trypticon.hex.HexViewer)}.
      *
      * @param g the graphics context.
      * @param c the component.
@@ -148,8 +150,24 @@ public class BasicHexViewerUI extends HexViewerUI {
             g.fillRect(0, 0, clip.width, clip.height);
         }
 
-        paintHex((Graphics2D) g, (HexViewer) c);
-        paintBorder((Graphics2D) g, (HexViewer) c);
+        HexViewer viewer = (HexViewer) c;
+
+        // Taking a copy because we want to clip the borders out.
+        Graphics2D g2 = (Graphics2D) g.create();
+        try {
+            Border border = UIManager.getBorder("ScrollPane.border");
+            if (border != null) {
+                Insets insets = border.getBorderInsets(c);
+                g2.clipRect(insets.left, insets.top,
+                            c.getWidth() - insets.left - insets.right,
+                            c.getHeight() - insets.top - insets.bottom);
+            }
+            paintHex(g2, viewer);
+        } finally {
+            g2.dispose();
+        }
+
+        paintBorder((Graphics2D) g, viewer);
     }
 
     /**
