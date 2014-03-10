@@ -35,12 +35,12 @@ public class LocalisedName implements Localisable {
     }
 
     @Override
-    public String getLocalisedName(Format style) {
-        return getLocalisedName(style, Locale.getDefault(Locale.Category.DISPLAY));
+    public String toLocalisedString(Format style) {
+        return toLocalisedString(style, Locale.getDefault(Locale.Category.DISPLAY));
     }
 
     @Override
-    public String getLocalisedName(Format style, Locale locale) {
+    public String toLocalisedString(Format style, Locale locale) {
         return ResourceBundle.getBundle(bundleName, locale, Thread.currentThread().getContextClassLoader())
                 .getString(baseKey + '.' + style.name());
     }

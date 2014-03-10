@@ -66,7 +66,7 @@ public class UShort extends AbstractNumberValue {
     }
 
     @Override
-    public String getLocalisedName(Format style, Locale locale) {
+    public String toLocalisedString(Format style, Locale locale) {
         return NumberFormat.getInstance().format(intValue());
     }
 }

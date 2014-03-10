@@ -94,7 +94,7 @@ public class Float16 extends AbstractNumberValue {
     }
 
     @Override
-    public String getLocalisedName(Format style, Locale locale) {
+    public String toLocalisedString(Format style, Locale locale) {
         int mantissa = mantissaField.evaluate(encodedValue);
         int exponent = exponentField.evaluate(encodedValue);
 

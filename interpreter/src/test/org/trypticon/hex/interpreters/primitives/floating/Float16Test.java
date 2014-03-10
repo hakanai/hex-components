@@ -109,7 +109,7 @@ public class Float16Test {
     public void testLocalisation() {
         Float16 float16 = new Float16((short) 0b0_11110_1111111111);
 
-        assertThat(float16.getLocalisedName(Format.LONG, Locale.FRENCH), is(equalTo("6,550E+04")));
+        assertThat(float16.toLocalisedString(Format.LONG, Locale.FRENCH), is(equalTo("6,550E+04")));
     }
 
     private void check(int value, float expectedResult) {

@@ -46,7 +46,7 @@ class ValueFormatterFactory extends JFormattedTextField.AbstractFormatterFactory
             if (value == null) {
                 return "";
             } else if (value instanceof Value) {
-                return ((Value) value).getLocalisedName(Format.LONG);
+                return ((Value) value).toLocalisedString(Format.LONG);
             } else if (value instanceof String) {
                 return (String) value;
             }

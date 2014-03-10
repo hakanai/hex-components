@@ -131,7 +131,7 @@ public class Float128Test {
     public void testLocalisation() {
         Float128 float128 = stringToFloat128("43ff 1000 0000 0000 0000 0000 0000 0000");
 
-        assertThat(float128.getLocalisedName(Format.LONG, Locale.FRENCH),
+        assertThat(float128.toLocalisedString(Format.LONG, Locale.FRENCH),
                    is(equalTo("1,910048955791210651962386765213339E+308")));
     }
 

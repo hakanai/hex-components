@@ -66,7 +66,7 @@ public class Float32 extends AbstractNumberValue {
     }
 
     @Override
-    public String getLocalisedName(Format style, Locale locale) {
+    public String toLocalisedString(Format style, Locale locale) {
         if (Float.isInfinite(value) || Float.isNaN(value) || value == 0.0f) {
             return NumberFormat.getInstance(locale).format(value);
         } else {

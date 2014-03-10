@@ -43,7 +43,7 @@ public class SimpleStringValue extends AbstractValue implements StringValue {
     }
 
     @Override
-    public String getLocalisedName(Format style, Locale locale) {
+    public String toLocalisedString(Format style, Locale locale) {
         return string;
     }
 }

@@ -24,20 +24,21 @@ import java.util.Locale;
  * Interface implemented by localisable objects.
  */
 public interface Localisable {
+
     /**
-     * Gets a localised name for the object.
+     * Gets a localised string representation of the object.
      *
      * @param style the type of name to get.
      * @return the name.
      */
-    String getLocalisedName(Format style);
+    String toLocalisedString(Format style);
 
     /**
-     * Gets a short localised name for the object.
+     * Gets a localised string representation of the object.
      *
      * @param style the type of name to get.
      * @param locale the locale to get the name for.
      * @return the short name.
      */
-    String getLocalisedName(Format style, Locale locale);
+    String toLocalisedString(Format style, Locale locale);
 }

@@ -38,13 +38,13 @@ public abstract class AbstractInterpreterInfo implements InterpreterInfo {
     }
 
     @Override
-    public final String getLocalisedName(Format format) {
-        return name.getLocalisedName(format);
+    public final String toLocalisedString(Format format) {
+        return name.toLocalisedString(format);
     }
 
     @Override
-    public final String getLocalisedName(Format style, Locale locale) {
-        return name.getLocalisedName(style, locale);
+    public final String toLocalisedString(Format style, Locale locale) {
+        return name.toLocalisedString(style, locale);
     }
 
     @Override

@@ -64,12 +64,12 @@ public abstract class AbstractTime implements Time {
     }
 
     @Override
-    public String getLocalisedName(Format style) {
-        return getLocalisedName(style, Locale.getDefault(Locale.Category.FORMAT));
+    public String toLocalisedString(Format style) {
+        return toLocalisedString(style, Locale.getDefault(Locale.Category.FORMAT));
     }
 
     @Override
-    public String getLocalisedName(Format style, Locale locale) {
+    public String toLocalisedString(Format style, Locale locale) {
         //TODO: How do nanoseconds fit into this?
         DateFormat format = DateFormat.getTimeInstance(DateFormat.LONG, locale);
         Calendar calendar = new GregorianCalendar(locale);

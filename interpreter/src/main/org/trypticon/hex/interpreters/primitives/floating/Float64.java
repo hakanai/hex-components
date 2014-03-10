@@ -66,7 +66,7 @@ public class Float64 extends AbstractNumberValue {
     }
 
     @Override
-    public String getLocalisedName(Format style, Locale locale) {
+    public String toLocalisedString(Format style, Locale locale) {
         if (Double.isInfinite(value) || Double.isNaN(value) || value == 0.0) {
             return NumberFormat.getInstance(locale).format(value);
         } else {

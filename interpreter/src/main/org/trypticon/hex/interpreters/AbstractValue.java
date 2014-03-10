@@ -29,12 +29,12 @@ import java.util.Locale;
  */
 public abstract class AbstractValue implements Value {
     @Override
-    public final String getLocalisedName(Format style) {
-        return getLocalisedName(style, Locale.getDefault(Locale.Category.FORMAT));
+    public final String toLocalisedString(Format style) {
+        return toLocalisedString(style, Locale.getDefault(Locale.Category.FORMAT));
     }
 
     @Override
     public final String toString() {
-        return getLocalisedName(Format.LONG, Locale.ROOT);
+        return toLocalisedString(Format.LONG, Locale.ROOT);
     }
 }

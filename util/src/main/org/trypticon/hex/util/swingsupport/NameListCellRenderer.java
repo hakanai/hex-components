@@ -39,7 +39,7 @@ public class NameListCellRenderer extends DelegatingListCellRenderer<Object> {
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         if (value instanceof Localisable) {
-            value = ((Localisable) value).getLocalisedName(Format.LONG);
+            value = ((Localisable) value).toLocalisedString(Format.LONG);
         }
         return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
     }

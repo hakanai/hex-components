@@ -69,7 +69,7 @@ public class Float128 extends AbstractNumberValue {
     }
 
     @Override
-    public String getLocalisedName(Format style, Locale locale) {
+    public String toLocalisedString(Format style, Locale locale) {
         return new Float128Fields(encodedValueHigh, encodedValueLow).toLocalisedString(locale);
     }
 
