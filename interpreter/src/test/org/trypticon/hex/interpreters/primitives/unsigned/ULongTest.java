@@ -20,8 +20,6 @@ package org.trypticon.hex.interpreters.primitives.unsigned;
 
 import org.junit.Test;
 
-import java.math.BigInteger;
-
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -33,7 +31,6 @@ public class ULongTest {
 
     @Test
     public void testToString() {
-        BigInteger oneAboveMaxLong = BigInteger.valueOf(Long.MAX_VALUE).add(BigInteger.ONE);
-        assertEquals("Wrong string value", oneAboveMaxLong.toString(), new ULong(0x8000000000000000L).toString());
+        assertEquals("Wrong string value", "9,223,372,036,854,775,808", new ULong(0x8000000000000000L).toString());
     }
 }
