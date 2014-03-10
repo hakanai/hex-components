@@ -67,9 +67,10 @@ public class Float64 extends AbstractNumberValue {
 
     @Override
     public String getLocalisedName(Format style, Locale locale) {
-        //TODO: This is likely to be too precise.
-        // Non-localised version which gives about the right result:
-//        return String.valueOf(value);
-        return NumberFormat.getInstance().format(doubleValue());
+        if (Double.isInfinite(value) || Double.isNaN(value) || value == 0.0) {
+            return NumberFormat.getInstance(locale).format(value);
+        } else {
+            return String.format(locale, "%.16G", value);
+        }
     }
 }

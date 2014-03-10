@@ -19,7 +19,11 @@
 package org.trypticon.hex.interpreters.primitives.floating;
 
 import org.junit.Test;
+import org.trypticon.hex.util.Format;
 
+import java.util.Locale;
+
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -99,6 +103,13 @@ public class Float16Test {
     public void testOneThird() {
         // one third, infinite expansion of 1.010101... x 2^(-2)
         check(0b0_01101_0101010101, java.lang.Float.intBitsToFloat(0b0_01111101_01010101010000000000000));
+    }
+
+    @Test
+    public void testLocalisation() {
+        Float16 float16 = new Float16((short) 0b0_11110_1111111111);
+
+        assertThat(float16.getLocalisedName(Format.LONG, Locale.FRENCH), is(equalTo("6,550E+04")));
     }
 
     private void check(int value, float expectedResult) {

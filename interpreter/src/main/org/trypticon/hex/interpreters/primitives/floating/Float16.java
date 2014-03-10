@@ -95,11 +95,13 @@ public class Float16 extends AbstractNumberValue {
 
     @Override
     public String getLocalisedName(Format style, Locale locale) {
-        //TODO: This is likely to be too precise.
-        // Non-localised version which gives about the right result:
-//        public String toString() {
-//            return String.format("%.4G", 0.00000111f);
-//        }
-        return NumberFormat.getInstance().format(floatValue());
+        int mantissa = mantissaField.evaluate(encodedValue);
+        int exponent = exponentField.evaluate(encodedValue);
+
+        if (exponent == 0x1f || (exponent == 0 && mantissa == 0)) {
+            return NumberFormat.getInstance(locale).format(floatValue());
+        } else {
+            return String.format(locale, "%.4G", floatValue());
+        }
     }
 }
