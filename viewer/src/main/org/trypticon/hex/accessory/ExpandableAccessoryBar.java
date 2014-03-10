@@ -20,6 +20,7 @@ package org.trypticon.hex.accessory;
 
 import org.trypticon.hex.HexViewer;
 
+import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -66,11 +67,13 @@ public class ExpandableAccessoryBar extends AccessoryBar {
             ResourceBundle bundle = ResourceBundle.getBundle("org/trypticon/hex/Bundle");
 
             removeButton = new JButton(new ImageIcon(getClass().getResource("Remove.png")));
+            removeButton.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
             removeButton.setBorderPainted(false);
             removeButton.setToolTipText(bundle.getString("AccessoryBars.remove.toolTip"));
             removeButton.setVisible(canRemove);
 
             addButton = new JButton(new ImageIcon(getClass().getResource("Add.png")));
+            addButton.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
             addButton.setBorderPainted(false);
             addButton.setToolTipText(bundle.getString("AccessoryBars.add.toolTip"));
 
@@ -80,8 +83,8 @@ public class ExpandableAccessoryBar extends AccessoryBar {
             GroupLayout layout = new GroupLayout(this);
 
             layout.setHorizontalGroup(layout.createSequentialGroup()
-                    .addComponent(bar)
-                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(removeButton)
                     .addComponent(addButton));
 
