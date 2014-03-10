@@ -70,12 +70,7 @@ public class Float128 extends AbstractNumberValue {
 
     @Override
     public String getLocalisedName(Format style, Locale locale) {
-        //TODO: This is likely not to be precise *enough*
-        NumberFormat format = NumberFormat.getInstance();
-        // Non-localised version which might be better:
-//        return new Float128Fields(encodedValueHigh, encodedValueLow).toString();
-//        format.setMaximumIntegerDigits(Float128Fields.toStringMathContext.getPrecision());
-        return format.format(new Float128Fields(encodedValueHigh, encodedValueLow).toBigDecimal());
+        return new Float128Fields(encodedValueHigh, encodedValueLow).toLocalisedString(locale);
     }
 
     /**
@@ -150,33 +145,26 @@ public class Float128 extends AbstractNumberValue {
             } else if (isNaN()) {
                 return Double.NaN;
             } else if (isZero()) {
-                // Java doesn't treat negative zero specially.
-                return 0.0;
+                return sign == 1 ? -0.0 : 0.0;
             } else {
                 return toBigDecimal().doubleValue();
             }
         }
 
-        @Override
-        public String toString() {
-            if (isInfinity() || isNaN()) {
-                return Double.toString(toDouble());
-            } if (isZero()) {
-                return sign == 1 ? "-0.0" : "0.0";
+        private String toLocalisedString(Locale locale) {
+            NumberFormat format = NumberFormat.getInstance(locale);
+            format.setMinimumFractionDigits(1);
+            if (isInfinity() || isNaN() || isZero()) {
+                return format.format(toDouble());
             } else {
                 BigDecimal bigDecimal = toBigDecimal().round(toStringMathContext);
 
-                // Here we try to change the precision to approximate how Double.toString behaves.
-
-                // Strip the zeroes.
+                // The only way I could figure out to find out the number of digits.
                 bigDecimal = bigDecimal.stripTrailingZeros();
 
-                // Unless it ends up with none, in which case leave the additional ".0" on the end.
-                if (bigDecimal.scale() == 0) {
-                    bigDecimal = bigDecimal.setScale(1);
-                }
+                int precision = Math.max(Math.min(bigDecimal.precision() + 1, 34), 2);
 
-                return bigDecimal.toString();
+                return String.format(locale, "%." + precision + "G", bigDecimal);
             }
         }
     }

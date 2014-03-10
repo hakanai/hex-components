@@ -19,8 +19,10 @@
 package org.trypticon.hex.interpreters.primitives.floating;
 
 import org.junit.Test;
+import org.trypticon.hex.util.Format;
 
 import java.math.BigInteger;
+import java.util.Locale;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -50,12 +52,12 @@ public class Float128Test {
 
     @Test
     public void testPositiveInfinity() {
-        check("7fff 0000 0000 0000 0000 0000 0000 0000", Double.POSITIVE_INFINITY, "Infinity");
+        check("7fff 0000 0000 0000 0000 0000 0000 0000", Double.POSITIVE_INFINITY, "\u221e");
     }
 
     @Test
     public void testNegativeInfinity() {
-        check("ffff 0000 0000 0000 0000 0000 0000 0000", Double.NEGATIVE_INFINITY, "-Infinity");
+        check("ffff 0000 0000 0000 0000 0000 0000 0000", Double.NEGATIVE_INFINITY, "-\u221e");
     }
 
     @Test
@@ -116,8 +118,7 @@ public class Float128Test {
 
     @Test
     public void testNegativeZero() {
-        // Java doesn't treat negative zero specially.
-        check("8000 0000 0000 0000 0000 0000 0000 0000", 0.0, "-0.0");
+        check("8000 0000 0000 0000 0000 0000 0000 0000", -0.0, "-0.0");
     }
 
     @Test
@@ -126,12 +127,24 @@ public class Float128Test {
               "0.3333333333333333333333333333333333");
     }
 
+    @Test
+    public void testLocalisation() {
+        Float128 float128 = stringToFloat128("43ff 1000 0000 0000 0000 0000 0000 0000");
+
+        assertThat(float128.getLocalisedName(Format.LONG, Locale.FRENCH),
+                   is(equalTo("1,910048955791210651962386765213339E+308")));
+    }
+
     private void check(String value, double expectedDownCast, String expectedString) {
+        Float128 float128 = stringToFloat128(value);
+        assertThat(float128.doubleValue(), is(expectedDownCast));
+        assertThat(float128.toString(), is(equalTo(expectedString)));
+    }
+
+    private Float128 stringToFloat128(String value) {
         BigInteger valueBig = new BigInteger(value.replace(" ", ""), 16);
         long low = valueBig.longValue();
         long high = valueBig.shiftRight(64).longValue();
-        Float128 float128 = new Float128(high, low);
-        assertThat(float128.doubleValue(), is(expectedDownCast));
-        assertThat(float128.toString(), is(equalTo(expectedString)));
+        return new Float128(high, low);
     }
 }
