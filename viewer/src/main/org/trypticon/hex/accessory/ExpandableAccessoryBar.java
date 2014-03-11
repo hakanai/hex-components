@@ -67,12 +67,16 @@ public class ExpandableAccessoryBar extends AccessoryBar {
             ResourceBundle bundle = ResourceBundle.getBundle("org/trypticon/hex/Bundle");
 
             removeButton = new JButton(new ImageIcon(getClass().getResource("Remove.png")));
+            removeButton.setRolloverIcon(new ImageIcon(getClass().getResource("RemoveRollover.png")));
+            removeButton.setPressedIcon(new ImageIcon(getClass().getResource("RemovePressed.png")));
             removeButton.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
             removeButton.setBorderPainted(false);
             removeButton.setToolTipText(bundle.getString("AccessoryBars.remove.toolTip"));
             removeButton.setVisible(canRemove);
 
             addButton = new JButton(new ImageIcon(getClass().getResource("Add.png")));
+            addButton.setRolloverIcon(new ImageIcon(getClass().getResource("AddRollover.png")));
+            addButton.setPressedIcon(new ImageIcon(getClass().getResource("AddPressed.png")));
             addButton.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
             addButton.setBorderPainted(false);
             addButton.setToolTipText(bundle.getString("AccessoryBars.add.toolTip"));
