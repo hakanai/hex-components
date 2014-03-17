@@ -20,12 +20,17 @@ package org.trypticon.hex.accessory;
 
 import org.trypticon.hex.HexViewer;
 import org.trypticon.hex.HexViewerSelectionModel;
+import org.trypticon.hex.util.swingsupport.PLAFUtils;
 import org.trypticon.hex.util.swingsupport.StealthFormattedTextField;
+import org.trypticon.hex.util.swingsupport.StealthSpinnerNumberEditor;
 
 import javax.swing.GroupLayout;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.beans.PropertyChangeEvent;
@@ -40,6 +45,7 @@ import java.util.ResourceBundle;
  */
 public class LocationAccessoryBar extends AccessoryBar {
     private final HexViewer viewer;
+    private final JSpinner columnsSpinner;
     private final CustomHexFormattedTextField offsetField;
     private final CustomHexFormattedTextField lengthField;
     private final Handler handler;
@@ -49,21 +55,35 @@ public class LocationAccessoryBar extends AccessoryBar {
         handler = new Handler();
 
         ResourceBundle bundle = ResourceBundle.getBundle("org/trypticon/hex/Bundle");
+        JLabel columnsLabel = new JLabel(bundle.getString("AccessoryBars.Location.columns"));
+        columnsSpinner = new JSpinner(new SpinnerNumberModel(16, 8, 64, 8));
         JLabel offsetLabel = new JLabel(bundle.getString("AccessoryBars.Location.selectedOffset"));
         offsetField = new CustomHexFormattedTextField();
         JLabel lengthLabel = new JLabel(bundle.getString("AccessoryBars.Location.length"));
         lengthField = new CustomHexFormattedTextField();
 
-        offsetLabel.putClientProperty("JComponent.sizeVariant", "small");
-        offsetField.putClientProperty("JComponent.sizeVariant", "small");
-        lengthLabel.putClientProperty("JComponent.sizeVariant", "small");
-        lengthField.putClientProperty("JComponent.sizeVariant", "small");
+        JSpinner.DefaultEditor columnsSpinnerEditor = new StealthSpinnerNumberEditor(columnsSpinner);
+        columnsSpinner.setEditor(columnsSpinnerEditor);
+        JTextField columnsSpinnerTextField = columnsSpinnerEditor.getTextField();
+        columnsSpinner.getModel().addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent event) {
+                userChangedColumns();
+            }
+        });
+
+        PLAFUtils.makeSmall(columnsLabel, columnsSpinner, columnsSpinnerTextField,
+                            offsetLabel, offsetField, lengthLabel, lengthField);
 
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
 
         layout.setHorizontalGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(columnsLabel)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(columnsSpinner, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(offsetLabel)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(offsetField, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -74,6 +94,8 @@ public class LocationAccessoryBar extends AccessoryBar {
                 .addContainerGap());
 
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(columnsLabel)
+                .addComponent(columnsSpinner)
                 .addComponent(offsetLabel)
                 .addComponent(offsetField)
                 .addComponent(lengthLabel)
@@ -97,6 +119,11 @@ public class LocationAccessoryBar extends AccessoryBar {
         long selectionEnd = selectionModel.getSelectionEnd();
         offsetField.setValue(selectionStart);
         lengthField.setValue(selectionEnd - selectionStart + 1);
+    }
+
+    private void userChangedColumns() {
+        int columns = ((Number) columnsSpinner.getValue()).intValue();
+        viewer.setBytesPerRow(columns);
     }
 
     private void userChangedLocation() {

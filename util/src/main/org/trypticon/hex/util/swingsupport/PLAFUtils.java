@@ -18,6 +18,7 @@
 
 package org.trypticon.hex.util.swingsupport;
 
+import javax.swing.JComponent;
 import javax.swing.UIManager;
 
 /**
@@ -27,6 +28,18 @@ import javax.swing.UIManager;
  */
 public class PLAFUtils {
     private PLAFUtils() {
+    }
+
+    /**
+     * Sets the given components to appear in the smaller size. This affects some look and feels
+     * (particularly Aqua and Nimbus.)
+     *
+     * @param components the components to make small.
+     */
+    public static void makeSmall(JComponent... components) {
+        for (JComponent component : components) {
+            component.putClientProperty("JComponent.sizeVariant", "small");
+        }
     }
 
     /**

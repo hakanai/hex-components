@@ -24,6 +24,7 @@ import org.trypticon.hex.interpreters.InterpreterInfo;
 import org.trypticon.hex.interpreters.MasterInterpreterStorage;
 import org.trypticon.hex.interpreters.nulls.NullInterpreterInfo;
 import org.trypticon.hex.util.swingsupport.NameRenderingComboBox;
+import org.trypticon.hex.util.swingsupport.PLAFUtils;
 import org.trypticon.hex.util.swingsupport.StealthFormattedTextField;
 
 import javax.swing.GroupLayout;
@@ -78,9 +79,7 @@ public class InterpreterAccessoryBar extends AccessoryBar {
         viewer.addPropertyChangeListener("binary", sharedListener);
         valueTextField.addPropertyChangeListener("value", sharedListener);
 
-        typeComboBox.putClientProperty("JComponent.sizeVariant", "small");
-        byteOrderComboBox.putClientProperty("JComponent.sizeVariant", "small");
-        valueTextField.putClientProperty("JComponent.sizeVariant", "small");
+        PLAFUtils.makeSmall(typeComboBox, byteOrderComboBox, valueTextField);
 
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
