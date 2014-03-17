@@ -35,7 +35,6 @@ import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -576,26 +575,5 @@ public class HexViewer extends JComponent {
         if (firstVisibleRow < -1 || firstVisibleRow > getRowCount() - getVisibleRowCount() + 2) {
             setFirstVisibleRow(firstVisibleRow);
         }
-    }
-
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(getPreferredWidth(), getPreferredHeight(20));
-    }
-
-    private int getPreferredWidth() {
-        FontMetrics metrics = getFontMetrics(getFont());
-        return metrics.charWidth('D') *
-                (3 + offsetColumnDigits + 1 + 1 + (bytesPerRow * 3) + 2 + bytesPerRow + 3) +
-                verticalScrollBar.getPreferredSize().width;
-    }
-
-    private int getPreferredHeight(int numRows) {
-        FontMetrics metrics = getFontMetrics(getFont());
-        return metrics.getHeight() * (numRows + 2);
-    }
-
-    private int getPreferredHeight() {
-        return getPreferredHeight(binary == null ? 20 : (int) getRowCount());
     }
 }

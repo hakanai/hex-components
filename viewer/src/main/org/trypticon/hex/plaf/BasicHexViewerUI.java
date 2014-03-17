@@ -34,6 +34,8 @@ import javax.swing.border.Border;
 import javax.swing.plaf.ComponentUI;
 import java.awt.BasicStroke;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
@@ -133,6 +135,57 @@ public class BasicHexViewerUI extends HexViewerUI {
         return pos;
     }
 
+    @Override
+    public Dimension getPreferredSize(JComponent c) {
+        // Size of just the data the viewport.
+        Dimension size = getPreferredViewportWidth((HexViewer) c, 20);
+
+        // Plus the insets of the viewport.
+        Insets insets = getViewportBorderInsets(c);
+        if (insets != null) {
+            size.width += (insets.left + insets.right);
+            size.height += (insets.top + insets.bottom);
+        }
+
+        // Plus the scroll bar on the right.
+        JScrollBar scrollBar = getVerticalScrollBar(c);
+        if (scrollBar != null) {
+            size.width += scrollBar.getPreferredSize().width;
+        }
+
+        return size;
+    }
+
+    private Dimension getPreferredViewportWidth(HexViewer viewer, int numRows) {
+        FontMetrics metrics = viewer.getFontMetrics(viewer.getFont());
+        int bytesPerRow = viewer.getBytesPerRow();
+        int offsetColumnDigits = viewer.getOffsetColumnDigits();
+
+        int width = metrics.charWidth('D') *
+                (3 + offsetColumnDigits + 1 + 1 + (bytesPerRow * 3) + 2 + bytesPerRow + 3);
+
+        int height = metrics.getHeight() * (numRows + 2);
+
+        return new Dimension(width, height);
+    }
+
+    private Insets getViewportBorderInsets(JComponent c) {
+        Border border = UIManager.getBorder("ScrollPane.border");
+        if (border != null) {
+            return border.getBorderInsets(c);
+        } else {
+            return null;
+        }
+    }
+
+    private JScrollBar getVerticalScrollBar(JComponent c) {
+        for (Component component : c.getComponents()) {
+            if (component instanceof JScrollBar) {
+                return (JScrollBar) component;
+            }
+        }
+        return null;
+    }
 
     /**
      * Paints the component.  If the component is opaque, paints the background colour.  The rest of the painting is
@@ -155,9 +208,8 @@ public class BasicHexViewerUI extends HexViewerUI {
         // Taking a copy because we want to clip the borders out.
         Graphics2D g2 = (Graphics2D) g.create();
         try {
-            Border border = UIManager.getBorder("ScrollPane.border");
-            if (border != null) {
-                Insets insets = border.getBorderInsets(c);
+            Insets insets = getViewportBorderInsets(c);
+            if (insets != null) {
                 g2.clipRect(insets.left, insets.top,
                             c.getWidth() - insets.left - insets.right,
                             c.getHeight() - insets.top - insets.bottom);
@@ -177,13 +229,7 @@ public class BasicHexViewerUI extends HexViewerUI {
      * @param viewer the viewer.
      */
     protected void paintBorder(Graphics2D g, HexViewer viewer) {
-        JScrollBar scrollBar = null;
-        for (Component component : viewer.getComponents()) {
-            if (component instanceof JScrollBar) {
-                scrollBar = (JScrollBar) component;
-                break;
-            }
-        }
+        JScrollBar scrollBar = getVerticalScrollBar(viewer);
         if (scrollBar == null) {
             return;
         }
