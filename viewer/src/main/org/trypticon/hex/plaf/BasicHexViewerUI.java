@@ -95,7 +95,7 @@ public class BasicHexViewerUI extends HexViewerUI {
         long binaryLength = viewer.getBinary().length();
         int bytesPerRow = viewer.getBytesPerRow();
         int maxBytesX = bytesPerRow - 1;
-        long maxBytesY = (int) (binaryLength / bytesPerRow);
+        long maxBytesY = binaryLength / bytesPerRow;
 
         // Threshold for detecting that the user clicked in the ASCII column is half way between the two columns.
         int hexLeftX = (3 + viewer.getOffsetColumnDigits() + 1 + 1) * charWidth;

@@ -19,6 +19,9 @@ Version X.X (XXXX-XX-XX)
           to expand and collapse the bars.
      New: Value classes now know how to convert themselves to localised strings.
 
+   Fixed: Fixed an issue where a *really* large binary would not let you mouse select past some point in the
+          file despite keyboard navigation working as normal.
+
  Changed: The hex viewport now properly paints its border so that you can see where your focus is.
  Changed: Replaced InterpreterInfo#getHumanName method with a proper getLocalisedName which looks up from
           a resource bundle.
