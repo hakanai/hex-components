@@ -78,7 +78,7 @@ public class LocationAccessoryBar extends AccessoryBar {
         setLayout(layout);
 
         layout.setHorizontalGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(4)
                 .addComponent(columnsLabel)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(columnsSpinner, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -90,7 +90,7 @@ public class LocationAccessoryBar extends AccessoryBar {
                 .addComponent(lengthLabel)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lengthField, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addContainerGap());
+                .addGap(4));
 
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(columnsLabel)

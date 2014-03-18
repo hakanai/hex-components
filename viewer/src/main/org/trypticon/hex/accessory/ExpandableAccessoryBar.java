@@ -64,21 +64,23 @@ public class ExpandableAccessoryBar extends AccessoryBar {
         private AccessoryBarWithButtons(AccessoryBar bar, boolean canRemove) {
             this.bar = bar;
 
+            // Metal L&F has a gradient to the bar and I didn't want it repeating over and over.
+            bar.setBorder(BorderFactory.createEmptyBorder(1, 0, 1, 0));
+            bar.setOpaque(false);
+
             ResourceBundle bundle = ResourceBundle.getBundle("org/trypticon/hex/Bundle");
 
             removeButton = new JButton(new ImageIcon(getClass().getResource("Remove.png")));
             removeButton.setRolloverIcon(new ImageIcon(getClass().getResource("RemoveRollover.png")));
             removeButton.setPressedIcon(new ImageIcon(getClass().getResource("RemovePressed.png")));
-            removeButton.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
-            removeButton.setBorderPainted(false);
+            setCommonButtonProperties(removeButton);
             removeButton.setToolTipText(bundle.getString("AccessoryBars.remove.toolTip"));
             removeButton.setVisible(canRemove);
 
             addButton = new JButton(new ImageIcon(getClass().getResource("Add.png")));
             addButton.setRolloverIcon(new ImageIcon(getClass().getResource("AddRollover.png")));
             addButton.setPressedIcon(new ImageIcon(getClass().getResource("AddPressed.png")));
-            addButton.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
-            addButton.setBorderPainted(false);
+            setCommonButtonProperties(addButton);
             addButton.setToolTipText(bundle.getString("AccessoryBars.add.toolTip"));
 
             removeButton.addActionListener(this);
@@ -98,6 +100,15 @@ public class ExpandableAccessoryBar extends AccessoryBar {
                     .addComponent(addButton));
 
             setLayout(layout);
+        }
+
+        private void setCommonButtonProperties(JButton button) {
+            button.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
+            button.setBorderPainted(false);
+            button.setOpaque(false);
+            button.setContentAreaFilled(false);
+            button.setFocusPainted(false);
+            button.setOpaque(false);
         }
 
         @Override

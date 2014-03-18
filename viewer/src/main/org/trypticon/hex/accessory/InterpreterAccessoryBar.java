@@ -85,13 +85,13 @@ public class InterpreterAccessoryBar extends AccessoryBar {
         setLayout(layout);
 
         layout.setHorizontalGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(4)
                 .addComponent(typeComboBox, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(byteOrderComboBox, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(valueTextField)
-                .addContainerGap());
+                .addGap(4));
 
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(typeComboBox)
