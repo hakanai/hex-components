@@ -23,7 +23,7 @@ import org.trypticon.hex.HexViewerSelectionModel;
 import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.util.swingsupport.PLAFUtils;
 import org.trypticon.hex.util.swingsupport.StealthFormattedTextField;
-import org.trypticon.hex.util.swingsupport.StealthSpinnerNumberEditor;
+import org.trypticon.hex.util.swingsupport.StealthSpinner;
 
 import javax.swing.GroupLayout;
 import javax.swing.JFormattedTextField;
@@ -57,15 +57,13 @@ public class LocationAccessoryBar extends AccessoryBar {
 
         ResourceBundle bundle = ResourceBundle.getBundle("org/trypticon/hex/Bundle");
         JLabel columnsLabel = new JLabel(bundle.getString("AccessoryBars.Location.columns"));
-        columnsSpinner = new JSpinner(new SpinnerNumberModel(16, 8, 64, 8));
+        columnsSpinner = new StealthSpinner(new SpinnerNumberModel(16, 8, 64, 8));
         JLabel offsetLabel = new JLabel(bundle.getString("AccessoryBars.Location.selectedOffset"));
         offsetField = new CustomHexFormattedTextField();
         JLabel lengthLabel = new JLabel(bundle.getString("AccessoryBars.Location.length"));
         lengthField = new CustomHexFormattedTextField();
 
-        JSpinner.DefaultEditor columnsSpinnerEditor = new StealthSpinnerNumberEditor(columnsSpinner);
-        columnsSpinner.setEditor(columnsSpinnerEditor);
-        JTextField columnsSpinnerTextField = columnsSpinnerEditor.getTextField();
+        JTextField columnsSpinnerTextField = ((JSpinner.DefaultEditor) columnsSpinner.getEditor()).getTextField();
         columnsSpinner.getModel().addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent event) {

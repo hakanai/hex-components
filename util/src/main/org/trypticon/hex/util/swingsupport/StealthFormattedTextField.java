@@ -22,6 +22,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import java.awt.Color;
 import java.awt.Insets;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -32,6 +33,7 @@ import java.beans.PropertyChangeListener;
  * A text field for displaying values which looks a lot like a label when it isn't being used to edit text.
  */
 public class StealthFormattedTextField extends JFormattedTextField {
+    private static final Color TRANSPARENT = new Color(0, 0, 0, 0);
     private JLabel labelTemplate;
     private JTextField textFieldTemplate;
 
@@ -76,13 +78,15 @@ public class StealthFormattedTextField extends JFormattedTextField {
         setFont(labelTemplate.getFont());
         if (hasFocus()) {
             textFieldTemplate.setEditable(isEditable());
+            setOpaque(true);
             setBorder(textFieldTemplate.getBorder());
             setForeground(textFieldTemplate.getForeground());
             setBackground(textFieldTemplate.getBackground());
         } else {
+            setOpaque(false);
             setBorder(labelTemplate.getBorder());
             setForeground(labelTemplate.getForeground());
-            setBackground(labelTemplate.getBackground());
+            setBackground(TRANSPARENT);
         }
     }
 
