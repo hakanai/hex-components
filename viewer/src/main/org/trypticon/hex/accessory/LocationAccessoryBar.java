@@ -58,7 +58,7 @@ public class LocationAccessoryBar extends AccessoryBar {
         ResourceBundle bundle = ResourceBundle.getBundle("org/trypticon/hex/Bundle");
         JLabel columnsLabel = new JLabel(bundle.getString("AccessoryBars.Location.columns"));
         columnsSpinner = new StealthSpinner(new SpinnerNumberModel(16, 8, 64, 8));
-        JLabel offsetLabel = new JLabel(bundle.getString("AccessoryBars.Location.selectedOffset"));
+        JLabel offsetLabel = new JLabel(bundle.getString("AccessoryBars.Location.offset"));
         offsetField = new CustomHexFormattedTextField();
         JLabel lengthLabel = new JLabel(bundle.getString("AccessoryBars.Location.length"));
         lengthField = new CustomHexFormattedTextField();
