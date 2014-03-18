@@ -20,6 +20,7 @@ package org.trypticon.hex.accessory;
 
 import org.trypticon.hex.HexViewer;
 import org.trypticon.hex.HexViewerSelectionModel;
+import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.util.swingsupport.PLAFUtils;
 import org.trypticon.hex.util.swingsupport.StealthFormattedTextField;
 import org.trypticon.hex.util.swingsupport.StealthSpinnerNumberEditor;
@@ -103,14 +104,18 @@ public class LocationAccessoryBar extends AccessoryBar {
     }
 
     private void binaryChanged() {
+        Binary binary = viewer.getBinary();
+        long maxLength = binary != null ? binary.length() : 1;
         String longestValue;
         try {
-            longestValue = offsetField.getFormatter().valueToString(viewer.getBinary().length());
+            longestValue = offsetField.getFormatter().valueToString(maxLength);
         } catch (ParseException e) {
             throw new RuntimeException("Unexpected error converting to string", e);
         }
-        offsetField.setColumns(longestValue.length());
-        lengthField.setColumns(longestValue.length());
+        // Allocates one more character because sometimes using the exact value is too tight.
+        int columns = longestValue.length() + 1;
+        offsetField.setColumns(columns);
+        lengthField.setColumns(columns);
     }
 
     private void locationChanged() {
