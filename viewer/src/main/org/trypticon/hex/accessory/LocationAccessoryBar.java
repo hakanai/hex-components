@@ -110,10 +110,11 @@ public class LocationAccessoryBar extends AccessoryBar {
         } catch (ParseException e) {
             throw new RuntimeException("Unexpected error converting to string", e);
         }
-        // Allocates one more character because sometimes using the exact value is too tight.
-        int columns = longestValue.length() + 1;
+        int columns = longestValue.length();
         offsetField.setColumns(columns);
         lengthField.setColumns(columns);
+        // setColumns does invalidate the fields but we still have to manually trigger validation.
+        revalidate();
     }
 
     private void locationChanged() {

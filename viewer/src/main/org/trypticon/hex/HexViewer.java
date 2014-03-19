@@ -40,6 +40,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.Objects;
 
 /**
  * Swing widget for viewing binary in hexadecimal form.
@@ -175,6 +176,7 @@ public class HexViewer extends JComponent {
 
     /**
      * Gets the binary being viewed.
+     * This is a JavaBeans bound property.
      *
      * @return the binary being viewed.
      */
@@ -184,27 +186,33 @@ public class HexViewer extends JComponent {
 
     /**
      * Sets the binary being viewed.
+     * This is a JavaBeans bound property.
      *
      * @param binary the binary being viewed.
      */
     public void setBinary(Binary binary) {
-        this.binary = binary;
+        Binary oldBinary = this.binary;
+        if (!Objects.equals(oldBinary, binary)) {
+            this.binary = binary;
 
-        offsetColumnDigits = Long.toString(binary.length(), 16).length();
+            offsetColumnDigits = Long.toString(binary.length(), 16).length();
 
-        if (annotations == null) {
-            annotations = new MemoryAnnotationCollection(binary.length());
+            if (annotations == null) {
+                annotations = new MemoryAnnotationCollection(binary.length());
+            }
+
+            selectionModel.setCursor(0);
+            selectionModel.setCursorAndExtendSelection(0);
+
+            invalidate();
+            repaint();
+            firePropertyChange("binary", oldBinary, binary);
         }
-
-        selectionModel.setCursor(0);
-        selectionModel.setCursorAndExtendSelection(0);
-
-        invalidate();
-        repaint();
     }
 
     /**
      * Gets the collection of annotations to show.
+     * This is a JavaBeans bound property.
      *
      * @return the annotations to show.
      */
@@ -214,33 +222,40 @@ public class HexViewer extends JComponent {
 
     /**
      * Sets the collection of annotations to show.
+     * This is a JavaBeans bound property.
      *
      * @param annotations the annotations to show.
      */
     public void setAnnotations(AnnotationCollection annotations) {
-        if (this.annotations != null) {
-            this.annotations.removeAnnotationCollectionListener(repaintListener);
-        }
-
-        this.annotations = annotations;
-        repaint();
-
-        if (annotations != null) {
-            if (repaintListener == null) {
-                repaintListener = new AnnotationCollectionListener() {
-                    @Override
-                    public void annotationsChanged(AnnotationCollectionEvent event) {
-                        repaint();
-                    }
-                };
+        AnnotationCollection oldAnnotations = this.annotations;
+        if (!Objects.equals(oldAnnotations, annotations)) {
+            if (oldAnnotations != null) {
+                oldAnnotations.removeAnnotationCollectionListener(repaintListener);
             }
 
-            annotations.addAnnotationCollectionListener(repaintListener);
+            this.annotations = annotations;
+            repaint();
+
+            if (annotations != null) {
+                if (repaintListener == null) {
+                    repaintListener = new AnnotationCollectionListener() {
+                        @Override
+                        public void annotationsChanged(AnnotationCollectionEvent event) {
+                            repaint();
+                        }
+                    };
+                }
+
+                annotations.addAnnotationCollectionListener(repaintListener);
+            }
+
+            firePropertyChange("annotations", oldAnnotations, annotations);
         }
     }
 
     /**
      * Gets the number of bytes displayed per row.
+     * This is a JavaBeans bound property.
      *
      * @return the number of bytes displayed per row.
      */
@@ -250,14 +265,19 @@ public class HexViewer extends JComponent {
 
     /**
      * Sets the number of bytes displayed per row. Generally this should be a multiple of 8, ideally a multiple of 16.
+     * This is a JavaBeans bound property.
      *
      * @param bytesPerRow the number of bytes displayed per row.
      */
     public void setBytesPerRow(int bytesPerRow) {
-        this.bytesPerRow = bytesPerRow;
+        int oldBytesPerRow = this.bytesPerRow;
+        if (oldBytesPerRow != bytesPerRow) {
+            this.bytesPerRow = bytesPerRow;
 
-        invalidate();
-        repaint();
+            invalidate();
+            repaint();
+            firePropertyChange("bytesPerRow", oldBytesPerRow, bytesPerRow);
+        }
     }
 
     @Override

@@ -25,6 +25,7 @@ Version X.X (XXXX-XX-XX)
  Changed: The hex viewport now properly paints its border so that you can see where your focus is.
  Changed: Replaced InterpreterInfo#getHumanName method with a proper getLocalisedName which looks up from
           a resource bundle.
+ Changed: binary, annotations and bytesPerRow are now JavaBeans bound properties on HexViewer.
 
 Version 0.4 (2013-12-01)
 
