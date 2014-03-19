@@ -34,6 +34,9 @@ import javax.swing.LayoutStyle;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.Insets;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.ParseException;
@@ -104,16 +107,9 @@ public class LocationAccessoryBar extends AccessoryBar {
     private void binaryChanged() {
         Binary binary = viewer.getBinary();
         long maxLength = binary != null ? binary.length() : 1;
-        String longestValue;
-        try {
-            longestValue = offsetField.getFormatter().valueToString(maxLength);
-        } catch (ParseException e) {
-            throw new RuntimeException("Unexpected error converting to string", e);
-        }
-        int columns = longestValue.length();
-        offsetField.setColumns(columns);
-        lengthField.setColumns(columns);
-        // setColumns does invalidate the fields but we still have to manually trigger validation.
+        offsetField.updateMaxValue(maxLength);
+        lengthField.updateMaxValue(maxLength);
+        // updateMaxValue does invalidate the fields but we still have to manually trigger validation.
         revalidate();
     }
 
@@ -174,6 +170,8 @@ public class LocationAccessoryBar extends AccessoryBar {
     }
 
     private class CustomHexFormattedTextField extends StealthFormattedTextField {
+        private long maxValue = 1;
+
         // setFormatter() appears to have no effect. Swing uses its own default number formatter.
         CustomHexFormattedTextField() {
             super(new AbstractFormatterFactory() {
@@ -206,9 +204,35 @@ public class LocationAccessoryBar extends AccessoryBar {
         }
 
         @Override
+        public Dimension getPreferredSize() {
+            Dimension size = super.getPreferredSize();
+            if (isPreferredSizeSet()) {
+                return size;
+            }
+
+            // JTextField's columns are computed in terms of 'm' which makes it too wide on some fonts.
+            String longestString;
+            try {
+                longestString = getFormatter().valueToString(maxValue);
+            } catch (ParseException e) {
+                throw new RuntimeException("Unexpected error converting to string", e);
+            }
+
+            FontMetrics metrics = getFontMetrics(getFont());
+            Insets insets = getInsets();
+            size.width = metrics.stringWidth(longestString) + insets.left + insets.right;
+            return size;
+        }
+
+        @Override
         public void commitEdit() throws ParseException {
             super.commitEdit();
             userChangedLocation();
+        }
+
+        private void updateMaxValue(long maxValue) {
+            this.maxValue = maxValue;
+            invalidate();
         }
     }
 }
