@@ -32,12 +32,14 @@ import org.trypticon.hex.renderer.DefaultCellRenderer;
 import javax.swing.JComponent;
 import javax.swing.JScrollBar;
 import javax.swing.UIManager;
+import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.Objects;
@@ -110,6 +112,11 @@ public class HexViewer extends JComponent {
      * This will be {@code -1} if you're positioned at the top, because of the blank line above the first row.
      */
     private long firstVisibleRow = -1;
+
+    /**
+     * The border to render around the viewport.
+     */
+    private Border viewportBorder;
 
     /**
      * The vertical scroll bar.
@@ -521,6 +528,24 @@ public class HexViewer extends JComponent {
     }
 
     /**
+     * Gets the viewport border.
+     *
+     * @return the viewport border.
+     */
+    public Border getViewportBorder() {
+        return viewportBorder;
+    }
+
+    /**
+     * Sets the viewport border.
+     *
+     * @param viewportBorder the viewport border.
+     */
+    public void setViewportBorder(Border viewportBorder) {
+        this.viewportBorder = viewportBorder;
+    }
+
+    /**
      * Scrolls the view to make the given byte position visible.
      *
      * @param pos the position.
@@ -586,8 +611,11 @@ public class HexViewer extends JComponent {
     public void doLayout() {
         super.doLayout();
 
+        Insets insets = getInsets();
+
         int scrollBarWidth = verticalScrollBar.getPreferredSize().width;
-        verticalScrollBar.setBounds(getWidth() - scrollBarWidth, 0, scrollBarWidth, getHeight());
+        verticalScrollBar.setBounds(getWidth() - scrollBarWidth - insets.right, insets.top,
+                                    scrollBarWidth, getHeight() - insets.top - insets.bottom);
         scrollBarSync.updateScrollBarFromView();
 
         // If resizing lands us in a position we wouldn't normally be able to get to, set the position

@@ -24,14 +24,18 @@ import org.trypticon.hex.renderer.CellRenderer;
 
 import javax.swing.Action;
 import javax.swing.ActionMap;
+import javax.swing.BorderFactory;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JScrollBar;
+import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
+import javax.swing.plaf.BorderUIResource;
 import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.UIResource;
 import java.awt.BasicStroke;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -137,14 +141,16 @@ public class BasicHexViewerUI extends HexViewerUI {
 
     @Override
     public Dimension getPreferredSize(JComponent c) {
+        HexViewer viewer = (HexViewer) c;
+
         // Size of just the data the viewport.
-        Dimension size = getPreferredViewportWidth((HexViewer) c, 20);
+        Dimension size = getPreferredViewportWidth(viewer, 20);
 
         // Plus the insets of the viewport.
-        Insets insets = getViewportBorderInsets(c);
-        if (insets != null) {
-            size.width += (insets.left + insets.right);
-            size.height += (insets.top + insets.bottom);
+        Insets viewportInsets = getViewportBorderInsets(viewer);
+        if (viewportInsets != null) {
+            size.width += (viewportInsets.left + viewportInsets.right);
+            size.height += (viewportInsets.top + viewportInsets.bottom);
         }
 
         // Plus the scroll bar on the right.
@@ -152,6 +158,11 @@ public class BasicHexViewerUI extends HexViewerUI {
         if (scrollBar != null) {
             size.width += scrollBar.getPreferredSize().width;
         }
+
+        // Plus the insets of the component.
+        Insets insets = c.getInsets();
+        size.width += (insets.left + insets.right);
+        size.height += (insets.top + insets.bottom);
 
         return size;
     }
@@ -169,10 +180,10 @@ public class BasicHexViewerUI extends HexViewerUI {
         return new Dimension(width, height);
     }
 
-    private Insets getViewportBorderInsets(JComponent c) {
-        Border border = UIManager.getBorder("ScrollPane.border");
+    private Insets getViewportBorderInsets(HexViewer viewer) {
+        Border border = viewer.getViewportBorder();
         if (border != null) {
-            return border.getBorderInsets(c);
+            return border.getBorderInsets(viewer);
         } else {
             return null;
         }
@@ -189,7 +200,7 @@ public class BasicHexViewerUI extends HexViewerUI {
 
     /**
      * Paints the component.  If the component is opaque, paints the background colour.  The rest of the painting is
-     * delegated to {@link #paintBorder(java.awt.Graphics2D, org.trypticon.hex.HexViewer)} and
+     * delegated to {@link #paintViewportBorder(java.awt.Graphics2D, org.trypticon.hex.HexViewer)} and
      * {@link #paintHex(java.awt.Graphics2D, org.trypticon.hex.HexViewer)}.
      *
      * @param g the graphics context.
@@ -208,32 +219,33 @@ public class BasicHexViewerUI extends HexViewerUI {
         // Taking a copy because we want to clip the borders out.
         Graphics2D g2 = (Graphics2D) g.create();
         try {
-            Insets insets = getViewportBorderInsets(c);
+            Insets viewportInsets = getViewportBorderInsets(viewer);
+            Insets insets = viewer.getInsets();
             if (insets != null) {
-                g2.clipRect(insets.left, insets.top,
-                            c.getWidth() - insets.left - insets.right,
-                            c.getHeight() - insets.top - insets.bottom);
+                g2.clipRect(insets.left + viewportInsets.left, insets.top,
+                            c.getWidth() - (insets.left + insets.right + viewportInsets.left + viewportInsets.right),
+                            c.getHeight() - (insets.top + insets.bottom + viewportInsets.top + viewportInsets.bottom));
             }
             paintHex(g2, viewer);
         } finally {
             g2.dispose();
         }
 
-        paintBorder((Graphics2D) g, viewer);
+        paintViewportBorder((Graphics2D) g, viewer);
     }
 
     /**
-     * Paints the border.
+     * Paints the border around the viewport.
      *
      * @param g the graphics context.
      * @param viewer the viewer.
      */
-    protected void paintBorder(Graphics2D g, HexViewer viewer) {
+    protected void paintViewportBorder(Graphics2D g, HexViewer viewer) {
         JScrollBar scrollBar = getVerticalScrollBar(viewer);
         if (scrollBar == null) {
             return;
         }
-        Border border = UIManager.getBorder("ScrollPane.border");
+        Border border = viewer.getViewportBorder();
         if (border != null) {
             border.paintBorder(viewer, g, 0, 0, viewer.getWidth() - scrollBar.getWidth(), viewer.getHeight());
         }
@@ -383,6 +395,17 @@ public class BasicHexViewerUI extends HexViewerUI {
 
     protected void installDefaults(HexViewer viewer) {
         viewer.setBackground(UIManager.getColor("TextArea.background"));
+
+        LookAndFeel.installBorder(viewer, "ScrollPane.border");
+
+        Border viewportBorder = viewer.getViewportBorder();
+        if (viewportBorder == null || viewportBorder instanceof UIResource) {
+            Border border = UIManager.getBorder("ScrollPane.viewportBorder");
+            if (border == null) {
+                border = new BorderUIResource(BorderFactory.createEmptyBorder());
+            }
+            viewer.setViewportBorder(border);
+        }
     }
 
     protected void installKeyboardActions(HexViewer viewer) {
