@@ -26,10 +26,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 
 /**
  * An accessory bar consisting of a main {@link LocationAccessoryBar} along with controls to optionally
@@ -39,11 +41,22 @@ import java.util.ResourceBundle;
  */
 public class ExpandableAccessoryBar extends AccessoryBar {
     private final HexViewer viewer;
+    private Preferences preferencesNode;
 
     public ExpandableAccessoryBar(HexViewer viewer) {
         this.viewer = viewer;
         add(new AccessoryBarWithButtons(new LocationAccessoryBar(viewer), false));
         setLayout(new GridLayout(0, 1));
+    }
+
+    @Override
+    protected void setPreferencesNode(Preferences node) {
+        preferencesNode = node;
+        for (Component component : getComponents()) {
+            if (component instanceof AccessoryBar) { // all child components probably will be accessory bars
+                ((AccessoryBar) component).setPreferencesNode(node);
+            }
+        }
     }
 
     private void addAccessoryBar() {
@@ -63,6 +76,7 @@ public class ExpandableAccessoryBar extends AccessoryBar {
 
         private AccessoryBarWithButtons(AccessoryBar bar, boolean canRemove) {
             this.bar = bar;
+            bar.setPreferencesNode(preferencesNode);
 
             // Metal L&F has a gradient to the bar and I didn't want it repeating over and over.
             bar.setBorder(BorderFactory.createEmptyBorder(1, 0, 1, 0));

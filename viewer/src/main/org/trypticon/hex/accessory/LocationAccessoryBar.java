@@ -41,6 +41,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.ParseException;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 
 /**
  * An accessory bar showing the location within the file and allowing changing it.
@@ -53,6 +54,7 @@ public class LocationAccessoryBar extends AccessoryBar {
     private final CustomHexFormattedTextField offsetField;
     private final CustomHexFormattedTextField lengthField;
     private final Handler handler;
+    private Preferences preferencesNode;
 
     public LocationAccessoryBar(HexViewer viewer) {
         this.viewer = viewer;
@@ -104,6 +106,15 @@ public class LocationAccessoryBar extends AccessoryBar {
                 .addComponent(lengthField));
     }
 
+    @Override
+    protected void setPreferencesNode(Preferences node) {
+        this.preferencesNode = node;
+        if (node != null) {
+            int columns = node.getInt("columns", 16);
+            columnsSpinner.setValue(columns);
+        }
+    }
+
     private void binaryChanged() {
         Binary binary = viewer.getBinary();
         long maxLength = binary != null ? binary.length() : 1;
@@ -124,6 +135,9 @@ public class LocationAccessoryBar extends AccessoryBar {
     private void userChangedColumns() {
         int columns = ((Number) columnsSpinner.getValue()).intValue();
         viewer.setBytesPerRow(columns);
+        if (preferencesNode != null) {
+            preferencesNode.putInt("columns", columns);
+        }
     }
 
     private void userChangedLocation() {

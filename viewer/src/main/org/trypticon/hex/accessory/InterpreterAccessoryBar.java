@@ -23,10 +23,12 @@ import org.trypticon.hex.interpreters.Interpreter;
 import org.trypticon.hex.interpreters.InterpreterInfo;
 import org.trypticon.hex.interpreters.MasterInterpreterStorage;
 import org.trypticon.hex.interpreters.nulls.NullInterpreterInfo;
+import org.trypticon.hex.util.Format;
 import org.trypticon.hex.util.swingsupport.NameRenderingComboBox;
 import org.trypticon.hex.util.swingsupport.PLAFUtils;
 import org.trypticon.hex.util.swingsupport.StealthFormattedTextField;
 
+import javax.swing.ComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
@@ -42,8 +44,10 @@ import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 
 /**
  * An accessory bar which shows the interpretation of the selected bytes as a value.
@@ -57,6 +61,8 @@ public class InterpreterAccessoryBar extends AccessoryBar {
     private final JComboBox<InterpreterInfo> typeComboBox;
     private final JComboBox<?> byteOrderComboBox;
     private final JFormattedTextField valueTextField;
+
+    private Preferences preferencesNode;
 
     public InterpreterAccessoryBar(HexViewer viewer) {
         this.viewer = viewer;
@@ -99,6 +105,26 @@ public class InterpreterAccessoryBar extends AccessoryBar {
                 .addComponent(valueTextField));
     }
 
+    @Override
+    protected void setPreferencesNode(Preferences node) {
+        preferencesNode = node;
+        if (node != null) {
+            String type = node.get("type", null);
+            ComboBoxModel<InterpreterInfo> typeComboBoxModel = typeComboBox.getModel();
+            int typeCount = typeComboBoxModel.getSize();
+            for (int index = 0; index < typeCount; index++) {
+                InterpreterInfo info = typeComboBoxModel.getElementAt(index);
+                if (info.toLocalisedString(Format.SHORT, Locale.ROOT).equals(type)) {
+                    typeComboBoxModel.setSelectedItem(info);
+                    break;
+                }
+            }
+
+            String byteOrderString = node.get("byteOrder", null);
+            byteOrderComboBox.setSelectedIndex("big".equals(byteOrderString) ? 0 : 1);
+        }
+    }
+
     private void selectedDataChanged() {
         updateInterpretedValue();
     }
@@ -106,10 +132,17 @@ public class InterpreterAccessoryBar extends AccessoryBar {
     private void selectedTypeChanged() {
         updateByteOrderComboBox();
         updateInterpretedValue();
+        if (preferencesNode != null) {
+            InterpreterInfo selectedItem = (InterpreterInfo) typeComboBox.getSelectedItem();
+            preferencesNode.put("type", selectedItem.toLocalisedString(Format.SHORT, Locale.ROOT));
+        }
     }
 
     private void selectedByteOrderChanged() {
         updateInterpretedValue();
+        if (preferencesNode != null) {
+            preferencesNode.put("byteOrder", byteOrderComboBox.getSelectedIndex() == 0 ? "big" : "little");
+        }
     }
 
     private void updateByteOrderComboBox() {

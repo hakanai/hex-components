@@ -19,14 +19,24 @@
 package org.trypticon.hex.accessory;
 
 import javax.swing.JToolBar;
+import java.util.prefs.Preferences;
 
 /**
  * A toolbar showing some additional information.
  *
  * @author trejkaz
  */
-public class AccessoryBar extends JToolBar {
+public abstract class AccessoryBar extends JToolBar {
     public AccessoryBar() {
         setFloatable(false);
     }
+
+    /**
+     * Sets a preferences node to use to record the settings. On setting, any preferences stored in the node
+     * immediately apply to the accessory bar. If a preferences node is set, then on changing the settings
+     * on the accessory bar, the preferences node will be updated with the new settings.
+     *
+     * @param node the preferences node to synchronise with.
+     */
+    protected abstract void setPreferencesNode(Preferences node);
 }
