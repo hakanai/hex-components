@@ -67,7 +67,6 @@ public class InterpreterAccessoryBar extends AccessoryBar {
     public InterpreterAccessoryBar(HexViewer viewer) {
         this.viewer = viewer;
 
-
         List<InterpreterInfo> infos = filter(new MasterInterpreterStorage().getGroupedInterpreterInfos());
         typeComboBox = new NameRenderingComboBox<>(infos.toArray(new InterpreterInfo[infos.size()]));
         byteOrderComboBox = new JComboBox<>(new String[] {

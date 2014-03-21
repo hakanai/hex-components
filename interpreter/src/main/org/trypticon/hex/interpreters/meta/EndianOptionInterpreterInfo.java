@@ -20,6 +20,7 @@ package org.trypticon.hex.interpreters.meta;
 
 import org.trypticon.hex.interpreters.AbstractInterpreterInfo;
 import org.trypticon.hex.interpreters.Interpreter;
+import org.trypticon.hex.interpreters.Value;
 import org.trypticon.hex.util.Localisable;
 
 import java.nio.ByteOrder;
@@ -32,14 +33,16 @@ import java.util.Map;
  *    thus allowing selecting between two different interpreters.</p>
  *
  * <p>This should be useful for simpler GUIs where you get the option to toggle an endian-ness flag.</p>
+ *
+ * @param <V> the type of value which is interpreted.
  */
-public class EndianOptionInterpreterInfo extends AbstractInterpreterInfo {
-    private final Interpreter<?> bigEndianInterpreter;
-    private final Interpreter<?> littleEndianInterpreter;
+public class EndianOptionInterpreterInfo<V extends Value> extends AbstractInterpreterInfo {
+    private final Interpreter<V> bigEndianInterpreter;
+    private final Interpreter<V> littleEndianInterpreter;
 
     public EndianOptionInterpreterInfo(Localisable name,
-                                       Interpreter<?> bigEndianInterpreter,
-                                       Interpreter<?> littleEndianInterpreter)
+                                       Interpreter<V> bigEndianInterpreter,
+                                       Interpreter<V> littleEndianInterpreter)
     {
         super(name);
         this.bigEndianInterpreter = bigEndianInterpreter;

@@ -20,7 +20,7 @@ package org.trypticon.hex.interpreters.primitives;
 
 import org.trypticon.hex.interpreters.AbstractInterpreterStorage;
 import org.trypticon.hex.interpreters.InterpreterInfo;
-import org.trypticon.hex.interpreters.meta.AutoLengthInterpreter;
+import org.trypticon.hex.interpreters.meta.AutoLengthInterpreterInfo;
 import org.trypticon.hex.interpreters.meta.EndianOptionInterpreterInfo;
 import org.trypticon.hex.interpreters.primitives.floating.Float128InterpreterBE;
 import org.trypticon.hex.interpreters.primitives.floating.Float128InterpreterLE;
@@ -84,41 +84,53 @@ public class PrimitiveInterpreterStorage extends AbstractInterpreterStorage {
     @Override
     public List<InterpreterInfo> getGroupedInterpreterInfos() {
         return Arrays.<InterpreterInfo>asList(
-                new EndianOptionInterpreterInfo(
+                new AutoLengthInterpreterInfo(
                         new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.GroupedSigned"),
-                        new AutoLengthInterpreter(
-                                PrimitiveInterpreters.SINT8,
+                        PrimitiveInterpreters.SINT8_INFO,
+                        new EndianOptionInterpreterInfo<>(
+                                new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.SInt16"),
                                 PrimitiveInterpreters.SINT16_BE,
+                                PrimitiveInterpreters.SINT16_LE),
+                        new EndianOptionInterpreterInfo<>(
+                                new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.SInt32"),
                                 PrimitiveInterpreters.SINT32_BE,
-                                PrimitiveInterpreters.SINT64_BE),
-                        new AutoLengthInterpreter(
-                                PrimitiveInterpreters.SINT8,
-                                PrimitiveInterpreters.SINT16_LE,
-                                PrimitiveInterpreters.SINT32_LE,
+                                PrimitiveInterpreters.SINT32_LE),
+                        new EndianOptionInterpreterInfo<>(
+                                new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.SInt64"),
+                                PrimitiveInterpreters.SINT64_BE,
                                 PrimitiveInterpreters.SINT64_LE)),
-                new EndianOptionInterpreterInfo(
+                new AutoLengthInterpreterInfo(
                         new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.GroupedUnsigned"),
-                        new AutoLengthInterpreter(
-                                PrimitiveInterpreters.UINT8,
+                        PrimitiveInterpreters.UINT8_INFO,
+                        new EndianOptionInterpreterInfo<>(
+                                new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.UInt16"),
                                 PrimitiveInterpreters.UINT16_BE,
+                                PrimitiveInterpreters.UINT16_LE),
+                        new EndianOptionInterpreterInfo<>(
+                                new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.UInt32"),
                                 PrimitiveInterpreters.UINT32_BE,
-                                PrimitiveInterpreters.UINT64_BE),
-                        new AutoLengthInterpreter(
-                                PrimitiveInterpreters.UINT8,
-                                PrimitiveInterpreters.UINT16_LE,
-                                PrimitiveInterpreters.UINT32_LE,
+                                PrimitiveInterpreters.UINT32_LE),
+                        new EndianOptionInterpreterInfo<>(
+                                new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.UInt64"),
+                                PrimitiveInterpreters.UINT64_BE,
                                 PrimitiveInterpreters.UINT64_LE)),
-                new EndianOptionInterpreterInfo(
+                new AutoLengthInterpreterInfo(
                         new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.GroupedFloat"),
-                        new AutoLengthInterpreter(
+                        new EndianOptionInterpreterInfo<>(
+                                new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.Float16"),
                                 PrimitiveInterpreters.FLOAT16_BE,
+                                PrimitiveInterpreters.FLOAT16_LE),
+                        new EndianOptionInterpreterInfo<>(
+                                new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.Float32"),
                                 PrimitiveInterpreters.FLOAT32_BE,
+                                PrimitiveInterpreters.FLOAT32_LE),
+                        new EndianOptionInterpreterInfo<>(
+                                new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.Float64"),
                                 PrimitiveInterpreters.FLOAT64_BE,
-                                PrimitiveInterpreters.FLOAT128_BE),
-                        new AutoLengthInterpreter(
-                                PrimitiveInterpreters.FLOAT16_LE,
-                                PrimitiveInterpreters.FLOAT32_LE,
-                                PrimitiveInterpreters.FLOAT64_LE,
+                                PrimitiveInterpreters.FLOAT64_LE),
+                        new EndianOptionInterpreterInfo<>(
+                                new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.Float128"),
+                                PrimitiveInterpreters.FLOAT128_BE,
                                 PrimitiveInterpreters.FLOAT128_LE)));
     }
 

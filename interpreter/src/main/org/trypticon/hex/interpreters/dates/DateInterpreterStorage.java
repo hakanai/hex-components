@@ -20,7 +20,7 @@ package org.trypticon.hex.interpreters.dates;
 
 import org.trypticon.hex.interpreters.AbstractInterpreterStorage;
 import org.trypticon.hex.interpreters.InterpreterInfo;
-import org.trypticon.hex.interpreters.meta.AutoLengthInterpreter;
+import org.trypticon.hex.interpreters.meta.AutoLengthInterpreterInfo;
 import org.trypticon.hex.interpreters.meta.EndianOptionInterpreterInfo;
 import org.trypticon.hex.util.LocalisedName;
 
@@ -53,9 +53,16 @@ public class DateInterpreterStorage extends AbstractInterpreterStorage {
     @Override
     public List<InterpreterInfo> getGroupedInterpreterInfos() {
         return Arrays.asList(
-                new EndianOptionInterpreterInfo(new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.GroupedCTime"),
-                        new AutoLengthInterpreter(DateInterpreters.C_TIME32_BE, DateInterpreters.C_TIME64_BE),
-                        new AutoLengthInterpreter(DateInterpreters.C_TIME32_LE, DateInterpreters.C_TIME64_LE)),
+                new AutoLengthInterpreterInfo(
+                        new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.GroupedCTime"),
+                        new EndianOptionInterpreterInfo<>(
+                                new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.CTime32"),
+                                DateInterpreters.C_TIME32_BE,
+                                DateInterpreters.C_TIME32_LE),
+                        new EndianOptionInterpreterInfo<>(
+                                new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.CTime64"),
+                                DateInterpreters.C_TIME64_BE,
+                                DateInterpreters.C_TIME64_LE)),
                 DateInterpreters.JAVA_TIME_INFO,
                 DateInterpreters.DOS_DATE_INFO,
                 DateInterpreters.DOS_TIME_INFO,

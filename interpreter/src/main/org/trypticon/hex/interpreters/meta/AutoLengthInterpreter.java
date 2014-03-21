@@ -23,6 +23,8 @@ import org.trypticon.hex.interpreters.FixedLengthInterpreter;
 import org.trypticon.hex.interpreters.Interpreter;
 import org.trypticon.hex.interpreters.Value;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,12 +34,16 @@ import java.util.Map;
  * <p>The appropriate interpreter will automatically be selected based on the length of
  *    the value being interpreted.</p>
  */
-public class AutoLengthInterpreter implements Interpreter<Value> {
+class AutoLengthInterpreter implements Interpreter<Value> {
     private final Map<Long, Interpreter<?>> interpretersByLength;
 
-    public AutoLengthInterpreter(FixedLengthInterpreter<?>... interpretersByLength) {
-        this.interpretersByLength = new HashMap<>(interpretersByLength.length);
-        for (FixedLengthInterpreter<?> interpreter : interpretersByLength) {
+    public AutoLengthInterpreter(FixedLengthInterpreter<?>... interpreters) {
+        this(Arrays.asList(interpreters));
+    }
+
+    public AutoLengthInterpreter(Collection<? extends FixedLengthInterpreter<?>> interpreters) {
+        this.interpretersByLength = new HashMap<>(interpreters.size());
+        for (FixedLengthInterpreter<?> interpreter : interpreters) {
             this.interpretersByLength.put(interpreter.getValueLength(), interpreter);
         }
     }
