@@ -52,20 +52,31 @@ public class ExpandableAccessoryBar extends AccessoryBar {
     @Override
     protected void setPreferencesNode(Preferences node) {
         preferencesNode = node;
-        for (Component component : getComponents()) {
-            if (component instanceof AccessoryBar) { // all child components probably will be accessory bars
-                ((AccessoryBar) component).setPreferencesNode(node);
+    }
+
+    private void savePreferences() {
+        if (preferencesNode != null) {
+            int interpreterIndex = 0;
+            for (Component component : getComponents()) {
+                if (component instanceof LocationAccessoryBar) {
+                    ((AccessoryBar) component).setPreferencesNode(preferencesNode.node("location"));
+                } else if (component instanceof InterpreterAccessoryBar) {
+                    ((AccessoryBar) component).setPreferencesNode(
+                            preferencesNode.node("interpreter" + (interpreterIndex++)));
+                }
             }
         }
     }
 
     private void addAccessoryBar() {
         add(new AccessoryBarWithButtons(new InterpreterAccessoryBar(viewer), true), 0);
+        savePreferences();
         revalidate();
     }
 
     private void removeAccessoryBar(AccessoryBarWithButtons bar) {
         remove(bar);
+        savePreferences();
         revalidate();
     }
 
