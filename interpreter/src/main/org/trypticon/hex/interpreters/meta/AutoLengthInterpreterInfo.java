@@ -20,8 +20,8 @@ package org.trypticon.hex.interpreters.meta;
 
 import org.trypticon.hex.interpreters.AbstractInterpreterInfo;
 import org.trypticon.hex.interpreters.FixedLengthInterpreter;
+import org.trypticon.hex.interpreters.FixedLengthInterpreterInfo;
 import org.trypticon.hex.interpreters.Interpreter;
-import org.trypticon.hex.interpreters.InterpreterInfo;
 import org.trypticon.hex.util.Localisable;
 
 import java.util.ArrayList;
@@ -35,16 +35,16 @@ import java.util.Map;
  * Interpreter info which provides multiple kinds of interpreter which differ only by length.
  */
 public class AutoLengthInterpreterInfo extends AbstractInterpreterInfo {
-    private final InterpreterInfo[] infos;
+    private final FixedLengthInterpreterInfo[] infos;
     private final List<Option> options;
 
-    public AutoLengthInterpreterInfo(Localisable name, InterpreterInfo... infos) {
+    public AutoLengthInterpreterInfo(Localisable name, FixedLengthInterpreterInfo... infos) {
         super(name);
 
         this.infos = Arrays.copyOf(infos, infos.length);
 
         LinkedHashSet<Option> options = new LinkedHashSet<>(4);
-        for (InterpreterInfo info : infos) {
+        for (FixedLengthInterpreterInfo info : infos) {
             options.addAll(info.getOptions());
         }
         this.options = new ArrayList<>(options);
@@ -58,13 +58,9 @@ public class AutoLengthInterpreterInfo extends AbstractInterpreterInfo {
     @Override
     public Interpreter create(Map<String, Object> options) {
         List<FixedLengthInterpreter<?>> interpreters = new ArrayList<>(infos.length);
-        for (InterpreterInfo info : infos) {
-            Interpreter interpreter = info.create(options);
-            if (interpreter instanceof FixedLengthInterpreter) {
-                interpreters.add((FixedLengthInterpreter) interpreter);
-            } else {
-                throw new IllegalStateException("Interpreter was not a FixedLengthInterpreter: " + interpreter);
-            }
+        for (FixedLengthInterpreterInfo info : infos) {
+            FixedLengthInterpreter interpreter = info.create(options);
+            interpreters.add(interpreter);
         }
         return new AutoLengthInterpreter(interpreters);
     }

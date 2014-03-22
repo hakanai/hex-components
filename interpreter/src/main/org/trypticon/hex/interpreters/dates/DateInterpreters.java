@@ -19,9 +19,8 @@
 package org.trypticon.hex.interpreters.dates;
 
 import org.trypticon.hex.interpreters.FixedLengthInterpreter;
-import org.trypticon.hex.interpreters.Interpreter;
-import org.trypticon.hex.interpreters.InterpreterInfo;
-import org.trypticon.hex.interpreters.meta.SingleInterpreterInfo;
+import org.trypticon.hex.interpreters.FixedLengthInterpreterInfo;
+import org.trypticon.hex.interpreters.meta.SingleFixedLengthInterpreterInfo;
 import org.trypticon.hex.util.LocalisedName;
 
 /**
@@ -48,23 +47,23 @@ public class DateInterpreters {
     public static final FixedLengthInterpreter<DateTime> MAC_CLASSIC_DATE = new MacClassicDateInterpreter();
     public static final FixedLengthInterpreter<DateTime> NOTES_TIME_DATE = new NotesTimeDateInterpreter();
 
-    public static final InterpreterInfo C_TIME32_BE_INFO = info("CTimeBE32", C_TIME32_BE);
-    public static final InterpreterInfo C_TIME32_LE_INFO = info("CTimeLE32", C_TIME32_LE);
-    public static final InterpreterInfo C_TIME64_BE_INFO = info("CTimeBE64", C_TIME64_BE);
-    public static final InterpreterInfo C_TIME64_LE_INFO = info("CTimeLE64", C_TIME64_LE);
-    public static final InterpreterInfo JAVA_TIME_INFO = info("JavaTime", JAVA_TIME);
-    public static final InterpreterInfo DOS_DATE_INFO = info("DosDate", DOS_DATE);
-    public static final InterpreterInfo DOS_TIME_INFO = info("DosTime", DOS_TIME);
-    public static final InterpreterInfo DOS_DATE_TIME_INFO = info("DosDateTime", DOS_DATE_TIME);
-    public static final InterpreterInfo WINDOWS_FILE_TIME_INFO = info("WindowsFileTime", WINDOWS_FILE_TIME);
-    public static final InterpreterInfo WINDOWS_SYSTEM_TIME_INFO = info("WindowsSystemTime", WINDOWS_SYSTEM_TIME);
-    public static final InterpreterInfo WINDOWS_OLE_DATE_INFO = info("WindowsOleDate", WINDOWS_OLE_DATE);
-    public static final InterpreterInfo MAC_NS_DATE_INFO = info("MacNSDate", MAC_NS_DATE);
-    public static final InterpreterInfo MAC_CLASSIC_DATE_INFO = info("MacClassicDate", MAC_CLASSIC_DATE);
-    public static final InterpreterInfo NOTES_TIME_DATE_INFO = info("NotesTimeDate", NOTES_TIME_DATE);
+    public static final FixedLengthInterpreterInfo C_TIME32_BE_INFO = info("CTimeBE32", C_TIME32_BE);
+    public static final FixedLengthInterpreterInfo C_TIME32_LE_INFO = info("CTimeLE32", C_TIME32_LE);
+    public static final FixedLengthInterpreterInfo C_TIME64_BE_INFO = info("CTimeBE64", C_TIME64_BE);
+    public static final FixedLengthInterpreterInfo C_TIME64_LE_INFO = info("CTimeLE64", C_TIME64_LE);
+    public static final FixedLengthInterpreterInfo JAVA_TIME_INFO = info("JavaTime", JAVA_TIME);
+    public static final FixedLengthInterpreterInfo DOS_DATE_INFO = info("DosDate", DOS_DATE);
+    public static final FixedLengthInterpreterInfo DOS_TIME_INFO = info("DosTime", DOS_TIME);
+    public static final FixedLengthInterpreterInfo DOS_DATE_TIME_INFO = info("DosDateTime", DOS_DATE_TIME);
+    public static final FixedLengthInterpreterInfo WINDOWS_FILE_TIME_INFO = info("WindowsFileTime", WINDOWS_FILE_TIME);
+    public static final FixedLengthInterpreterInfo WINDOWS_SYSTEM_TIME_INFO = info("WindowsSystemTime", WINDOWS_SYSTEM_TIME);
+    public static final FixedLengthInterpreterInfo WINDOWS_OLE_DATE_INFO = info("WindowsOleDate", WINDOWS_OLE_DATE);
+    public static final FixedLengthInterpreterInfo MAC_NS_DATE_INFO = info("MacNSDate", MAC_NS_DATE);
+    public static final FixedLengthInterpreterInfo MAC_CLASSIC_DATE_INFO = info("MacClassicDate", MAC_CLASSIC_DATE);
+    public static final FixedLengthInterpreterInfo NOTES_TIME_DATE_INFO = info("NotesTimeDate", NOTES_TIME_DATE);
 
-    private static InterpreterInfo info(String name, Interpreter<?> interpreter) {
-        return new SingleInterpreterInfo(
+    private static FixedLengthInterpreterInfo info(String name, FixedLengthInterpreter<?> interpreter) {
+        return new SingleFixedLengthInterpreterInfo(
                 new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters." + name), interpreter);
     }
 }

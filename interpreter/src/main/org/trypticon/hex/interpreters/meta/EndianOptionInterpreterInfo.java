@@ -19,7 +19,8 @@
 package org.trypticon.hex.interpreters.meta;
 
 import org.trypticon.hex.interpreters.AbstractInterpreterInfo;
-import org.trypticon.hex.interpreters.Interpreter;
+import org.trypticon.hex.interpreters.FixedLengthInterpreter;
+import org.trypticon.hex.interpreters.FixedLengthInterpreterInfo;
 import org.trypticon.hex.interpreters.Value;
 import org.trypticon.hex.util.Localisable;
 
@@ -36,17 +37,22 @@ import java.util.Map;
  *
  * @param <V> the type of value which is interpreted.
  */
-public class EndianOptionInterpreterInfo<V extends Value> extends AbstractInterpreterInfo {
-    private final Interpreter<V> bigEndianInterpreter;
-    private final Interpreter<V> littleEndianInterpreter;
+public class EndianOptionInterpreterInfo<V extends Value> extends AbstractInterpreterInfo implements FixedLengthInterpreterInfo {
+    private final FixedLengthInterpreter<V> bigEndianInterpreter;
+    private final FixedLengthInterpreter<V> littleEndianInterpreter;
 
     public EndianOptionInterpreterInfo(Localisable name,
-                                       Interpreter<V> bigEndianInterpreter,
-                                       Interpreter<V> littleEndianInterpreter)
+                                       FixedLengthInterpreter<V> bigEndianInterpreter,
+                                       FixedLengthInterpreter<V> littleEndianInterpreter)
     {
         super(name);
         this.bigEndianInterpreter = bigEndianInterpreter;
         this.littleEndianInterpreter = littleEndianInterpreter;
+    }
+
+    @Override
+    public long getValueLength() {
+        return bigEndianInterpreter.getValueLength();
     }
 
     @Override
@@ -55,7 +61,7 @@ public class EndianOptionInterpreterInfo<V extends Value> extends AbstractInterp
     }
 
     @Override
-    public Interpreter create(Map<String, Object> options) {
+    public FixedLengthInterpreter<?> create(Map<String, Object> options) {
         ByteOrder byteOrder = (ByteOrder) options.get("byteOrder");
         if (byteOrder == null) {
             throw new IllegalArgumentException("Options do not contain required option: byteOrder");

@@ -19,9 +19,8 @@
 package org.trypticon.hex.interpreters.primitives;
 
 import org.trypticon.hex.interpreters.FixedLengthInterpreter;
-import org.trypticon.hex.interpreters.Interpreter;
-import org.trypticon.hex.interpreters.InterpreterInfo;
-import org.trypticon.hex.interpreters.meta.SingleInterpreterInfo;
+import org.trypticon.hex.interpreters.FixedLengthInterpreterInfo;
+import org.trypticon.hex.interpreters.meta.SingleFixedLengthInterpreterInfo;
 import org.trypticon.hex.interpreters.primitives.floating.Float128;
 import org.trypticon.hex.interpreters.primitives.floating.Float128InterpreterBE;
 import org.trypticon.hex.interpreters.primitives.floating.Float128InterpreterLE;
@@ -92,33 +91,33 @@ public class PrimitiveInterpreters {
     public static final FixedLengthInterpreter<Float128> FLOAT128_BE = new Float128InterpreterBE();
     public static final FixedLengthInterpreter<Float128> FLOAT128_LE = new Float128InterpreterLE();
 
-    public static final InterpreterInfo SINT8_INFO = info("SInt8", SINT8);
-    public static final InterpreterInfo SINT16_BE_INFO = info("SInt16BE", SINT16_BE);
-    public static final InterpreterInfo SINT16_LE_INFO = info("SInt16LE", SINT16_LE);
-    public static final InterpreterInfo SINT32_BE_INFO = info("SInt32BE", SINT32_BE);
-    public static final InterpreterInfo SINT32_LE_INFO = info("SInt32LE", SINT32_LE);
-    public static final InterpreterInfo SINT64_BE_INFO = info("SInt64BE", SINT64_BE);
-    public static final InterpreterInfo SINT64_LE_INFO = info("SInt64LE", SINT64_LE);
+    public static final FixedLengthInterpreterInfo SINT8_INFO = info("SInt8", SINT8);
+    public static final FixedLengthInterpreterInfo SINT16_BE_INFO = info("SInt16BE", SINT16_BE);
+    public static final FixedLengthInterpreterInfo SINT16_LE_INFO = info("SInt16LE", SINT16_LE);
+    public static final FixedLengthInterpreterInfo SINT32_BE_INFO = info("SInt32BE", SINT32_BE);
+    public static final FixedLengthInterpreterInfo SINT32_LE_INFO = info("SInt32LE", SINT32_LE);
+    public static final FixedLengthInterpreterInfo SINT64_BE_INFO = info("SInt64BE", SINT64_BE);
+    public static final FixedLengthInterpreterInfo SINT64_LE_INFO = info("SInt64LE", SINT64_LE);
 
-    public static final InterpreterInfo UINT8_INFO = info("UInt8", UINT8);
-    public static final InterpreterInfo UINT16_BE_INFO = info("UInt16BE", UINT16_BE);
-    public static final InterpreterInfo UINT16_LE_INFO = info("UInt16LE", UINT16_LE);
-    public static final InterpreterInfo UINT32_BE_INFO = info("UInt32BE", UINT32_BE);
-    public static final InterpreterInfo UINT32_LE_INFO = info("UInt32LE", UINT32_LE);
-    public static final InterpreterInfo UINT64_BE_INFO = info("UInt64BE", UINT64_BE);
-    public static final InterpreterInfo UINT64_LE_INFO = info("UInt64LE", UINT64_LE);
+    public static final FixedLengthInterpreterInfo UINT8_INFO = info("UInt8", UINT8);
+    public static final FixedLengthInterpreterInfo UINT16_BE_INFO = info("UInt16BE", UINT16_BE);
+    public static final FixedLengthInterpreterInfo UINT16_LE_INFO = info("UInt16LE", UINT16_LE);
+    public static final FixedLengthInterpreterInfo UINT32_BE_INFO = info("UInt32BE", UINT32_BE);
+    public static final FixedLengthInterpreterInfo UINT32_LE_INFO = info("UInt32LE", UINT32_LE);
+    public static final FixedLengthInterpreterInfo UINT64_BE_INFO = info("UInt64BE", UINT64_BE);
+    public static final FixedLengthInterpreterInfo UINT64_LE_INFO = info("UInt64LE", UINT64_LE);
 
-    public static final InterpreterInfo FLOAT16_BE_INFO = info("Float16BE", FLOAT16_BE);
-    public static final InterpreterInfo FLOAT16_LE_INFO = info("Float16LE", FLOAT16_LE);
-    public static final InterpreterInfo FLOAT32_BE_INFO = info("Float32BE", FLOAT32_BE);
-    public static final InterpreterInfo FLOAT32_LE_INFO = info("Float32LE", FLOAT32_LE);
-    public static final InterpreterInfo FLOAT64_BE_INFO = info("Float64BE", FLOAT64_BE);
-    public static final InterpreterInfo FLOAT64_LE_INFO = info("Float64LE", FLOAT64_LE);
-    public static final InterpreterInfo FLOAT128_BE_INFO = info("Float128BE", FLOAT128_BE);
-    public static final InterpreterInfo FLOAT128_LE_INFO = info("Float128LE", FLOAT128_LE);
+    public static final FixedLengthInterpreterInfo FLOAT16_BE_INFO = info("Float16BE", FLOAT16_BE);
+    public static final FixedLengthInterpreterInfo FLOAT16_LE_INFO = info("Float16LE", FLOAT16_LE);
+    public static final FixedLengthInterpreterInfo FLOAT32_BE_INFO = info("Float32BE", FLOAT32_BE);
+    public static final FixedLengthInterpreterInfo FLOAT32_LE_INFO = info("Float32LE", FLOAT32_LE);
+    public static final FixedLengthInterpreterInfo FLOAT64_BE_INFO = info("Float64BE", FLOAT64_BE);
+    public static final FixedLengthInterpreterInfo FLOAT64_LE_INFO = info("Float64LE", FLOAT64_LE);
+    public static final FixedLengthInterpreterInfo FLOAT128_BE_INFO = info("Float128BE", FLOAT128_BE);
+    public static final FixedLengthInterpreterInfo FLOAT128_LE_INFO = info("Float128LE", FLOAT128_LE);
 
-    private static InterpreterInfo info(String name, Interpreter<?> interpreter) {
-        return new SingleInterpreterInfo(
+    private static FixedLengthInterpreterInfo info(String name, FixedLengthInterpreter<?> interpreter) {
+        return new SingleFixedLengthInterpreterInfo(
                 new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters." + name), interpreter);
     }
 

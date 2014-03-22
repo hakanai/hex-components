@@ -136,7 +136,7 @@ public class PrimitiveInterpreterStorage extends AbstractInterpreterStorage {
 
     @Override
     public List<InterpreterInfo> getInterpreterInfos() {
-        return Arrays.asList(
+        return Arrays.<InterpreterInfo>asList(
                 PrimitiveInterpreters.SINT8_INFO,
                 PrimitiveInterpreters.SINT16_BE_INFO,
                 PrimitiveInterpreters.SINT16_LE_INFO,

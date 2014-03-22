@@ -16,28 +16,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.meta;
-
-import org.trypticon.hex.interpreters.AbstractInterpreterInfo;
-import org.trypticon.hex.interpreters.Interpreter;
-import org.trypticon.hex.util.Localisable;
+package org.trypticon.hex.interpreters;
 
 import java.util.Map;
 
 /**
- * Implements the common case of a single interpreter with no options.
+ * An interpreter info which knows its interpreter will be fixed length.
  */
-public class SingleInterpreterInfo extends AbstractInterpreterInfo {
-    // Since interpreters are assumed to carry no state, you can share the instances.
-    private final Interpreter interpreter;
-
-    public SingleInterpreterInfo(Localisable name, Interpreter interpreter) {
-        super(name);
-        this.interpreter = interpreter;
-    }
+public interface FixedLengthInterpreterInfo extends InterpreterInfo {
+    /**
+     * Gets the length of values returned from the interpreter.
+     *
+     * @return the length of values returned from the interpreter.
+     */
+    long getValueLength();
 
     @Override
-    public Interpreter create(Map<String, Object> options) {
-        return interpreter;
-    }
+    FixedLengthInterpreter<?> create(Map<String, Object> options);
+
 }

@@ -77,7 +77,7 @@ public class DateInterpreterStorage extends AbstractInterpreterStorage {
 
     @Override
     public List<InterpreterInfo> getInterpreterInfos() {
-        return Arrays.asList(
+        return Arrays.<InterpreterInfo>asList(
                 DateInterpreters.C_TIME32_BE_INFO,
                 DateInterpreters.C_TIME32_LE_INFO,
                 DateInterpreters.C_TIME64_BE_INFO,
