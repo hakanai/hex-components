@@ -206,14 +206,15 @@ public class InterpreterAccessoryBar extends AccessoryBar {
             return;
         }
 
-        long selectionStart = viewer.getSelectionModel().getSelectionStart();
-        long selectionEnd = viewer.getSelectionModel().getSelectionEnd();
         Object value;
         try {
             if (interpreter instanceof FixedLengthInterpreter) {
-                value = interpreter.interpret(binary, selectionStart,
+                long cursor = viewer.getSelectionModel().getCursor();
+                value = interpreter.interpret(binary, cursor,
                                               ((FixedLengthInterpreter) interpreter).getValueLength());
             } else {
+                long selectionStart = viewer.getSelectionModel().getSelectionStart();
+                long selectionEnd = viewer.getSelectionModel().getSelectionEnd();
                 value = interpreter.interpret(binary, selectionStart,
                                               selectionEnd - selectionStart + 1);
             }
