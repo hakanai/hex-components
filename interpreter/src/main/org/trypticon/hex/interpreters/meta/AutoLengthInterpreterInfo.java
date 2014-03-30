@@ -36,32 +36,46 @@ import java.util.Map;
  */
 public class AutoLengthInterpreterInfo extends AbstractInterpreterInfo {
     private final FixedLengthInterpreterInfo[] infos;
-    private final List<Option> options;
+    private final List<Option<?>> options;
 
     public AutoLengthInterpreterInfo(Localisable name, FixedLengthInterpreterInfo... infos) {
         super(name);
 
         this.infos = Arrays.copyOf(infos, infos.length);
 
-        LinkedHashSet<Option> options = new LinkedHashSet<>(4);
+        LinkedHashSet<Option<?>> options = new LinkedHashSet<>(4);
+        List<LengthOption> lengths = new ArrayList<>(infos.length + 1);
+        lengths.add(LengthOption.AUTO);
         for (FixedLengthInterpreterInfo info : infos) {
             options.addAll(info.getOptions());
+            lengths.add(LengthOption.fromBytes(info.getValueLength()));
         }
+        options.add(new Option<>("length", LengthOption.class, true, lengths));
         this.options = new ArrayList<>(options);
     }
 
     @Override
-    public List<Option> getOptions() {
+    public List<Option<?>> getOptions() {
         return Collections.unmodifiableList(options);
     }
 
     @Override
     public Interpreter create(Map<String, Object> options) {
-        List<FixedLengthInterpreter<?>> interpreters = new ArrayList<>(infos.length);
-        for (FixedLengthInterpreterInfo info : infos) {
-            FixedLengthInterpreter interpreter = info.create(options);
-            interpreters.add(interpreter);
+        LengthOption length = (LengthOption) options.get("length");
+        if (length != null && length != LengthOption.AUTO) { //TODO: Surely AUTO == null
+            for (FixedLengthInterpreterInfo info : infos) {
+                if (LengthOption.fromBytes(info.getValueLength()) == length) {
+                    return info.create(options);
+                }
+            }
+            throw new IllegalArgumentException("Invalid length: " + length);
+        } else {
+            List<FixedLengthInterpreter<?>> interpreters = new ArrayList<>(infos.length);
+            for (FixedLengthInterpreterInfo info : infos) {
+                FixedLengthInterpreter interpreter = info.create(options);
+                interpreters.add(interpreter);
+            }
+            return new AutoLengthInterpreter(interpreters);
         }
-        return new AutoLengthInterpreter(interpreters);
     }
 }

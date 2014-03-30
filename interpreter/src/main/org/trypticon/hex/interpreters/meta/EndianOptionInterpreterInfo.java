@@ -56,8 +56,8 @@ public class EndianOptionInterpreterInfo<V extends Value> extends AbstractInterp
     }
 
     @Override
-    public List<Option> getOptions() {
-        return Arrays.asList(new Option("byteOrder", ByteOrder.class, true));
+    public List<Option<?>> getOptions() {
+        return Arrays.<Option<?>>asList(new Option<>("byteOrder", ByteOrder.class, true));
     }
 
     @Override

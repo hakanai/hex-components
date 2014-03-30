@@ -48,7 +48,7 @@ public abstract class AbstractInterpreterInfo implements InterpreterInfo {
     }
 
     @Override
-    public List<Option> getOptions() {
+    public List<Option<?>> getOptions() {
         return Collections.emptyList();
     }
 

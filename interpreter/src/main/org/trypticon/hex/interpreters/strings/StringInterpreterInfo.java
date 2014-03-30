@@ -37,8 +37,8 @@ public class StringInterpreterInfo extends AbstractInterpreterInfo {
     }
 
     @Override
-    public List<Option> getOptions() {
-        return Arrays.asList(new Option("charset", String.class, true));
+    public List<Option<?>> getOptions() {
+        return Arrays.<Option<?>>asList(new Option<>("charset", String.class, true));
     }
 
     @Override
