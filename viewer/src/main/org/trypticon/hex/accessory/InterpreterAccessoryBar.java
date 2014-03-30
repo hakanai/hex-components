@@ -177,7 +177,7 @@ public class InterpreterAccessoryBar extends AccessoryBar {
 
     private void updateLengthComboBox() {
         InterpreterInfo info = (InterpreterInfo) typeComboBox.getSelectedItem();
-        List<LengthOption> values = interpreterHasLengthOption(info);
+        List<LengthOption> values = getLengthOptions(info);
         if (values != null) {
             lengthComboBox.setModel(new DefaultComboBoxModel<>(values.toArray(new LengthOption[values.size()])));
         }
@@ -192,7 +192,7 @@ public class InterpreterAccessoryBar extends AccessoryBar {
     private void updateInterpretedValue() {
         InterpreterInfo info = (InterpreterInfo) typeComboBox.getSelectedItem();
         Map<String, Object> options = new HashMap<>(4);
-        if (interpreterHasLengthOption(info) != null) {
+        if (interpreterHasLengthOption(info)) {
             options.put("length", lengthComboBox.getSelectedItem());
         }
         if (interpreterHasByteOrderOption(info)) {
@@ -215,7 +215,7 @@ public class InterpreterAccessoryBar extends AccessoryBar {
         valueTextField.setValue(value);
     }
 
-    private List<LengthOption> interpreterHasLengthOption(InterpreterInfo info) {
+    private List<LengthOption> getLengthOptions(InterpreterInfo info) {
         for (InterpreterInfo.Option option : info.getOptions()) {
             // Can expand this as the UI grows to support more options.
             if ("length".equals(option.getName()) && LengthOption.class.equals(option.getType())) {
@@ -225,6 +225,16 @@ public class InterpreterAccessoryBar extends AccessoryBar {
             }
         }
         return null;
+    }
+
+    private boolean interpreterHasLengthOption(InterpreterInfo info) {
+        for (InterpreterInfo.Option option : info.getOptions()) {
+            // Can expand this as the UI grows to support more options.
+            if ("length".equals(option.getName()) && LengthOption.class.equals(option.getType())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean interpreterHasByteOrderOption(InterpreterInfo info) {
