@@ -1,6 +1,6 @@
 /*
  * Hex - a hex viewer and annotator
- * Copyright (C) 2009-2013  Trejkaz, Hex Project
+ * Copyright (C) 2009-2014  Trejkaz, Hex Project
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -18,10 +18,10 @@
 
 package org.trypticon.hex.util.swingxsupport;
 
+import org.jdesktop.swingx.treetable.TreeTableModel;
+
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreePath;
-
-import org.jdesktop.swingx.treetable.TreeTableModel;
 
 /**
  * An empty model for use with {@link org.jdesktop.swingx.JXTreeTable JXTreeTable}.  {@code JXTreeTable} does not permit setting the model
