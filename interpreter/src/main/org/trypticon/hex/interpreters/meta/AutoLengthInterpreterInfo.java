@@ -22,6 +22,7 @@ import org.trypticon.hex.interpreters.AbstractInterpreterInfo;
 import org.trypticon.hex.interpreters.FixedLengthInterpreter;
 import org.trypticon.hex.interpreters.FixedLengthInterpreterInfo;
 import org.trypticon.hex.interpreters.Interpreter;
+import org.trypticon.hex.interpreters.options.LengthOption;
 import org.trypticon.hex.util.Localisable;
 
 import java.util.ArrayList;

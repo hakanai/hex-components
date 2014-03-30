@@ -27,6 +27,10 @@ import javax.swing.ListCellRenderer;
  * @author trejkaz
  */
 public abstract class DelegateRenderingComboBox<E> extends JComboBox<E> {
+    public DelegateRenderingComboBox() {
+        super();
+    }
+
     public DelegateRenderingComboBox(E[] items) {
         super(items);
     }

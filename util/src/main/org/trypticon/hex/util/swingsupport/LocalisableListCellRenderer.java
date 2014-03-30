@@ -31,15 +31,18 @@ import java.awt.Component;
  * @author trejkaz
  */
 //XXX: I want this to be DelegatingListCellRenderer<Localisable> but if you do that, the super call is invalid.
-public class NameListCellRenderer extends DelegatingListCellRenderer<Object> {
-    protected NameListCellRenderer(ListCellRenderer<Object> delegate) {
+public class LocalisableListCellRenderer extends DelegatingListCellRenderer<Object> {
+    private final Format format;
+
+    protected LocalisableListCellRenderer(ListCellRenderer<Object> delegate, Format format) {
         super(delegate);
+        this.format = format;
     }
 
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         if (value instanceof Localisable) {
-            value = ((Localisable) value).toLocalisedString(Format.LONG);
+            value = ((Localisable) value).toLocalisedString(format);
         }
         return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
     }

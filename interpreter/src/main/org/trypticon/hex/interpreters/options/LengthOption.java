@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.meta;
+package org.trypticon.hex.interpreters.options;
 
 import org.trypticon.hex.util.Format;
 import org.trypticon.hex.util.Localisable;
@@ -75,7 +75,8 @@ public enum LengthOption implements Localisable {
 
     @Override
     public String toLocalisedString(Format style, Locale locale) {
-        return ResourceBundle.getBundle("org/trypticon/hex/interpreters/Bundle").getString("LengthOption." + name());
+        return ResourceBundle.getBundle("org/trypticon/hex/interpreters/Bundle")
+                .getString(String.format("LengthOption.%s.%s", name(), style.name()));
     }
 
     @Override

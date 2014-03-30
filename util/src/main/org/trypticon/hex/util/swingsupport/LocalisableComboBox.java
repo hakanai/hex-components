@@ -18,6 +18,7 @@
 
 package org.trypticon.hex.util.swingsupport;
 
+import org.trypticon.hex.util.Format;
 import org.trypticon.hex.util.Localisable;
 
 import javax.swing.ListCellRenderer;
@@ -27,13 +28,27 @@ import javax.swing.ListCellRenderer;
  *
  * @author trejkaz
  */
-public class NameRenderingComboBox<E extends Localisable> extends DelegateRenderingComboBox<E> {
-    public NameRenderingComboBox(E[] items) {
+public class LocalisableComboBox<E extends Localisable> extends DelegateRenderingComboBox<E> {
+    private final Format format;
+
+    public LocalisableComboBox(Format format) {
+        super();
+        this.format = format;
+        updateUI();
+    }
+
+    public LocalisableComboBox(Format format, E[] items) {
         super(items);
+        this.format = format;
+        updateUI();
     }
 
     @Override
     protected DelegatingListCellRenderer<? super E> createRenderer(ListCellRenderer<Object> delegate) {
-        return new NameListCellRenderer(delegate);
+        Format format = this.format;
+        if (format == null) { // happens during call from superclass constructor
+            format = Format.LONG;
+        }
+        return new LocalisableListCellRenderer(delegate, format);
     }
 }

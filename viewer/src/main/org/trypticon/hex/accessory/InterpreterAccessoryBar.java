@@ -23,10 +23,10 @@ import org.trypticon.hex.interpreters.FixedLengthInterpreter;
 import org.trypticon.hex.interpreters.Interpreter;
 import org.trypticon.hex.interpreters.InterpreterInfo;
 import org.trypticon.hex.interpreters.MasterInterpreterStorage;
-import org.trypticon.hex.interpreters.meta.LengthOption;
+import org.trypticon.hex.interpreters.options.LengthOption;
 import org.trypticon.hex.interpreters.nulls.NullInterpreterInfo;
 import org.trypticon.hex.util.Format;
-import org.trypticon.hex.util.swingsupport.NameRenderingComboBox;
+import org.trypticon.hex.util.swingsupport.LocalisableComboBox;
 import org.trypticon.hex.util.swingsupport.PLAFUtils;
 import org.trypticon.hex.util.swingsupport.StealthFormattedTextField;
 
@@ -73,8 +73,8 @@ public class InterpreterAccessoryBar extends AccessoryBar {
 
         List<InterpreterInfo> infos = filter(new MasterInterpreterStorage().getGroupedInterpreterInfos());
 
-        typeComboBox = new NameRenderingComboBox<>(infos.toArray(new InterpreterInfo[infos.size()]));
-        lengthComboBox = new JComboBox<>();
+        typeComboBox = new LocalisableComboBox<>(Format.LONG, infos.toArray(new InterpreterInfo[infos.size()]));
+        lengthComboBox = new LocalisableComboBox<>(Format.SHORT);
         byteOrderComboBox = new JComboBox<>(new String[] {
                 bundle.getString("AccessoryBars.Interpreter.byteOrderComboBox.big"),
                 bundle.getString("AccessoryBars.Interpreter.byteOrderComboBox.little")
