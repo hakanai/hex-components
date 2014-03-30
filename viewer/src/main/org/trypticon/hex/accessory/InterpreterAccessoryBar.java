@@ -23,8 +23,9 @@ import org.trypticon.hex.interpreters.FixedLengthInterpreter;
 import org.trypticon.hex.interpreters.Interpreter;
 import org.trypticon.hex.interpreters.InterpreterInfo;
 import org.trypticon.hex.interpreters.MasterInterpreterStorage;
-import org.trypticon.hex.interpreters.options.LengthOption;
 import org.trypticon.hex.interpreters.nulls.NullInterpreterInfo;
+import org.trypticon.hex.interpreters.options.ByteOrderOption;
+import org.trypticon.hex.interpreters.options.LengthOption;
 import org.trypticon.hex.util.Format;
 import org.trypticon.hex.util.swingsupport.LocalisableComboBox;
 import org.trypticon.hex.util.swingsupport.PLAFUtils;
@@ -43,7 +44,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,10 +75,7 @@ public class InterpreterAccessoryBar extends AccessoryBar {
 
         typeComboBox = new LocalisableComboBox<>(Format.LONG, infos.toArray(new InterpreterInfo[infos.size()]));
         lengthComboBox = new LocalisableComboBox<>(Format.SHORT);
-        byteOrderComboBox = new JComboBox<>(new String[] {
-                bundle.getString("AccessoryBars.Interpreter.byteOrderComboBox.big"),
-                bundle.getString("AccessoryBars.Interpreter.byteOrderComboBox.little")
-                });
+        byteOrderComboBox = new LocalisableComboBox<>(Format.SHORT, ByteOrderOption.values());
 
         valueTextField = new StealthFormattedTextField(new ValueFormatterFactory());
         valueTextField.setEditable(false);
@@ -198,8 +195,7 @@ public class InterpreterAccessoryBar extends AccessoryBar {
             options.put("length", lengthComboBox.getSelectedItem());
         }
         if (interpreterHasByteOrderOption(info)) {
-            options.put("byteOrder", byteOrderComboBox.getSelectedIndex() == 0 ?
-                                     ByteOrder.BIG_ENDIAN : ByteOrder.LITTLE_ENDIAN);
+            options.put("byteOrder", byteOrderComboBox.getSelectedItem());
         }
         Interpreter<?> interpreter = info.create(options);
 
@@ -247,7 +243,7 @@ public class InterpreterAccessoryBar extends AccessoryBar {
     private boolean interpreterHasByteOrderOption(InterpreterInfo info) {
         for (InterpreterInfo.Option option : info.getOptions()) {
             // Can expand this as the UI grows to support more options.
-            if ("byteOrder".equals(option.getName()) && ByteOrder.class.equals(option.getType())) {
+            if ("byteOrder".equals(option.getName()) && ByteOrderOption.class.equals(option.getType())) {
                 return true;
             }
         }
@@ -265,7 +261,7 @@ public class InterpreterAccessoryBar extends AccessoryBar {
             boolean usable = true;
             for (InterpreterInfo.Option option : info.getOptions()) {
                 // Can expand this as the UI grows to support more options.
-                if (!("byteOrder".equals(option.getName()) && ByteOrder.class.equals(option.getType())) &&
+                if (!("byteOrder".equals(option.getName()) && ByteOrderOption.class.equals(option.getType())) &&
                         !("length".equals(option.getName()) && LengthOption.class.equals(option.getType()))) {
                     usable = false;
                     break;

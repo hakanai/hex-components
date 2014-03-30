@@ -22,28 +22,28 @@ import org.trypticon.hex.interpreters.AbstractInterpreterInfo;
 import org.trypticon.hex.interpreters.FixedLengthInterpreter;
 import org.trypticon.hex.interpreters.FixedLengthInterpreterInfo;
 import org.trypticon.hex.interpreters.Value;
+import org.trypticon.hex.interpreters.options.ByteOrderOption;
 import org.trypticon.hex.util.Localisable;
 
-import java.nio.ByteOrder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 /**
- * <p>A meta-interpreter giving you the choice of big or little endian in the options,
+ * <p>A meta-interpreter giving you the choice of byte order in the options,
  *    thus allowing selecting between two different interpreters.</p>
  *
  * <p>This should be useful for simpler GUIs where you get the option to toggle a byte order flag.</p>
  *
  * @param <V> the type of value which is interpreted.
  */
-public class EndianOptionInterpreterInfo<V extends Value> extends AbstractInterpreterInfo implements FixedLengthInterpreterInfo {
+public class ByteOrderOptionInterpreterInfo<V extends Value> extends AbstractInterpreterInfo implements FixedLengthInterpreterInfo {
     private final FixedLengthInterpreter<V> bigEndianInterpreter;
     private final FixedLengthInterpreter<V> littleEndianInterpreter;
 
-    public EndianOptionInterpreterInfo(Localisable name,
-                                       FixedLengthInterpreter<V> bigEndianInterpreter,
-                                       FixedLengthInterpreter<V> littleEndianInterpreter)
+    public ByteOrderOptionInterpreterInfo(Localisable name,
+                                          FixedLengthInterpreter<V> bigEndianInterpreter,
+                                          FixedLengthInterpreter<V> littleEndianInterpreter)
     {
         super(name);
         this.bigEndianInterpreter = bigEndianInterpreter;
@@ -57,16 +57,16 @@ public class EndianOptionInterpreterInfo<V extends Value> extends AbstractInterp
 
     @Override
     public List<Option<?>> getOptions() {
-        return Arrays.<Option<?>>asList(new Option<>("byteOrder", ByteOrder.class, true));
+        return Arrays.<Option<?>>asList(new Option<>("byteOrder", ByteOrderOption.class, true));
     }
 
     @Override
     public FixedLengthInterpreter<?> create(Map<String, Object> options) {
-        ByteOrder byteOrder = (ByteOrder) options.get("byteOrder");
+        ByteOrderOption byteOrder = (ByteOrderOption) options.get("byteOrder");
         if (byteOrder == null) {
             throw new IllegalArgumentException("Options do not contain required option: byteOrder");
         }
 
-        return byteOrder == ByteOrder.BIG_ENDIAN ? bigEndianInterpreter : littleEndianInterpreter;
+        return byteOrder == ByteOrderOption.BIG_ENDIAN ? bigEndianInterpreter : littleEndianInterpreter;
     }
 }
