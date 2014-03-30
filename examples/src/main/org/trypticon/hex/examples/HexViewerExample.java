@@ -30,6 +30,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 import java.awt.BorderLayout;
 import java.nio.file.Paths;
+import java.util.prefs.Preferences;
 
 /**
  * Basic example for showing a hex viewer.
@@ -50,6 +51,7 @@ public class HexViewerExample {
                 viewer.setAnnotations(new MemoryAnnotationCollection(binary.length()));
 
                 AccessoryBar accessoryBar = new ExpandableAccessoryBar(viewer);
+                accessoryBar.setPreferencesNode(Preferences.userNodeForPackage(HexViewerExample.class));
 
                 JFrame frame = new JFrame("Example");
                 frame.setLayout(new BorderLayout());

@@ -27,8 +27,19 @@ import java.util.prefs.Preferences;
  * @author trejkaz
  */
 public abstract class AccessoryBar extends JToolBar {
+    private Preferences preferencesNode;
+
     public AccessoryBar() {
         setFloatable(false);
+    }
+
+    /**
+     * Gets the preferences node settings are recorded under.
+     *
+     * @return the preferences node.
+     */
+    public final Preferences getPreferencesNode() {
+        return preferencesNode;
     }
 
     /**
@@ -38,5 +49,29 @@ public abstract class AccessoryBar extends JToolBar {
      *
      * @param node the preferences node to synchronise with.
      */
-    protected abstract void setPreferencesNode(Preferences node);
+    public final void setPreferencesNode(Preferences node) {
+        if (preferencesNode != null) {
+            preferencesNodeDetached(preferencesNode);
+        }
+        preferencesNode = node;
+        if (node != null) {
+            preferencesNodeAttached(node);
+        }
+    }
+
+    /**
+     * Called when a preferences node has been attached.
+     * Preferences should be loaded from the node and listeners should be added to update preferences.
+     *
+     * @param node the preferences node which was just attached.
+     */
+    protected abstract void preferencesNodeAttached(Preferences node);
+
+    /**
+     * Called when a preferences node has been detached.
+     * Listeners which were previously added to update preferences should be removed.
+     *
+     * @param node the preferences node which was just detached.
+     */
+    protected abstract void preferencesNodeDetached(Preferences node);
 }

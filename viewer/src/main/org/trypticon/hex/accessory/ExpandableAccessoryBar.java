@@ -31,6 +31,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
+import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 /**
@@ -41,7 +43,7 @@ import java.util.prefs.Preferences;
  */
 public class ExpandableAccessoryBar extends AccessoryBar {
     private final HexViewer viewer;
-    private Preferences preferencesNode;
+    private int nextInterpreterIndex;
 
     public ExpandableAccessoryBar(HexViewer viewer) {
         this.viewer = viewer;
@@ -50,33 +52,87 @@ public class ExpandableAccessoryBar extends AccessoryBar {
     }
 
     @Override
-    protected void setPreferencesNode(Preferences node) {
-        preferencesNode = node;
+    protected void preferencesNodeAttached(Preferences node) {
+        removeAllOptionalBars();
+
+        String[] childNames;
+        try {
+            childNames = node.childrenNames();
+        } catch (BackingStoreException e) {
+            // Not much we can do.
+            Logger.getLogger(getClass().getName()).warning("Couldn't list child preference nodes: " + node);
+            return;
+        }
+
+        int highestInterpreterIndex = -1;
+        for (String childName : childNames) {
+            Preferences childNode = node.node(childName);
+            if ("location".equals(childName)) {
+                AccessoryBarWithButtons bar = (AccessoryBarWithButtons) getComponent(0);
+                bar.bar.setPreferencesNode(childNode);
+            } else if (childName.startsWith("interpreter")) {
+                int interpreterIndex = Integer.parseInt(childName.substring("interpreter".length()));
+                highestInterpreterIndex = Math.max(highestInterpreterIndex, interpreterIndex);
+                AccessoryBarWithButtons bar = new AccessoryBarWithButtons(new InterpreterAccessoryBar(viewer), true);
+                bar.bar.setPreferencesNode(childNode);
+                add(bar, 0);
+            }
+        }
+
+        nextInterpreterIndex = highestInterpreterIndex + 1;
+
+        // Make sure the existing location bar has a node set for it even if there wasn't one initially.
+        AccessoryBarWithButtons bar = (AccessoryBarWithButtons) getComponent(0);
+        if (bar.bar.getPreferencesNode() == null) {
+            bar.bar.setPreferencesNode(node.node("location"));
+        }
+
+        revalidate();
     }
 
-    private void savePreferences() {
-        if (preferencesNode != null) {
-            int interpreterIndex = 0;
-            for (Component component : getComponents()) {
-                if (component instanceof LocationAccessoryBar) {
-                    ((AccessoryBar) component).setPreferencesNode(preferencesNode.node("location"));
-                } else if (component instanceof InterpreterAccessoryBar) {
-                    ((AccessoryBar) component).setPreferencesNode(
-                            preferencesNode.node("interpreter" + (interpreterIndex++)));
-                }
-            }
+    @Override
+    protected void preferencesNodeDetached(Preferences node) {
+        for (Component component : getComponents()) {
+            ((AccessoryBarWithButtons) component).bar.setPreferencesNode(null);
         }
     }
 
     private void addAccessoryBar() {
-        add(new AccessoryBarWithButtons(new InterpreterAccessoryBar(viewer), true), 0);
-        savePreferences();
+        int interpreterIndex = (nextInterpreterIndex++);
+        Preferences node = getPreferencesNode();
+        AccessoryBarWithButtons bar = new AccessoryBarWithButtons(new InterpreterAccessoryBar(viewer), true);
+        if (node != null) {
+            Preferences childNode = getPreferencesNode().node("interpreter" + interpreterIndex);
+            bar.bar.setPreferencesNode(childNode);
+        }
+        add(bar, 0);
         revalidate();
     }
 
     private void removeAccessoryBar(AccessoryBarWithButtons bar) {
+        Preferences node = bar.bar.getPreferencesNode();
+        if (node != null) {
+            bar.bar.setPreferencesNode(null);
+
+            try {
+                node.removeNode();
+            } catch (BackingStoreException e) {
+                // Not much we can do.
+                Logger.getLogger(getClass().getName()).warning("Couldn't remove preference node: " + node);
+            }
+        }
+
         remove(bar);
-        savePreferences();
+        revalidate();
+    }
+
+    private void removeAllOptionalBars() {
+        // The location bar is always last.
+        while (getComponentCount() > 1) {
+            AccessoryBarWithButtons bar = (AccessoryBarWithButtons) getComponent(0);
+            bar.bar.setPreferencesNode(null);
+            remove(bar);
+        }
         revalidate();
     }
 
@@ -87,7 +143,6 @@ public class ExpandableAccessoryBar extends AccessoryBar {
 
         private AccessoryBarWithButtons(AccessoryBar bar, boolean canRemove) {
             this.bar = bar;
-            bar.setPreferencesNode(preferencesNode);
 
             // Metal L&F has a gradient to the bar and I didn't want it repeating over and over.
             bar.setBorder(BorderFactory.createEmptyBorder(1, 0, 1, 0));

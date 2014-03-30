@@ -117,31 +117,36 @@ public class InterpreterAccessoryBar extends AccessoryBar {
     }
 
     @Override
-    protected void setPreferencesNode(Preferences node) {
+    protected void preferencesNodeAttached(Preferences node) {
         preferencesNode = node;
-        if (node != null) {
-            String type = node.get("type", null);
-            ComboBoxModel<InterpreterInfo> typeComboBoxModel = typeComboBox.getModel();
-            int typeCount = typeComboBoxModel.getSize();
-            for (int index = 0; index < typeCount; index++) {
-                InterpreterInfo info = typeComboBoxModel.getElementAt(index);
-                if (info.toLocalisedString(Format.SHORT, Locale.ROOT).equals(type)) {
-                    typeComboBoxModel.setSelectedItem(info);
-                    break;
-                }
-            }
 
-            String lengthString = node.get("length", null);
-            if (lengthString != null) {
-                lengthComboBox.setSelectedItem(LengthOption.valueOf(lengthString));
-            }
-
-            //TODO: A ByteOrderOption class with proper localisation perhaps?
-            String byteOrderString = node.get("byteOrder", null);
-            if (byteOrderString != null) {
-                byteOrderComboBox.setSelectedIndex("big".equals(byteOrderString) ? 0 : 1);
+        String type = node.get("type", null);
+        ComboBoxModel<InterpreterInfo> typeComboBoxModel = typeComboBox.getModel();
+        int typeCount = typeComboBoxModel.getSize();
+        for (int index = 0; index < typeCount; index++) {
+            //TODO: There should probably be a way to get the serialisation name of the interpreter.
+            InterpreterInfo info = typeComboBoxModel.getElementAt(index);
+            if (info.toLocalisedString(Format.SHORT, Locale.ROOT).equals(type)) {
+                typeComboBoxModel.setSelectedItem(info);
+                break;
             }
         }
+
+        String lengthString = node.get("length", null);
+        if (lengthString != null) {
+            lengthComboBox.setSelectedItem(LengthOption.valueOf(lengthString));
+        }
+
+        //TODO: A ByteOrderOption class with proper localisation perhaps?
+        String byteOrderString = node.get("byteOrder", null);
+        if (byteOrderString != null) {
+            byteOrderComboBox.setSelectedIndex("big".equals(byteOrderString) ? 0 : 1);
+        }
+    }
+
+    @Override
+    protected void preferencesNodeDetached(Preferences node) {
+        preferencesNode = node;
     }
 
     private void selectedDataChanged() {

@@ -107,12 +107,16 @@ public class LocationAccessoryBar extends AccessoryBar {
     }
 
     @Override
-    protected void setPreferencesNode(Preferences node) {
-        this.preferencesNode = node;
-        if (node != null) {
-            int columns = node.getInt("columns", 16);
-            columnsSpinner.setValue(columns);
-        }
+    protected void preferencesNodeAttached(Preferences node) {
+        preferencesNode = node;
+
+        int columns = node.getInt("columns", 16);
+        columnsSpinner.setValue(columns);
+    }
+
+    @Override
+    protected void preferencesNodeDetached(Preferences node) {
+        preferencesNode = node;
     }
 
     private void binaryChanged() {
