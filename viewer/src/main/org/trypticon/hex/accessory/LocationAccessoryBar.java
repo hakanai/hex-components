@@ -129,7 +129,9 @@ public class LocationAccessoryBar extends AccessoryBar {
         long selectionStart = selectionModel.getSelectionStart();
         long selectionEnd = selectionModel.getSelectionEnd();
         offsetField.setValue(selectionStart);
+        offsetField.setCaretPosition(0);
         lengthField.setValue(selectionEnd - selectionStart + 1);
+        lengthField.setCaretPosition(0);
     }
 
     private void userChangedColumns() {
@@ -210,7 +212,7 @@ public class LocationAccessoryBar extends AccessoryBar {
                             if (value == null) {
                                 return "";
                             }
-                            return "0x" + Long.toString(((Number) value).longValue(), 16).toUpperCase();
+                            return "0x" + Long.toString(((Number) value).longValue(), 16);
                         }
                     };
                 }
