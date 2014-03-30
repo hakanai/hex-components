@@ -33,7 +33,7 @@ import java.util.Map;
  * <p>A meta-interpreter giving you the choice of big or little endian in the options,
  *    thus allowing selecting between two different interpreters.</p>
  *
- * <p>This should be useful for simpler GUIs where you get the option to toggle an endian-ness flag.</p>
+ * <p>This should be useful for simpler GUIs where you get the option to toggle a byte order flag.</p>
  *
  * @param <V> the type of value which is interpreted.
  */
