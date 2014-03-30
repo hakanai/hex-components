@@ -18,6 +18,7 @@
 
 package org.trypticon.hex.util.swingsupport;
 
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.UIManager;
 
@@ -39,6 +40,19 @@ public class PLAFUtils {
     public static void makeSmall(JComponent... components) {
         for (JComponent component : components) {
             component.putClientProperty("JComponent.sizeVariant", "small");
+        }
+    }
+
+    /**
+     * Sets the given combo boxes to appear in the square style. Actually, on modern versions of Mac OS X,
+     * combo boxes are this style by default - but it looks like setting this option adjusts the borders
+     * of the combo box to line up better with other components like text fields.
+     *
+     * @param comboBoxes the combo boxes to make square.
+     */
+    public static void makeSquare(JComboBox<?>... comboBoxes) {
+        for (JComboBox<?> comboBox : comboBoxes) {
+            comboBox.putClientProperty("JComboBox.isSquare", true);
         }
     }
 

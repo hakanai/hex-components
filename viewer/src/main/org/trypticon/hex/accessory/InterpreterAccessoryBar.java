@@ -73,16 +73,11 @@ public class InterpreterAccessoryBar extends AccessoryBar {
         List<InterpreterInfo> infos = filter(new MasterInterpreterStorage().getGroupedInterpreterInfos());
 
         typeComboBox = new NameRenderingComboBox<>(infos.toArray(new InterpreterInfo[infos.size()]));
-        typeComboBox.putClientProperty("JComboBox.isSquare", true);
-
         lengthComboBox = new JComboBox<>();
-        lengthComboBox.putClientProperty("JComboBox.isSquare", true);
-
         byteOrderComboBox = new JComboBox<>(new String[] {
                 bundle.getString("AccessoryBars.Interpreter.byteOrderComboBox.big"),
                 bundle.getString("AccessoryBars.Interpreter.byteOrderComboBox.little")
                 });
-        byteOrderComboBox.putClientProperty("JComboBox.isSquare", true);
 
         valueTextField = new StealthFormattedTextField(new ValueFormatterFactory());
         valueTextField.setEditable(false);
@@ -96,6 +91,7 @@ public class InterpreterAccessoryBar extends AccessoryBar {
         viewer.addPropertyChangeListener("binary", sharedListener);
         valueTextField.addPropertyChangeListener("value", sharedListener);
 
+        PLAFUtils.makeSquare(typeComboBox, lengthComboBox, byteOrderComboBox);
         PLAFUtils.makeSmall(typeComboBox, lengthComboBox, byteOrderComboBox, valueTextField);
 
         GroupLayout layout = new GroupLayout(this);
