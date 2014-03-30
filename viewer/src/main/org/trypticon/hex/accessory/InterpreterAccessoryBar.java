@@ -19,6 +19,7 @@
 package org.trypticon.hex.accessory;
 
 import org.trypticon.hex.HexViewer;
+import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.FixedLengthInterpreter;
 import org.trypticon.hex.interpreters.Interpreter;
 import org.trypticon.hex.interpreters.InterpreterInfo;
@@ -199,15 +200,21 @@ public class InterpreterAccessoryBar extends AccessoryBar {
         }
         Interpreter<?> interpreter = info.create(options);
 
+        Binary binary = viewer.getBinary();
+        if (binary == null) {
+            valueTextField.setValue(null);
+            return;
+        }
+
         long selectionStart = viewer.getSelectionModel().getSelectionStart();
         long selectionEnd = viewer.getSelectionModel().getSelectionEnd();
         Object value;
         try {
             if (interpreter instanceof FixedLengthInterpreter) {
-                value = interpreter.interpret(viewer.getBinary(), selectionStart,
+                value = interpreter.interpret(binary, selectionStart,
                                               ((FixedLengthInterpreter) interpreter).getValueLength());
             } else {
-                value = interpreter.interpret(viewer.getBinary(), selectionStart,
+                value = interpreter.interpret(binary, selectionStart,
                                               selectionEnd - selectionStart + 1);
             }
         } catch (IllegalArgumentException e) {
