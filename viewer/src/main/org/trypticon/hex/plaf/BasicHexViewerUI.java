@@ -34,11 +34,15 @@ import javax.swing.TransferHandler;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.plaf.BorderUIResource;
+import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.UIResource;
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -394,7 +398,34 @@ public class BasicHexViewerUI extends HexViewerUI {
     }
 
     protected void installDefaults(HexViewer viewer) {
-        viewer.setBackground(UIManager.getColor("TextArea.background"));
+        Color background = viewer.getBackground();
+        if (background == null || background instanceof ColorUIResource) {
+            viewer.setBackground(getColour("background"));
+        }
+
+        Color foreground = viewer.getForeground();
+        if (foreground == null || background instanceof ColorUIResource) {
+            viewer.setForeground(getColour("foreground"));
+        }
+
+        Color selectionBackground = viewer.getSelectionBackground();
+        if (selectionBackground == null || selectionBackground instanceof ColorUIResource) {
+            viewer.setSelectionBackground(getColour("selectionBackground"));
+        }
+
+        Color selectionForeground = viewer.getSelectionForeground();
+        if (selectionForeground == null || selectionForeground instanceof ColorUIResource) {
+            viewer.setSelectionForeground(getColour("selectionForeground"));
+        }
+
+        Font font = viewer.getFont();
+        if (font == null || font instanceof FontUIResource) {
+            font = UIManager.getFont("HexViewer.font");
+            if (font == null) {
+                font = UIManager.getFont("TextArea.font");
+            }
+            viewer.setFont(font);
+        }
 
         LookAndFeel.installBorder(viewer, "ScrollPane.border");
 
@@ -406,6 +437,14 @@ public class BasicHexViewerUI extends HexViewerUI {
             }
             viewer.setViewportBorder(border);
         }
+    }
+
+    private Color getColour(String suffix) {
+        Color colour = UIManager.getColor("HexViewer." + suffix);
+        if (colour == null) {
+            colour = UIManager.getColor("TextArea." + suffix);
+        }
+        return colour;
     }
 
     protected void installKeyboardActions(HexViewer viewer) {
