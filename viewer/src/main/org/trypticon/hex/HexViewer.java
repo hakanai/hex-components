@@ -90,8 +90,8 @@ public class HexViewer extends JComponent {
     private Color offsetForeground = Color.GRAY;
     private Color errorForeground = Color.RED;
     private Color cursorForeground = null;
-    private Color cursorBackground = new Color(236, 235, 163);
-    private Color cursorRowBackground = new Color(233, 239, 248);
+    private Color cursorBackground = null;
+    private Color cursorRowBackground = null;
     private Color selectionForeground = null;
     private Color selectionBackground = null;
 
