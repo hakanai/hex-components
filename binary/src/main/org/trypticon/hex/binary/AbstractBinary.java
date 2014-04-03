@@ -28,6 +28,45 @@ import java.nio.ByteBuffer;
 public abstract class AbstractBinary implements Binary {
 
     @Override
+    public final byte read(long position) {
+        if (position < 0 || position >= length()) {
+            throw new IndexOutOfBoundsException(
+                    String.format("Position %d is out of bounds (0..%d)", position, length() - 1));
+        }
+
+        return readSpi(position);
+    }
+
+    /**
+     * Called to read a single byte at the given position.
+     * The position will have already been checked before calling this method.
+     *
+     * @param position the position.
+     * @return the byte at that position.
+     */
+    protected abstract byte readSpi(long position);
+
+    @Override
+    public final void read(long position, ByteBuffer buffer) {
+        if (position < 0 || position + buffer.remaining() > length()) {
+            throw new IndexOutOfBoundsException(
+                    String.format("Range %d..%d is out of bounds (0..%d)", position, position + buffer.remaining() - 1,
+                                  length() - 1));
+        }
+
+        readSpi(position, buffer);
+    }
+
+    /**
+     * Called to read multiple bytes at the given position.
+     * The position and length will have already been checked before calling this method.
+     *
+     * @param position the position.
+     * @param buffer the buffer to read into.
+     */
+    protected abstract void readSpi(long position, ByteBuffer buffer);
+
+    @Override
     public void read(long position, byte[] buffer) {
         ByteBuffer wrapped = ByteBuffer.wrap(buffer, 0, buffer.length);
         read(position, wrapped);

@@ -56,12 +56,12 @@ class MemoryMappedFileBinary extends AbstractBinary implements Binary, Closeable
     }
 
     @Override
-    public byte read(long position) {
+    protected byte readSpi(long position) {
         return delegate.read(position);
     }
 
     @Override
-    public void read(long position, ByteBuffer buffer) {
+    protected void readSpi(long position, ByteBuffer buffer) {
         delegate.read(position, buffer);
     }
 

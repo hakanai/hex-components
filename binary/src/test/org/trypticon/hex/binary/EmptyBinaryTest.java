@@ -18,18 +18,40 @@
 
 package org.trypticon.hex.binary;
 
+import org.junit.Test;
+
 import java.nio.ByteBuffer;
 
+import static org.junit.Assert.fail;
+
 /**
- * Tests for {@link ByteBufferBinary}.
+ * Tests for {@link EmptyBinary}.
  *
  * @author trejkaz
  */
-public class ByteBufferBinaryTest extends AbstractBinaryTest {
-    @Override
-    protected Binary createBinary(byte[] sampleData) {
-        ByteBuffer buffer = ByteBuffer.wrap(sampleData);
-        return new ByteBufferBinary(buffer);
+public class EmptyBinaryTest {
+    @Test
+    public void testReading_OneByte() {
+        try (Binary binary = new EmptyBinary()) {
+            try {
+                binary.read(0);
+                fail("Expected IndexOutOfBoundsException");
+            } catch (IndexOutOfBoundsException e) {
+                // Expected.
+            }
+        }
     }
 
+    @Test
+    public void testReading_MultipleBytes() {
+        try (Binary binary = new EmptyBinary()) {
+            ByteBuffer buffer = ByteBuffer.allocate(1);
+            try {
+                binary.read(0, buffer);
+                fail("Expected IndexOutOfBoundsException");
+            } catch (IndexOutOfBoundsException e) {
+                // Expected.
+            }
+        }
+    }
 }

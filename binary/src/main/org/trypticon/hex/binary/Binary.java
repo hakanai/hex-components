@@ -18,6 +18,7 @@
 
 package org.trypticon.hex.binary;
 
+import java.lang.IndexOutOfBoundsException;
 import java.nio.ByteBuffer;
 import java.io.Closeable;
 
@@ -40,6 +41,7 @@ public interface Binary extends Closeable {
      *
      * @param position the position to read.
      * @return the single byte.
+     * @throws IndexOutOfBoundsException if the position is out of bounds.
      */
     public byte read(long position);
 

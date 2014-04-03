@@ -18,18 +18,30 @@
 
 package org.trypticon.hex.binary;
 
-import java.nio.ByteBuffer;
+import org.junit.After;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
- * Tests for {@link ByteBufferBinary}.
+ * Tests for {@link MemoryMappedFileBinary}.
  *
  * @author trejkaz
  */
-public class ByteBufferBinaryTest extends AbstractBinaryTest {
+public class MemoryMappedFileBinaryTest extends AbstractBinaryTest {
+    Path tempFile;
+
     @Override
-    protected Binary createBinary(byte[] sampleData) {
-        ByteBuffer buffer = ByteBuffer.wrap(sampleData);
-        return new ByteBufferBinary(buffer);
+    protected Binary createBinary(byte[] sampleData) throws Exception {
+        tempFile = Files.createTempFile("FileChannelBinaryTest", ".dat");
+        Files.write(tempFile, sampleData);
+        return new MemoryMappedFileBinary(tempFile);
     }
 
+    @After
+    public void tearDown() throws Exception {
+        if (tempFile != null) {
+            Files.delete(tempFile);
+        }
+    }
 }
