@@ -140,6 +140,7 @@ public class HexViewer extends JComponent {
         selectionModel.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent event) {
+                scrollPosToVisible(selectionModel.getCursor());
                 repaint();
             }
         });
