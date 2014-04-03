@@ -21,7 +21,6 @@ package org.trypticon.hex.examples;
 import org.trypticon.hex.HexViewer;
 import org.trypticon.hex.accessory.AccessoryBar;
 import org.trypticon.hex.accessory.ExpandableAccessoryBar;
-import org.trypticon.hex.anno.MemoryAnnotationCollection;
 import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.binary.BinaryFactory;
 
@@ -48,7 +47,6 @@ public class HexViewerExample {
             public void run() {
                 HexViewer viewer = new HexViewer();
                 viewer.setBinary(binary);
-                viewer.setAnnotations(new MemoryAnnotationCollection(binary.length()));
 
                 AccessoryBar accessoryBar = new ExpandableAccessoryBar(viewer);
                 accessoryBar.setPreferencesNode(Preferences.userNodeForPackage(HexViewerExample.class));
