@@ -446,6 +446,15 @@ public class BasicHexViewerUI extends HexViewerUI {
             viewer.setCursorRowBackground(colour);
         }
 
+        Color offsetForeground = viewer.getOffsetForeground();
+        if (offsetForeground == null || offsetForeground instanceof ColorUIResource) {
+            Color colour = UIManager.getColor("HexViewer.offsetForeground");
+            if (colour == null) {
+                colour = new DerivedColor(viewer.getForeground(), 1.0f, 0.0f, 0.6f);
+            }
+            viewer.setOffsetForeground(colour);
+        }
+
         Font font = viewer.getFont();
         if (font == null || font instanceof FontUIResource) {
             font = UIManager.getFont("HexViewer.font");

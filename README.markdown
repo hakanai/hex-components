@@ -24,6 +24,7 @@ In all cases, if a value is absent, sensible fallback logic is used to derive a 
 | `HexViewer.cursorBackground`     | Darker version of `selectionBackground`  |
 | `HexViewer.cursorForeground`     | `selectionForeground`                    |
 | `HexViewer.cursorRowBackground`  | Lighter version of `selectionBackground` |
+| `HexViewer.offsetForeground`     | Lighter version of `foreground`          |
 | `HexViewer.font`                 | `TextArea.font`                          |
 
 

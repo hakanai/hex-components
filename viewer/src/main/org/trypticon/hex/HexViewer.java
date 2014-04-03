@@ -87,7 +87,7 @@ public class HexViewer extends JComponent {
 
     // Colours.
     // XXX: These should probably come from UIDefaults.
-    private Color offsetForeground = Color.GRAY;
+    private Color offsetForeground = null;
     private Color errorForeground = Color.RED;
     private Color cursorForeground = null;
     private Color cursorBackground = null;
