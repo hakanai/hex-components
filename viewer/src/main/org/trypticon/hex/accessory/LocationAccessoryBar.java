@@ -259,6 +259,9 @@ public class LocationAccessoryBar extends AccessoryBar {
         public void commitEdit() throws ParseException {
             super.commitEdit();
             userChangedLocation();
+            if (hasFocus()) {
+                selectAll();
+            }
         }
 
         private void updateMaxValue(long maxValue) {
