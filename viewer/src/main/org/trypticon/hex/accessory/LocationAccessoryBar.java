@@ -149,10 +149,21 @@ public class LocationAccessoryBar extends AccessoryBar {
     private void userChangedLocation() {
         long offset = ((Number) offsetField.getValue()).longValue();
         long length = ((Number) lengthField.getValue()).longValue();
-        if (offset < 0 || offset > viewer.getBinary().length() ||
-            offset + length > viewer.getBinary().length()) {
-            return;
+
+        Binary binary = viewer.getBinary();
+
+        if (offset < 0 || binary == null) {
+            offset = 0;
+        } else if (offset >= binary.length()) {
+            offset = binary.length() - 1;
         }
+
+        if (length < 1 || binary == null) {
+            length = 1;
+        } else if (offset + length >= binary.length() - 1) {
+            length = binary.length() - offset;
+        }
+
         HexViewerSelectionModel selectionModel = viewer.getSelectionModel();
         selectionModel.setCursor(offset + length - 1);
         selectionModel.setCursorAndExtendSelection(offset);
