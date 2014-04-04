@@ -32,14 +32,12 @@ public class EmptyBinary extends AbstractBinary {
     }
 
     @Override
-    public byte read(long position) {
-        throw new IndexOutOfBoundsException("Binary has no data");
+    protected byte readSpi(long position) {
+        throw new IllegalStateException("position should have been checked");
     }
 
     @Override
-    public void read(long position, ByteBuffer buffer) {
-        if (buffer.hasRemaining()) {
-            throw new IndexOutOfBoundsException("Binary has no data");
-        }
+    protected void readSpi(long position, ByteBuffer buffer) {
+        throw new IllegalStateException("range should have been checked");
     }
 }

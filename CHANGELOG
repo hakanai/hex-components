@@ -23,6 +23,8 @@ Version X.X (XXXX-XX-XX)
           file despite keyboard navigation working as normal.
 
  Changed: The hex viewport now properly paints its border so that you can see where your focus is.
+ Changed: Default colours now come from the UI defaults. Colours which are not in the UI defaults are
+          derived from the TextArea defaults if no specific setting is present.
  Changed: Replaced InterpreterInfo#getHumanName method with a proper getLocalisedName which looks up from
           a resource bundle.
  Changed: binary, annotations and bytesPerRow are now JavaBeans bound properties on HexViewer.

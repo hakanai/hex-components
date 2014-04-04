@@ -21,6 +21,7 @@ package org.trypticon.hex;
 import org.trypticon.hex.anno.AnnotationCollection;
 import org.trypticon.hex.anno.AnnotationCollectionEvent;
 import org.trypticon.hex.anno.AnnotationCollectionListener;
+import org.trypticon.hex.anno.EmptyAnnotationCollection;
 import org.trypticon.hex.anno.MemoryAnnotationCollection;
 import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.datatransfer.HexViewerTransferHandler;
@@ -89,10 +90,10 @@ public class HexViewer extends JComponent {
     private Color offsetForeground = Color.GRAY;
     private Color errorForeground = Color.RED;
     private Color cursorForeground = null;
-    private Color cursorBackground = new Color(236, 235, 163);
-    private Color cursorRowBackground = new Color(233, 239, 248);
+    private Color cursorBackground = null;
+    private Color cursorRowBackground = null;
     private Color selectionForeground = null;
-    private Color selectionBackground = new Color(176, 197, 227);
+    private Color selectionBackground = null;
 
     /**
      * The annotation style scheme.
@@ -139,6 +140,7 @@ public class HexViewer extends JComponent {
         selectionModel.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent event) {
+                scrollPosToVisible(selectionModel.getCursor());
                 repaint();
             }
         });
@@ -205,7 +207,11 @@ public class HexViewer extends JComponent {
             offsetColumnDigits = Long.toString(binary.length(), 16).length();
 
             if (annotations == null) {
-                annotations = new MemoryAnnotationCollection(binary.length());
+                if (binary.length() == 0) {
+                    annotations = new EmptyAnnotationCollection();
+                } else {
+                    annotations = new MemoryAnnotationCollection(binary.length());
+                }
             }
 
             selectionModel.setCursor(0);

@@ -16,20 +16,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.util.swingsupport;
+package org.trypticon.hex.binary;
+
+import org.junit.After;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
- * A user exception thrown by subclasses of {@code BaseAction} to raise a
- * simple error dialog.
+ * Tests for {@link MemoryMappedFileBinary}.
  *
  * @author trejkaz
  */
-public class ActionException extends Exception {
-    public ActionException(String message) {
-        super(message);
+public class MemoryMappedFileBinaryTest extends AbstractBinaryTest {
+    Path tempFile;
+
+    @Override
+    protected Binary createBinary(byte[] sampleData) throws Exception {
+        tempFile = Files.createTempFile("FileChannelBinaryTest", ".dat");
+        Files.write(tempFile, sampleData);
+        return new MemoryMappedFileBinary(tempFile);
     }
 
-    public ActionException(String message, Throwable cause) {
-        super(message, cause);
+    @After
+    public void tearDown() throws Exception {
+        if (tempFile != null) {
+            Files.delete(tempFile);
+        }
     }
 }

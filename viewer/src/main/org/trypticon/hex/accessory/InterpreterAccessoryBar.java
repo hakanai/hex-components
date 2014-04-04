@@ -218,7 +218,7 @@ public class InterpreterAccessoryBar extends AccessoryBar {
                 value = interpreter.interpret(binary, selectionStart,
                                               selectionEnd - selectionStart + 1);
             }
-        } catch (IllegalArgumentException e) {
+        } catch (IndexOutOfBoundsException | IllegalArgumentException e) {
             valueTextField.setValue(bundle.getString("AccessoryBars.Interpreter.invalidSelection"));
             return;
         }

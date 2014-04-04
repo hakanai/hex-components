@@ -58,7 +58,7 @@ public class FileChannelBinary extends AbstractBinary implements Binary, Closeab
     }
 
     @Override
-    public byte read(long position) {
+    protected byte readSpi(long position) {
         ByteBuffer buffer = ByteBuffer.allocate(1);
         try {
             channel.read(buffer, position);
@@ -70,7 +70,7 @@ public class FileChannelBinary extends AbstractBinary implements Binary, Closeab
     }
 
     @Override
-    public void read(long position, ByteBuffer buffer) {
+    protected void readSpi(long position, ByteBuffer buffer) {
         try {
             while (buffer.hasRemaining()) {
                 int read = channel.read(buffer, position);

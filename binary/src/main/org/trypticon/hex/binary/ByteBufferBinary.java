@@ -68,7 +68,7 @@ class ByteBufferBinary extends AbstractBinary {
     }
 
     @Override
-    public byte read(long position) {
+    protected byte readSpi(long position) {
         lock.readLock().lock();
         try {
             throwIfClosed();
@@ -79,7 +79,7 @@ class ByteBufferBinary extends AbstractBinary {
     }
 
     @Override
-    public void read(long position, ByteBuffer buffer) {
+    protected void readSpi(long position, ByteBuffer buffer) {
         lock.readLock().lock();
         try {
             throwIfClosed();

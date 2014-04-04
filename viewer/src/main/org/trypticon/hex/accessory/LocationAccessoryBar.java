@@ -149,10 +149,21 @@ public class LocationAccessoryBar extends AccessoryBar {
     private void userChangedLocation() {
         long offset = ((Number) offsetField.getValue()).longValue();
         long length = ((Number) lengthField.getValue()).longValue();
-        if (offset < 0 || offset > viewer.getBinary().length() ||
-            offset + length > viewer.getBinary().length()) {
-            return;
+
+        Binary binary = viewer.getBinary();
+
+        if (offset < 0 || binary == null) {
+            offset = 0;
+        } else if (offset >= binary.length()) {
+            offset = binary.length() - 1;
         }
+
+        if (length < 1 || binary == null) {
+            length = 1;
+        } else if (offset + length >= binary.length() - 1) {
+            length = binary.length() - offset;
+        }
+
         HexViewerSelectionModel selectionModel = viewer.getSelectionModel();
         selectionModel.setCursor(offset + length - 1);
         selectionModel.setCursorAndExtendSelection(offset);
@@ -231,16 +242,33 @@ public class LocationAccessoryBar extends AccessoryBar {
             }
 
             // JTextField's columns are computed in terms of 'm' which makes it too wide on some fonts.
-            String longestString;
+            StringBuilder longestString;
             try {
-                longestString = getFormatter().valueToString(maxValue);
+                longestString = new StringBuilder(getFormatter().valueToString(maxValue));
             } catch (ParseException e) {
                 throw new RuntimeException("Unexpected error converting to string", e);
             }
 
             FontMetrics metrics = getFontMetrics(getFont());
+
+            int widthOfWidestDigit = 0;
+            for (int value = 0; value < 16; value++) {
+                String string;
+                try {
+                    string = getFormatter().valueToString(value);
+                } catch (ParseException e) {
+                    throw new RuntimeException("Unexpected error converting to string", e);
+                }
+                string = string.substring(2); // chopping off "0x"
+                widthOfWidestDigit = Math.max(widthOfWidestDigit, metrics.stringWidth(string));
+            }
+
+            int numDigits = longestString.length() - 2; // chopping off "0x"
+            // The widthOfWidestDigit / 2 here is to give breathing room for placing the caret after the value.
+            int longestValueWidth = metrics.stringWidth("0x") + numDigits * widthOfWidestDigit + widthOfWidestDigit / 2;
+
             Insets insets = getInsets();
-            size.width = metrics.stringWidth(longestString) + insets.left + insets.right;
+            size.width = longestValueWidth + insets.left + insets.right;
             return size;
         }
 
@@ -248,6 +276,9 @@ public class LocationAccessoryBar extends AccessoryBar {
         public void commitEdit() throws ParseException {
             super.commitEdit();
             userChangedLocation();
+            if (hasFocus()) {
+                selectAll();
+            }
         }
 
         private void updateMaxValue(long maxValue) {

@@ -21,6 +21,7 @@ package org.trypticon.hex.plaf;
 import org.trypticon.hex.HexViewer;
 import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.renderer.CellRenderer;
+import org.trypticon.hex.util.DerivedColor;
 
 import javax.swing.Action;
 import javax.swing.ActionMap;
@@ -34,11 +35,15 @@ import javax.swing.TransferHandler;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.plaf.BorderUIResource;
+import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.UIResource;
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -394,7 +399,61 @@ public class BasicHexViewerUI extends HexViewerUI {
     }
 
     protected void installDefaults(HexViewer viewer) {
-        viewer.setBackground(UIManager.getColor("TextArea.background"));
+        Color background = viewer.getBackground();
+        if (background == null || background instanceof ColorUIResource) {
+            viewer.setBackground(getColour("background"));
+        }
+
+        Color foreground = viewer.getForeground();
+        if (foreground == null || background instanceof ColorUIResource) {
+            viewer.setForeground(getColour("foreground"));
+        }
+
+        Color selectionBackground = viewer.getSelectionBackground();
+        if (selectionBackground == null || selectionBackground instanceof ColorUIResource) {
+            viewer.setSelectionBackground(getColour("selectionBackground"));
+        }
+
+        Color selectionForeground = viewer.getSelectionForeground();
+        if (selectionForeground == null || selectionForeground instanceof ColorUIResource) {
+            viewer.setSelectionForeground(getColour("selectionForeground"));
+        }
+
+        Color cursorBackground = viewer.getCursorBackground();
+        if (cursorBackground == null || cursorBackground instanceof ColorUIResource) {
+            Color colour = UIManager.getColor("HexViewer.cursorBackground");
+            if (colour == null) {
+                colour = new DerivedColor(viewer.getSelectionBackground(), 1.25f, -0.125f, 1.0f);
+            }
+            viewer.setCursorBackground(colour);
+        }
+
+        Color cursorForeground = viewer.getCursorForeground();
+        if (cursorForeground == null || cursorForeground instanceof ColorUIResource) {
+            Color colour = UIManager.getColor("HexViewer.cursorForeground");
+            if (colour == null) {
+                colour = viewer.getSelectionForeground();
+            }
+            viewer.setCursorForeground(colour);
+        }
+
+        Color cursorRowBackground = viewer.getCursorRowBackground();
+        if (cursorRowBackground == null || cursorRowBackground instanceof ColorUIResource) {
+            Color colour = UIManager.getColor("HexViewer.cursorRowBackground");
+            if (colour == null) {
+                colour = new DerivedColor(viewer.getSelectionBackground(), 1.0f, 0.0f, 0.25f);
+            }
+            viewer.setCursorRowBackground(colour);
+        }
+
+        Font font = viewer.getFont();
+        if (font == null || font instanceof FontUIResource) {
+            font = UIManager.getFont("HexViewer.font");
+            if (font == null) {
+                font = UIManager.getFont("TextArea.font");
+            }
+            viewer.setFont(font);
+        }
 
         LookAndFeel.installBorder(viewer, "ScrollPane.border");
 
@@ -406,6 +465,14 @@ public class BasicHexViewerUI extends HexViewerUI {
             }
             viewer.setViewportBorder(border);
         }
+    }
+
+    private Color getColour(String suffix) {
+        Color colour = UIManager.getColor("HexViewer." + suffix);
+        if (colour == null) {
+            colour = UIManager.getColor("TextArea." + suffix);
+        }
+        return colour;
     }
 
     protected void installKeyboardActions(HexViewer viewer) {

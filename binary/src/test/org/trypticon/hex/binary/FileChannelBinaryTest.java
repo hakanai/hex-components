@@ -16,39 +16,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.util.swingsupport;
+package org.trypticon.hex.binary;
 
-import javax.swing.filechooser.FileFilter;
-import java.io.File;
+import org.junit.After;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
- * Filters by file extension.
+ * Tests for {@link FileChannelBinary}.
  *
  * @author trejkaz
  */
-public abstract class FileExtensionFilter extends FileFilter {
-
-    /**
-     * Gets the description without the bit at the end which has the file extensions.
-     *
-     * @return the description.
-     */
-    protected abstract String getShortDescription();
-
-    /**
-     * Gets the file extension which the filter will accept.
-     *
-     * @return the file extension.
-     */
-    protected abstract String getExtension();
+public class FileChannelBinaryTest extends AbstractBinaryTest {
+    Path tempFile;
 
     @Override
-    public boolean accept(File file) {
-        return file.isDirectory() || file.getName().endsWith('.' + getExtension());
+    protected Binary createBinary(byte[] sampleData) throws Exception {
+        tempFile = Files.createTempFile("FileChannelBinaryTest", ".dat");
+        Files.write(tempFile, sampleData);
+        return new FileChannelBinary(tempFile);
     }
 
-    @Override
-    public String getDescription() {
-        return String.format("%s (*.%s)", getShortDescription(), getExtension());
+    @After
+    public void tearDown() throws Exception {
+        if (tempFile != null) {
+            Files.delete(tempFile);
+        }
     }
 }

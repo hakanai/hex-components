@@ -16,31 +16,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.util.swingsupport;
+package org.trypticon.hex.anno;
 
-import java.io.File;
-import javax.swing.JFileChooser;
+import java.util.Collections;
+import java.util.List;
 
 /**
- * Workarounds for limitations in the real {@link JFileChooser}.
+ * An annotation collection with nothing in it.
  *
  * @author trejkaz
  */
-public class ImprovedFileChooser extends JFileChooser {
+public class EmptyAnnotationCollection extends AbstractAnnotationCollection {
     @Override
-    public File getSelectedFile() {
-        File file = super.getSelectedFile();
-        if (file == null || !(getFileFilter() instanceof FileExtensionFilter)) {
-            return file;
-        }
+    public GroupAnnotation getRootGroup() {
+        return new SimpleMutableGroupAnnotation(0, 1, null);
+    }
 
-        FileExtensionFilter filter = (FileExtensionFilter) getFileFilter();
+    @Override
+    public List<Annotation> getTopLevel() {
+        return Collections.emptyList();
+    }
 
-        String name = file.getName();
-        if (!name.endsWith(filter.getExtension())) {
-            file = new File(file.getParentFile(), name + '.' + filter.getExtension());
-        }
+    @Override
+    public List<Annotation> getAnnotationPathAt(long position) {
+        return null;
+    }
 
-        return file;
+    @Override
+    public void add(Annotation annotation) throws OverlappingAnnotationException {
+
+    }
+
+    @Override
+    public void remove(Annotation annotation) {
+
     }
 }
