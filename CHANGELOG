@@ -1,5 +1,5 @@
 
-Version X.X (XXXX-XX-XX)
+Version 0.5 (2014-05-01)
 
      New: DateInterpreterStorage for storage and retrieval of date interpreters.
      New: Added new interpreters for signed types.
