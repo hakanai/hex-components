@@ -62,10 +62,17 @@ public class PLAFUtils {
      * @return {@code true} if using Aqua, otherwise {@code false}.
      */
     public static boolean isAqua() {
-        String lafClassName = UIManager.getLookAndFeel().getClass().getName();
-        return "ch.randelshofer.quaqua.QuaquaLookAndFeel".equals(lafClassName) ||
-                "apple.laf.AquaLookAndFeel".equals(lafClassName) ||
-                "com.apple.laf.AquaLookAndFeel".equals(lafClassName);
+        if (isQuaqua()) {
+            return true;
+        }
+
+        Class<?> lafClass = UIManager.getLookAndFeel().getClass();
+        while (lafClass != null) {
+            if ("com.apple.laf.AquaLookAndFeel".equals(lafClass.getName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
