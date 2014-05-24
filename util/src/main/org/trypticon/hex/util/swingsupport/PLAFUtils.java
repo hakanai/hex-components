@@ -71,6 +71,7 @@ public class PLAFUtils {
             if ("com.apple.laf.AquaLookAndFeel".equals(lafClass.getName())) {
                 return true;
             }
+            lafClass = lafClass.getSuperclass();
         }
         return false;
     }
