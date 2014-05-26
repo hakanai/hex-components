@@ -1,4 +1,10 @@
 
+Version X.X (XXXX-XX-XX)
+
+   Fixed: Fixed the font specified in the UI not taking effect.
+
+ Changed: Changed the default font for Mac OS X to Monaco 13pt.
+
 Version 0.5 (2014-05-01)
 
      New: DateInterpreterStorage for storage and retrieval of date interpreters.

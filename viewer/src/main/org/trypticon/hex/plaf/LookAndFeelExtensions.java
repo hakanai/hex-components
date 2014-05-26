@@ -25,6 +25,8 @@ import javax.swing.LookAndFeel;
 import javax.swing.TransferHandler;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
+import javax.swing.plaf.FontUIResource;
+import java.awt.Font;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -61,6 +63,10 @@ public class LookAndFeelExtensions {
 
         if (defaults.get("HexViewerUI") == null) {
             defaults.put("HexViewerUI", BasicHexViewerUI.class.getName());
+        }
+
+        if (defaults.get("HexViewer.font") == null) {
+            defaults.put("HexViewer.font", new FontUIResource("Monaco", Font.PLAIN, 13));
         }
 
         if (defaults.get("HexViewer.focusInputMap") == null) {

@@ -49,6 +49,7 @@ public class ExpandableAccessoryBar extends AccessoryBar {
         this.viewer = viewer;
         add(new AccessoryBarWithButtons(new LocationAccessoryBar(viewer), false));
         setLayout(new GridLayout(0, 1));
+        setOpaque(true);
     }
 
     @Override

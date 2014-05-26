@@ -133,7 +133,6 @@ public class HexViewer extends JComponent {
      * Constructs the hex viewer.
      */
     public HexViewer() {
-        setFont(new Font("Courier New", Font.PLAIN, 12));
         setFocusable(true);
         setTransferHandler(new HexViewerTransferHandler());
 
