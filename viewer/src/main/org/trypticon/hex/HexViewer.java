@@ -104,6 +104,11 @@ public class HexViewer extends JComponent {
     private int rowHeight;
 
     /**
+     * The preferred row count (used to compute the preferred size.)
+     */
+    private int preferredVisibleRowCount = 20;
+
+    /**
      * This listener will repaint the viewer when the annotations change.
      */
     private AnnotationCollectionListener repaintListener;
@@ -530,6 +535,29 @@ public class HexViewer extends JComponent {
             return 0;
         }
         return ((binary.length() - 1) / bytesPerRow + 1);
+    }
+
+    /**
+     * Gets the preferred visible row count. This is used to derive the preferred size.
+     *
+     * @return the preferred visible row count.
+     */
+    public int getPreferredVisibleRowCount() {
+        return preferredVisibleRowCount;
+    }
+
+    /**
+     * Sets the preferred visible row count. This is used to derive the preferred size.
+     * You should set this instead of setting the preferred size, if you want the viewer
+     * to default to a larger size.
+     *
+     * @param preferredVisibleRowCount the preferred visible row count.
+     */
+    public void setPreferredVisibleRowCount(int preferredVisibleRowCount) {
+        int oldPreferredVisibleRowCount = this.preferredVisibleRowCount;
+        this.preferredVisibleRowCount = preferredVisibleRowCount;
+        firePropertyChange("preferredVisibleRowCount", oldPreferredVisibleRowCount, preferredVisibleRowCount);
+        invalidate();
     }
 
     /**

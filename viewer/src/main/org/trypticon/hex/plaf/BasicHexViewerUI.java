@@ -149,7 +149,7 @@ public class BasicHexViewerUI extends HexViewerUI {
         HexViewer viewer = (HexViewer) c;
 
         // Size of just the data the viewport.
-        Dimension size = getPreferredViewportWidth(viewer, 20);
+        Dimension size = getPreferredViewportWidth(viewer, viewer.getPreferredVisibleRowCount());
 
         // Plus the insets of the viewport.
         Insets viewportInsets = getViewportBorderInsets(viewer);
