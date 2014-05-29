@@ -44,7 +44,7 @@ public class SimpleMutableGroupAnnotation extends SimpleMutableAnnotation implem
         annotations = new ArrayList<>(4);
     }
 
-    public SimpleMutableGroupAnnotation(long position, int length, String note, List<Annotation> annotations) {
+    public SimpleMutableGroupAnnotation(long position, long length, String note, List<Annotation> annotations) {
         // TODO: Support interpreters for group annotations?  Or introduce a new level of hierarchy and
         //       have the Interpreter only on the leaf annotations?
         super(position, length, new NullInterpreter(), note);
