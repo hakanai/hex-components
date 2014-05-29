@@ -42,4 +42,8 @@ public interface MutableGroupAnnotation extends GroupAnnotation, MutableAnnotati
      */
     void remove(Annotation annotation);
 
+    /**
+     * Removes all descendants.
+     */
+    void removeAllDescendants();
 }

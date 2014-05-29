@@ -199,24 +199,33 @@ public class SimpleMutableGroupAnnotation extends SimpleMutableAnnotation implem
             annotations.remove(annotation);
 
             // We removed a group so we have to add its children back.
-            if (annotation instanceof GroupAnnotation) {
-                for (Annotation childAnnotation : ((GroupAnnotation) annotation).getAnnotations()) {
+            if (annotation instanceof MutableGroupAnnotation) {
+                MutableGroupAnnotation groupAnnotation = (MutableGroupAnnotation) annotation;
+                for (Annotation childAnnotation : groupAnnotation.getAnnotations()) {
                     try {
                         add(childAnnotation);
                     } catch (OverlappingAnnotationException e) {
                         throw new IllegalStateException("Got an overlap - should be impossible", e);
                     }
                 }
+
+                // Remove descendants from this copy because its parent now owns those children.
+                groupAnnotation.removeAllDescendants();
             }
         } else {
             // Found one but it wasn't the one we were looking for.
             // If it's a group annotation then we might find it further down the tree.
-            if (foundAnnotation instanceof GroupAnnotation) {
-                ((SimpleMutableGroupAnnotation) foundAnnotation).remove(annotation);
+            if (foundAnnotation instanceof MutableGroupAnnotation) {
+                ((MutableGroupAnnotation) foundAnnotation).remove(annotation);
             } else {
                 throw new IllegalArgumentException("Annotation is not present so cannot be removed: " + annotation);
             }
         }
+    }
+
+    @Override
+    public void removeAllDescendants() {
+        annotations.clear();
     }
 
     /**
