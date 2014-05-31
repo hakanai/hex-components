@@ -126,7 +126,7 @@ public class SimpleMutableGroupAnnotation extends SimpleMutableAnnotation implem
         if (hits.get(0).getRelation() == AnnotationRangeSearchHit.Relation.SURROUNDING) {
             if (hits.get(0).getAnnotation() instanceof GroupAnnotation) {
                 // No problem, the new annotation will go into that group.
-                ((SimpleMutableGroupAnnotation) hits.get(0).getAnnotation()).add(annotation);
+                ((MutableGroupAnnotation) hits.get(0).getAnnotation()).add(annotation);
                 return;
             } else {
                 throw new OverlappingAnnotationException(hits.get(0).getAnnotation(), annotation);
@@ -138,7 +138,7 @@ public class SimpleMutableGroupAnnotation extends SimpleMutableAnnotation implem
             if (hits.get(0).getAnnotation() instanceof GroupAnnotation) {
                 // The case of annotation also being a GroupAnnotation is ambiguous in that we could nest
                 // them either way.  But we'll just treat the new one as inside the old one, which is simpler.
-                ((SimpleMutableGroupAnnotation) hits.get(0).getAnnotation()).add(annotation);
+                ((MutableGroupAnnotation) hits.get(0).getAnnotation()).add(annotation);
                 return;
             } else {
                 // Otherwise we treat it the same as CONTAINED_WITHIN which is handled below.
@@ -147,8 +147,8 @@ public class SimpleMutableGroupAnnotation extends SimpleMutableAnnotation implem
 
         // Now the hits are entirely contained within the range.  As was the case with the surrounding case,
         // this is only legal if the one containing the others is a group.
-        if (annotation instanceof GroupAnnotation) {
-            SimpleMutableGroupAnnotation group = (SimpleMutableGroupAnnotation) annotation;
+        if (annotation instanceof MutableGroupAnnotation) {
+            MutableGroupAnnotation group = (MutableGroupAnnotation) annotation;
 
             // Move the contained annotations inside the group.  This should succeed unless the caller does
             // something dumb like putting some annotations inside the group.  If it fails, at least the
@@ -159,7 +159,8 @@ public class SimpleMutableGroupAnnotation extends SimpleMutableAnnotation implem
 
             // Now remove them from ourselves.
             for (AnnotationRangeSearchHit hit : hits) {
-                remove(hit.getAnnotation());
+                // Calling remove() causes the descendants to be added twice if it's a group annotation.
+                annotations.remove(hit.getAnnotation());
             }
 
             // And finally add the group to ourselves.  We know this must be safe because we just removed all the
@@ -247,14 +248,14 @@ public class SimpleMutableGroupAnnotation extends SimpleMutableAnnotation implem
         if (o == this) {
             return true;
         }
-        if (!(o instanceof SimpleMutableGroupAnnotation)) {
+        if (!(o instanceof MutableGroupAnnotation)) {
             return false;
         }
         if (!super.equals(o)) {
             return false;
         }
         //noinspection RedundantIfStatement
-        if (!annotations.equals(((SimpleMutableGroupAnnotation) o).getAnnotations())) {
+        if (!annotations.equals(((MutableGroupAnnotation) o).getAnnotations())) {
             return false;
         }
         return true;

@@ -26,5 +26,8 @@ import java.util.EventListener;
  * @author trejkaz
  */
 public interface AnnotationCollectionListener extends EventListener {
+
+    void annotationAdded(AnnotationCollectionEvent event);
+
     void annotationsChanged(AnnotationCollectionEvent event);
 }

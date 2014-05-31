@@ -18,7 +18,10 @@
 
 package org.trypticon.hex.anno;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EventObject;
+import java.util.List;
 
 /**
  * Event for changes in an annotation listener.
@@ -26,12 +29,29 @@ import java.util.EventObject;
  * @author trejkaz
  */
 public class AnnotationCollectionEvent extends EventObject {
+    private final List<Annotation> parentAnnotationPath;
+    private final Annotation annotation;
+
     public AnnotationCollectionEvent(AnnotationCollection collection) {
-        super(collection);
+        this(collection, null, null);
+    }
+
+    public AnnotationCollectionEvent(Object source, List<Annotation> parentAnnotationPath, Annotation annotation) {
+        super(source);
+        this.parentAnnotationPath = new ArrayList<>(parentAnnotationPath);
+        this.annotation = annotation;
     }
 
     @Override
     public AnnotationCollection getSource() {
         return (AnnotationCollection) super.getSource();
+    }
+
+    public List<Annotation> getParentAnnotationPath() {
+        return Collections.unmodifiableList(parentAnnotationPath);
+    }
+
+    public Annotation getAnnotation() {
+        return annotation;
     }
 }
