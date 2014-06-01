@@ -9,6 +9,8 @@ Version X.X (XXXX-XX-XX)
  Changed: Changed the default font for Mac OS X to Monaco 13pt.
  Changed: AnnotationCollectionListener now has separate events for added and removed. Logic for adding and
           removing has been moved up to AbstractAnnotationCollection to support this.
+ Changed: Introduced MutableAnnotationCollection which enforces that added and removed annotations are
+          also mutable (so that when doing add/remove, you can safely cast to the mutable sub-interface.)
 
 Version 0.5 (2014-05-01)
 

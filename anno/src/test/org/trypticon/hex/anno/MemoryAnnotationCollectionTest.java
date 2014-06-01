@@ -125,7 +125,7 @@ public class MemoryAnnotationCollectionTest {
         addLeaf(20, 20, "leaf");
         expectRemovedEvent(20, 20);
         expectAddedEvent(20, 40);
-        Annotation annotation = addGroup(20, 40, "group");
+        MutableGroupAnnotation annotation = addGroup(20, 40, "group");
 
         expectRemovedEvent(20, 40);
         expectAddedEvent(20, 20);
@@ -138,7 +138,7 @@ public class MemoryAnnotationCollectionTest {
     public void testRemovingLeaf() throws Exception {
         createCollection(100);
         expectAddedEvent(20, 20);
-        Annotation annotation = addLeaf(20, 20, "leaf");
+        MutableAnnotation annotation = addLeaf(20, 20, "leaf");
         expectRemovedEvent(20, 20);
         expectAddedEvent(20, 40);
         addGroup(20, 40, "group");
@@ -193,14 +193,14 @@ public class MemoryAnnotationCollectionTest {
         };
     }
 
-    private Annotation addGroup(long position, long length, String note) throws Exception {
-        GroupAnnotation group = new SimpleMutableGroupAnnotation(position, length, note);
+    private MutableGroupAnnotation addGroup(long position, long length, String note) throws Exception {
+        MutableGroupAnnotation group = new SimpleMutableGroupAnnotation(position, length, note);
         collection.add(group);
         return group;
     }
 
-    private Annotation addLeaf(long position, long length, String note) throws Exception {
-        Annotation leaf = new SimpleMutableAnnotation(position, length, new NullInterpreter(), note);
+    private MutableAnnotation addLeaf(long position, long length, String note) throws Exception {
+        MutableAnnotation leaf = new SimpleMutableAnnotation(position, length, new NullInterpreter(), note);
         collection.add(leaf);
         return leaf;
     }

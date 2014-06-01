@@ -27,7 +27,7 @@ import java.util.List;
  *
  * @author trejkaz
  */
-public class MemoryAnnotationCollection extends AbstractAnnotationCollection {
+public class MemoryAnnotationCollection extends AbstractMutableAnnotationCollection {
     private final GroupAnnotation rootGroup;
 
     public MemoryAnnotationCollection(long length) {
