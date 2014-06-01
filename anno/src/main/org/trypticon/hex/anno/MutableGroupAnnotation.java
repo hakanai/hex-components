@@ -29,17 +29,19 @@ public interface MutableGroupAnnotation extends GroupAnnotation, MutableAnnotati
      * Adds an annotation to the group annotation.
      *
      * @param annotation the annotation to add.
+     * @return the index it was added at.
      */
-    void add(Annotation annotation);
+    int add(Annotation annotation);
 
     /**
      * Removes an annotation from the group annotation.
      * If the removed annotation was a group, its original children are added back.
      *
      * @param annotation the annotation to remove.
+     * @return the index it was removed from.
      * @throws IllegalArgumentException if the annotation isn't actually in the group.
      */
-    void remove(Annotation annotation);
+    int remove(Annotation annotation);
 
     /**
      * Removes all descendants.

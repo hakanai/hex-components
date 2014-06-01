@@ -32,13 +32,13 @@ public interface AnnotationCollectionListener extends EventListener {
      *
      * @param event the event.
      */
-    void annotationAdded(AnnotationCollectionEvent event);
+    void annotationsAdded(AnnotationCollectionEvent event);
 
     /**
      * Called when an annotation is removed.
      *
      * @param event the event.
      */
-    void annotationRemoved(AnnotationCollectionEvent event);
+    void annotationsRemoved(AnnotationCollectionEvent event);
 
 }

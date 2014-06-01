@@ -29,18 +29,18 @@ import java.util.List;
  * @author trejkaz
  */
 public class AnnotationCollectionEvent extends EventObject {
-    private final List<GroupAnnotation> parentAnnotationPath;
-    private final Annotation annotation;
-
-    public AnnotationCollectionEvent(AnnotationCollection collection) {
-        this(collection, null, null);
-    }
+    private final List<GroupAnnotation> parentPath;
+    private final List<Integer> childIndices;
+    private final List<Annotation> children;
 
     public AnnotationCollectionEvent(AnnotationCollection collection,
-                                     List<? extends GroupAnnotation> parentAnnotationPath, Annotation annotation) {
+                                     List<? extends GroupAnnotation> parentPath,
+                                     List<Integer> childIndices,
+                                     List<Annotation> children) {
         super(collection);
-        this.parentAnnotationPath = new ArrayList<>(parentAnnotationPath);
-        this.annotation = annotation;
+        this.parentPath = new ArrayList<>(parentPath);
+        this.childIndices = new ArrayList<>(childIndices);
+        this.children = new ArrayList<>(children);
     }
 
     @Override
@@ -48,16 +48,20 @@ public class AnnotationCollectionEvent extends EventObject {
         return (AnnotationCollection) super.getSource();
     }
 
-    public List<GroupAnnotation> getParentAnnotationPath() {
-        return Collections.unmodifiableList(parentAnnotationPath);
+    public List<GroupAnnotation> getParentPath() {
+        return Collections.unmodifiableList(parentPath);
     }
 
-    public Annotation getAnnotation() {
-        return annotation;
+    public List<Integer> getChildIndices() {
+        return Collections.unmodifiableList(childIndices);
+    }
+
+    public List<Annotation> getChildren() {
+        return Collections.unmodifiableList(children);
     }
 
     @Override
     public String toString() {
-        return super.toString() + " " + annotation;
+        return super.toString() + " " + children;
     }
 }

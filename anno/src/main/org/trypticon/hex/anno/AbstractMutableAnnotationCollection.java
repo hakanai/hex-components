@@ -23,7 +23,9 @@ import org.trypticon.hex.anno.util.AnnotationRangeSearcher;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Base class for implementing mutable annotation collections.
@@ -54,8 +56,8 @@ public abstract class AbstractMutableAnnotationCollection extends AbstractAnnota
         List<AnnotationRangeSearchHit> hits = new AnnotationRangeSearcher().findAllInRange(annotations, annotation);
         if (hits.size() == 0) {
             // No annotations in the vicinity at all, just add it and bail.
-            parentAnnotation.add(annotation);
-            fireAnnotationAdded(parentAnnotationPath, annotation);
+            int index = parentAnnotation.add(annotation);
+            fireAnnotationsAdded(parentAnnotationPath, Arrays.asList(index), Arrays.asList(annotation));
             return;
         }
 
@@ -107,16 +109,25 @@ public abstract class AbstractMutableAnnotationCollection extends AbstractAnnota
             // Move the contained annotations inside the group.  This should succeed unless the caller does
             // something dumb like putting some annotations inside the group.  If it fails, at least the
             // subsequent calls will not be made, so things should still be consistent.
-            for (AnnotationRangeSearchHit hit : hits) {
-                parentAnnotation.remove(hit.getAnnotation());
-                fireAnnotationRemoved(parentAnnotationPath, hit.getAnnotation());
+            // This is done in reverse so that we can collect the indices.
+            List<Integer> childIndices = new LinkedList<>();
+            List<Annotation> children = new LinkedList<>();
+            for (ListIterator<AnnotationRangeSearchHit> iterator = hits.listIterator(hits.size());
+                 iterator.hasPrevious(); ) {
+
+                AnnotationRangeSearchHit hit = iterator.previous();
+                Annotation child = hit.getAnnotation();
+                int index = parentAnnotation.remove(child);
+                childIndices.add(0, index);
+                children.add(0, child);
                 group.add(hit.getAnnotation());
             }
+            fireAnnotationsRemoved(parentAnnotationPath, childIndices, children);
 
             // And finally add the group to ourselves.  We know this must be safe because we just removed all the
             // annotations in its location.
-            parentAnnotation.add(annotation);
-            fireAnnotationAdded(parentAnnotationPath, annotation);
+            int index = parentAnnotation.add(annotation);
+            fireAnnotationsAdded(parentAnnotationPath, Arrays.asList(index), Arrays.asList(annotation));
 
         } else {
             throw new OverlappingAnnotationException(hits.get(0).getAnnotation(), annotation); // picks the first one
@@ -138,16 +149,20 @@ public abstract class AbstractMutableAnnotationCollection extends AbstractAnnota
         }
 
         if (foundAnnotation.equals(annotation)) {
-            parentAnnotation.remove(annotation);
-            fireAnnotationRemoved(parentAnnotationPath, annotation);
+            int removedIndex = parentAnnotation.remove(annotation);
+            fireAnnotationsRemoved(parentAnnotationPath, Arrays.asList(removedIndex), Arrays.asList(annotation));
 
             // We removed a group so we have to add its children back.
             if (annotation instanceof MutableGroupAnnotation) {
                 MutableGroupAnnotation groupAnnotation = (MutableGroupAnnotation) annotation;
-                for (Annotation childAnnotation : groupAnnotation.getAnnotations()) {
-                    parentAnnotation.add(childAnnotation);
-                    fireAnnotationAdded(parentAnnotationPath, childAnnotation);
+                List<Integer> childIndices = new LinkedList<>();
+                List<Annotation> children = new LinkedList<>();
+                for (Annotation child : groupAnnotation.getAnnotations()) {
+                    int index = parentAnnotation.add(child);
+                    childIndices.add(index);
+                    children.add(child);
                 }
+                fireAnnotationsAdded(parentAnnotationPath, childIndices, children);
 
                 // Remove descendants from this copy because its parent now owns those children.
                 groupAnnotation.removeAllDescendants();

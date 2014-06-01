@@ -107,9 +107,9 @@ public class MemoryAnnotationCollectionTest {
     @Test
     public void testAddingGroupAroundAnnotationAtEndPosition() throws Exception {
         createCollection(100);
-
         expectAddedEvent(10, 10);
         addLeaf(10, 10, "leaf");
+
         expectRemovedEvent(10, 10);
         expectAddedEvent(0, 20);
         addGroup(0, 20, "group");
@@ -118,7 +118,23 @@ public class MemoryAnnotationCollectionTest {
     }
 
     @Test
-    public void testRemovingGroupWithChildren() throws Exception {
+    public void testAddingGroupAroundTwoAnnotations() throws Exception {
+        createCollection(100);
+
+        expectAddedEvent(10, 10);
+        addLeaf(10, 10, "leaf 1");
+        expectAddedEvent(20, 10);
+        addLeaf(20, 10, "leaf 2");
+
+        expectRemovedEvent(10, 10, 20, 10);
+        expectAddedEvent(10, 20);
+        addGroup(10, 20, "group");
+
+        assertStructure(new Object[] { null, new Object[] { "group", "leaf 1", "leaf 2" }});
+    }
+
+    @Test
+    public void testRemovingGroupWithChild() throws Exception {
         createCollection(100);
 
         expectAddedEvent(20, 20);
@@ -132,6 +148,25 @@ public class MemoryAnnotationCollectionTest {
         collection.remove(annotation);
 
         assertStructure(new Object[]{null, "leaf"});
+    }
+
+    @Test
+    public void testRemovingGroupWithTwoChildren() throws Exception {
+        createCollection(100);
+
+        expectAddedEvent(20, 20);
+        addLeaf(20, 20, "leaf 1");
+        expectAddedEvent(40, 20);
+        addLeaf(40, 20, "leaf 2");
+        expectRemovedEvent(20, 20, 40, 20);
+        expectAddedEvent(20, 40);
+        MutableGroupAnnotation annotation = addGroup(20, 40, "group");
+
+        expectRemovedEvent(20, 40);
+        expectAddedEvent(20, 20, 40, 20);
+        collection.remove(annotation);
+
+        assertStructure(new Object[]{null, "leaf 1", "leaf 2"});
     }
 
     @Test
@@ -162,33 +197,46 @@ public class MemoryAnnotationCollectionTest {
         collection.addAnnotationCollectionListener(listener);
     }
 
-    private void expectAddedEvent(final long position, final long length) {
+    private void expectAddedEvent(final long... info) {
         mockery.checking(new Expectations() {{
-            oneOf(listener).annotationAdded(with(annotationCollectionEvent(position, length)));
+            oneOf(listener).annotationsAdded(with(annotationCollectionEvent(info)));
         }});
     }
 
-    private void expectRemovedEvent(final long position, final long length) {
+    private void expectRemovedEvent(final long... info) {
         mockery.checking(new Expectations() {{
-            oneOf(listener).annotationRemoved(with(annotationCollectionEvent(position, length)));
+            oneOf(listener).annotationsRemoved(with(annotationCollectionEvent(info)));
         }});
     }
 
-    private Matcher<AnnotationCollectionEvent> annotationCollectionEvent(final long position, final long length) {
+    private Matcher<AnnotationCollectionEvent> annotationCollectionEvent(final long... info) {
         return new TypeSafeMatcher<AnnotationCollectionEvent>() {
             @Override
             public boolean matchesSafely(AnnotationCollectionEvent event) {
-                Annotation annotation = event.getAnnotation();
-                return annotation.getPosition() == position &&
-                       annotation.getLength() == length;
+                int expectedChildCount = info.length / 2;
+                List<Integer> childIndices = event.getChildIndices();
+                List<Annotation> children = event.getChildren();
+                if (childIndices.size() != expectedChildCount || children.size() != expectedChildCount) {
+                    return false;
+                }
+
+                for (int i = 0; i < info.length; i += 2) {
+                    Annotation annotation = children.get(i / 2);
+                    long expectedPosition = info[i];
+                    long expectedLength = info[i + 1];
+                    if (annotation.getPosition() != expectedPosition ||
+                        annotation.getLength() != expectedLength) {
+                        return false;
+                    }
+                }
+
+                return true;
             }
 
             @Override
             public void describeTo(Description description) {
-                description.appendText("event with annotation at position ");
-                description.appendValue(position);
-                description.appendText(" with length ");
-                description.appendValue(length);
+                description.appendText("event with annotations: ");
+                description.appendValue(info);
             }
         };
     }

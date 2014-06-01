@@ -29,26 +29,30 @@ import java.util.List;
 public abstract class AbstractAnnotationCollection implements AnnotationCollection {
     private EventListenerList listenerList;
 
-    protected void fireAnnotationAdded(List<? extends GroupAnnotation> parentAnnotationPath, Annotation annotation) {
+    protected void fireAnnotationsAdded(List<? extends GroupAnnotation> parentPath,
+                                        List<Integer> childIndices,
+                                        List<Annotation> children) {
         if (listenerList != null) {
-            AnnotationCollectionEvent event = new AnnotationCollectionEvent(this, parentAnnotationPath, annotation);
+            AnnotationCollectionEvent event = new AnnotationCollectionEvent(this, parentPath, childIndices, children);
 
             for (AnnotationCollectionListener listener :
                     listenerList.getListeners(AnnotationCollectionListener.class)) {
 
-                listener.annotationAdded(event);
+                listener.annotationsAdded(event);
             }
         }
     }
 
-    protected void fireAnnotationRemoved(List<? extends GroupAnnotation> parentAnnotationPath, Annotation annotation) {
+    protected void fireAnnotationsRemoved(List<? extends GroupAnnotation> parentPath,
+                                         List<Integer> childIndices,
+                                         List<Annotation> children) {
         if (listenerList != null) {
-            AnnotationCollectionEvent event = new AnnotationCollectionEvent(this, parentAnnotationPath, annotation);
+            AnnotationCollectionEvent event = new AnnotationCollectionEvent(this, parentPath, childIndices, children);
 
             for (AnnotationCollectionListener listener :
                     listenerList.getListeners(AnnotationCollectionListener.class)) {
 
-                listener.annotationRemoved(event);
+                listener.annotationsRemoved(event);
             }
         }
     }

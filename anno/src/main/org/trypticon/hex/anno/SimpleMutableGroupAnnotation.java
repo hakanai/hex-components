@@ -103,19 +103,23 @@ public class SimpleMutableGroupAnnotation extends SimpleMutableAnnotation implem
     }
 
     @Override
-    public void add(Annotation annotation) {
-        int pos = binaryPositionSearch(annotation.getPosition());
-        if (pos < 0) {
-            pos = -pos - 1;
+    public int add(Annotation annotation) {
+        int index = binaryPositionSearch(annotation.getPosition());
+        if (index < 0) {
+            index = -index - 1;
         }
-        annotations.add(pos, annotation);
+        annotations.add(index, annotation);
+        return index;
     }
 
     @Override
-    public void remove(Annotation annotation) {
-        if (!annotations.remove(annotation)) {
+    public int remove(Annotation annotation) {
+        int index = binaryPositionSearch(annotation.getPosition());
+        if (index < 0) {
             throw new IllegalArgumentException("Annotation is not present so cannot be removed: " + annotation);
         }
+        annotations.remove(annotation);
+        return index;
     }
 
     @Override
