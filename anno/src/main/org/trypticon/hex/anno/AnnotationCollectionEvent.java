@@ -36,8 +36,9 @@ public class AnnotationCollectionEvent extends EventObject {
         this(collection, null, null);
     }
 
-    public AnnotationCollectionEvent(Object source, List<Annotation> parentAnnotationPath, Annotation annotation) {
-        super(source);
+    public AnnotationCollectionEvent(AnnotationCollection collection,
+                                     List<? extends Annotation> parentAnnotationPath, Annotation annotation) {
+        super(collection);
         this.parentAnnotationPath = new ArrayList<>(parentAnnotationPath);
         this.annotation = annotation;
     }
@@ -53,5 +54,10 @@ public class AnnotationCollectionEvent extends EventObject {
 
     public Annotation getAnnotation() {
         return annotation;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " " + annotation;
     }
 }

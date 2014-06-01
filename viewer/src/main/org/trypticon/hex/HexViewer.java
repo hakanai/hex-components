@@ -257,9 +257,15 @@ public class HexViewer extends JComponent {
                 if (repaintListener == null) {
                     repaintListener = new AnnotationCollectionListener() {
                         @Override
-                        public void annotationsChanged(AnnotationCollectionEvent event) {
+                        public void annotationAdded(AnnotationCollectionEvent event) {
                             repaint();
                         }
+
+                        @Override
+                        public void annotationRemoved(AnnotationCollectionEvent event) {
+                            repaint();
+                        }
+
                     };
                 }
 

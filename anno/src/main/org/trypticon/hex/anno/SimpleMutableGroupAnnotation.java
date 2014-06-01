@@ -19,8 +19,6 @@
 package org.trypticon.hex.anno;
 
 import org.trypticon.hex.anno.util.AnnotationPositionComparator;
-import org.trypticon.hex.anno.util.AnnotationRangeSearchHit;
-import org.trypticon.hex.anno.util.AnnotationRangeSearcher;
 import org.trypticon.hex.interpreters.nulls.NullInterpreter;
 
 import java.util.ArrayList;
@@ -105,122 +103,18 @@ public class SimpleMutableGroupAnnotation extends SimpleMutableAnnotation implem
     }
 
     @Override
-    public void add(Annotation annotation) throws OverlappingAnnotationException {
-        List<AnnotationRangeSearchHit> hits = new AnnotationRangeSearcher().findAllInRange(annotations, annotation);
-        if (hits.size() == 0) {
-            // No annotations in the vicinity at all, just add it and bail.
-            insertInPosition(annotation);
-            return;
-        }
-
-        if (hits.get(0).getRelation() == AnnotationRangeSearchHit.Relation.INTERSECTING_START) {
-            throw new OverlappingAnnotationException(hits.get(0).getAnnotation(), annotation);
-        }
-
-        if (hits.get(hits.size() - 1).getRelation() == AnnotationRangeSearchHit.Relation.INTERSECTING_END) {
-            throw new OverlappingAnnotationException(hits.get(hits.size() - 1).getAnnotation(), annotation);
-        }
-
-        // Dealing with surrounding is simple.  If it was a group then we recurse to add inside the group,
-        // otherwise it's illegal.
-        if (hits.get(0).getRelation() == AnnotationRangeSearchHit.Relation.SURROUNDING) {
-            if (hits.get(0).getAnnotation() instanceof GroupAnnotation) {
-                // No problem, the new annotation will go into that group.
-                ((MutableGroupAnnotation) hits.get(0).getAnnotation()).add(annotation);
-                return;
-            } else {
-                throw new OverlappingAnnotationException(hits.get(0).getAnnotation(), annotation);
-            }
-        }
-
-        // For the same range, the order we nest will depend on which one is a group vs. a leaf.
-        if (hits.get(0).getRelation() == AnnotationRangeSearchHit.Relation.SAME_RANGE) {
-            if (hits.get(0).getAnnotation() instanceof GroupAnnotation) {
-                // The case of annotation also being a GroupAnnotation is ambiguous in that we could nest
-                // them either way.  But we'll just treat the new one as inside the old one, which is simpler.
-                ((MutableGroupAnnotation) hits.get(0).getAnnotation()).add(annotation);
-                return;
-            } else {
-                // Otherwise we treat it the same as CONTAINED_WITHIN which is handled below.
-            }
-        }
-
-        // Now the hits are entirely contained within the range.  As was the case with the surrounding case,
-        // this is only legal if the one containing the others is a group.
-        if (annotation instanceof MutableGroupAnnotation) {
-            MutableGroupAnnotation group = (MutableGroupAnnotation) annotation;
-
-            // Move the contained annotations inside the group.  This should succeed unless the caller does
-            // something dumb like putting some annotations inside the group.  If it fails, at least the
-            // subsequent calls will not be made, so things should still be consistent.
-            for (AnnotationRangeSearchHit hit : hits) {
-                group.add(hit.getAnnotation());
-            }
-
-            // Now remove them from ourselves.
-            for (AnnotationRangeSearchHit hit : hits) {
-                // Calling remove() causes the descendants to be added twice if it's a group annotation.
-                annotations.remove(hit.getAnnotation());
-            }
-
-            // And finally add the group to ourselves.  We know this must be safe because we just removed all the
-            // annotations in its location.
-            insertInPosition(annotation);
-
-        } else {
-            throw new OverlappingAnnotationException(hits.get(0).getAnnotation(), annotation); // picks the first one
-        }
-    }
-
-    /**
-     * Inserts an annotation into the list in the correct order.  At the time this is called, all the necessary
-     * sanity checks should already have been performed.
-     *
-     * @param annotation the annotation to add.
-     */
-    private void insertInPosition(Annotation annotation) {
+    public void add(Annotation annotation) {
         int pos = binaryPositionSearch(annotation.getPosition());
         if (pos < 0) {
             pos = -pos - 1;
         }
         annotations.add(pos, annotation);
-
     }
 
     @Override
     public void remove(Annotation annotation) {
-        Annotation foundAnnotation = findAnnotationAt(annotation.getPosition());
-
-        if (foundAnnotation == null) {
-            // No annotation at that position at all, let alone the one we wanted.
+        if (!annotations.remove(annotation)) {
             throw new IllegalArgumentException("Annotation is not present so cannot be removed: " + annotation);
-        }
-
-        if (foundAnnotation.equals(annotation)) {
-            annotations.remove(annotation);
-
-            // We removed a group so we have to add its children back.
-            if (annotation instanceof MutableGroupAnnotation) {
-                MutableGroupAnnotation groupAnnotation = (MutableGroupAnnotation) annotation;
-                for (Annotation childAnnotation : groupAnnotation.getAnnotations()) {
-                    try {
-                        add(childAnnotation);
-                    } catch (OverlappingAnnotationException e) {
-                        throw new IllegalStateException("Got an overlap - should be impossible", e);
-                    }
-                }
-
-                // Remove descendants from this copy because its parent now owns those children.
-                groupAnnotation.removeAllDescendants();
-            }
-        } else {
-            // Found one but it wasn't the one we were looking for.
-            // If it's a group annotation then we might find it further down the tree.
-            if (foundAnnotation instanceof MutableGroupAnnotation) {
-                ((MutableGroupAnnotation) foundAnnotation).remove(annotation);
-            } else {
-                throw new IllegalArgumentException("Annotation is not present so cannot be removed: " + annotation);
-            }
         }
     }
 

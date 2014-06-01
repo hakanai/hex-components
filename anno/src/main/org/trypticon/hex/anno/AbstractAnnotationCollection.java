@@ -18,7 +18,13 @@
 
 package org.trypticon.hex.anno;
 
+import org.trypticon.hex.anno.util.AnnotationRangeSearchHit;
+import org.trypticon.hex.anno.util.AnnotationRangeSearcher;
+
 import javax.swing.event.EventListenerList;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Base abstract class for implementing annotation collections.
@@ -28,14 +34,160 @@ import javax.swing.event.EventListenerList;
 public abstract class AbstractAnnotationCollection implements AnnotationCollection {
     private EventListenerList listenerList;
 
-    protected void fireAnnotationsChanged() {
+    @Override
+    public void add(Annotation annotation) throws OverlappingAnnotationException {
+        doAdd(Arrays.asList((MutableGroupAnnotation) getRootGroup()), annotation);
+    }
+
+    /**
+     * Recursively finds the group annotation to add the annotation to and adds it.
+     *
+     * @param parentAnnotationPath the path to the current parent being searched.
+     * @param annotation the annotation being added.
+     * @throws OverlappingAnnotationException if the annotation would overlap another annotation.
+     */
+    private void doAdd(List<MutableGroupAnnotation> parentAnnotationPath, Annotation annotation)
+            throws OverlappingAnnotationException {
+
+        MutableGroupAnnotation parentAnnotation = parentAnnotationPath.get(parentAnnotationPath.size() - 1);
+        List<Annotation> annotations = parentAnnotation.getAnnotations();
+
+        List<AnnotationRangeSearchHit> hits = new AnnotationRangeSearcher().findAllInRange(annotations, annotation);
+        if (hits.size() == 0) {
+            // No annotations in the vicinity at all, just add it and bail.
+            parentAnnotation.add(annotation);
+            fireAnnotationAdded(parentAnnotationPath, annotation);
+            return;
+        }
+
+        if (hits.get(0).getRelation() == AnnotationRangeSearchHit.Relation.INTERSECTING_START) {
+            throw new OverlappingAnnotationException(hits.get(0).getAnnotation(), annotation);
+        }
+
+        if (hits.get(hits.size() - 1).getRelation() == AnnotationRangeSearchHit.Relation.INTERSECTING_END) {
+            throw new OverlappingAnnotationException(hits.get(hits.size() - 1).getAnnotation(), annotation);
+        }
+
+        Annotation newParentAnnotation = hits.get(0).getAnnotation();
+        List<MutableGroupAnnotation> newParentAnnotationPath = null;
+        if (newParentAnnotation instanceof MutableGroupAnnotation) {
+            newParentAnnotationPath = new ArrayList<>(parentAnnotationPath.size() + 1);
+            newParentAnnotationPath.addAll(parentAnnotationPath);
+            newParentAnnotationPath.add((MutableGroupAnnotation) newParentAnnotation);
+        }
+
+        // Dealing with surrounding is simple.  If it was a group then we recurse to add inside the group,
+        // otherwise it's illegal.
+        if (hits.get(0).getRelation() == AnnotationRangeSearchHit.Relation.SURROUNDING) {
+            if (newParentAnnotation instanceof GroupAnnotation) {
+                // No problem, the new annotation will go into that group.
+                doAdd(newParentAnnotationPath, annotation);
+                return;
+            } else {
+                throw new OverlappingAnnotationException(newParentAnnotation, annotation);
+            }
+        }
+
+        // For the same range, the order we nest will depend on which one is a group vs. a leaf.
+        if (hits.get(0).getRelation() == AnnotationRangeSearchHit.Relation.SAME_RANGE) {
+            if (newParentAnnotation instanceof GroupAnnotation) {
+                // The case of annotation also being a GroupAnnotation is ambiguous in that we could nest
+                // them either way.  But we'll just treat the new one as inside the old one, which is simpler.
+                doAdd(newParentAnnotationPath, annotation);
+                return;
+            } else {
+                // Otherwise we treat it the same as CONTAINED_WITHIN which is handled below.
+            }
+        }
+
+        // Now the hits are entirely contained within the range.  As was the case with the surrounding case,
+        // this is only legal if the one containing the others is a group.
+        if (annotation instanceof MutableGroupAnnotation) {
+            MutableGroupAnnotation group = (MutableGroupAnnotation) annotation;
+
+            // Move the contained annotations inside the group.  This should succeed unless the caller does
+            // something dumb like putting some annotations inside the group.  If it fails, at least the
+            // subsequent calls will not be made, so things should still be consistent.
+            for (AnnotationRangeSearchHit hit : hits) {
+                parentAnnotation.remove(hit.getAnnotation());
+                fireAnnotationRemoved(parentAnnotationPath, hit.getAnnotation());
+                group.add(hit.getAnnotation());
+            }
+
+            // And finally add the group to ourselves.  We know this must be safe because we just removed all the
+            // annotations in its location.
+            parentAnnotation.add(annotation);
+            fireAnnotationAdded(parentAnnotationPath, annotation);
+
+        } else {
+            throw new OverlappingAnnotationException(hits.get(0).getAnnotation(), annotation); // picks the first one
+        }
+    }
+
+    @Override
+    public void remove(Annotation annotation) {
+        doRemove(Arrays.asList((MutableGroupAnnotation) getRootGroup()), annotation);
+    }
+
+    private void doRemove(List<MutableGroupAnnotation> parentAnnotationPath, Annotation annotation) {
+        MutableGroupAnnotation parentAnnotation = parentAnnotationPath.get(parentAnnotationPath.size() - 1);
+        Annotation foundAnnotation = parentAnnotation.findAnnotationAt(annotation.getPosition());
+
+        if (foundAnnotation == null) {
+            // No annotation at that position at all, let alone the one we wanted.
+            throw new IllegalArgumentException("Annotation is not present so cannot be removed: " + annotation);
+        }
+
+        if (foundAnnotation.equals(annotation)) {
+            parentAnnotation.remove(annotation);
+            fireAnnotationRemoved(parentAnnotationPath, annotation);
+
+            // We removed a group so we have to add its children back.
+            if (annotation instanceof MutableGroupAnnotation) {
+                MutableGroupAnnotation groupAnnotation = (MutableGroupAnnotation) annotation;
+                for (Annotation childAnnotation : groupAnnotation.getAnnotations()) {
+                    parentAnnotation.add(childAnnotation);
+                    fireAnnotationAdded(parentAnnotationPath, childAnnotation);
+                }
+
+                // Remove descendants from this copy because its parent now owns those children.
+                groupAnnotation.removeAllDescendants();
+            }
+        } else {
+            // Found one but it wasn't the one we were looking for.
+            // If it's a group annotation then we might find it further down the tree.
+            if (foundAnnotation instanceof MutableGroupAnnotation) {
+                List<MutableGroupAnnotation> newParentAnnotationPath = null;
+                newParentAnnotationPath = new ArrayList<>(parentAnnotationPath.size() + 1);
+                newParentAnnotationPath.addAll(parentAnnotationPath);
+                newParentAnnotationPath.add((MutableGroupAnnotation) foundAnnotation);
+                doRemove(newParentAnnotationPath, annotation);
+            } else {
+                throw new IllegalArgumentException("Annotation is not present so cannot be removed: " + annotation);
+            }
+        }
+    }
+
+    protected void fireAnnotationAdded(List<? extends Annotation> parentAnnotationPath, Annotation annotation) {
         if (listenerList != null) {
-            AnnotationCollectionEvent event = new AnnotationCollectionEvent(this);
+            AnnotationCollectionEvent event = new AnnotationCollectionEvent(this, parentAnnotationPath, annotation);
 
             for (AnnotationCollectionListener listener :
                     listenerList.getListeners(AnnotationCollectionListener.class)) {
 
-                listener.annotationsChanged(event);
+                listener.annotationAdded(event);
+            }
+        }
+    }
+
+    protected void fireAnnotationRemoved(List<? extends Annotation> parentAnnotationPath, Annotation annotation) {
+        if (listenerList != null) {
+            AnnotationCollectionEvent event = new AnnotationCollectionEvent(this, parentAnnotationPath, annotation);
+
+            for (AnnotationCollectionListener listener :
+                    listenerList.getListeners(AnnotationCollectionListener.class)) {
+
+                listener.annotationRemoved(event);
             }
         }
     }

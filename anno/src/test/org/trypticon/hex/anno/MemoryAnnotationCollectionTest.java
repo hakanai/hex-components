@@ -18,10 +18,16 @@
 
 package org.trypticon.hex.anno;
 
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.trypticon.hex.interpreters.nulls.NullInterpreter;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -32,13 +38,17 @@ import static org.junit.Assert.assertEquals;
  * @author trejkaz
  */
 public class MemoryAnnotationCollectionTest {
+    Mockery mockery = new Mockery();
+    AnnotationCollectionListener listener;
     MemoryAnnotationCollection collection;
 
     @Test
     public void testAddingAnnotationInsideGroupAtStartPosition() throws Exception {
         createCollection(100);
 
+        expectAddedEvent(0, 20);
         addGroup(0, 20, "group");
+        expectAddedEvent(0, 10);
         addLeaf(0, 10, "leaf");
 
         assertSingleLeafInsideSingleGroup();
@@ -48,7 +58,10 @@ public class MemoryAnnotationCollectionTest {
     public void testAddingGroupAroundAnnotationAtStartPosition() throws Exception {
         createCollection(100);
 
+        expectAddedEvent(0, 10);
         addLeaf(0, 10, "leaf");
+        expectRemovedEvent(0, 10);
+        expectAddedEvent(0, 20);
         addGroup(0, 20, "group");
 
         assertSingleLeafInsideSingleGroup();
@@ -58,7 +71,9 @@ public class MemoryAnnotationCollectionTest {
     public void testAddingAnnotationInsideGroupAtMiddlePosition() throws Exception {
         createCollection(100);
 
+        expectAddedEvent(0, 20);
         addGroup(0, 20, "group");
+        expectAddedEvent(5, 10);
         addLeaf(5, 10, "leaf");
 
         assertSingleLeafInsideSingleGroup();
@@ -68,7 +83,10 @@ public class MemoryAnnotationCollectionTest {
     public void testAddingGroupAroundAnnotationAtMiddlePosition() throws Exception {
         createCollection(100);
 
+        expectAddedEvent(5, 10);
         addLeaf(5, 10, "leaf");
+        expectRemovedEvent(5, 10);
+        expectAddedEvent(0, 20);
         addGroup(0, 20, "group");
 
         assertSingleLeafInsideSingleGroup();
@@ -78,7 +96,9 @@ public class MemoryAnnotationCollectionTest {
     public void testAddingAnnotationInsideGroupAtEndPosition() throws Exception {
         createCollection(100);
 
+        expectAddedEvent(0, 20);
         addGroup(0, 20, "group");
+        expectAddedEvent(10, 10);
         addLeaf(10, 10, "leaf");
 
         assertSingleLeafInsideSingleGroup();
@@ -88,10 +108,45 @@ public class MemoryAnnotationCollectionTest {
     public void testAddingGroupAroundAnnotationAtEndPosition() throws Exception {
         createCollection(100);
 
+        expectAddedEvent(10, 10);
         addLeaf(10, 10, "leaf");
+        expectRemovedEvent(10, 10);
+        expectAddedEvent(0, 20);
         addGroup(0, 20, "group");
 
         assertSingleLeafInsideSingleGroup();
+    }
+
+    @Test
+    public void testRemovingGroupWithChildren() throws Exception {
+        createCollection(100);
+
+        expectAddedEvent(20, 20);
+        addLeaf(20, 20, "leaf");
+        expectRemovedEvent(20, 20);
+        expectAddedEvent(20, 40);
+        Annotation annotation = addGroup(20, 40, "group");
+
+        expectRemovedEvent(20, 40);
+        expectAddedEvent(20, 20);
+        collection.remove(annotation);
+
+        assertStructure(new Object[]{null, "leaf"});
+    }
+
+    @Test
+    public void testRemovingLeaf() throws Exception {
+        createCollection(100);
+        expectAddedEvent(20, 20);
+        Annotation annotation = addLeaf(20, 20, "leaf");
+        expectRemovedEvent(20, 20);
+        expectAddedEvent(20, 40);
+        addGroup(20, 40, "group");
+
+        expectRemovedEvent(20, 20);
+        collection.remove(annotation);
+
+        assertStructure(new Object[]{null, new Object[] { "group" }});
     }
 
     private void assertSingleLeafInsideSingleGroup() {
@@ -104,16 +159,50 @@ public class MemoryAnnotationCollectionTest {
 
     private void createCollection(int binarySize) {
         collection = new MemoryAnnotationCollection(binarySize);
+        collection.addAnnotationCollectionListener(listener);
     }
 
-    private void addGroup(int position, int length, String note) throws Exception {
+    private void expectAddedEvent(final long position, final long length) {
+        mockery.checking(new Expectations() {{
+            oneOf(listener).annotationAdded(with(annotationCollectionEvent(position, length)));
+        }});
+    }
+
+    private void expectRemovedEvent(final long position, final long length) {
+        mockery.checking(new Expectations() {{
+            oneOf(listener).annotationRemoved(with(annotationCollectionEvent(position, length)));
+        }});
+    }
+
+    private Matcher<AnnotationCollectionEvent> annotationCollectionEvent(final long position, final long length) {
+        return new TypeSafeMatcher<AnnotationCollectionEvent>() {
+            @Override
+            public boolean matchesSafely(AnnotationCollectionEvent event) {
+                Annotation annotation = event.getAnnotation();
+                return annotation.getPosition() == position &&
+                       annotation.getLength() == length;
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("event with annotation at position ");
+                description.appendValue(position);
+                description.appendText(" with length ");
+                description.appendValue(length);
+            }
+        };
+    }
+
+    private Annotation addGroup(long position, long length, String note) throws Exception {
         GroupAnnotation group = new SimpleMutableGroupAnnotation(position, length, note);
         collection.add(group);
+        return group;
     }
 
-    private void addLeaf(int position, int length, String note) throws Exception {
+    private Annotation addLeaf(long position, long length, String note) throws Exception {
         Annotation leaf = new SimpleMutableAnnotation(position, length, new NullInterpreter(), note);
         collection.add(leaf);
+        return leaf;
     }
 
     private void assertStructure(Object[] expected) {
@@ -132,5 +221,15 @@ public class MemoryAnnotationCollectionTest {
                 assertEquals("Wrong node (note didn't match)", expected[i], child.getNote());
             }
         }
+    }
+
+    @Before
+    public void setUp() {
+        listener = mockery.mock(AnnotationCollectionListener.class);
+    }
+
+    @After
+    public void tearDown() {
+        mockery.assertIsSatisfied();
     }
 }

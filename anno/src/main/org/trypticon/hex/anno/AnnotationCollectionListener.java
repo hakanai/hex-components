@@ -27,5 +27,18 @@ import java.util.EventListener;
  */
 public interface AnnotationCollectionListener extends EventListener {
 
-    void annotationsChanged(AnnotationCollectionEvent event);
+    /**
+     * Called when an annotation is added.
+     *
+     * @param event the event.
+     */
+    void annotationAdded(AnnotationCollectionEvent event);
+
+    /**
+     * Called when an annotation is removed.
+     *
+     * @param event the event.
+     */
+    void annotationRemoved(AnnotationCollectionEvent event);
+
 }

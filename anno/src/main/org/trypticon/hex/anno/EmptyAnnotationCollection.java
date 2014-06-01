@@ -41,14 +41,4 @@ public class EmptyAnnotationCollection extends AbstractAnnotationCollection {
     public List<Annotation> getAnnotationPathAt(long position) {
         return null;
     }
-
-    @Override
-    public void add(Annotation annotation) throws OverlappingAnnotationException {
-
-    }
-
-    @Override
-    public void remove(Annotation annotation) {
-
-    }
 }

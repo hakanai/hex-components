@@ -29,9 +29,8 @@ public interface MutableGroupAnnotation extends GroupAnnotation, MutableAnnotati
      * Adds an annotation to the group annotation.
      *
      * @param annotation the annotation to add.
-     * @throws OverlappingAnnotationException if the annotation partially overlaps another annotation.
      */
-    void add(Annotation annotation) throws OverlappingAnnotationException;
+    void add(Annotation annotation);
 
     /**
      * Removes an annotation from the group annotation.

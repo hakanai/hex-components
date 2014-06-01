@@ -11,8 +11,10 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="Binary API" />
     <orderEntry type="module" module-name="Interpreter API" />
-    <orderEntry type="library" name="JUnit" level="project" />
     <orderEntry type="library" name="SwingX" level="project" />
+    <orderEntry type="library" scope="TEST" name="JUnit" level="project" />
+    <orderEntry type="library" scope="TEST" name="JMock" level="project" />
+    <orderEntry type="library" scope="TEST" name="Hamcrest" level="project" />
   </component>
 </module>
 

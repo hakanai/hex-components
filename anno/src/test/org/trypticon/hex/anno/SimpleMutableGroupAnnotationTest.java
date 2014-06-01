@@ -21,9 +21,6 @@ package org.trypticon.hex.anno;
 import org.junit.Test;
 import org.trypticon.hex.interpreters.nulls.NullInterpreter;
 
-import java.util.Arrays;
-
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
@@ -45,13 +42,6 @@ public class SimpleMutableGroupAnnotationTest {
     }
 
     @Test
-    public void testAdd_GroupAroundConsecutive() throws Exception {
-        group.add(new SimpleMutableAnnotation(20, 20, new NullInterpreter(), ""));
-        group.add(new SimpleMutableAnnotation(40, 20, new NullInterpreter(), ""));
-        group.add(new SimpleMutableGroupAnnotation(20, 40, ""));
-    }
-
-    @Test
     public void testRemove() throws Exception {
         Annotation annotation = new SimpleMutableAnnotation(20, 20, new NullInterpreter(), "");
         group.add(annotation);
@@ -67,20 +57,6 @@ public class SimpleMutableGroupAnnotationTest {
         } catch (IllegalArgumentException e) {
             // Expected.
         }
-    }
-
-    @Test
-    public void testRemove_GroupWithChildren() throws Exception {
-        Annotation child1 = new SimpleMutableAnnotation(20, 20, new NullInterpreter(), "");
-        group.add(child1);
-        Annotation child2 = new SimpleMutableGroupAnnotation(40, 20, "");
-        group.add(child2);
-        GroupAnnotation innerGroup = new SimpleMutableGroupAnnotation(20, 40, "");
-        group.add(innerGroup);
-
-        group.remove(innerGroup);
-
-        assertEquals(Arrays.asList(child1, child2), group.getAnnotations());
     }
 
     @Test

@@ -71,16 +71,4 @@ public class MemoryAnnotationCollection extends AbstractAnnotationCollection {
 
         return path;
     }
-
-    @Override
-    public void add(Annotation annotation) throws OverlappingAnnotationException {
-        ((MutableGroupAnnotation) rootGroup).add(annotation);
-        fireAnnotationsChanged();
-    }
-
-    @Override
-    public void remove(Annotation annotation) {
-        ((MutableGroupAnnotation) rootGroup).remove(annotation);
-        fireAnnotationsChanged();
-    }
 }
