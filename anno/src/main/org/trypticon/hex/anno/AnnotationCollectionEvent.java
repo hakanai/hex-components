@@ -29,7 +29,7 @@ import java.util.List;
  * @author trejkaz
  */
 public class AnnotationCollectionEvent extends EventObject {
-    private final List<Annotation> parentAnnotationPath;
+    private final List<GroupAnnotation> parentAnnotationPath;
     private final Annotation annotation;
 
     public AnnotationCollectionEvent(AnnotationCollection collection) {
@@ -37,7 +37,7 @@ public class AnnotationCollectionEvent extends EventObject {
     }
 
     public AnnotationCollectionEvent(AnnotationCollection collection,
-                                     List<? extends Annotation> parentAnnotationPath, Annotation annotation) {
+                                     List<? extends GroupAnnotation> parentAnnotationPath, Annotation annotation) {
         super(collection);
         this.parentAnnotationPath = new ArrayList<>(parentAnnotationPath);
         this.annotation = annotation;
@@ -48,7 +48,7 @@ public class AnnotationCollectionEvent extends EventObject {
         return (AnnotationCollection) super.getSource();
     }
 
-    public List<Annotation> getParentAnnotationPath() {
+    public List<GroupAnnotation> getParentAnnotationPath() {
         return Collections.unmodifiableList(parentAnnotationPath);
     }
 

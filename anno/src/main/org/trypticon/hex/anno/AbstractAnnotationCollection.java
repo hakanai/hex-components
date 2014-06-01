@@ -29,7 +29,7 @@ import java.util.List;
 public abstract class AbstractAnnotationCollection implements AnnotationCollection {
     private EventListenerList listenerList;
 
-    protected void fireAnnotationAdded(List<? extends Annotation> parentAnnotationPath, Annotation annotation) {
+    protected void fireAnnotationAdded(List<? extends GroupAnnotation> parentAnnotationPath, Annotation annotation) {
         if (listenerList != null) {
             AnnotationCollectionEvent event = new AnnotationCollectionEvent(this, parentAnnotationPath, annotation);
 
@@ -41,7 +41,7 @@ public abstract class AbstractAnnotationCollection implements AnnotationCollecti
         }
     }
 
-    protected void fireAnnotationRemoved(List<? extends Annotation> parentAnnotationPath, Annotation annotation) {
+    protected void fireAnnotationRemoved(List<? extends GroupAnnotation> parentAnnotationPath, Annotation annotation) {
         if (listenerList != null) {
             AnnotationCollectionEvent event = new AnnotationCollectionEvent(this, parentAnnotationPath, annotation);
 
