@@ -43,14 +43,14 @@ public class SimpleMutableGroupAnnotationTest {
 
     @Test
     public void testRemove() throws Exception {
-        Annotation annotation = new SimpleMutableAnnotation(20, 20, new NullInterpreter(), "");
+        MutableAnnotation annotation = new SimpleMutableAnnotation(20, 20, new NullInterpreter(), "");
         group.add(annotation);
         group.remove(annotation);
     }
 
     @Test
     public void testRemove_NotPresent() throws Exception {
-        Annotation annotation = new SimpleMutableAnnotation(20, 20, new NullInterpreter(), "");
+        MutableAnnotation annotation = new SimpleMutableAnnotation(20, 20, new NullInterpreter(), "");
         try {
             group.remove(annotation);
             fail("Expected IllegalArgumentException");
@@ -97,8 +97,8 @@ public class SimpleMutableGroupAnnotationTest {
 
     @Test
     public void testFindDeepestGroupAnnotationAt_Found_OneDeep() throws Exception {
-        GroupAnnotation level1 = new SimpleMutableGroupAnnotation(20, 20, "level1");
-        GroupAnnotation level2 = new SimpleMutableGroupAnnotation(25, 10, "level2");
+        MutableGroupAnnotation level1 = new SimpleMutableGroupAnnotation(20, 20, "level1");
+        MutableGroupAnnotation level2 = new SimpleMutableGroupAnnotation(25, 10, "level2");
         group.add(level1);
         group.add(level2);
         assertSame(level1, group.findDeepestGroupAnnotationAt(24));
@@ -106,8 +106,8 @@ public class SimpleMutableGroupAnnotationTest {
 
     @Test
     public void testFindDeepestGroupAnnotationAt_Found_TwoDeep() throws Exception {
-        GroupAnnotation level1 = new SimpleMutableGroupAnnotation(20, 20, "level1");
-        GroupAnnotation level2 = new SimpleMutableGroupAnnotation(25, 10, "level2");
+        MutableGroupAnnotation level1 = new SimpleMutableGroupAnnotation(20, 20, "level1");
+        MutableGroupAnnotation level2 = new SimpleMutableGroupAnnotation(25, 10, "level2");
         group.add(level1);
         group.add(level2);
         assertSame(level2, group.findDeepestGroupAnnotationAt(25));

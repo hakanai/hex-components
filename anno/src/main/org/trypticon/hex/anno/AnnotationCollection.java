@@ -38,7 +38,7 @@ public interface AnnotationCollection {
      *
      * @return the list of the top-level annotations.
      */
-    List<Annotation> getTopLevel();
+    List<? extends Annotation> getTopLevel();
 
     /**
      * Gets the annotation path from the root to the leaf annotation node.
@@ -47,7 +47,7 @@ public interface AnnotationCollection {
      * @return the path to the deepest annotation at that position, including the group annotations
      *         which contain it.  Returns {@code null} if outside all annotations.
      */
-    List<Annotation> getAnnotationPathAt(long position);
+    List<? extends Annotation> getAnnotationPathAt(long position);
 
     /**
      * Adds a listener for changes in the collection.

@@ -44,12 +44,12 @@ public class MemoryAnnotationCollection extends AbstractMutableAnnotationCollect
     }
 
     @Override
-    public List<Annotation> getTopLevel() {
+    public List<? extends Annotation> getTopLevel() {
         return rootGroup.getAnnotations();
     }
 
     @Override
-    public List<Annotation> getAnnotationPathAt(long position) {
+    public List<? extends Annotation> getAnnotationPathAt(long position) {
         if (position < 0) {
             return null;
         }

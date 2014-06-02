@@ -34,7 +34,7 @@ public interface GroupAnnotation extends Annotation {
      *
      * @return the list of contained annotations.
      */
-    List<Annotation> getAnnotations();
+    List<? extends Annotation> getAnnotations();
 
     /**
      * Finds an annotation at the given position.

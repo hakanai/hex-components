@@ -36,7 +36,7 @@ public class AnnotationCollectionEvent extends EventObject {
     public AnnotationCollectionEvent(AnnotationCollection collection,
                                      List<? extends GroupAnnotation> parentPath,
                                      List<Integer> childIndices,
-                                     List<Annotation> children) {
+                                     List<? extends Annotation> children) {
         super(collection);
         this.parentPath = new ArrayList<>(parentPath);
         this.childIndices = new ArrayList<>(childIndices);

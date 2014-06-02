@@ -31,12 +31,16 @@ public abstract class AbstractAnnotationCollection implements AnnotationCollecti
 
     protected void fireAnnotationsAdded(List<? extends GroupAnnotation> parentPath,
                                         List<Integer> childIndices,
-                                        List<Annotation> children) {
+                                        List<? extends Annotation> children) {
         if (listenerList != null) {
-            AnnotationCollectionEvent event = new AnnotationCollectionEvent(this, parentPath, childIndices, children);
+            fireAnnotationsAdded(new AnnotationCollectionEvent(this, parentPath, childIndices, children));
+        }
+    }
 
+    protected void fireAnnotationsAdded(AnnotationCollectionEvent event) {
+        if (listenerList != null) {
             for (AnnotationCollectionListener listener :
-                    listenerList.getListeners(AnnotationCollectionListener.class)) {
+                listenerList.getListeners(AnnotationCollectionListener.class)) {
 
                 listener.annotationsAdded(event);
             }
@@ -44,15 +48,19 @@ public abstract class AbstractAnnotationCollection implements AnnotationCollecti
     }
 
     protected void fireAnnotationsRemoved(List<? extends GroupAnnotation> parentPath,
-                                         List<Integer> childIndices,
-                                         List<Annotation> children) {
+                                          List<Integer> childIndices,
+                                          List<? extends Annotation> children) {
         if (listenerList != null) {
-            AnnotationCollectionEvent event = new AnnotationCollectionEvent(this, parentPath, childIndices, children);
+            fireAnnotationsRemoved(new AnnotationCollectionEvent(this, parentPath, childIndices, children));
+        }
+    }
 
+    protected void fireAnnotationsRemoved(AnnotationCollectionEvent event) {
+        if (listenerList != null) {
             for (AnnotationCollectionListener listener :
-                    listenerList.getListeners(AnnotationCollectionListener.class)) {
+                listenerList.getListeners(AnnotationCollectionListener.class)) {
 
-                listener.annotationsRemoved(event);
+                listener.annotationsAdded(event);
             }
         }
     }

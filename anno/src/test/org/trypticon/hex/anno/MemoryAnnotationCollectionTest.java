@@ -259,7 +259,7 @@ public class MemoryAnnotationCollectionTest {
 
     private void assertStructure(GroupAnnotation group, Object[] expected) {
         assertEquals("Wrong node (note didn't match)", expected[0], group.getNote());
-        List<Annotation> children = group.getAnnotations();
+        List<? extends Annotation> children = group.getAnnotations();
         assertEquals("Wrong number of children inside " + group, expected.length - 1, children.size());
         for (int i = 1; i < expected.length; i++) {
             Annotation child = children.get(i - 1);

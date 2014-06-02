@@ -95,33 +95,6 @@ public class SimpleMutableAnnotation implements MutableAnnotation {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (o == this) {
-            return true;
-        }
-        if (!(o instanceof SimpleMutableAnnotation)) {
-            return false;
-        }
-        SimpleMutableAnnotation that = (SimpleMutableAnnotation) o;
-        return getPosition() == that.getPosition() &&
-               getLength() == that.getLength() &&
-               getInterpreter().equals(that.getInterpreter()) &&
-               (getNote() == null ? that.getNote() == null : getNote().equals(that.getNote()));
-    }
-
-    @Override
-    public int hashCode() {
-        int hashCode = 23 * (int) getPosition();
-        long length = getLength();
-        hashCode = hashCode * 71 + (int)(length ^ (length >>> 32));
-        hashCode = hashCode * 37 + getInterpreter().hashCode();
-        if (note != null) {
-            hashCode = hashCode * 51 + getNote().hashCode();
-        }
-        return hashCode;
-    }
-
-    @Override
     public String toString() {
         if (note != null) {
             return String.format("@%d..%d:%s(%s)", position, position + length - 1, interpreter, note);

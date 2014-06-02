@@ -41,7 +41,7 @@ public class AnnotationRangeSearcher {
      * @param annotation an annotation marking the range being searched.
      * @return the list of annotations crossing that range.  Returns an empty list if there are no hits.
      */
-    public List<AnnotationRangeSearchHit> findAllInRange(List<Annotation> list, Annotation annotation) {
+    public List<AnnotationRangeSearchHit> findAllInRange(List<? extends Annotation> list, Annotation annotation) {
         List<AnnotationRangeSearchHit> results = new ArrayList<>(10);
 
         int startMatch = binaryPositionSearch(list, annotation.getPosition());
@@ -118,7 +118,7 @@ public class AnnotationRangeSearcher {
      *         annotation with the position specified.  If the result is negative, then it represents the
      *         point at which a new element would be inserted to maintain the list ordering.
      */
-    private int binaryPositionSearch(List<Annotation> list, long position) {
+    private int binaryPositionSearch(List<? extends Annotation> list, long position) {
         Annotation template = new SimpleMutableAnnotation(position, 1, new NullInterpreter(), null);
         return Collections.binarySearch(list, template, comp);
     }

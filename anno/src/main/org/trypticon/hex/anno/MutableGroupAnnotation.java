@@ -18,12 +18,16 @@
 
 package org.trypticon.hex.anno;
 
+import java.util.List;
+
 /**
  * Interface for mutable group annotations.
  *
  * @author trejkaz
  */
 public interface MutableGroupAnnotation extends GroupAnnotation, MutableAnnotation {
+    @Override
+    List<? extends MutableAnnotation> getAnnotations();
 
     /**
      * Adds an annotation to the group annotation.
@@ -31,7 +35,7 @@ public interface MutableGroupAnnotation extends GroupAnnotation, MutableAnnotati
      * @param annotation the annotation to add.
      * @return the index it was added at.
      */
-    int add(Annotation annotation);
+    int add(MutableAnnotation annotation);
 
     /**
      * Removes an annotation from the group annotation.
@@ -41,7 +45,7 @@ public interface MutableGroupAnnotation extends GroupAnnotation, MutableAnnotati
      * @return the index it was removed from.
      * @throws IllegalArgumentException if the annotation isn't actually in the group.
      */
-    int remove(Annotation annotation);
+    int remove(MutableAnnotation annotation);
 
     /**
      * Removes all descendants.

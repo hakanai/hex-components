@@ -47,11 +47,11 @@ public abstract class AbstractMutableAnnotationCollection extends AbstractAnnota
      * @param annotation the annotation being added.
      * @throws OverlappingAnnotationException if the annotation would overlap another annotation.
      */
-    private void doAdd(List<MutableGroupAnnotation> parentAnnotationPath, Annotation annotation)
+    private void doAdd(List<MutableGroupAnnotation> parentAnnotationPath, MutableAnnotation annotation)
             throws OverlappingAnnotationException {
 
         MutableGroupAnnotation parentAnnotation = parentAnnotationPath.get(parentAnnotationPath.size() - 1);
-        List<Annotation> annotations = parentAnnotation.getAnnotations();
+        List<? extends MutableAnnotation> annotations = parentAnnotation.getAnnotations();
 
         List<AnnotationRangeSearchHit> hits = new AnnotationRangeSearcher().findAllInRange(annotations, annotation);
         if (hits.size() == 0) {
@@ -111,16 +111,16 @@ public abstract class AbstractMutableAnnotationCollection extends AbstractAnnota
             // subsequent calls will not be made, so things should still be consistent.
             // This is done in reverse so that we can collect the indices.
             List<Integer> childIndices = new LinkedList<>();
-            List<Annotation> children = new LinkedList<>();
+            List<MutableAnnotation> children = new LinkedList<>();
             for (ListIterator<AnnotationRangeSearchHit> iterator = hits.listIterator(hits.size());
                  iterator.hasPrevious(); ) {
 
                 AnnotationRangeSearchHit hit = iterator.previous();
-                Annotation child = hit.getAnnotation();
+                MutableAnnotation child = (MutableAnnotation) hit.getAnnotation();
                 int index = parentAnnotation.remove(child);
                 childIndices.add(0, index);
                 children.add(0, child);
-                group.add(hit.getAnnotation());
+                group.add(child);
             }
             fireAnnotationsRemoved(parentAnnotationPath, childIndices, children);
 
@@ -139,7 +139,7 @@ public abstract class AbstractMutableAnnotationCollection extends AbstractAnnota
         doRemove(Arrays.asList((MutableGroupAnnotation) getRootGroup()), annotation);
     }
 
-    private void doRemove(List<MutableGroupAnnotation> parentAnnotationPath, Annotation annotation) {
+    private void doRemove(List<MutableGroupAnnotation> parentAnnotationPath, MutableAnnotation annotation) {
         MutableGroupAnnotation parentAnnotation = parentAnnotationPath.get(parentAnnotationPath.size() - 1);
         Annotation foundAnnotation = parentAnnotation.findAnnotationAt(annotation.getPosition());
 
@@ -157,7 +157,7 @@ public abstract class AbstractMutableAnnotationCollection extends AbstractAnnota
                 MutableGroupAnnotation groupAnnotation = (MutableGroupAnnotation) annotation;
                 List<Integer> childIndices = new LinkedList<>();
                 List<Annotation> children = new LinkedList<>();
-                for (Annotation child : groupAnnotation.getAnnotations()) {
+                for (MutableAnnotation child : groupAnnotation.getAnnotations()) {
                     int index = parentAnnotation.add(child);
                     childIndices.add(index);
                     children.add(child);

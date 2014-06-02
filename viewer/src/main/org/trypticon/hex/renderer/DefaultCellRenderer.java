@@ -87,7 +87,7 @@ public class DefaultCellRenderer extends JLabel implements CellRenderer {
             AnnotationStyleScheme annotationStyleScheme = viewer.getAnnotationStyleScheme();
             int bytesPerRow = viewer.getBytesPerRow();
 
-            List<Annotation> annotationPath = annotations.getAnnotationPathAt(position);
+            List<? extends Annotation> annotationPath = annotations.getAnnotationPathAt(position);
             if (annotationPath != null) {
                 Border border = null;
 
