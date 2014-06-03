@@ -19,6 +19,7 @@
 package org.trypticon.hex.anno;
 
 import javax.swing.event.EventListenerList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -60,7 +61,36 @@ public abstract class AbstractAnnotationCollection implements AnnotationCollecti
             for (AnnotationCollectionListener listener :
                 listenerList.getListeners(AnnotationCollectionListener.class)) {
 
-                listener.annotationsAdded(event);
+                listener.annotationsRemoved(event);
+            }
+        }
+    }
+
+    protected void fireAnnotationsChanged(List<? extends GroupAnnotation> parentPath,
+                                          List<Integer> childIndices,
+                                          List<? extends Annotation> children) {
+        if (listenerList != null) {
+            fireAnnotationsChanged(new AnnotationCollectionEvent(this, parentPath, childIndices, children));
+        }
+    }
+
+    protected void fireAnnotationChanged(Annotation annotation) {
+        if (listenerList != null) {
+            List<? extends Annotation> path = this.getAnnotationPathFor(annotation);
+            @SuppressWarnings("unchecked") // safe for now because all ancestors must be GroupAnnotation.
+                    List<? extends GroupAnnotation> parentPath = (List<? extends GroupAnnotation>)
+                    path.subList(0, path.size() - 1);
+            int index = parentPath.get(parentPath.size() - 1).getAnnotations().indexOf(annotation);
+            fireAnnotationsChanged(parentPath, Arrays.asList(index), Arrays.asList(annotation));
+        }
+    }
+
+    protected void fireAnnotationsChanged(AnnotationCollectionEvent event) {
+        if (listenerList != null) {
+            for (AnnotationCollectionListener listener :
+                listenerList.getListeners(AnnotationCollectionListener.class)) {
+
+                listener.annotationsChanged(event);
             }
         }
     }

@@ -266,6 +266,10 @@ public class HexViewer extends JComponent {
                             repaint();
                         }
 
+                        @Override
+                        public void annotationsChanged(AnnotationCollectionEvent event) {
+                            repaint();
+                        }
                     };
                 }
 

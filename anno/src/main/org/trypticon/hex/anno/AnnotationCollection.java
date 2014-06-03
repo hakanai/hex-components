@@ -50,6 +50,15 @@ public interface AnnotationCollection {
     List<? extends Annotation> getAnnotationPathAt(long position);
 
     /**
+     * Gets the path to a given annotation.
+     *
+     * @param annotation the annotation to look up.
+     * @return the path to that annotation.
+     * @throws IllegalArgumentException if tha annotation is not in the collection.
+     */
+    List<? extends Annotation> getAnnotationPathFor(Annotation annotation);
+
+    /**
      * Adds a listener for changes in the collection.
      *
      * @param listener the listener to add.

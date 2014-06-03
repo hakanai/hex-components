@@ -41,4 +41,9 @@ public class EmptyAnnotationCollection extends AbstractAnnotationCollection {
     public List<Annotation> getAnnotationPathAt(long position) {
         return null;
     }
+
+    @Override
+    public List<? extends Annotation> getAnnotationPathFor(Annotation annotation) {
+        throw new IllegalArgumentException("Annotation is not in the collection: " + annotation);
+    }
 }

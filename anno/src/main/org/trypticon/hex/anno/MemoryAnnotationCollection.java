@@ -71,4 +71,30 @@ public class MemoryAnnotationCollection extends AbstractMutableAnnotationCollect
 
         return path;
     }
+
+    @Override
+    public List<? extends Annotation> getAnnotationPathFor(Annotation annotation) {
+        List<Annotation> path = new LinkedList<>();
+        path.add(rootGroup);
+        GroupAnnotation ancestor = rootGroup;
+        while (true) {
+            Annotation next = ancestor.findAnnotationAt(annotation.getPosition());
+            if (next == null) {
+                throw new IllegalArgumentException("Annotation is not in the collection: " + annotation);
+            }
+
+            path.add(next);
+            if (next == annotation) {
+                // Found it.
+                return path;
+            }
+
+            if (next instanceof GroupAnnotation) {
+                ancestor = (GroupAnnotation) next;
+            } else {
+                // Found a leaf, so the annotation can't be in the collection.
+                throw new IllegalArgumentException("Annotation is not in the collection: " + annotation);
+            }
+        }
+    }
 }

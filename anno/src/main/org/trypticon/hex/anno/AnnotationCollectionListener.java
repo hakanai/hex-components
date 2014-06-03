@@ -41,4 +41,11 @@ public interface AnnotationCollectionListener extends EventListener {
      */
     void annotationsRemoved(AnnotationCollectionEvent event);
 
+    /**
+     * Called when annotations have changed in some way but are still the same annotations.
+     *
+     * @param event the event.
+     */
+    void annotationsChanged(AnnotationCollectionEvent event);
+
 }
