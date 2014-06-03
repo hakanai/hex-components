@@ -1,5 +1,7 @@
 .DS_Store
 *.swp
 build
+target
+reports
 /.idea/out
 /.idea/workspace.xml
