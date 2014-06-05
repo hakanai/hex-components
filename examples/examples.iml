@@ -7,9 +7,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="Hex Viewer" />
-    <orderEntry type="module" module-name="Binary API" />
-    <orderEntry type="module" module-name="Annotations" />
+    <orderEntry type="module" module-name="viewer" />
+    <orderEntry type="module" module-name="binary" />
+    <orderEntry type="module" module-name="anno" />
   </component>
 </module>
 

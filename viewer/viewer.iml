@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module type="JAVA_MODULE" version="4">
+<module relativePaths="true" type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
@@ -10,9 +10,11 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="Binary API" />
+    <orderEntry type="module" module-name="anno" />
+    <orderEntry type="module" module-name="binary" />
     <orderEntry type="library" name="JUnit" level="project" />
-    <orderEntry type="module" module-name="Utilities" />
+    <orderEntry type="module" module-name="util" />
+    <orderEntry type="module" module-name="interpreter" />
   </component>
 </module>
 
