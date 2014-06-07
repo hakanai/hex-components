@@ -48,7 +48,7 @@ public interface Annotation {
      *
      * @return the interpreter.  TODO: Decide on nullable vs. non-null.
      */
-    Interpreter getInterpreter();
+    Interpreter<?> getInterpreter();
 
     /**
      * Convenience method to call the interpreter with the appropriate position and length

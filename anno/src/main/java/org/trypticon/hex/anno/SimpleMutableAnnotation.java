@@ -71,7 +71,7 @@ public class SimpleMutableAnnotation implements MutableAnnotation {
     }
 
     @Override
-    public Interpreter getInterpreter() {
+    public Interpreter<?> getInterpreter() {
         return interpreter;
     }
 
