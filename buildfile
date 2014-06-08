@@ -13,7 +13,7 @@ define 'hex-components' do
   project.version = VERSION_NUMBER
   project.group = 'hex-components'
   manifest['Copyright'] = COPYRIGHT
-  compile.options.source = compile.options.target = '7'
+  compile.options.source = compile.options.target = '1.7'
 
   desc 'Hex Utilities'
   define 'util' do
