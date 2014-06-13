@@ -29,7 +29,7 @@ import java.util.List;
 public class EmptyAnnotationCollection extends AbstractAnnotationCollection {
     @Override
     public GroupAnnotation getRootGroup() {
-        return new SimpleMutableGroupAnnotation(0, 1, null);
+        return new SimpleGroupAnnotation(0, 1);
     }
 
     @Override

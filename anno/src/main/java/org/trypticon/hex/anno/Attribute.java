@@ -19,17 +19,27 @@
 package org.trypticon.hex.anno;
 
 /**
- * Interface for mutable annotations.
+ * Class used as keys to look up attributes.
  *
  * @author trejkaz
  */
-public interface MutableAnnotation extends Annotation {
+public final class Attribute<V> {
+    private final String name;
+
+    private Attribute(String name) {
+        this.name = name;
+    }
 
     /**
-     * Sets the note for the annotation.
+     * Creates an attribute with the given name.
+     * This is a factory method to aid with the use of generics.
      *
-     * @param note the new note.
+     * @param name the name of the attribute. Names should start with a
+     *             package-like namespace to aid in preventing collisions.
+     * @return the attribute.
+     * @see CommonAttributes
      */
-    void setNote(String note);
-
+    public static <T> Attribute<T> named(String name) {
+        return new Attribute<>(name);
+    }
 }

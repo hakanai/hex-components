@@ -6,6 +6,8 @@ Version X.X (XXXX-XX-XX)
 
    Fixed: Fixed the font specified in the UI not taking effect.
 
+ Changed: Mutable* annotation classes were removed as it was starting to cause a combinatorial problem
+          in the class hierarchy.
  Changed: Changed the default font for Mac OS X to Monaco 13pt.
  Changed: AnnotationCollectionListener now has separate events for added and removed. Logic for adding and
           removing has been moved up to AbstractAnnotationCollection to support this.

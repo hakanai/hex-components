@@ -22,18 +22,21 @@ import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.Interpreter;
 import org.trypticon.hex.interpreters.Value;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 /**
  * Implementation of a single annotation.
  *
  * @author trejkaz
  */
-public class SimpleMutableAnnotation implements MutableAnnotation {
+public class SimpleAnnotation implements Annotation {
     private long position;
     private long length;
     private Interpreter interpreter;
-    private String note;
+    private final Map<Attribute<?>, Object> attributes = new LinkedHashMap<>();
 
-    public SimpleMutableAnnotation(long position, long length, Interpreter interpreter, String note) {
+    public SimpleAnnotation(long position, long length, Interpreter interpreter) {
         if (interpreter == null) {
             throw new IllegalArgumentException("interpreter cannot be null");
         }
@@ -49,7 +52,6 @@ public class SimpleMutableAnnotation implements MutableAnnotation {
         this.position = position;
         this.length = length;
         this.interpreter = interpreter;
-        this.note = note;
     }
 
     @Override
@@ -85,21 +87,22 @@ public class SimpleMutableAnnotation implements MutableAnnotation {
     }
 
     @Override
-    public String getNote() {
-        return note;
+    @SuppressWarnings("unchecked")
+    public <T> T get(Attribute<T> attribute) {
+        return (T) attributes.get(attribute);
     }
 
     @Override
-    public void setNote(String note) {
-        this.note = note;
+    public <T> void set(Attribute<T> attribute, T value) {
+        if (value == null) {
+            attributes.remove(attribute);
+        } else {
+            attributes.put(attribute, value);
+        }
     }
 
     @Override
     public String toString() {
-        if (note != null) {
-            return String.format("@%d..%d:%s(%s)", position, position + length - 1, interpreter, note);
-        } else {
-            return String.format("@%d..%d:%s", position, position + length - 1, interpreter);
-        }
+        return String.format("@%d..%d:%s(%s)", position, position + length - 1, interpreter, attributes);
     }
 }

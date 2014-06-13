@@ -59,6 +59,21 @@ public interface AnnotationCollection {
     List<? extends Annotation> getAnnotationPathFor(Annotation annotation);
 
     /**
+     * Adds an annotation.
+     *
+     * @param annotation the annotation to add.
+     * @throws OverlappingAnnotationException if the annotation overlaps an existing one.
+     */
+    void add(Annotation annotation) throws OverlappingAnnotationException;
+
+    /**
+     * Removes an annotation.
+     *
+     * @param annotation the annotation to remove.
+     */
+    void remove(Annotation annotation);
+
+    /**
      * Adds a listener for changes in the collection.
      *
      * @param listener the listener to add.

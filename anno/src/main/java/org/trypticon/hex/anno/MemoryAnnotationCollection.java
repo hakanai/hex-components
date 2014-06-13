@@ -27,11 +27,11 @@ import java.util.List;
  *
  * @author trejkaz
  */
-public class MemoryAnnotationCollection extends AbstractMutableAnnotationCollection {
+public class MemoryAnnotationCollection extends AbstractAnnotationCollection {
     private final GroupAnnotation rootGroup;
 
     public MemoryAnnotationCollection(long length) {
-        rootGroup = new SimpleMutableGroupAnnotation(0, length, null);
+        rootGroup = new SimpleGroupAnnotation(0, length);
     }
 
     public MemoryAnnotationCollection(GroupAnnotation rootGroup) {

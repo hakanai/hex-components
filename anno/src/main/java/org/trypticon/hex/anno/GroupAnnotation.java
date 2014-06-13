@@ -51,4 +51,27 @@ public interface GroupAnnotation extends Annotation {
      * @return the group annotation found.  Returns {@code null} if this group annotation is the deepest.
      */
     GroupAnnotation findDeepestGroupAnnotationAt(long position);
+
+    /**
+     * Adds an annotation to the group annotation.
+     *
+     * @param annotation the annotation to add.
+     * @return the index it was added at.
+     */
+    int add(Annotation annotation);
+
+    /**
+     * Removes an annotation from the group annotation.
+     * If the removed annotation was a group, its original children are added back.
+     *
+     * @param annotation the annotation to remove.
+     * @return the index it was removed from.
+     * @throws IllegalArgumentException if the annotation isn't actually in the group.
+     */
+    int remove(Annotation annotation);
+
+    /**
+     * Removes all descendants.
+     */
+    void removeAllDescendants();
 }

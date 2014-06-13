@@ -27,30 +27,30 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
 /**
- * Tests for {@link SimpleMutableGroupAnnotation}.
+ * Tests for {@link SimpleGroupAnnotation}.
  *
  * @author trejkaz
  */
-public class SimpleMutableGroupAnnotationTest {
+public class SimpleGroupAnnotationTest {
 
-    MutableGroupAnnotation group = new SimpleMutableGroupAnnotation(0, 100, "");
+    GroupAnnotation group = new SimpleGroupAnnotation(0, 100);
 
     @Test
     public void testAdd_Consecutive() throws Exception {
-        group.add(new SimpleMutableAnnotation(20, 20, new NullInterpreter(), ""));
-        group.add(new SimpleMutableAnnotation(40, 20, new NullInterpreter(), ""));
+        group.add(new SimpleAnnotation(20, 20, new NullInterpreter()));
+        group.add(new SimpleAnnotation(40, 20, new NullInterpreter()));
     }
 
     @Test
     public void testRemove() throws Exception {
-        MutableAnnotation annotation = new SimpleMutableAnnotation(20, 20, new NullInterpreter(), "");
+        Annotation annotation = new SimpleAnnotation(20, 20, new NullInterpreter());
         group.add(annotation);
         group.remove(annotation);
     }
 
     @Test
     public void testRemove_NotPresent() throws Exception {
-        MutableAnnotation annotation = new SimpleMutableAnnotation(20, 20, new NullInterpreter(), "");
+        Annotation annotation = new SimpleAnnotation(20, 20, new NullInterpreter());
         try {
             group.remove(annotation);
             fail("Expected IllegalArgumentException");
@@ -61,44 +61,46 @@ public class SimpleMutableGroupAnnotationTest {
 
     @Test
     public void testFindAnnotationAt_Found_HitAtBottom() throws Exception {
-        group.add(new SimpleMutableAnnotation(20, 20, new NullInterpreter(), ""));
+        group.add(new SimpleAnnotation(20, 20, new NullInterpreter()));
         assertNotNull(group.findAnnotationAt(20));
     }
 
     @Test
     public void testFindAnnotationAt_Found_HitAtTop() throws Exception {
-        group.add(new SimpleMutableAnnotation(20, 20, new NullInterpreter(), ""));
+        group.add(new SimpleAnnotation(20, 20, new NullInterpreter()));
         assertNotNull(group.findAnnotationAt(39));
     }
 
     @Test
     public void testFindAnnotationAt_NotFound_MissedByOneBelow() throws Exception {
-        group.add(new SimpleMutableAnnotation(20, 20, new NullInterpreter(), ""));
+        group.add(new SimpleAnnotation(20, 20, new NullInterpreter()));
         assertNull(group.findAnnotationAt(19));
     }
 
     @Test
     public void testFindAnnotationAt_NotFound_MissedByOneAbove() throws Exception {
-        group.add(new SimpleMutableAnnotation(20, 20, new NullInterpreter(), ""));
+        group.add(new SimpleAnnotation(20, 20, new NullInterpreter()));
         assertNull(group.findAnnotationAt(40));
     }
 
     @Test
     public void testFindDeepestGroupAnnotationAt_NotFound() throws Exception {
-        group.add(new SimpleMutableAnnotation(20, 20, new NullInterpreter(), ""));
+        group.add(new SimpleAnnotation(20, 20, new NullInterpreter()));
         assertNull(group.findDeepestGroupAnnotationAt(19));
     }
 
     @Test
     public void testFindDeepestGroupAnnotationAt_NotFound_ButFoundNonGroup() throws Exception {
-        group.add(new SimpleMutableAnnotation(20, 20, new NullInterpreter(), ""));
+        group.add(new SimpleAnnotation(20, 20, new NullInterpreter()));
         assertNull(group.findDeepestGroupAnnotationAt(20));
     }
 
     @Test
     public void testFindDeepestGroupAnnotationAt_Found_OneDeep() throws Exception {
-        MutableGroupAnnotation level1 = new SimpleMutableGroupAnnotation(20, 20, "level1");
-        MutableGroupAnnotation level2 = new SimpleMutableGroupAnnotation(25, 10, "level2");
+        GroupAnnotation level1 = new SimpleGroupAnnotation(20, 20);
+        level1.set(CommonAttributes.NOTE, "level1");
+        GroupAnnotation level2 = new SimpleGroupAnnotation(25, 10);
+        level2.set(CommonAttributes.NOTE, "level2");
         group.add(level1);
         group.add(level2);
         assertSame(level1, group.findDeepestGroupAnnotationAt(24));
@@ -106,8 +108,10 @@ public class SimpleMutableGroupAnnotationTest {
 
     @Test
     public void testFindDeepestGroupAnnotationAt_Found_TwoDeep() throws Exception {
-        MutableGroupAnnotation level1 = new SimpleMutableGroupAnnotation(20, 20, "level1");
-        MutableGroupAnnotation level2 = new SimpleMutableGroupAnnotation(25, 10, "level2");
+        GroupAnnotation level1 = new SimpleGroupAnnotation(20, 20);
+        level1.set(CommonAttributes.NOTE, "level1");
+        GroupAnnotation level2 = new SimpleGroupAnnotation(25, 10);
+        level2.set(CommonAttributes.NOTE, "level2");
         group.add(level1);
         group.add(level2);
         assertSame(level2, group.findDeepestGroupAnnotationAt(25));

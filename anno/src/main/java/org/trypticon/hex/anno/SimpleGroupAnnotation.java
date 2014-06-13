@@ -30,29 +30,29 @@ import java.util.List;
  *
  * @author trejkaz
  */
-public class SimpleMutableGroupAnnotation extends SimpleMutableAnnotation implements MutableGroupAnnotation {
+public class SimpleGroupAnnotation extends SimpleAnnotation implements GroupAnnotation {
 
-    private final List<MutableAnnotation> annotations;
+    private final List<Annotation> annotations;
 
-    public SimpleMutableGroupAnnotation(long position, long length, String note) {
+    public SimpleGroupAnnotation(long position, long length) {
         // TODO: Support interpreters for group annotations?  Or introduce a new level of hierarchy and
         //       have the Interpreter only on the leaf annotations?
-        super(position, length, new NullInterpreter(), note);
+        super(position, length, new NullInterpreter());
 
         annotations = new ArrayList<>(4);
     }
 
-    public SimpleMutableGroupAnnotation(long position, long length, String note,
-                                        List<? extends MutableAnnotation> annotations) {
+    public SimpleGroupAnnotation(long position, long length,
+                                 List<? extends Annotation> annotations) {
         // TODO: Support interpreters for group annotations?  Or introduce a new level of hierarchy and
         //       have the Interpreter only on the leaf annotations?
-        super(position, length, new NullInterpreter(), note);
+        super(position, length, new NullInterpreter());
 
         this.annotations = new ArrayList<>(annotations);
     }
 
     @Override
-    public List<? extends MutableAnnotation> getAnnotations() {
+    public List<? extends Annotation> getAnnotations() {
         return Collections.unmodifiableList(annotations);
     }
 
@@ -104,7 +104,7 @@ public class SimpleMutableGroupAnnotation extends SimpleMutableAnnotation implem
     }
 
     @Override
-    public int add(MutableAnnotation annotation) {
+    public int add(Annotation annotation) {
         int index = binaryPositionSearch(annotation.getPosition());
         if (index < 0) {
             index = -index - 1;
@@ -114,7 +114,7 @@ public class SimpleMutableGroupAnnotation extends SimpleMutableAnnotation implem
     }
 
     @Override
-    public int remove(MutableAnnotation annotation) {
+    public int remove(Annotation annotation) {
         int index = binaryPositionSearch(annotation.getPosition());
         if (index < 0) {
             throw new IllegalArgumentException("Annotation is not present so cannot be removed: " + annotation);
@@ -138,7 +138,7 @@ public class SimpleMutableGroupAnnotation extends SimpleMutableAnnotation implem
      */
     private int binaryPositionSearch(long position)
     {
-        Annotation template = new SimpleMutableAnnotation(position, 1, new NullInterpreter(), null);
+        Annotation template = new SimpleAnnotation(position, 1, new NullInterpreter());
         return Collections.binarySearch(annotations, template, new AnnotationPositionComparator());
     }
 

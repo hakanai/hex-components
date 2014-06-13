@@ -19,7 +19,7 @@
 package org.trypticon.hex.anno.util;
 
 import org.trypticon.hex.anno.Annotation;
-import org.trypticon.hex.anno.SimpleMutableAnnotation;
+import org.trypticon.hex.anno.SimpleAnnotation;
 import org.trypticon.hex.interpreters.nulls.NullInterpreter;
 
 import java.util.ArrayList;
@@ -119,7 +119,7 @@ public class AnnotationRangeSearcher {
      *         point at which a new element would be inserted to maintain the list ordering.
      */
     private int binaryPositionSearch(List<? extends Annotation> list, long position) {
-        Annotation template = new SimpleMutableAnnotation(position, 1, new NullInterpreter(), null);
+        Annotation template = new SimpleAnnotation(position, 1, new NullInterpreter());
         return Collections.binarySearch(list, template, comp);
     }
 }

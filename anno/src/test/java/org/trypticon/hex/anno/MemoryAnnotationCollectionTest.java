@@ -141,7 +141,7 @@ public class MemoryAnnotationCollectionTest {
         addLeaf(20, 20, "leaf");
         expectRemovedEvent(20, 20);
         expectAddedEvent(20, 40);
-        MutableGroupAnnotation annotation = addGroup(20, 40, "group");
+        GroupAnnotation annotation = addGroup(20, 40, "group");
 
         expectRemovedEvent(20, 40);
         expectAddedEvent(20, 20);
@@ -160,7 +160,7 @@ public class MemoryAnnotationCollectionTest {
         addLeaf(40, 20, "leaf 2");
         expectRemovedEvent(20, 20, 40, 20);
         expectAddedEvent(20, 40);
-        MutableGroupAnnotation annotation = addGroup(20, 40, "group");
+        GroupAnnotation annotation = addGroup(20, 40, "group");
 
         expectRemovedEvent(20, 40);
         expectAddedEvent(20, 20, 40, 20);
@@ -173,7 +173,7 @@ public class MemoryAnnotationCollectionTest {
     public void testRemovingLeaf() throws Exception {
         createCollection(100);
         expectAddedEvent(20, 20);
-        MutableAnnotation annotation = addLeaf(20, 20, "leaf");
+        Annotation annotation = addLeaf(20, 20, "leaf");
         expectRemovedEvent(20, 20);
         expectAddedEvent(20, 40);
         addGroup(20, 40, "group");
@@ -241,14 +241,16 @@ public class MemoryAnnotationCollectionTest {
         };
     }
 
-    private MutableGroupAnnotation addGroup(long position, long length, String note) throws Exception {
-        MutableGroupAnnotation group = new SimpleMutableGroupAnnotation(position, length, note);
+    private GroupAnnotation addGroup(long position, long length, String note) throws Exception {
+        GroupAnnotation group = new SimpleGroupAnnotation(position, length);
+        group.set(CommonAttributes.NOTE, note);
         collection.add(group);
         return group;
     }
 
-    private MutableAnnotation addLeaf(long position, long length, String note) throws Exception {
-        MutableAnnotation leaf = new SimpleMutableAnnotation(position, length, new NullInterpreter(), note);
+    private Annotation addLeaf(long position, long length, String note) throws Exception {
+        Annotation leaf = new SimpleAnnotation(position, length, new NullInterpreter());
+        leaf.set(CommonAttributes.NOTE, note);
         collection.add(leaf);
         return leaf;
     }
@@ -258,7 +260,7 @@ public class MemoryAnnotationCollectionTest {
     }
 
     private void assertStructure(GroupAnnotation group, Object[] expected) {
-        assertEquals("Wrong node (note didn't match)", expected[0], group.getNote());
+        assertEquals("Wrong node (note didn't match)", expected[0], group.get(CommonAttributes.NOTE));
         List<? extends Annotation> children = group.getAnnotations();
         assertEquals("Wrong number of children inside " + group, expected.length - 1, children.size());
         for (int i = 1; i < expected.length; i++) {
@@ -266,7 +268,7 @@ public class MemoryAnnotationCollectionTest {
             if (child instanceof GroupAnnotation) {
                 assertStructure((GroupAnnotation) child, (Object[]) expected[i]);
             } else {
-                assertEquals("Wrong node (note didn't match)", expected[i], child.getNote());
+                assertEquals("Wrong node (note didn't match)", expected[i], child.get(CommonAttributes.NOTE));
             }
         }
     }

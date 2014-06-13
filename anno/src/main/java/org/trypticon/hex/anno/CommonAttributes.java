@@ -19,24 +19,16 @@
 package org.trypticon.hex.anno;
 
 /**
- * A collection of annotations which can be modified.
+ * A collection of commonly-useful attributes.
  *
  * @author trejkaz
  */
-public interface MutableAnnotationCollection extends AnnotationCollection {
+public class CommonAttributes {
+    private CommonAttributes() {
+    }
 
     /**
-     * Adds an annotation.
-     *
-     * @param annotation the annotation to add.
-     * @throws OverlappingAnnotationException if the annotation overlaps an existing one.
+     * A simple text note on the attribute.
      */
-    void add(MutableAnnotation annotation) throws OverlappingAnnotationException;
-
-    /**
-     * Removes an annotation.
-     *
-     * @param annotation the annotation to remove.
-     */
-    void remove(MutableAnnotation annotation);
+    public static Attribute<String> NOTE = Attribute.named("org.trypticon.hex.anno.note");
 }

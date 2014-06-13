@@ -60,10 +60,21 @@ public interface Annotation {
     Value interpret(Binary binary);
 
     /**
-     * A note added by the user.
+     * Gets the value of a custom attribute.
      *
-     * @return the note added by the user, {@code null} if there is no note.
+     * @param attribute the custom attribute.
+     * @param <T> the attribute type.
+     * @return the attribute value.
      */
-    String getNote();
+    <T> T get(Attribute<T> attribute);
+
+    /**
+     * Sets the value of a custom attribute.
+     *
+     * @param attribute the custom attribute.
+     * @param value the attribute value.
+     * @param <T> the attribute type.
+     */
+    <T> void set(Attribute<T> attribute, T value);
 
 }

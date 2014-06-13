@@ -20,7 +20,7 @@ package org.trypticon.hex.anno.util;
 
 import org.junit.Test;
 import org.trypticon.hex.anno.Annotation;
-import org.trypticon.hex.anno.SimpleMutableAnnotation;
+import org.trypticon.hex.anno.SimpleAnnotation;
 import org.trypticon.hex.interpreters.nulls.NullInterpreter;
 
 import static junit.framework.Assert.assertFalse;
@@ -85,6 +85,6 @@ public class AnnotationsTest {
     }
 
     private static Annotation a(int start, int length) {
-        return new SimpleMutableAnnotation(start, length, new NullInterpreter(), null);
+        return new SimpleAnnotation(start, length, new NullInterpreter());
     }
 }

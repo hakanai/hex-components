@@ -20,7 +20,7 @@ package org.trypticon.hex.anno.util;
 
 import org.junit.Test;
 import org.trypticon.hex.anno.Annotation;
-import org.trypticon.hex.anno.SimpleMutableAnnotation;
+import org.trypticon.hex.anno.SimpleAnnotation;
 import org.trypticon.hex.interpreters.nulls.NullInterpreter;
 
 import java.util.ArrayList;
@@ -124,7 +124,7 @@ public class AnnotationRangeSearcherTest {
     private void makeList(int... positionsAndLengths) {
         list = new ArrayList<>(positionsAndLengths.length / 2);
         for (int i = 0; i < positionsAndLengths.length; i += 2) {
-            list.add(new SimpleMutableAnnotation(positionsAndLengths[i], positionsAndLengths[i + 1], new NullInterpreter(), null));
+            list.add(new SimpleAnnotation(positionsAndLengths[i], positionsAndLengths[i + 1], new NullInterpreter()));
         }
     }
 
@@ -138,6 +138,6 @@ public class AnnotationRangeSearcherTest {
     }
 
     private void test(int position, int length) {
-        assertEquals("Wrong result", expected, searcher.findAllInRange(list, new SimpleMutableAnnotation(position, length, new NullInterpreter(), null)));
+        assertEquals("Wrong result", expected, searcher.findAllInRange(list, new SimpleAnnotation(position, length, new NullInterpreter())));
     }
 }
