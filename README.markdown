@@ -34,10 +34,9 @@ Building
 You'll need a Java build environment.  I'm developing this on Java 7 at
 the moment.
 
-You'll also need Ant.  All the other dependencies should be bundled.
-If something is missing, prod me to fix it.
+You'll also need [Buildr][].
 
-To build, execute 'ant' in the top directory. Files for the distribution
-will appear in build/dist.
+To build, execute `buildr package` in the top directory. The binaries zip will
+be created in `target`.
 
 
