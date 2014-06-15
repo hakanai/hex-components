@@ -1,5 +1,4 @@
 
-NAME = 'Hex Components'
 VERSION_NUMBER = '0.6'
 COPYRIGHT = 'Copyright \u00A9 2009-2014  Hex Project'
 
