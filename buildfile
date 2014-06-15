@@ -1,7 +1,7 @@
 
 NAME = 'Hex Components'
 VERSION_NUMBER = '0.6'
-COPYRIGHT = 'Copyright (C) 2009-2014  Trejkaz, Hex Project'
+COPYRIGHT = '\u00A9 2009-2014  Hex Project'
 
 ENV['JAVA_HOME'] = ENV['JAVA_HOME_7']
 
