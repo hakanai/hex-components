@@ -41,6 +41,7 @@ public class Primitives {
     }
 
     static long getLong(byte b1, byte b2, byte b3, byte b4, byte b5, byte b6, byte b7, byte b8) {
-        return (long) getInt(b1, b2, b3, b4) << 32 | getInt(b5, b6, b7, b8);
+        return ((long) getInt(b1, b2, b3, b4) << 32) |
+               ((long) getInt(b5, b6, b7, b8) & 0xFFFFFFFFL);
     }
 }
