@@ -66,7 +66,7 @@ public class LookAndFeelExtensions {
         }
 
         if (defaults.get("HexViewer.font") == null) {
-            defaults.put("HexViewer.font", new FontUIResource("Monaco", Font.PLAIN, 13));
+            defaults.put("HexViewer.font", new FontUIResource("monospaced", Font.PLAIN, 12));
         }
 
         if (defaults.get("HexViewer.focusInputMap") == null) {
