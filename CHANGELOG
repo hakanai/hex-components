@@ -9,6 +9,7 @@ Version X.X (XXXX-XX-XX)
    Fixed: Fixed the font specified in the UI not taking effect.
    Fixed: Fixed interpreting certain 64-bit values.
 
+ Changed: ExpandableAccessoryBar now animates when expanding or collapsing.
  Changed: Mutable* annotation classes were removed as it was starting to cause a combinatorial problem
           in the class hierarchy.
  Changed: Changed the default font for Mac OS X to Monaco 13pt.

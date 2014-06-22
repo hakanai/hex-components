@@ -18,18 +18,21 @@
 
 package org.trypticon.hex.accessory;
 
+import org.jdesktop.swingx.JXCollapsiblePane;
 import org.trypticon.hex.HexViewer;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle;
 import java.awt.Component;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -50,7 +53,7 @@ public class ExpandableAccessoryBar extends AccessoryBar {
     public ExpandableAccessoryBar(HexViewer viewer) {
         this.viewer = viewer;
         add(new AccessoryBarWithButtons(new LocationAccessoryBar(viewer), false));
-        setLayout(new GridLayout(0, 1));
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         setOpaque(true);
     }
 
@@ -139,15 +142,18 @@ public class ExpandableAccessoryBar extends AccessoryBar {
         int interpreterIndex = (nextInterpreterIndex++);
         Preferences node = getPreferencesNode();
         AccessoryBarWithButtons bar = new AccessoryBarWithButtons(new InterpreterAccessoryBar(viewer), true);
+        bar.setDirection(JXCollapsiblePane.Direction.END);
+        bar.setCollapsed(true);
         if (node != null) {
             Preferences childNode = getPreferencesNode().node("interpreter" + interpreterIndex);
             bar.bar.setPreferencesNode(childNode);
         }
         add(bar, 0);
+        bar.setCollapsed(false);
         revalidate();
     }
 
-    private void removeAccessoryBar(AccessoryBarWithButtons bar) {
+    private void removeAccessoryBar(final AccessoryBarWithButtons bar) {
         Preferences node = bar.bar.getPreferencesNode();
         if (node != null) {
             bar.bar.setPreferencesNode(null);
@@ -160,8 +166,15 @@ public class ExpandableAccessoryBar extends AccessoryBar {
             }
         }
 
-        remove(bar);
-        revalidate();
+        // setCollapsed will animate it to collapsed, but we want to know when it is finished so we can remove it.
+        bar.addPropertyChangeListener("collapsed", new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent event) {
+                remove(bar);
+                revalidate();
+            }
+        });
+        bar.setCollapsed(true);
     }
 
     private void removeAllOptionalBars() {
@@ -174,7 +187,7 @@ public class ExpandableAccessoryBar extends AccessoryBar {
         revalidate();
     }
 
-    private class AccessoryBarWithButtons extends JPanel implements ActionListener {
+    private class AccessoryBarWithButtons extends JXCollapsiblePane implements ActionListener {
         private final AccessoryBar bar;
         private final JButton removeButton;
         private final JButton addButton;
@@ -204,20 +217,22 @@ public class ExpandableAccessoryBar extends AccessoryBar {
             removeButton.addActionListener(this);
             addButton.addActionListener(this);
 
-            GroupLayout layout = new GroupLayout(this);
+            JPanel wrapper = new JPanel();
+            GroupLayout layout = new GroupLayout(wrapper);
+            wrapper.setLayout(layout);
 
             layout.setHorizontalGroup(layout.createSequentialGroup()
                     .addComponent(bar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(removeButton)
-                    .addComponent(addButton));
+                    .addComponent(removeButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE));
 
             layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                     .addComponent(bar)
                     .addComponent(removeButton)
                     .addComponent(addButton));
 
-            setLayout(layout);
+            getContentPane().add(wrapper);
         }
 
         private void setCommonButtonProperties(JButton button) {
