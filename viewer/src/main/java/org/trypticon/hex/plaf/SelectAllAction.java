@@ -18,10 +18,10 @@
 
 package org.trypticon.hex.plaf;
 
-import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
-
 import org.trypticon.hex.HexViewer;
+
+import javax.swing.AbstractAction;
+import java.awt.event.ActionEvent;
 
 /**
  * Action to select the entire content of the viewer.
@@ -32,7 +32,6 @@ class SelectAllAction extends AbstractAction {
     @Override
     public void actionPerformed(ActionEvent event) {
         HexViewer viewer = (HexViewer) event.getSource();
-        viewer.getSelectionModel().setCursor(viewer.getBinary().length() - 1);
-        viewer.getSelectionModel().setCursorAndExtendSelection(0);
+        viewer.getSelectionModel().setSelection(0, viewer.getBinary().length() - 1);
     }
 }

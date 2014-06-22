@@ -94,6 +94,39 @@ public class HexViewerSelectionModel {
     }
 
     /**
+     * <p>Sets the selection start and end. Sets the cursor to the start of the selection.</p>
+     *
+     * <p>Essentially equivalent to:</p>
+     * <pre>
+     *     viewer.setCursor(selectionEnd);
+     *     viewer.setCursorAndExtendSelection(selectionStart);
+     * </pre>
+     *
+     * <p>Except that less events are fired because it is done in a single operation.</p>
+     *
+     * @param selectionStart the first selected position (inclusive.)
+     * @param selectionEnd the last selected position (inclusive.)
+     */
+    public void setSelection(long selectionStart, long selectionEnd) {
+        if (this.selectionStart != selectionStart ||
+                this.selectionEnd != selectionEnd ||
+                cursor != selectionStart) {
+            // Bit of DWIM here.
+            if (selectionStart > selectionEnd) {
+                long temp = selectionStart;
+                selectionStart = selectionEnd;
+                selectionEnd = temp;
+            }
+
+            cursor = selectionStart;
+            this.selectionStart = selectionStart;
+            this.selectionEnd = selectionEnd;
+
+            fireStateChanged();
+        }
+    }
+
+    /**
      * Adds a listener for changes in the model.
      *
      * @param listener the listener to add.

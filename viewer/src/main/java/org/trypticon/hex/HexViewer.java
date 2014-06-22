@@ -218,8 +218,7 @@ public class HexViewer extends JComponent {
                 }
             }
 
-            selectionModel.setCursor(0);
-            selectionModel.setCursorAndExtendSelection(0);
+            selectionModel.setSelection(0, 0);
 
             invalidate();
             repaint();

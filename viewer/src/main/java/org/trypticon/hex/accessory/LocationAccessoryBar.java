@@ -165,8 +165,7 @@ public class LocationAccessoryBar extends AccessoryBar {
         }
 
         HexViewerSelectionModel selectionModel = viewer.getSelectionModel();
-        selectionModel.setCursor(offset + length - 1);
-        selectionModel.setCursorAndExtendSelection(offset);
+        selectionModel.setSelection(offset, offset + length - 1);
     }
 
     @Override
