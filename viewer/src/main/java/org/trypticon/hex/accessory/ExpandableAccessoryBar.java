@@ -109,8 +109,9 @@ public class ExpandableAccessoryBar extends AccessoryBar {
      */
     public <B extends AccessoryBar> B getFirstAccessoryBar(Class<B> barClass) {
         for (Component component : getComponents()) {
-            if (barClass.isInstance(component)) {
-                return barClass.cast(component);
+            AccessoryBar bar = ((AccessoryBarWithButtons) component).bar;
+            if (barClass.isInstance(bar)) {
+                return barClass.cast(bar);
             }
         }
         return null;
@@ -126,8 +127,9 @@ public class ExpandableAccessoryBar extends AccessoryBar {
     public <B extends AccessoryBar> List<B> getAccessoryBars(Class<B> barClass) {
         List<B> results = new LinkedList<>();
         for (Component component : getComponents()) {
-            if (barClass.isInstance(component)) {
-                results.add(barClass.cast(component));
+            AccessoryBar bar = ((AccessoryBarWithButtons) component).bar;
+            if (barClass.isInstance(bar)) {
+                results.add(barClass.cast(bar));
             }
         }
         return results;
