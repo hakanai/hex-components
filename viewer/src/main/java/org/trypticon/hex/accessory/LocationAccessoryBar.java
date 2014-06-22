@@ -119,6 +119,27 @@ public class LocationAccessoryBar extends AccessoryBar {
         preferencesNode = node;
     }
 
+    /**
+     * Moves focus to the columns field.
+     */
+    public void focusColumnsField() {
+        columnsSpinner.requestFocusInWindow();
+    }
+
+    /**
+     * Moves focus to the offset field.
+     */
+    public void focusOffsetField() {
+        offsetField.requestFocusInWindow();
+    }
+
+    /**
+     * Moves focus to the length field.
+     */
+    public void focusLengthField() {
+        lengthField.requestFocusInWindow();
+    }
+
     private void binaryChanged() {
         Binary binary = viewer.getBinary();
         long maxLength = binary != null ? binary.length() : 1;

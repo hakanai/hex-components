@@ -30,6 +30,8 @@ import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
@@ -96,6 +98,39 @@ public class ExpandableAccessoryBar extends AccessoryBar {
         for (Component component : getComponents()) {
             ((AccessoryBarWithButtons) component).bar.setPreferencesNode(null);
         }
+    }
+
+    /**
+     * Gets the first accessory bar of the given class.
+     *
+     * @param barClass the accessory bar class.
+     * @param <B> the accessory bar class.
+     * @return the first accessory bar of that class. Returns {@code null} if there isn't one.
+     */
+    public <B extends AccessoryBar> B getFirstAccessoryBar(Class<B> barClass) {
+        for (Component component : getComponents()) {
+            if (barClass.isInstance(component)) {
+                return barClass.cast(component);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Gets all child accessory bars of the given class.
+     *
+     * @param barClass the accessory bar class.
+     * @param <B> the accessory bar class.
+     * @return all accessory bars of that class.
+     */
+    public <B extends AccessoryBar> List<B> getAccessoryBars(Class<B> barClass) {
+        List<B> results = new LinkedList<>();
+        for (Component component : getComponents()) {
+            if (barClass.isInstance(component)) {
+                results.add(barClass.cast(component));
+            }
+        }
+        return results;
     }
 
     private void addAccessoryBar() {
