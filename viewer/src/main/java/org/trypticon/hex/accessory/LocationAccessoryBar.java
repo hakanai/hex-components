@@ -123,13 +123,16 @@ public class LocationAccessoryBar extends AccessoryBar {
      * Moves focus to the columns field.
      */
     public void focusColumnsField() {
-        columnsSpinner.requestFocusInWindow();
+        JTextField textField = ((JSpinner.NumberEditor) columnsSpinner.getEditor()).getTextField();
+        textField.selectAll();
+        textField.requestFocusInWindow();
     }
 
     /**
      * Moves focus to the offset field.
      */
     public void focusOffsetField() {
+        offsetField.selectAll();
         offsetField.requestFocusInWindow();
     }
 
@@ -137,6 +140,7 @@ public class LocationAccessoryBar extends AccessoryBar {
      * Moves focus to the length field.
      */
     public void focusLengthField() {
+        lengthField.selectAll();
         lengthField.requestFocusInWindow();
     }
 
