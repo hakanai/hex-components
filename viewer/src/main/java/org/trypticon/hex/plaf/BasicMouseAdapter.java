@@ -41,7 +41,9 @@ class BasicMouseAdapter extends MouseInputAdapter {
             //       the row and then have dragging select further rows.
 
             long pos = viewer.getPositionForPoint(event.getPoint());
-            viewer.getSelectionModel().setCursor(pos);
+            if (isValidPosition(viewer, pos)) {
+                viewer.getSelectionModel().setCursor(pos);
+            }
         }
     }
 
@@ -51,13 +53,19 @@ class BasicMouseAdapter extends MouseInputAdapter {
             HexViewer viewer = (HexViewer) event.getSource();
 
             long pos = viewer.getPositionForPoint(event.getPoint());
-            viewer.getSelectionModel().setCursorAndExtendSelection(pos);
+            if (isValidPosition(viewer, pos)) {
+                viewer.getSelectionModel().setCursorAndExtendSelection(pos);
 
-            // TODO: An option for disabling autoscroll on selection would
-            //       fit with the rest of Swing but I don't need it immediately.
+                // TODO: An option for disabling autoscroll on selection would
+                //       fit with the rest of Swing but I don't need it immediately.
 
-            viewer.scrollPosToVisible(pos);
+                viewer.scrollPosToVisible(pos);
+            }
         }
+    }
+
+    private boolean isValidPosition(HexViewer viewer, long pos) {
+        return pos >= 0 && viewer.getBinary() != null && pos < viewer.getBinary().length();
     }
 
     @Override
