@@ -28,6 +28,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle;
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -92,8 +93,6 @@ public class ExpandableAccessoryBar extends AccessoryBar {
         if (bar.bar.getPreferencesNode() == null) {
             bar.bar.setPreferencesNode(node.node("location"));
         }
-
-        revalidate();
     }
 
     @Override
@@ -150,7 +149,6 @@ public class ExpandableAccessoryBar extends AccessoryBar {
         }
         add(bar, 0);
         bar.setCollapsed(false);
-        revalidate();
     }
 
     private void removeAccessoryBar(final AccessoryBarWithButtons bar) {
@@ -171,7 +169,6 @@ public class ExpandableAccessoryBar extends AccessoryBar {
             @Override
             public void propertyChange(PropertyChangeEvent event) {
                 remove(bar);
-                revalidate();
             }
         });
         bar.setCollapsed(true);
@@ -184,7 +181,6 @@ public class ExpandableAccessoryBar extends AccessoryBar {
             bar.bar.setPreferencesNode(null);
             remove(bar);
         }
-        revalidate();
     }
 
     private class AccessoryBarWithButtons extends JXCollapsiblePane implements ActionListener {
@@ -232,8 +228,10 @@ public class ExpandableAccessoryBar extends AccessoryBar {
                     .addComponent(removeButton)
                     .addComponent(addButton));
 
-            getContentPane().add(wrapper);
+            setLayout(new BorderLayout());
+            add(wrapper, BorderLayout.CENTER);
         }
+
 
         private void setCommonButtonProperties(JButton button) {
             button.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
