@@ -1,11 +1,13 @@
 
-VERSION_NUMBER = '0.6.0-SNAPSHOT'
+VERSION_NUMBER = "0.6.0"
 COPYRIGHT = 'Copyright \u00A9 2009-2014  Hex Project'
 
 ENV['JAVA_HOME'] = ENV['JAVA_HOME_7']
 
+repositories.remote << 'https://oss.sonatype.org/content/groups/public'
 repositories.remote << 'http://www.ibiblio.org/maven2/'
 repositories.remote << 'http://mirrors.ibiblio.org/pub/mirrors/maven2/'
+
 
 SWINGX                = [ artifact('org.swinglabs.swingx:swingx-action:jar:1.6.6-SNAPSHOT'),
                           artifact('org.swinglabs.swingx:swingx-common:jar:1.6.6-SNAPSHOT'),
