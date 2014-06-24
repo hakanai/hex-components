@@ -95,18 +95,16 @@ define 'hex' do
     package :javadoc
   end
 
-  #TODO: Why does having a package(:zip) break buildr's release task?
-  # https://issues.apache.org/jira/browse/BUILDR-699
-#  binaries_id = "#{id}-components-#{version}"
-#  package(:zip, :file => _("target/#{binaries_id}.zip")).path(binaries_id).tap do |path|
-#    path.include 'COPYING', 'COPYING.LESSER', 'CHANGELOG', 'README.markdown'
-#
-#    %w{anno binary interpreter util viewer}.each do |p|
-#      path.include project(p).package(:jar)
-#    end
-#
-#    path.include 'examples'
-#    path.exclude 'examples/examples.iml', 'examples/target', 'examples/reports'
-#  end
+  binaries_id = "#{id}-components-#{version}"
+  package(:zip, :file => _("target/#{binaries_id}.zip")).path(binaries_id).tap do |path|
+    path.include 'COPYING', 'COPYING.LESSER', 'CHANGELOG', 'README.markdown'
+
+    %w{anno binary interpreter util viewer}.each do |p|
+      path.include project(p).package(:jar)
+    end
+
+    path.include 'examples'
+    path.exclude 'examples/examples.iml', 'examples/target', 'examples/reports'
+  end
 
 end
