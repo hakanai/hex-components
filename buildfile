@@ -1,7 +1,7 @@
 
 require 'buildr/gpg'
 
-VERSION_NUMBER = "0.6.0"
+VERSION_NUMBER = "0.6.1-SNAPSHOT"
 COPYRIGHT = 'Copyright \u00A9 2009-2014  Hex Project'
 
 ENV['JAVA_HOME'] = ENV['JAVA_HOME_7']
