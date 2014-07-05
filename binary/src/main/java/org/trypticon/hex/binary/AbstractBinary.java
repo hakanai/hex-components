@@ -79,6 +79,26 @@ public abstract class AbstractBinary implements Binary {
     }
 
     @Override
+    public final Binary slice(final long position, final long length) {
+        return new AbstractBinary() {
+            @Override
+            protected byte readSpi(long position2) {
+                return AbstractBinary.this.read(position + position2);
+            }
+
+            @Override
+            protected void readSpi(long position2, ByteBuffer buffer) {
+                AbstractBinary.this.read(position + position2, buffer);
+            }
+
+            @Override
+            public long length() {
+                return length;
+            }
+        };
+    }
+
+    @Override
     public void close() {
     }
 }

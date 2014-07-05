@@ -25,7 +25,9 @@ import org.trypticon.hex.binary.BinaryFactory;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for {@link org.trypticon.hex.interpreters.strings.StringInterpreter}.
+ * Tests for {@link StringzInterpreter}.
+ *
+ * @author trejkaz
  */
 public class StringzInterpreterTest {
     @Test

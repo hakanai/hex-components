@@ -23,7 +23,7 @@ import org.trypticon.hex.interpreters.InterpreterInfo;
 import org.trypticon.hex.interpreters.InterpreterStorage;
 
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,20 +39,30 @@ public class StringInterpreterStorage implements InterpreterStorage {
     }
 
     public List<InterpreterInfo> getInterpreterInfos() {
-        return Arrays.<InterpreterInfo>asList(new StringInterpreterInfo(), new StringzInterpreterInfo());
+        return Arrays.<InterpreterInfo>asList(
+                new StringInterpreterInfo(), new StringzInterpreterInfo(),
+                new BinaryStringInterpreterInfo(), new BinaryStringzInterpreterInfo());
     }
 
     @Override
     public Map<String, Object> toMap(Interpreter interpreter) {
         if (interpreter instanceof StringInterpreter) {
-            Map<String, Object> result = new HashMap<>(1);
+            Map<String, Object> result = new LinkedHashMap<>(1);
             result.put("name", "string");
             result.put("charset", ((StringInterpreter) interpreter).getCharset());
             return result;
         } else if (interpreter instanceof StringzInterpreter) {
-            Map<String, Object> result = new HashMap<>(1);
+            Map<String, Object> result = new LinkedHashMap<>(1);
             result.put("name", "string");
             result.put("charset", ((StringzInterpreter) interpreter).getCharset());
+            return result;
+        } else if (interpreter instanceof BinaryStringInterpreter) {
+            Map<String, Object> result = new LinkedHashMap<>();
+            result.put("name", "binstring");
+            return result;
+        } else if (interpreter instanceof BinaryStringzInterpreter) {
+            Map<String, Object> result = new LinkedHashMap<>();
+            result.put("name", "binstringz");
             return result;
         } else {
             return null;
@@ -71,6 +81,10 @@ public class StringInterpreterStorage implements InterpreterStorage {
                 String charset = (String) map.get("charset");
                 return new StringzInterpreter(charset);
             }
+            case "binstring":
+                return new BinaryStringInterpreter();
+            case "binstringz":
+                return new BinaryStringzInterpreter();
             default:
                 return null;
         }

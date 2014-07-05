@@ -72,6 +72,15 @@ public interface Binary extends Closeable {
     public void read(long position, ByteBuffer buffer);
 
     /**
+     * Gets a view of one slice of the binary.
+     *
+     * @param position the position to start at.
+     * @param length the length to return.
+     * @return the slice of the binary.
+     */
+    public Binary slice(long position, long length);
+
+    /**
      * Closes the binary.  Other methods SHOULD NOT be used after closing.
      */
     @Override
