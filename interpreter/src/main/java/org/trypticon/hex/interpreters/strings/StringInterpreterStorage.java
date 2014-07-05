@@ -39,7 +39,7 @@ public class StringInterpreterStorage implements InterpreterStorage {
     }
 
     public List<InterpreterInfo> getInterpreterInfos() {
-        return Arrays.<InterpreterInfo>asList(new StringInterpreterInfo());
+        return Arrays.<InterpreterInfo>asList(new StringInterpreterInfo(), new StringzInterpreterInfo());
     }
 
     @Override
@@ -49,6 +49,11 @@ public class StringInterpreterStorage implements InterpreterStorage {
             result.put("name", "string");
             result.put("charset", ((StringInterpreter) interpreter).getCharset());
             return result;
+        } else if (interpreter instanceof StringzInterpreter) {
+            Map<String, Object> result = new HashMap<>(1);
+            result.put("name", "string");
+            result.put("charset", ((StringzInterpreter) interpreter).getCharset());
+            return result;
         } else {
             return null;
         }
@@ -57,11 +62,17 @@ public class StringInterpreterStorage implements InterpreterStorage {
     @Override
     public Interpreter fromMap(Map<String, Object> map) {
         String name = (String) map.get("name");
-        if ("string".equals(name)) {
-            String charset = (String) map.get("charset");
-            return new StringInterpreter(charset);
-        } else {
-            return null;
+        switch (name) {
+            case "string": {
+                String charset = (String) map.get("charset");
+                return new StringInterpreter(charset);
+            }
+            case "stringz": {
+                String charset = (String) map.get("charset");
+                return new StringzInterpreter(charset);
+            }
+            default:
+                return null;
         }
     }
 }

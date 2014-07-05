@@ -25,20 +25,20 @@ import org.trypticon.hex.binary.BinaryFactory;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for {@link StringInterpreter}.
+ * Tests for {@link org.trypticon.hex.interpreters.strings.StringInterpreter}.
  */
-public class StringInterpreterTest {
+public class StringzInterpreterTest {
     @Test
-    public void testInterpretingUTF8() throws Exception {
+    public void testInterpretingUTF8ToEndOfString() throws Exception {
         Binary binary = BinaryFactory.wrap("This is a test".getBytes("UTF-8"));
         assertEquals("Wrong value interpreted", "This",
-                     new StringInterpreter("UTF-8").interpret(binary, 0, 4).toString());
+                     new StringzInterpreter("UTF-8").interpret(binary, 0, 4).toString());
     }
 
     @Test
-    public void testInterpretingUTF8OverNullTerminator() throws Exception {
+    public void testInterpretingUTF8ToNullTerminator() throws Exception {
         Binary binary = BinaryFactory.wrap("Th\0is is a test".getBytes("UTF-8"));
-        assertEquals("Wrong value interpreted", "Th\0i",
-                new StringInterpreter("UTF-8").interpret(binary, 0, 4).toString());
+        assertEquals("Wrong value interpreted", "Th",
+                new StringzInterpreter("UTF-8").interpret(binary, 0, 4).toString());
     }
 }

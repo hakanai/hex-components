@@ -1,6 +1,8 @@
 
 Version X.X (XXXX-XX-XX)
 
+     New: Added an interpreter for null-terminated strings.
+
 Version 0.6 (2014-06-24)
 
      New: Added a method to set the preferred visible row count so that you can make the viewer default
