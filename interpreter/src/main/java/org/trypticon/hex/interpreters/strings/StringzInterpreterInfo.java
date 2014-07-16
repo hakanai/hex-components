@@ -21,12 +21,12 @@ public class StringzInterpreterInfo extends AbstractInterpreterInfo {
 
     @Override
     public List<Option<?>> getOptions() {
-        return Arrays.<Option<?>>asList(new Option<>("charset", Charset.class, true));
+        return Arrays.<Option<?>>asList(new Option<>("encoding", Charset.class, true));
     }
 
     @Override
     public Interpreter create(Map<String, Object> options) {
-        Charset charset = (Charset) options.get("charset");
+        Charset charset = (Charset) options.get("encoding");
         return new StringzInterpreter(charset);
     }
 }

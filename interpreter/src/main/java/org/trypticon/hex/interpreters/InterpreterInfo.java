@@ -18,12 +18,15 @@
 
 package org.trypticon.hex.interpreters;
 
+import org.trypticon.hex.util.Format;
 import org.trypticon.hex.util.Localisable;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * Holds information about an interpreter.
@@ -51,7 +54,7 @@ public interface InterpreterInfo extends Localisable {
     /**
      * Class describing options which can be passed to the interpreter.
      */
-    public static class Option<T> {
+    public static class Option<T> implements Localisable {
         private final String name;
         private final Class<T> type;
         private final boolean required;
@@ -70,6 +73,16 @@ public interface InterpreterInfo extends Localisable {
 
         public String getName() {
             return name;
+        }
+
+        @Override
+        public String toLocalisedString(Format style) {
+            return toLocalisedString(style, Locale.getDefault());
+        }
+
+        @Override
+        public String toLocalisedString(Format style, Locale locale) {
+            return ResourceBundle.getBundle("org/trypticon/hex/interpreters/Bundle").getString("Option." + getName());
         }
 
         public Class<?> getType() {
