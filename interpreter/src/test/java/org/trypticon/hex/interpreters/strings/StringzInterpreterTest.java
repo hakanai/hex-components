@@ -22,6 +22,8 @@ import org.junit.Test;
 import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.binary.BinaryFactory;
 
+import java.nio.charset.StandardCharsets;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -34,13 +36,13 @@ public class StringzInterpreterTest {
     public void testInterpretingUTF8ToEndOfString() throws Exception {
         Binary binary = BinaryFactory.wrap("This is a test".getBytes("UTF-8"));
         assertEquals("Wrong value interpreted", "This",
-                     new StringzInterpreter("UTF-8").interpret(binary, 0, 4).toString());
+                     new StringzInterpreter(StandardCharsets.UTF_8).interpret(binary, 0, 4).toString());
     }
 
     @Test
     public void testInterpretingUTF8ToNullTerminator() throws Exception {
         Binary binary = BinaryFactory.wrap("Th\0is is a test".getBytes("UTF-8"));
         assertEquals("Wrong value interpreted", "Th",
-                new StringzInterpreter("UTF-8").interpret(binary, 0, 4).toString());
+                new StringzInterpreter(StandardCharsets.UTF_8).interpret(binary, 0, 4).toString());
     }
 }

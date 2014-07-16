@@ -26,6 +26,8 @@ import java.util.ResourceBundle;
 
 /**
  * Options for the length of an auto-length structure.
+ *
+ * @author trejkaz
  */
 public enum LengthOption implements Localisable {
     /**

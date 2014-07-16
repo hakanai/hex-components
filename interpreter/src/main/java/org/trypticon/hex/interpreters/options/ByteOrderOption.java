@@ -26,6 +26,8 @@ import java.util.ResourceBundle;
 
 /**
  * Options for the byte order.
+ *
+ * @author trejkaz
  */
 public enum ByteOrderOption implements Localisable {
     /**

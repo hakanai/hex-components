@@ -15,13 +15,18 @@ import java.nio.charset.Charset;
 public class StringzInterpreter extends AbstractInterpreter<StringValue> {
     private final Charset charset;
 
+    @Deprecated
     public StringzInterpreter(String charset) {
-        super(StringValue.class);
-        this.charset = Charset.forName(charset);
+        this(Charset.forName(charset));
     }
 
-    public String getCharset() {
-        return charset.name();
+    public StringzInterpreter(Charset charset) {
+        super(StringValue.class);
+        this.charset = charset;
+    }
+
+    public Charset getCharset() {
+        return charset;
     }
 
     @Override

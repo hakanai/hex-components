@@ -22,6 +22,7 @@ import org.trypticon.hex.interpreters.Interpreter;
 import org.trypticon.hex.interpreters.InterpreterInfo;
 import org.trypticon.hex.interpreters.InterpreterStorage;
 
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -49,12 +50,12 @@ public class StringInterpreterStorage implements InterpreterStorage {
         if (interpreter instanceof StringInterpreter) {
             Map<String, Object> result = new LinkedHashMap<>(1);
             result.put("name", "string");
-            result.put("charset", ((StringInterpreter) interpreter).getCharset());
+            result.put("charset", ((StringInterpreter) interpreter).getCharset().name());
             return result;
         } else if (interpreter instanceof StringzInterpreter) {
             Map<String, Object> result = new LinkedHashMap<>(1);
             result.put("name", "string");
-            result.put("charset", ((StringzInterpreter) interpreter).getCharset());
+            result.put("charset", ((StringzInterpreter) interpreter).getCharset().name());
             return result;
         } else if (interpreter instanceof BinaryStringInterpreter) {
             Map<String, Object> result = new LinkedHashMap<>();
@@ -75,11 +76,11 @@ public class StringInterpreterStorage implements InterpreterStorage {
         switch (name) {
             case "string": {
                 String charset = (String) map.get("charset");
-                return new StringInterpreter(charset);
+                return new StringInterpreter(Charset.forName(charset));
             }
             case "stringz": {
                 String charset = (String) map.get("charset");
-                return new StringzInterpreter(charset);
+                return new StringzInterpreter(Charset.forName(charset));
             }
             case "binstring":
                 return new BinaryStringInterpreter();

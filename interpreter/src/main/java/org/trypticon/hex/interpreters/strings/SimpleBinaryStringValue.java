@@ -4,6 +4,7 @@ import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.AbstractValue;
 import org.trypticon.hex.util.Format;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
 /**
@@ -25,7 +26,7 @@ public class SimpleBinaryStringValue extends AbstractValue implements BinaryStri
 
     @Override
     public String toLocalisedString(Format style, Locale locale) {
-        return new StringInterpreter("UTF-8")
+        return new StringInterpreter(StandardCharsets.UTF_8)
                 .interpret(binary, 0, binary.length())
                 .toLocalisedString(style, locale);
     }

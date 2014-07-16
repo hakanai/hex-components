@@ -24,6 +24,7 @@ Version 0.6 (2014-06-24)
  Changed: Introduced MutableAnnotationCollection which enforces that added and removed annotations are
           also mutable (so that when doing add/remove, you can safely cast to the mutable sub-interface.)
  Changed: Improved generics on APIs (MutableGroupAnnotation only contains MutableAnnotation, for instance.)
+ Changed: Charset parameter is now type Charset instead of String.
 
 Version 0.5 (2014-05-01)
 

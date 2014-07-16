@@ -22,6 +22,7 @@ import org.trypticon.hex.interpreters.AbstractInterpreterInfo;
 import org.trypticon.hex.interpreters.Interpreter;
 import org.trypticon.hex.util.LocalisedName;
 
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -38,12 +39,12 @@ public class StringInterpreterInfo extends AbstractInterpreterInfo {
 
     @Override
     public List<Option<?>> getOptions() {
-        return Arrays.<Option<?>>asList(new Option<>("charset", String.class, true));
+        return Arrays.<Option<?>>asList(new Option<>("charset", Charset.class, true));
     }
 
     @Override
     public Interpreter create(Map<String, Object> options) {
-        String charset = (String) options.get("charset");
+        Charset charset = (Charset) options.get("charset");
         return new StringInterpreter(charset);
     }
 }

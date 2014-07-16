@@ -33,13 +33,13 @@ import java.nio.charset.Charset;
 public class StringInterpreter extends AbstractInterpreter<StringValue> {
     private final Charset charset;
 
-    public StringInterpreter(String charset) {
+    public StringInterpreter(Charset charset) {
         super(StringValue.class);
-        this.charset = Charset.forName(charset);
+        this.charset = charset;
     }
 
-    public String getCharset() {
-        return charset.name();
+    public Charset getCharset() {
+        return charset;
     }
 
     @Override
