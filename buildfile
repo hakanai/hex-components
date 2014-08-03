@@ -9,6 +9,7 @@ repositories.remote << 'http://www.ibiblio.org/maven2/'
 repositories.remote << 'http://mirrors.ibiblio.org/pub/mirrors/maven2/'
 
 
+INTELLIJ_ANNOTATIONS  =   artifact('com.intellij:annotations:jar:12.0')
 SWINGX                = [ artifact('org.swinglabs.swingx:swingx-action:jar:1.6.6-SNAPSHOT'),
                           artifact('org.swinglabs.swingx:swingx-common:jar:1.6.6-SNAPSHOT'),
                           artifact('org.swinglabs.swingx:swingx-core:jar:1.6.6-SNAPSHOT'),
@@ -44,6 +45,7 @@ define 'hex' do
   desc 'Hex Utilities'
   define 'util' do
     pom.description = 'Utilities used by other hex components'
+    compile.with INTELLIJ_ANNOTATIONS
     package :jar
     package :sources
     package :javadoc
@@ -53,6 +55,7 @@ define 'hex' do
   define 'binary' do
     pom.description = 'API for abstraction of things containing binary data'
     compile.with projects('util')
+    compile.with INTELLIJ_ANNOTATIONS
     package :jar
     package :sources
     package :javadoc
@@ -62,6 +65,7 @@ define 'hex' do
   define 'interpreter' do
     pom.description = 'API for interpreting runs of binary as values humans can understand'
     compile.with projects('binary', 'util')
+    compile.with INTELLIJ_ANNOTATIONS
     package :jar
     package :sources
     package :javadoc
@@ -71,6 +75,7 @@ define 'hex' do
   define 'anno' do
     pom.description = 'API for annotating runs of binary with arbitrary annotations'
     compile.with projects('binary', 'interpreter', 'util')
+    compile.with INTELLIJ_ANNOTATIONS
     package :jar
     package :sources
     package :javadoc
@@ -80,6 +85,7 @@ define 'hex' do
   define 'viewer' do
     pom.description = 'Hex viewer and related components'
     compile.with projects('anno', 'binary', 'interpreter', 'util')
+    compile.with INTELLIJ_ANNOTATIONS
     compile.with SWINGX
     package :jar
     package :sources
@@ -90,6 +96,7 @@ define 'hex' do
   define 'examples' do
     pom.description = 'Examples'
     compile.with projects('anno', 'binary', 'interpreter', 'util', 'viewer')
+    compile.with INTELLIJ_ANNOTATIONS
     package :jar
     package :sources
     package :javadoc

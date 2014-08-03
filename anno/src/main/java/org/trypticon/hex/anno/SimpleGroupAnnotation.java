@@ -18,6 +18,7 @@
 
 package org.trypticon.hex.anno;
 
+import org.jetbrains.annotations.NotNull;
 import org.trypticon.hex.anno.util.AnnotationPositionComparator;
 import org.trypticon.hex.interpreters.nulls.NullInterpreter;
 
@@ -43,7 +44,7 @@ public class SimpleGroupAnnotation extends SimpleAnnotation implements GroupAnno
     }
 
     public SimpleGroupAnnotation(long position, long length,
-                                 List<? extends Annotation> annotations) {
+                                 @NotNull List<? extends Annotation> annotations) {
         // TODO: Support interpreters for group annotations?  Or introduce a new level of hierarchy and
         //       have the Interpreter only on the leaf annotations?
         super(position, length, new NullInterpreter());
