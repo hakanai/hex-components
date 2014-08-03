@@ -137,10 +137,17 @@ public abstract class AbstractAnnotationCollection implements AnnotationCollecti
 
     @Override
     public void remove(Annotation annotation) {
-        doRemove(Arrays.asList((GroupAnnotation) getRootGroup()), annotation);
+        doRemove(Arrays.asList((GroupAnnotation) getRootGroup()), annotation, false);
     }
 
-    private void doRemove(List<GroupAnnotation> parentAnnotationPath, Annotation annotation) {
+    @Override
+    public void removeWithDescendants(Annotation annotation) {
+        doRemove(Arrays.asList((GroupAnnotation) getRootGroup()), annotation, true);
+    }
+
+    private void doRemove(List<GroupAnnotation> parentAnnotationPath, Annotation annotation,
+                          boolean removeDescendants) {
+
         GroupAnnotation parentAnnotation = parentAnnotationPath.get(parentAnnotationPath.size() - 1);
         Annotation foundAnnotation = parentAnnotation.findAnnotationAt(annotation.getPosition());
 
@@ -153,20 +160,22 @@ public abstract class AbstractAnnotationCollection implements AnnotationCollecti
             int removedIndex = parentAnnotation.remove(annotation);
             fireAnnotationsRemoved(parentAnnotationPath, Arrays.asList(removedIndex), Arrays.asList(annotation));
 
-            // We removed a group so we have to add its children back.
-            if (annotation instanceof GroupAnnotation) {
-                GroupAnnotation groupAnnotation = (GroupAnnotation) annotation;
-                List<Integer> childIndices = new LinkedList<>();
-                List<Annotation> children = new LinkedList<>();
-                for (Annotation child : groupAnnotation.getAnnotations()) {
-                    int index = parentAnnotation.add(child);
-                    childIndices.add(index);
-                    children.add(child);
-                }
-                fireAnnotationsAdded(parentAnnotationPath, childIndices, children);
+            if (!removeDescendants) {
+                // We removed a group so we have to add its children back.
+                if (annotation instanceof GroupAnnotation) {
+                    GroupAnnotation groupAnnotation = (GroupAnnotation) annotation;
+                    List<Integer> childIndices = new LinkedList<>();
+                    List<Annotation> children = new LinkedList<>();
+                    for (Annotation child : groupAnnotation.getAnnotations()) {
+                        int index = parentAnnotation.add(child);
+                        childIndices.add(index);
+                        children.add(child);
+                    }
+                    fireAnnotationsAdded(parentAnnotationPath, childIndices, children);
 
-                // Remove descendants from this copy because its parent now owns those children.
-                groupAnnotation.removeAllDescendants();
+                    // Remove descendants from this copy because its parent now owns those children.
+                    groupAnnotation.removeAllDescendants();
+                }
             }
         } else {
             // Found one but it wasn't the one we were looking for.
@@ -176,7 +185,7 @@ public abstract class AbstractAnnotationCollection implements AnnotationCollecti
                 newParentAnnotationPath = new ArrayList<>(parentAnnotationPath.size() + 1);
                 newParentAnnotationPath.addAll(parentAnnotationPath);
                 newParentAnnotationPath.add((GroupAnnotation) foundAnnotation);
-                doRemove(newParentAnnotationPath, annotation);
+                doRemove(newParentAnnotationPath, annotation, removeDescendants);
             } else {
                 throw new IllegalArgumentException("Annotation is not present so cannot be removed: " + annotation);
             }

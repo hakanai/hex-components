@@ -1,6 +1,8 @@
 
 Version X.X (XXXX-XX-XX)
 
+     New: Method to remove an entire sub-tree of annotations (the normal remove method removes group
+          nodes while leaving their children in the collection.)
      New: Added an interpreter for null-terminated strings.
      New: Added interpreters for strings with unknown encoding (binary strings.)
 

@@ -74,6 +74,13 @@ public interface AnnotationCollection {
     void remove(Annotation annotation);
 
     /**
+     * Removes an annotation along with the entire tree underneath it.
+     *
+     * @param annotation the annotation to remove.
+     */
+    void removeWithDescendants(Annotation annotation);
+
+    /**
      * Adds a listener for changes in the collection.
      *
      * @param listener the listener to add.
