@@ -134,6 +134,57 @@ public class MemoryAnnotationCollectionTest {
     }
 
     @Test
+    public void testAddingOverlappingAnnotation() throws Exception {
+        createCollection(100);
+
+        expectAddedEvent(10, 10);
+        addLeaf(10, 10, "leaf 1");
+
+        try {
+            addLeaf(10, 10, "overlapping");
+        } catch (OverlappingAnnotationException e) {
+            // Expected.
+        }
+    }
+
+    @Test
+    public void testAddingOverlappingAnnotationViaGroup() throws Exception {
+        createCollection(100);
+
+        expectAddedEvent(10, 10);
+        addLeaf(10, 10, "leaf 1");
+
+        try {
+            GroupAnnotation group = new SimpleGroupAnnotation(0, 30);
+            group.add(new SimpleAnnotation(10, 10, new NullInterpreter()));
+            collection.add(group);
+        } catch (OverlappingAnnotationException e) {
+            // Expected.
+        }
+    }
+
+    @Test
+    public void testNearlyOverlappingAnnotationViaGroup() throws Exception {
+        createCollection(100);
+
+        expectAddedEvent(10, 10);
+        addLeaf(10, 10, "leaf 1");
+
+        GroupAnnotation group = new SimpleGroupAnnotation(0, 30);
+        group.add(new SimpleAnnotation(0, 10, new NullInterpreter()));
+        group.add(new SimpleAnnotation(20, 10, new NullInterpreter()));
+
+        // Adds these to test for collision.
+        //TODO: This is an edge case, but these nodes get added only to get removed again.
+        expectAddedEvent(0, 10);
+        expectAddedEvent(20, 10);
+        // Then all is fine so it performs the usual addition.
+        expectRemovedEvent(0, 10, 10, 10, 20, 10);
+        expectAddedEvent(0, 30);
+        collection.add(group);
+    }
+
+    @Test
     public void testRemovingGroupWithChild() throws Exception {
         createCollection(100);
 

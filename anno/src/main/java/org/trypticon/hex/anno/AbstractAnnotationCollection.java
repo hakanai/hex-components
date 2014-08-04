@@ -107,29 +107,44 @@ public abstract class AbstractAnnotationCollection implements AnnotationCollecti
         if (annotation instanceof GroupAnnotation) {
             GroupAnnotation group = (GroupAnnotation) annotation;
 
-            // Move the contained annotations inside the group.  This should succeed unless the caller does
-            // something dumb like putting some annotations inside the group.  If it fails, at least the
-            // subsequent calls will not be made, so things should still be consistent.
-            // This is done in reverse so that we can collect the indices.
-            List<Integer> childIndices = new LinkedList<>();
-            List<Annotation> children = new LinkedList<>();
-            for (ListIterator<AnnotationRangeSearchHit> iterator = hits.listIterator(hits.size());
-                 iterator.hasPrevious(); ) {
+            if (group.getAnnotations().isEmpty()) {
+                // Move the contained annotations inside the group.  This should succeed unless the caller does
+                // something dumb like putting some annotations inside the group.  If it fails, at least the
+                // subsequent calls will not be made, so things should still be consistent.
+                // This is done in reverse so that we can collect the indices.
+                List<Integer> childIndices = new LinkedList<>();
+                List<Annotation> children = new LinkedList<>();
+                for (ListIterator<AnnotationRangeSearchHit> iterator = hits.listIterator(hits.size());
+                     iterator.hasPrevious(); ) {
 
-                AnnotationRangeSearchHit hit = iterator.previous();
-                Annotation child = (Annotation) hit.getAnnotation();
-                int index = parentAnnotation.remove(child);
-                childIndices.add(0, index);
-                children.add(0, child);
-                group.add(child);
+                    AnnotationRangeSearchHit hit = iterator.previous();
+                    Annotation child = hit.getAnnotation();
+                    int index = parentAnnotation.remove(child);
+                    childIndices.add(0, index);
+                    children.add(0, child);
+                    group.add(child);
+                }
+                fireAnnotationsRemoved(parentAnnotationPath, childIndices, children);
+
+                // And finally add the group to ourselves.  We know this must be safe because we just removed all the
+                // annotations in its location.
+                int index = parentAnnotation.add(annotation);
+                fireAnnotationsAdded(parentAnnotationPath, Arrays.asList(index), Arrays.asList(annotation));
+            } else {
+                // We annotation we're trying to add contains children which may themselves overlap
+                // with the existing annotations in the region.
+                // Recursively try to add each child. This will catch overlaps further down the tree
+                // and since we're calling it recursively, it will take care of firing events for us.
+                for (Annotation child : group.getAnnotations()) {
+                    doAdd(parentAnnotationPath, child);
+                }
+
+                // All children of the node we're adding were added, so add the node itself.
+                // This should pass because it will come back through this method and take the isEmpty()
+                // path next time.
+                group.removeAllDescendants();
+                doAdd(parentAnnotationPath, group);
             }
-            fireAnnotationsRemoved(parentAnnotationPath, childIndices, children);
-
-            // And finally add the group to ourselves.  We know this must be safe because we just removed all the
-            // annotations in its location.
-            int index = parentAnnotation.add(annotation);
-            fireAnnotationsAdded(parentAnnotationPath, Arrays.asList(index), Arrays.asList(annotation));
-
         } else {
             throw new OverlappingAnnotationException(hits.get(0).getAnnotation(), annotation); // picks the first one
         }
