@@ -2,9 +2,6 @@ language: java
 jdk:
   - openjdk7
   - oraclejdk7
-rvm:
-  - 2.0.0
 install:
-  - rvm use 2.0.0
   - gem install buildr
 script: buildr clean package
