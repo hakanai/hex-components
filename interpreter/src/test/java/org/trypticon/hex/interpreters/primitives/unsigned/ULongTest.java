@@ -18,7 +18,10 @@
 
 package org.trypticon.hex.interpreters.primitives.unsigned;
 
+import java.util.Locale;
+
 import org.junit.Test;
+import org.trypticon.hex.util.Format;
 
 import static org.junit.Assert.assertEquals;
 
@@ -31,6 +34,6 @@ public class ULongTest {
 
     @Test
     public void testToString() {
-        assertEquals("Wrong string value", "9,223,372,036,854,775,808", new ULong(0x8000000000000000L).toString());
+        assertEquals("Wrong string value", "9,223,372,036,854,775,808", new ULong(0x8000000000000000L).toLocalisedString(Format.LONG, Locale.ROOT));
     }
 }

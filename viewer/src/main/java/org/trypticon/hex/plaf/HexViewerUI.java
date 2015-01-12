@@ -45,7 +45,7 @@ public abstract class HexViewerUI extends ComponentUI {
      *
      * @param viewer the viewer.
      * @param point the point.
-     * @return the offset from the start of the binary, >= 0.
+     * @return the offset from the start of the binary, &gt;= 0.
      */
     public abstract long viewToModel(HexViewer viewer, Point point);
 }
