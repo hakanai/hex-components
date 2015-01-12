@@ -2,7 +2,8 @@
 VERSION_NUMBER = "0.6.1-SNAPSHOT"
 COPYRIGHT = 'Copyright \u00A9 2009-2014  Hex Project'
 
-ENV['JAVA_HOME'] = ENV['JAVA_HOME_7']
+# Assist my local build environment where there are multiple JREs.
+ENV['JAVA_HOME'] = ENV['JAVA_HOME_7'] if ENV['JAVA_HOME_7']
 
 repositories.remote << 'https://oss.sonatype.org/content/groups/public'
 repositories.remote << 'http://www.ibiblio.org/maven2/'
