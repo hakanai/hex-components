@@ -9,6 +9,9 @@ repositories.remote << 'https://oss.sonatype.org/content/groups/public'
 repositories.remote << 'http://www.ibiblio.org/maven2/'
 repositories.remote << 'http://mirrors.ibiblio.org/pub/mirrors/maven2/'
 
+repositories.deploy_to = { url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2',
+                           username: ENV['DEPLOY_USER'],
+                           password: ENV['DEPLOY_PASS'] } if ENV['DEPLOY_USER']
 
 SWINGX                = [ artifact('org.swinglabs.swingx:swingx-action:jar:1.6.6-SNAPSHOT'),
                           artifact('org.swinglabs.swingx:swingx-common:jar:1.6.6-SNAPSHOT'),
