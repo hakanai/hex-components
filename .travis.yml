@@ -4,4 +4,4 @@ jdk:
   - oraclejdk7
 install:
   - gem install buildr
-script: buildr clean deploy
+script: buildr clean upload
