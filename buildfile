@@ -3,17 +3,21 @@ VERSION_NUMBER = "0.6.1-SNAPSHOT"
 COPYRIGHT = 'Copyright \u00A9 2009-2014  Hex Project'
 
 # Assist my local build environment where there are multiple JREs.
-ENV['JAVA_HOME'] = ENV['JAVA_HOME_7'] if ENV['JAVA_HOME_7']
+if ENV['JAVA_HOME_7']
+  ENV['JAVA_HOME'] = ENV['JAVA_HOME_7']
+end
 
 repositories.remote << 'https://oss.sonatype.org/content/groups/public'
 repositories.remote << 'http://www.ibiblio.org/maven2/'
 repositories.remote << 'http://mirrors.ibiblio.org/pub/mirrors/maven2/'
 
-repositories.release_to = { url: ( VERSION_NUMBER =~ /SNAPSHOT/ ?
-                                   'https://oss.sonatype.org/content/repositories/snapshots' :
-                                   'https://oss.sonatype.org/service/local/staging/deploy/maven2' ),
-                            username: ENV['DEPLOY_USER'],
-                            password: ENV['DEPLOY_PASS'] } if ENV['DEPLOY_USER']
+if ENV['DEPLOY_USER']
+  repositories.release_to = { url: ( VERSION_NUMBER =~ /SNAPSHOT/ ?
+                                     'https://oss.sonatype.org/content/repositories/snapshots' :
+                                     'https://oss.sonatype.org/service/local/staging/deploy/maven2' ),
+                              username: ENV['DEPLOY_USER'],
+                              password: ENV['DEPLOY_PASS'] }
+end
 
 SWINGX                = [ artifact('org.swinglabs.swingx:swingx-action:jar:1.6.6-SNAPSHOT'),
                           artifact('org.swinglabs.swingx:swingx-common:jar:1.6.6-SNAPSHOT'),
@@ -32,7 +36,10 @@ download artifact('org.swinglabs.swingx:swingx-painters:jar:1.6.6-SNAPSHOT') =>
 download artifact('org.swinglabs.swingx:swingx-plaf:jar:1.6.6-SNAPSHOT') =>
   'https://github.com/trejkaz/swingx/releases/download/v1.6.6-SNAPSHOT.2014.06.15/swingx-plaf-1.6.6-SNAPSHOT.jar'
 
-require 'buildr/gpg'
+if VERSION_NUMBER !~ /SNAPSHOT/
+  require 'buildr/gpg'
+end
+
 require 'buildr/custom_pom'
 
 desc 'Main project'
