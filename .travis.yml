@@ -3,7 +3,7 @@ cache:
   directories:
     - ~/.m2
 jdk:
-  - openjdk7
+  #- openjdk7
   - oraclejdk7
 install:
   - gem install buildr
