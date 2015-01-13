@@ -1,4 +1,7 @@
 language: java
+cache:
+  directories:
+    - ~/.m2
 jdk:
   - openjdk7
   - oraclejdk7
