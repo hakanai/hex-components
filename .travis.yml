@@ -7,6 +7,4 @@ jdk:
   - oraclejdk7
 install:
   - gem install buildr
-#TODO: Get upload working for main app (requires multi-OS builds ultimately.)
-#script: buildr clean upload
-script: buildr clean package
+script: buildr clean upload
