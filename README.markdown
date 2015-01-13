@@ -39,4 +39,9 @@ You'll also need [Buildr][].
 To build, execute `buildr package` in the top directory. The binaries zip will
 be created in `target`.
 
+If you plan to also build [Hex][], execute `buildr install` instead to copy the
+binaries into your local repository.
+
+[Buildr]: http://buildr.apache.org/
+[Hex]: https://github.com/trejkaz/hex
 
