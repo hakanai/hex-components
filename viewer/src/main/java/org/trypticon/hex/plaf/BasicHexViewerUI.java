@@ -158,7 +158,8 @@ public class BasicHexViewerUI extends HexViewerUI {
             size.height += (viewportInsets.top + viewportInsets.bottom);
         }
 
-        // Plus the scroll bar on the right.
+        // Plus the vertical scroll bar on the right. The horizontal scroll bar won't
+        // contribute size because at our preferred size, it doesn't appear.
         JScrollBar scrollBar = getVerticalScrollBar(c);
         if (scrollBar != null) {
             size.width += scrollBar.getPreferredSize().width;
@@ -196,7 +197,18 @@ public class BasicHexViewerUI extends HexViewerUI {
 
     private JScrollBar getVerticalScrollBar(JComponent c) {
         for (Component component : c.getComponents()) {
-            if (component instanceof JScrollBar) {
+            if (component instanceof JScrollBar &&
+                    ((JScrollBar) component).getOrientation() == JScrollBar.VERTICAL) {
+                return (JScrollBar) component;
+            }
+        }
+        return null;
+    }
+
+    private JScrollBar getHorizontalScrollBar(JComponent c) {
+        for (Component component : c.getComponents()) {
+            if (component instanceof JScrollBar &&
+                    ((JScrollBar) component).getOrientation() == JScrollBar.HORIZONTAL) {
                 return (JScrollBar) component;
             }
         }
@@ -224,13 +236,36 @@ public class BasicHexViewerUI extends HexViewerUI {
         // Taking a copy because we want to clip the borders out.
         Graphics2D g2 = (Graphics2D) g.create();
         try {
+            Rectangle viewportContent = new Rectangle(0, 0, c.getWidth(), c.getHeight());
+
             Insets viewportInsets = getViewportBorderInsets(viewer);
+            viewportContent.x += viewportInsets.left;
+            viewportContent.y += viewportInsets.top;
+            viewportContent.width -= (viewportInsets.left + viewportInsets.right);
+            viewportContent.height -= (viewportInsets.top + viewportInsets.bottom);
+
             Insets insets = viewer.getInsets();
             if (insets != null) {
-                g2.clipRect(insets.left + viewportInsets.left, insets.top,
-                            c.getWidth() - (insets.left + insets.right + viewportInsets.left + viewportInsets.right),
-                            c.getHeight() - (insets.top + insets.bottom + viewportInsets.top + viewportInsets.bottom));
+                viewportContent.x += insets.left;
+                viewportContent.y += insets.top;
+                viewportContent.width -= (insets.left + insets.right);
+                viewportContent.height -= (insets.top + insets.bottom);
             }
+
+            JScrollBar verticalScrollBar = getVerticalScrollBar(viewer);
+            if (verticalScrollBar != null) {
+                viewportContent.width -= verticalScrollBar.getWidth();
+            }
+
+            JScrollBar horizontalScrollBar = getHorizontalScrollBar(viewer);
+            if (horizontalScrollBar != null) {
+                viewportContent.height -= horizontalScrollBar.getHeight();
+            }
+
+            g2.clipRect(viewportContent.x, viewportContent.y, viewportContent.width, viewportContent.height);
+
+            g2.translate(-viewer.getHorizontalOffset(), 0);
+
             paintHex(g2, viewer);
         } finally {
             g2.dispose();

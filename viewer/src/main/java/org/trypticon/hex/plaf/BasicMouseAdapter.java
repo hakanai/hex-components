@@ -21,7 +21,6 @@ package org.trypticon.hex.plaf;
 import org.trypticon.hex.HexViewer;
 
 import javax.swing.event.MouseInputAdapter;
-import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
@@ -43,7 +42,7 @@ class BasicMouseAdapter extends MouseInputAdapter {
 
             long pos = viewer.getPositionForPoint(event.getPoint());
             if (isValidPosition(viewer, pos)) {
-                if ((event.getModifiersEx() & InputEvent.SHIFT_DOWN_MASK) != 0) {
+                if (event.isShiftDown()) {
                     viewer.getSelectionModel().setCursorAndExtendSelection(pos);
                 } else {
                     viewer.getSelectionModel().setCursor(pos);
@@ -77,25 +76,46 @@ class BasicMouseAdapter extends MouseInputAdapter {
     public void mouseWheelMoved(MouseWheelEvent event) {
         HexViewer viewer = (HexViewer) event.getSource();
 
-        long firstVisibleRow = viewer.getFirstVisibleRow();
-        int visibleRowCount = viewer.getVisibleRowCount();
+        if (event.isShiftDown()) {
 
-        // TODO: Support precise scrolling. Unfortunately this is rather fiddly because we already have to
-        //       deal with the number of lines offset and this would add an additional fractional value.
-        int moveRows = event.getWheelRotation();
-        switch (event.getScrollType()) {
-            case MouseWheelEvent.WHEEL_BLOCK_SCROLL:
-                moveRows *= (visibleRowCount - 1);
-                break;
-            case MouseWheelEvent.WHEEL_UNIT_SCROLL:
-                moveRows *= event.getScrollAmount();
-                break;
-            default:
-                return;
+            // Horizontal scrolling
+            double move = event.getPreciseWheelRotation();
+            switch (event.getScrollType()) {
+                case MouseWheelEvent.WHEEL_BLOCK_SCROLL:
+                    move *= viewer.getWidth();
+                    break;
+                case MouseWheelEvent.WHEEL_UNIT_SCROLL:
+                    //XXX: This is pretty arbitrarily chosen. Is there a right way to get it?
+                    move *= 8;
+                    break;
+                default:
+                    return;
+            }
+
+
+            viewer.setHorizontalOffset((int) (viewer.getHorizontalOffset() + move));
+
+        } else {
+
+            // Vertical scrolling
+            int visibleRowCount = viewer.getVisibleRowCount();
+
+            // TODO: Support precise scrolling. Unfortunately this is rather fiddly because we already have to
+            //       deal with the number of lines offset and this would add an additional fractional value.
+            int moveRows = event.getWheelRotation();
+            switch (event.getScrollType()) {
+                case MouseWheelEvent.WHEEL_BLOCK_SCROLL:
+                    moveRows *= (visibleRowCount - 1);
+                    break;
+                case MouseWheelEvent.WHEEL_UNIT_SCROLL:
+                    moveRows *= event.getScrollAmount();
+                    break;
+                default:
+                    return;
+            }
+
+            viewer.setFirstVisibleRow(viewer.getFirstVisibleRow() + moveRows);
+
         }
-
-        long row = firstVisibleRow;
-        row += moveRows;
-        viewer.setFirstVisibleRow(row);
     }
 }

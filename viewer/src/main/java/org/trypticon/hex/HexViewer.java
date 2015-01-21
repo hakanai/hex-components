@@ -31,6 +31,7 @@ import org.trypticon.hex.renderer.CellRenderer;
 import org.trypticon.hex.renderer.DefaultCellRenderer;
 
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JScrollBar;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
@@ -43,6 +44,13 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.Objects;
 
 /**
@@ -120,6 +128,11 @@ public class HexViewer extends JComponent {
     private long firstVisibleRow = -1;
 
     /**
+     * The horizontal offset to render at.
+     */
+    private int horizontalOffset = 0;
+
+    /**
      * The border to render around the viewport.
      */
     private Border viewportBorder;
@@ -128,6 +141,16 @@ public class HexViewer extends JComponent {
      * The vertical scroll bar.
      */
     private JScrollBar verticalScrollBar;
+
+    /**
+     * The horizontal scroll bar.
+     */
+    private JScrollBar horizontalScrollBar;
+
+    /**
+     * A panel to occupy the corner so that events don't land on the hex viewer.
+     */
+    private JComponent corner;
 
     /**
      * Takes care of syncing the view with the scroll bar.
@@ -155,6 +178,19 @@ public class HexViewer extends JComponent {
         verticalScrollBar = new JScrollBar(JScrollBar.VERTICAL);
         scrollBarSync = new ScrollBarSync(this, verticalScrollBar);
         add(verticalScrollBar);
+
+        horizontalScrollBar = new JScrollBar(JScrollBar.HORIZONTAL);
+        horizontalScrollBar.addAdjustmentListener(new AdjustmentListener() {
+            @Override
+            public void adjustmentValueChanged(AdjustmentEvent event) {
+                horizontalOffset = event.getValue();
+                repaint();
+            }
+        });
+        add(horizontalScrollBar);
+
+        corner = new CornerDummy();
+        add(corner);
 
         setOpaque(true);
         updateUI();
@@ -573,6 +609,25 @@ public class HexViewer extends JComponent {
     }
 
     /**
+     * Gets the horizontal offset. This is controlled by the horizontal scroll bar.
+     *
+     * @return the horizontal offset.
+     */
+    public int getHorizontalOffset() {
+        return horizontalOffset;
+    }
+
+    /**
+     * Sets the horizontal offset. This is controlled by the horizontal scroll bar.
+     *
+     * @param horizontalOffset the horizontal offset.
+     */
+    public void setHorizontalOffset(int horizontalOffset) {
+        // Will update horizontalOffset as a side-effect.
+        horizontalScrollBar.setValue(horizontalOffset);
+    }
+
+    /**
      * Gets the viewport border.
      *
      * @return the viewport border.
@@ -656,17 +711,109 @@ public class HexViewer extends JComponent {
     public void doLayout() {
         super.doLayout();
 
+        int width = getWidth();
+        int height = getHeight();
         Insets insets = getInsets();
+        int preferredWidth = getPreferredSize().width;
 
-        int scrollBarWidth = verticalScrollBar.getPreferredSize().width;
-        verticalScrollBar.setBounds(getWidth() - scrollBarWidth - insets.right, insets.top,
-                                    scrollBarWidth, getHeight() - insets.top - insets.bottom);
+        int verticalScrollBarWidth = verticalScrollBar.getPreferredSize().width;
+        int horizontalScrollBarHeight;
+
+        if (preferredWidth > width) {
+            horizontalScrollBar.setVisible(true);
+            corner.setVisible(true);
+
+            // Have to update the value before the extent because setExtent checks the value.
+            if (horizontalScrollBar.getModel().getValue() > preferredWidth - width) {
+                horizontalScrollBar.getModel().setValue(preferredWidth - width);
+            }
+            horizontalScrollBar.getModel().setMaximum(preferredWidth);
+            horizontalScrollBar.getModel().setExtent(width);
+
+            horizontalScrollBarHeight = horizontalScrollBar.getPreferredSize().height;
+            horizontalScrollBar.setBounds(
+                    insets.left,
+                    height - horizontalScrollBarHeight - insets.bottom,
+                    width - insets.left - insets.right - verticalScrollBarWidth,
+                    horizontalScrollBarHeight);
+            corner.setBounds(
+                    width - verticalScrollBarWidth - insets.right,
+                    height - horizontalScrollBarHeight - insets.bottom,
+                    verticalScrollBarWidth,
+                    horizontalScrollBarHeight);
+        } else {
+            horizontalScrollBar.setVisible(false);
+            corner.setVisible(false);
+            horizontalScrollBar.getModel().setMaximum(0);
+            horizontalScrollBar.getModel().setExtent(0);
+            horizontalOffset = 0;
+            horizontalScrollBarHeight = 0;
+        }
+
+        verticalScrollBar.setBounds(
+                width - verticalScrollBarWidth - insets.right,
+                insets.top,
+                verticalScrollBarWidth,
+                height - insets.top - insets.bottom - horizontalScrollBarHeight);
         scrollBarSync.updateScrollBarFromView();
 
         // If resizing lands us in a position we wouldn't normally be able to get to, set the position
         // back to somewhere sensible.
         if (firstVisibleRow < -1 || firstVisibleRow > getRowCount() - getVisibleRowCount() + 2) {
             setFirstVisibleRow(firstVisibleRow);
+        }
+    }
+
+    /**
+     * Dummy component to eat events in the corner of the pane.
+     */
+    private static class CornerDummy extends JLabel
+            implements MouseListener, MouseMotionListener, MouseWheelListener {
+
+        private CornerDummy() {
+            addMouseListener(this);
+            addMouseMotionListener(this);
+            addMouseWheelListener(this);
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent event) {
+            event.consume();
+        }
+
+        @Override
+        public void mousePressed(MouseEvent event) {
+            event.consume();
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent event) {
+            event.consume();
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent event) {
+            event.consume();
+        }
+
+        @Override
+        public void mouseExited(MouseEvent event) {
+            event.consume();
+        }
+
+        @Override
+        public void mouseDragged(MouseEvent event) {
+            event.consume();
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent event) {
+            event.consume();
+        }
+
+        @Override
+        public void mouseWheelMoved(MouseWheelEvent event) {
+            event.consume();
         }
     }
 }
