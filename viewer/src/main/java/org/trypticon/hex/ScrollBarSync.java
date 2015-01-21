@@ -72,6 +72,14 @@ class ScrollBarSync {
             int extent = (int) (MAXIMUM * extentRatio);
             extent = Math.max(1, extent);
             scrollBar.setVisibleAmount(extent);
+
+            // Block increment is one less than the extent so that the bottom row is still visible
+            // at the top after paging down one block.
+            double blockIncrementRatio = (double) (viewer.getVisibleRowCount() - 1) / properties.range;
+            blockIncrementRatio = Math.min(Math.max(0.0, blockIncrementRatio), 1.0);
+            int blockIncrement = (int) (MAXIMUM * blockIncrementRatio);
+            blockIncrement = Math.max(1, blockIncrement);
+            scrollBar.setBlockIncrement(blockIncrement);
         }
     }
 
@@ -109,12 +117,14 @@ class ScrollBarSync {
 
             BoundedRangeModel boundedRangeModel = scrollBar.getModel();
             int value = boundedRangeModel.getValue();
+            System.out.println("value: " + value);
             // Special case at the end so that you can drag right to the bottom. Usually it would round down,
             // making it impossible to get there.
             if (value == MAXIMUM - boundedRangeModel.getExtent()) {
                 viewer.setFirstVisibleRow(properties.maxPosition);
             } else {
                 long row = properties.minPosition + (long) (properties.range * (double) value / MAXIMUM);
+                System.out.println("row: " + row);
                 viewer.setFirstVisibleRow(row);
             }
         } finally {

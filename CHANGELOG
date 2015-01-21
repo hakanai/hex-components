@@ -9,6 +9,8 @@ Version X.X (XXXX-XX-XX)
 
    Fixed: Adding a group annotation which contained further leaf annotations which should have overlapped
           were treated as not overlapping, so it was possible to end up with overlapping annotations.
+   Fixed: Clicking above or below the vertical scrollbar handle pages properly instead of scrolling a very
+          small distance which rounded down to nothing.
 
 Version 0.6 (2014-06-24)
 
