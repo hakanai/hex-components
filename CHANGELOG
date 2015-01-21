@@ -5,6 +5,7 @@ Version X.X (XXXX-XX-XX)
           nodes while leaving their children in the collection.)
      New: Added an interpreter for null-terminated strings.
      New: Added interpreters for strings with unknown encoding (binary strings.)
+     New: Holding shift when pressing the mouse will now extend the selection.
 
    Fixed: Adding a group annotation which contained further leaf annotations which should have overlapped
           were treated as not overlapping, so it was possible to end up with overlapping annotations.

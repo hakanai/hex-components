@@ -21,6 +21,7 @@ package org.trypticon.hex.plaf;
 import org.trypticon.hex.HexViewer;
 
 import javax.swing.event.MouseInputAdapter;
+import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
@@ -42,7 +43,11 @@ class BasicMouseAdapter extends MouseInputAdapter {
 
             long pos = viewer.getPositionForPoint(event.getPoint());
             if (isValidPosition(viewer, pos)) {
-                viewer.getSelectionModel().setCursor(pos);
+                if ((event.getModifiersEx() & InputEvent.SHIFT_DOWN_MASK) != 0) {
+                    viewer.getSelectionModel().setCursorAndExtendSelection(pos);
+                } else {
+                    viewer.getSelectionModel().setCursor(pos);
+                }
             }
         }
     }
