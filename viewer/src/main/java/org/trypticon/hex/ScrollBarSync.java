@@ -117,14 +117,12 @@ class ScrollBarSync {
 
             BoundedRangeModel boundedRangeModel = scrollBar.getModel();
             int value = boundedRangeModel.getValue();
-            System.out.println("value: " + value);
             // Special case at the end so that you can drag right to the bottom. Usually it would round down,
             // making it impossible to get there.
             if (value == MAXIMUM - boundedRangeModel.getExtent()) {
                 viewer.setFirstVisibleRow(properties.maxPosition);
             } else {
                 long row = properties.minPosition + (long) (properties.range * (double) value / MAXIMUM);
-                System.out.println("row: " + row);
                 viewer.setFirstVisibleRow(row);
             }
         } finally {
