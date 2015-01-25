@@ -38,6 +38,8 @@ download artifact('org.swinglabs.swingx:swingx-painters:jar:1.6.6-SNAPSHOT') =>
   'https://github.com/trejkaz/swingx/releases/download/v1.6.6-SNAPSHOT.2014.06.15/swingx-painters-1.6.6-SNAPSHOT.jar'
 download artifact('org.swinglabs.swingx:swingx-plaf:jar:1.6.6-SNAPSHOT') =>
   'https://github.com/trejkaz/swingx/releases/download/v1.6.6-SNAPSHOT.2014.06.15/swingx-plaf-1.6.6-SNAPSHOT.jar'
+download artifact('com.ibm.icu:icu4j-charsets:jar:53.1') =>
+  'http://download.icu-project.org/files/icu4j/53.1/icu4j-charset-53_1.jar'
 
 if VERSION_NUMBER !~ /SNAPSHOT/
   require 'buildr/gpg'
