@@ -7,6 +7,8 @@ Version X.X (XXXX-XX-XX)
      New: Added interpreters for strings with unknown encoding (binary strings.)
      New: Holding shift when pressing the mouse will now extend the selection.
      New: Added a horizontal scrollbar when the view won't fit horizontally.
+     New: The interpreter bar now allows interpreting string values by adding a button to select
+          the encoding.
 
    Fixed: Adding a group annotation which contained further leaf annotations which should have overlapped
           were treated as not overlapping, so it was possible to end up with overlapping annotations.

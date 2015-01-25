@@ -20,6 +20,8 @@ if ENV['DEPLOY_USER']
 end
 
 INTELLIJ_ANNOTATIONS  =   artifact('com.intellij:annotations:jar:12.0')
+ICU4J                 = [ artifact('com.ibm.icu:icu4j:jar:53.1'),
+                          artifact('com.ibm.icu:icu4j-charsets:jar:53.1') ]
 SWINGX                = [ artifact('org.swinglabs.swingx:swingx-action:jar:1.6.6-SNAPSHOT'),
                           artifact('org.swinglabs.swingx:swingx-common:jar:1.6.6-SNAPSHOT'),
                           artifact('org.swinglabs.swingx:swingx-core:jar:1.6.6-SNAPSHOT'),
@@ -59,6 +61,8 @@ define 'hex' do
   define 'util' do
     pom.description = 'Utilities used by other hex components'
     compile.with INTELLIJ_ANNOTATIONS
+    compile.with ICU4J
+    compile.with SWINGX
     package :jar
     package :sources
     package :javadoc

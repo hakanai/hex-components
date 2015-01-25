@@ -28,6 +28,7 @@ import org.trypticon.hex.interpreters.nulls.NullInterpreterInfo;
 import org.trypticon.hex.interpreters.options.ByteOrderOption;
 import org.trypticon.hex.interpreters.options.LengthOption;
 import org.trypticon.hex.util.Format;
+import org.trypticon.hex.util.swingsupport.SelectEncodingButton;
 import org.trypticon.hex.util.swingsupport.LocalisableComboBox;
 import org.trypticon.hex.util.swingsupport.PLAFUtils;
 import org.trypticon.hex.util.swingsupport.StealthFormattedTextField;
@@ -45,6 +46,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,6 +67,7 @@ public class InterpreterAccessoryBar extends AccessoryBar {
     private final JComboBox<InterpreterInfo> typeComboBox;
     private final JComboBox<LengthOption> lengthComboBox;
     private final JComboBox<?> byteOrderComboBox;
+    private final SelectEncodingButton selectEncodingButton;
     private final JFormattedTextField valueTextField;
 
     private Preferences preferencesNode;
@@ -77,6 +80,7 @@ public class InterpreterAccessoryBar extends AccessoryBar {
         typeComboBox = new LocalisableComboBox<>(Format.LONG, infos.toArray(new InterpreterInfo[infos.size()]));
         lengthComboBox = new LocalisableComboBox<>(Format.SHORT);
         byteOrderComboBox = new LocalisableComboBox<>(Format.SHORT, ByteOrderOption.values());
+        selectEncodingButton = new SelectEncodingButton();
 
         valueTextField = new StealthFormattedTextField(new ValueFormatterFactory());
         valueTextField.setEditable(false);
@@ -86,32 +90,36 @@ public class InterpreterAccessoryBar extends AccessoryBar {
         typeComboBox.addItemListener(sharedListener);
         lengthComboBox.addItemListener(sharedListener);
         byteOrderComboBox.addItemListener(sharedListener);
+        selectEncodingButton.addPropertyChangeListener("encoding", sharedListener);
         viewer.getSelectionModel().addChangeListener(sharedListener);
         viewer.addPropertyChangeListener("binary", sharedListener);
         valueTextField.addPropertyChangeListener("value", sharedListener);
 
         PLAFUtils.makeSquare(typeComboBox, lengthComboBox, byteOrderComboBox);
-        PLAFUtils.makeSmall(typeComboBox, lengthComboBox, byteOrderComboBox, valueTextField);
+        PLAFUtils.makeSmall(typeComboBox, lengthComboBox, byteOrderComboBox, selectEncodingButton, valueTextField);
 
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
 
         layout.setHorizontalGroup(layout.createSequentialGroup()
-                                          .addGap(4)
-                                          .addComponent(typeComboBox, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                          .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                          .addComponent(lengthComboBox, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                          .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                          .addComponent(byteOrderComboBox, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                          .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                          .addComponent(valueTextField)
-                                          .addGap(4));
+                .addGap(4)
+                .addComponent(typeComboBox, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lengthComboBox, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(byteOrderComboBox, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(selectEncodingButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(valueTextField)
+                .addGap(4));
 
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(typeComboBox)
-                                        .addComponent(lengthComboBox)
-                                        .addComponent(byteOrderComboBox)
-                                        .addComponent(valueTextField));
+                .addComponent(typeComboBox)
+                .addComponent(lengthComboBox)
+                .addComponent(byteOrderComboBox)
+                .addComponent(selectEncodingButton)
+                .addComponent(valueTextField));
     }
 
     @Override
@@ -140,6 +148,11 @@ public class InterpreterAccessoryBar extends AccessoryBar {
         if (byteOrderString != null) {
             byteOrderComboBox.setSelectedIndex("big".equals(byteOrderString) ? 0 : 1);
         }
+
+        String encodingString = node.get("encoding", null);
+        if (encodingString != null && Charset.isSupported(encodingString)) {
+            selectEncodingButton.setEncoding(Charset.forName(encodingString));
+        }
     }
 
     @Override
@@ -154,6 +167,7 @@ public class InterpreterAccessoryBar extends AccessoryBar {
     private void selectedTypeChanged() {
         updateLengthComboBox();
         updateByteOrderComboBox();
+        updateSelectEncodingButton();
         updateInterpretedValue();
         if (preferencesNode != null) {
             InterpreterInfo selectedItem = (InterpreterInfo) typeComboBox.getSelectedItem();
@@ -175,6 +189,13 @@ public class InterpreterAccessoryBar extends AccessoryBar {
         }
     }
 
+    private void selectedEncodingChanged() {
+        updateInterpretedValue();
+        if (preferencesNode != null) {
+            preferencesNode.put("encoding", selectEncodingButton.getEncoding().name());
+        }
+    }
+
     private void updateLengthComboBox() {
         InterpreterInfo info = (InterpreterInfo) typeComboBox.getSelectedItem();
         List<LengthOption> values = getLengthOptions(info);
@@ -189,6 +210,11 @@ public class InterpreterAccessoryBar extends AccessoryBar {
         byteOrderComboBox.setVisible(interpreterHasByteOrderOption(info));
     }
 
+    private void updateSelectEncodingButton() {
+        InterpreterInfo info = (InterpreterInfo) typeComboBox.getSelectedItem();
+        selectEncodingButton.setVisible(interpreterHasEncodingOption(info));
+    }
+
     private void updateInterpretedValue() {
         InterpreterInfo info = (InterpreterInfo) typeComboBox.getSelectedItem();
         Map<String, Object> options = new HashMap<>(4);
@@ -197,6 +223,9 @@ public class InterpreterAccessoryBar extends AccessoryBar {
         }
         if (interpreterHasByteOrderOption(info)) {
             options.put("byteOrder", byteOrderComboBox.getSelectedItem());
+        }
+        if (interpreterHasEncodingOption(info)) {
+            options.put("encoding", selectEncodingButton.getEncoding());
         }
         Interpreter<?> interpreter = info.create(options);
 
@@ -258,6 +287,15 @@ public class InterpreterAccessoryBar extends AccessoryBar {
         return false;
     }
 
+    private boolean interpreterHasEncodingOption(InterpreterInfo info) {
+        for (InterpreterInfo.Option options : info.getOptions()) {
+            if ("encoding".equals(options.getName()) && Charset.class.equals(options.getType())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private static List<InterpreterInfo> filter(List<InterpreterInfo> infos) {
         List<InterpreterInfo> result = new ArrayList<>(infos.size());
         for (InterpreterInfo info : infos) {
@@ -270,7 +308,8 @@ public class InterpreterAccessoryBar extends AccessoryBar {
             for (InterpreterInfo.Option option : info.getOptions()) {
                 // Can expand this as the UI grows to support more options.
                 if (!("byteOrder".equals(option.getName()) && ByteOrderOption.class.equals(option.getType())) &&
-                        !("length".equals(option.getName()) && LengthOption.class.equals(option.getType()))) {
+                    !("length".equals(option.getName()) && LengthOption.class.equals(option.getType())) &&
+                    !("encoding".equals(option.getName()) && Charset.class.equals(option.getType()))) {
                     usable = false;
                     break;
                 }
@@ -310,6 +349,8 @@ public class InterpreterAccessoryBar extends AccessoryBar {
                 selectedLengthChanged();
             } else if (source == byteOrderComboBox) {
                 selectedByteOrderChanged();
+            } else if (source == selectEncodingButton) {
+                selectedEncodingChanged();
             }
         }
     }
