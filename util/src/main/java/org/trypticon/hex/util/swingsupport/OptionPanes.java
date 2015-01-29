@@ -18,11 +18,11 @@
 
 package org.trypticon.hex.util.swingsupport;
 
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -54,21 +54,6 @@ public class OptionPanes {
                                           String affirmativeVerb,
                                           String negativeVerb) {
 
-        // The first invokeLater block runs after the dialog pops up but before the dialog sets the focus
-        // to the default button, so we do a second invokeLater to get our code to run after that.
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        initiallyFocusedComponent.requestFocusInWindow();
-                    }
-                });
-            }
-        });
-
-
         final JButton affirmativeButton = new JButton(affirmativeVerb);
         JButton negativeButton = new JButton(negativeVerb);
 
@@ -84,7 +69,12 @@ public class OptionPanes {
             Object[] buttons = new Object[] { affirmativeButton, negativeButton };
             final JOptionPane optionPane = new JOptionPane(validatingPanel, JOptionPane.PLAIN_MESSAGE,
                                                            JOptionPane.DEFAULT_OPTION, null,
-                                                           buttons, affirmativeButton);
+                                                           buttons, affirmativeButton) {
+                @Override
+                public void selectInitialValue() {
+                    initiallyFocusedComponent.requestFocusInWindow();
+                }
+            };
 
             affirmativeButton.addActionListener(new ActionListener() {
                 @Override
@@ -105,6 +95,26 @@ public class OptionPanes {
             return selectedValue instanceof Integer && (int) selectedValue == 0;
         } finally {
             validatingPanel.removePropertyChangeListener("inputValid", listener);
+        }
+    }
+
+    private static class OptionPaneFocusFix extends JOptionPane {
+        private JComponent initialFocus;
+
+        public OptionPaneFocusFix(Object message, int messageType, int optionType, Icon icon,
+                                  Object[] options, Object initialValue) {
+            super(message, messageType, optionType, icon, options, initialValue);
+        }
+
+        private void setInitialFocus(JComponent initialFocus) {
+            this.initialFocus = initialFocus;
+        }
+
+        @Override
+        public void selectInitialValue() {
+            if (initialFocus != null) {
+                initialFocus.requestFocusInWindow();
+            }
         }
     }
 }
