@@ -18,7 +18,6 @@
 
 package org.trypticon.hex.util.swingsupport;
 
-import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -95,26 +94,6 @@ public class OptionPanes {
             return selectedValue instanceof Integer && (int) selectedValue == 0;
         } finally {
             validatingPanel.removePropertyChangeListener("inputValid", listener);
-        }
-    }
-
-    private static class OptionPaneFocusFix extends JOptionPane {
-        private JComponent initialFocus;
-
-        public OptionPaneFocusFix(Object message, int messageType, int optionType, Icon icon,
-                                  Object[] options, Object initialValue) {
-            super(message, messageType, optionType, icon, options, initialValue);
-        }
-
-        private void setInitialFocus(JComponent initialFocus) {
-            this.initialFocus = initialFocus;
-        }
-
-        @Override
-        public void selectInitialValue() {
-            if (initialFocus != null) {
-                initialFocus.requestFocusInWindow();
-            }
         }
     }
 }
