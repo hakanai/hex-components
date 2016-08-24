@@ -1,5 +1,5 @@
 
-VERSION_NUMBER = "0.6.1-SNAPSHOT"
+VERSION_NUMBER = '0.7.0-SNAPSHOT'
 COPYRIGHT = 'Copyright \u00A9 2009-2014  Hex Project'
 
 # Assist my local build environment where there are multiple JREs.
@@ -8,6 +8,7 @@ if ENV['JAVA_HOME_7']
 end
 
 repositories.remote << 'https://oss.sonatype.org/content/groups/public'
+repositories.remote << 'http://central.maven.org/maven2/'
 repositories.remote << 'http://www.ibiblio.org/maven2/'
 repositories.remote << 'http://mirrors.ibiblio.org/pub/mirrors/maven2/'
 
@@ -73,7 +74,7 @@ define 'hex' do
   desc 'Hex Binary API'
   define 'binary' do
     pom.description = 'API for abstraction of things containing binary data'
-    compile.with projects('util')
+    compile.with project('util').package(:jar)
     compile.with INTELLIJ_ANNOTATIONS
     package :jar
     package :sources
@@ -83,7 +84,8 @@ define 'hex' do
   desc 'Hex Interpreter API'
   define 'interpreter' do
     pom.description = 'API for interpreting runs of binary as values humans can understand'
-    compile.with projects('binary', 'util')
+    compile.with project('binary').package(:jar)
+    compile.with project('util').package(:jar)
     compile.with INTELLIJ_ANNOTATIONS
     package :jar
     package :sources
@@ -93,7 +95,9 @@ define 'hex' do
   desc 'Hex Annotations API'
   define 'anno' do
     pom.description = 'API for annotating runs of binary with arbitrary annotations'
-    compile.with projects('binary', 'interpreter', 'util')
+    compile.with project('binary').package(:jar)
+    compile.with project('interpreter').package(:jar)
+    compile.with project('util').package(:jar)
     compile.with INTELLIJ_ANNOTATIONS
     package :jar
     package :sources
@@ -103,7 +107,10 @@ define 'hex' do
   desc 'Hex Viewer'
   define 'viewer' do
     pom.description = 'Hex viewer and related components'
-    compile.with projects('anno', 'binary', 'interpreter', 'util')
+    compile.with project('anno').package(:jar)
+    compile.with project('binary').package(:jar)
+    compile.with project('interpreter').package(:jar)
+    compile.with project('util').package(:jar)
     compile.with INTELLIJ_ANNOTATIONS
     compile.with SWINGX
     package :jar
@@ -114,7 +121,11 @@ define 'hex' do
   desc 'Examples'
   define 'examples' do
     pom.description = 'Examples'
-    compile.with projects('anno', 'binary', 'interpreter', 'util', 'viewer')
+    compile.with project('anno').package(:jar)
+    compile.with project('binary').package(:jar)
+    compile.with project('interpreter').package(:jar)
+    compile.with project('util').package(:jar)
+    compile.with project('viewer').package(:jar)
     compile.with INTELLIJ_ANNOTATIONS
     package :jar
     package :sources

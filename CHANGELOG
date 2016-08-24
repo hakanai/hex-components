@@ -1,5 +1,5 @@
 
-Version X.X (XXXX-XX-XX)
+Version 0.7 (2016-08-23)
 
      New: Method to remove an entire sub-tree of annotations (the normal remove method removes group
           nodes while leaving their children in the collection.)
