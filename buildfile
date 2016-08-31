@@ -2,11 +2,6 @@
 VERSION_NUMBER = '0.7.0-SNAPSHOT'
 COPYRIGHT = 'Copyright \u00A9 2009-2014  Hex Project'
 
-# Assist my local build environment where there are multiple JREs.
-if ENV['JAVA_HOME_7']
-  ENV['JAVA_HOME'] = ENV['JAVA_HOME_7']
-end
-
 repositories.remote << 'https://oss.sonatype.org/content/groups/public'
 repositories.remote << 'http://central.maven.org/maven2/'
 repositories.remote << 'http://www.ibiblio.org/maven2/'
@@ -58,7 +53,7 @@ define 'hex' do
   pom.add_developer('trejkaz', 'Trejkaz', 'trejkaz@trypticon.org')
 
   manifest['Copyright'] = COPYRIGHT
-  compile.options.source = compile.options.target = '1.7'
+  compile.options.source = compile.options.target = '1.8'
 
   desc 'Hex Utilities'
   define 'util' do
