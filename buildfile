@@ -13,6 +13,7 @@ if ENV['DEPLOY_USER']
                                      'https://oss.sonatype.org/service/local/staging/deploy/maven2' ),
                               username: ENV['DEPLOY_USER'],
                               password: ENV['DEPLOY_PASS'] }
+  require 'buildr/gpg'
 end
 
 INTELLIJ_ANNOTATIONS  =   artifact('com.intellij:annotations:jar:12.0')
@@ -37,9 +38,6 @@ download artifact('org.swinglabs.swingx:swingx-plaf:jar:1.6.6-SNAPSHOT') =>
 download artifact('com.ibm.icu:icu4j-charsets:jar:53.1') =>
   'http://download.icu-project.org/files/icu4j/53.1/icu4j-charset-53_1.jar'
 
-if VERSION_NUMBER !~ /SNAPSHOT/
-  require 'buildr/gpg'
-end
 
 require 'buildr/custom_pom'
 
