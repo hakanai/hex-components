@@ -125,8 +125,7 @@ define 'hex' do
     package :javadoc
   end
 
-  binaries_id = "#{id}-components-#{version}"
-  package(:zip, :file => _("target/#{binaries_id}.zip")).path(binaries_id).tap do |path|
+  package(:zip, :id => "#{id}-components").path("#{id}-components-#{version}").tap do |path|
     path.include 'COPYING', 'COPYING.LESSER', 'CHANGELOG', 'README.markdown'
 
     %w{anno binary interpreter util viewer}.each do |p|
