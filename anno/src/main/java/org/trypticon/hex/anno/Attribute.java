@@ -36,10 +36,11 @@ public final class Attribute<V> {
      *
      * @param name the name of the attribute. Names should start with a
      *             package-like namespace to aid in preventing collisions.
+     * @param <V> the type of the attribute value.
      * @return the attribute.
      * @see CommonAttributes
      */
-    public static <T> Attribute<T> named(String name) {
+    public static <V> Attribute<V> named(String name) {
         return new Attribute<>(name);
     }
 }

@@ -141,6 +141,8 @@ public abstract class SelectObjectPane<E> extends ValidatingPanel {
      * Shows the annotation pane in a dialog.
      *
      * @param parentComponent the parent component.
+     * @param title the title of the dialog.
+     * @param okButtonText the text to show on the OK button.
      * @return the chosen interpreter.
      */
     protected E showDialog(Component parentComponent, String title, String okButtonText) {
