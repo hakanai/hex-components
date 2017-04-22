@@ -22,6 +22,7 @@ import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 import org.trypticon.hex.interpreters.primitives.BigEndian;
 
+import javax.annotation.Nonnull;
 import java.lang.*;
 
 /**
@@ -34,8 +35,9 @@ public class Float32InterpreterBE extends AbstractFixedLengthInterpreter<Float32
         super(Float32.class, 4);
     }
 
+    @Nonnull
     @Override
-    public Float32 interpret(Binary binary, long position) {
+    public Float32 interpret(@Nonnull Binary binary, long position) {
         return new Float32(java.lang.Float.intBitsToFloat(BigEndian.getInt(binary, position)));
     }
 

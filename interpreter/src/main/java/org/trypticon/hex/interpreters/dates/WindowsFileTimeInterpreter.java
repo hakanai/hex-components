@@ -22,6 +22,8 @@ import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 import org.trypticon.hex.interpreters.primitives.LittleEndian;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interpreter for Windows NT {@code FILETIME} values, which are used in a number of other formats.
  *
@@ -37,8 +39,9 @@ public class WindowsFileTimeInterpreter extends AbstractFixedLengthInterpreter<D
         super(DateTime.class, 8);
     }
 
+    @Nonnull
     @Override
-    protected DateTime interpret(Binary binary, long position) {
+    protected DateTime interpret(@Nonnull Binary binary, long position) {
         // Value is the number of 100-nanosecond intervals since January 1, 1601 (UTC)
         long value = LittleEndian.getLong(binary, position);
 

@@ -21,6 +21,8 @@ package org.trypticon.hex.interpreters.primitives.signed;
 import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interpreter for signed byte values.
  *
@@ -31,8 +33,9 @@ public class SByteInterpreter extends AbstractFixedLengthInterpreter<SByte> {
         super(SByte.class, 1);
     }
 
+    @Nonnull
     @Override
-    public SByte interpret(Binary binary, long position) {
+    public SByte interpret(@Nonnull Binary binary, long position) {
         return new SByte(binary.read(position));
     }
 

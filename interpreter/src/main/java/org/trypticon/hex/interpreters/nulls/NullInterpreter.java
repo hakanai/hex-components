@@ -21,6 +21,8 @@ package org.trypticon.hex.interpreters.nulls;
 import org.trypticon.hex.interpreters.AbstractInterpreter;
 import org.trypticon.hex.binary.Binary;
 
+import javax.annotation.Nonnull;
+
 /**
  * An interpreter which can mark a range as meaning nothing.  Useful for
  * when you have a non-semantic comment with no value, such as "reserved",
@@ -34,8 +36,9 @@ public class NullInterpreter extends AbstractInterpreter<NullValue> {
         super(NullValue.class);
     }
 
+    @Nonnull
     @Override
-    public NullValue interpret(Binary binary, long position, long length) {
+    public NullValue interpret(@Nonnull Binary binary, long position, long length) {
         return new NullValue(length);
     }
 

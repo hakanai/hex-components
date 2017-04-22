@@ -20,6 +20,8 @@ package org.trypticon.hex.interpreters;
 
 import org.trypticon.hex.binary.Binary;
 
+import javax.annotation.Nonnull;
+
 /**
  * Base convenience class for implementing fixed-length interpreters.
  *
@@ -49,10 +51,12 @@ public abstract class AbstractFixedLengthInterpreter<V extends Value>
      * @param position the position of the start of the value.
      * @return the value.
      */
-    protected abstract V interpret(Binary binary, long position);
+    @Nonnull
+    protected abstract V interpret(@Nonnull Binary binary, long position);
 
+    @Nonnull
     @Override
-    public final V interpret(Binary binary, long position, long length) {
+    public final V interpret(@Nonnull Binary binary, long position, long length) {
         if (length != valueLength) {
             throw new IllegalArgumentException("Only supports values of length " + valueLength
                     + " but got " + length);

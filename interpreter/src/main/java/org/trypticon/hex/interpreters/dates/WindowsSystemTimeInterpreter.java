@@ -22,6 +22,8 @@ import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 import org.trypticon.hex.interpreters.primitives.LittleEndian;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interpreter for Windows NT {@code SYSTEMTIME} values, which are used in a number of other formats.
  *
@@ -33,8 +35,9 @@ public class WindowsSystemTimeInterpreter extends AbstractFixedLengthInterpreter
         super(DateTime.class, 16);
     }
 
+    @Nonnull
     @Override
-    protected DateTime interpret(Binary binary, long position) {
+    protected DateTime interpret(@Nonnull Binary binary, long position) {
 
         // typedef struct _SYSTEMTIME {
         //     WORD wYear;

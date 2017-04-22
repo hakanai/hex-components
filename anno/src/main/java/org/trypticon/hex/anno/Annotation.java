@@ -22,6 +22,9 @@ import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.Interpreter;
 import org.trypticon.hex.interpreters.Value;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
  * Interface marking an annotation within the binary.
  *
@@ -46,8 +49,9 @@ public interface Annotation {
     /**
      * Gets the interpreter used to interpret the value at the given position.
      *
-     * @return the interpreter.  TODO: Decide on nullable vs. non-null.
+     * @return the interpreter.
      */
+    @Nonnull
     Interpreter<?> getInterpreter();
 
     /**
@@ -57,7 +61,8 @@ public interface Annotation {
      * @param binary the binary.
      * @return the value.
      */
-    Value interpret(Binary binary);
+    @Nonnull
+    Value interpret(@Nonnull Binary binary);
 
     /**
      * Gets the value of a custom attribute.
@@ -66,7 +71,8 @@ public interface Annotation {
      * @param <T> the attribute type.
      * @return the attribute value.
      */
-    <T> T get(Attribute<T> attribute);
+    @Nullable
+    <T> T get(@Nonnull Attribute<T> attribute);
 
     /**
      * Sets the value of a custom attribute.
@@ -75,6 +81,6 @@ public interface Annotation {
      * @param value the attribute value.
      * @param <T> the attribute type.
      */
-    <T> void set(Attribute<T> attribute, T value);
+    <T> void set(@Nonnull Attribute<T> attribute, T value);
 
 }

@@ -22,6 +22,8 @@ import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 import org.trypticon.hex.interpreters.primitives.LittleEndian;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interprets 2-byte floating point numbers in IEEE754 format.
  *
@@ -32,8 +34,9 @@ public class Float16InterpreterLE extends AbstractFixedLengthInterpreter<Float16
         super(Float16.class, 2);
     }
 
+    @Nonnull
     @Override
-    public Float16 interpret(Binary binary, long position) {
+    public Float16 interpret(@Nonnull Binary binary, long position) {
         return new Float16(LittleEndian.getShort(binary, position));
     }
 

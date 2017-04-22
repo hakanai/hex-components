@@ -22,8 +22,11 @@ import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.Interpreter;
 import org.trypticon.hex.interpreters.Value;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Implementation of a single annotation.
@@ -33,14 +36,14 @@ import java.util.Map;
 public class SimpleAnnotation implements Annotation {
     private long position;
     private long length;
+
+    @Nonnull
     private Interpreter interpreter;
+
+    @Nonnull
     private final Map<Attribute<?>, Object> attributes = new LinkedHashMap<>();
 
-    public SimpleAnnotation(long position, long length, Interpreter interpreter) {
-        if (interpreter == null) {
-            throw new IllegalArgumentException("interpreter cannot be null");
-        }
-
+    public SimpleAnnotation(long position, long length, @Nonnull Interpreter interpreter) {
         if (position < 0) {
             throw new IllegalArgumentException("position cannot be negative");
         }
@@ -48,6 +51,8 @@ public class SimpleAnnotation implements Annotation {
         if (length <= 0) {
             throw new IllegalArgumentException("length must be positive");
         }
+
+        Objects.requireNonNull(interpreter, "interpreter must not be null");
 
         this.position = position;
         this.length = length;
@@ -60,6 +65,10 @@ public class SimpleAnnotation implements Annotation {
     }
 
     public void setPosition(long position) {
+        if (position < 0) {
+            throw new IllegalArgumentException("position cannot be negative");
+        }
+
         this.position = position;
     }
 
@@ -68,32 +77,41 @@ public class SimpleAnnotation implements Annotation {
         return length;
     }
 
-    public void setLength(int length) {
+    public void setLength(long length) {
+        if (length <= 0) {
+            throw new IllegalArgumentException("length must be positive");
+        }
+
         this.length = length;
     }
 
+    @Nonnull
     @Override
     public Interpreter<?> getInterpreter() {
         return interpreter;
     }
 
-    public void setInterpreter(Interpreter interpreter) {
+    public void setInterpreter(@Nonnull Interpreter interpreter) {
+        Objects.requireNonNull(interpreter, "interpreter must not be null");
+
         this.interpreter = interpreter;
     }
 
+    @Nonnull
     @Override
-    public Value interpret(Binary binary) {
+    public Value interpret(@Nonnull Binary binary) {
         return interpreter.interpret(binary, position, length);
     }
 
+    @Nullable
     @Override
     @SuppressWarnings("unchecked")
-    public <T> T get(Attribute<T> attribute) {
+    public <T> T get(@Nonnull Attribute<T> attribute) {
         return (T) attributes.get(attribute);
     }
 
     @Override
-    public <T> void set(Attribute<T> attribute, T value) {
+    public <T> void set(@Nonnull Attribute<T> attribute, T value) {
         if (value == null) {
             attributes.remove(attribute);
         } else {

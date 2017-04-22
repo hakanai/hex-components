@@ -22,6 +22,8 @@ import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.primitives.BigEndian;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interpreter for unsigned long values.
  *
@@ -37,8 +39,9 @@ public class ULongInterpreterBE extends AbstractFixedLengthInterpreter<ULong> {
         return ULong.class;
     }
 
+    @Nonnull
     @Override
-    public ULong interpret(Binary binary, long position) {
+    public ULong interpret(@Nonnull Binary binary, long position) {
         return new ULong(BigEndian.getLong(binary, position));
     }
 

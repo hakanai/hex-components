@@ -21,6 +21,7 @@ package org.trypticon.hex.interpreters.strings;
 import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.AbstractInterpreter;
 
+import javax.annotation.Nonnull;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
@@ -42,8 +43,9 @@ public class StringInterpreter extends AbstractInterpreter<StringValue> {
         return charset;
     }
 
+    @Nonnull
     @Override
-    public StringValue interpret(Binary binary, long position, long length) {
+    public StringValue interpret(@Nonnull Binary binary, long position, long length) {
         if (length > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("Strings cannot be longer than Integer.MAX_VALUE: " + length);
         }

@@ -22,6 +22,8 @@ import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.primitives.LittleEndian;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interpreter for unsigned short values.
  *
@@ -32,8 +34,9 @@ public class UShortInterpreterLE extends AbstractFixedLengthInterpreter<UShort> 
         super(UShort.class, 2);
     }
 
+    @Nonnull
     @Override
-    public UShort interpret(Binary binary, long position) {
+    public UShort interpret(@Nonnull Binary binary, long position) {
         return new UShort(LittleEndian.getShort(binary, position));
     }
 

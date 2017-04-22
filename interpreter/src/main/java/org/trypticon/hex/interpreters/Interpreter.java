@@ -20,6 +20,8 @@ package org.trypticon.hex.interpreters;
 
 import org.trypticon.hex.binary.Binary;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interface for interpretation of a sequence of binary as some typed value.
  *
@@ -43,5 +45,6 @@ public interface Interpreter<V extends Value> {
      * @param length the length of the value to interpret.
      * @return the value.
      */
-    V interpret(Binary binary, long position, long length);
+    @Nonnull
+    V interpret(@Nonnull Binary binary, long position, long length);
 }

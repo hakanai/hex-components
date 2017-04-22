@@ -23,6 +23,8 @@ import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.primitives.IntBitField;
 import org.trypticon.hex.interpreters.primitives.LittleEndian;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interpreter for MS-DOS time values, which are used in a number of other formats.
  *
@@ -38,8 +40,9 @@ public class DosTimeInterpreter extends AbstractFixedLengthInterpreter<Time> {
         super(Time.class, 2);
     }
 
+    @Nonnull
     @Override
-    public Time interpret(Binary binary, long position) {
+    public Time interpret(@Nonnull Binary binary, long position) {
         return new DosTime(LittleEndian.getShort(binary, position));
     }
 

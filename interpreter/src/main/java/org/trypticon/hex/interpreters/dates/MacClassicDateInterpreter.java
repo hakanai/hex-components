@@ -22,6 +22,8 @@ import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 import org.trypticon.hex.interpreters.primitives.BigEndian;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interpreter for classic Mac OS (up to v9) date values.
  *
@@ -35,8 +37,9 @@ public class MacClassicDateInterpreter extends AbstractFixedLengthInterpreter<Da
         super(DateTime.class, 4);
     }
 
+    @Nonnull
     @Override
-    protected DateTime interpret(Binary binary, long position) {
+    protected DateTime interpret(@Nonnull Binary binary, long position) {
         // Value is the number of seconds since January 1, 1904 (UTC)
         long value = BigEndian.getUInt(binary, position);
 

@@ -22,6 +22,8 @@ import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 import org.trypticon.hex.interpreters.Interpreter;
 import org.trypticon.hex.binary.Binary;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interprets a pair of DOS date and time.
  *
@@ -35,8 +37,9 @@ public class DosDateTimeInterpreter extends AbstractFixedLengthInterpreter<DateT
         super(DateTime.class, 4);
     }
 
+    @Nonnull
     @Override
-    public DateTime interpret(Binary binary, long position) {
+    public DateTime interpret(@Nonnull Binary binary, long position) {
         return new SimpleDateTime(dateInterpreter.interpret(binary, position + 2, 2),
                                   timeInterpreter.interpret(binary, position, 2));
     }

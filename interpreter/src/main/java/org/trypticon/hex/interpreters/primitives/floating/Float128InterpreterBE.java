@@ -22,6 +22,8 @@ import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 import org.trypticon.hex.interpreters.primitives.BigEndian;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interprets 16-byte floating point numbers in IEEE754 format.
  *
@@ -32,8 +34,9 @@ public class Float128InterpreterBE extends AbstractFixedLengthInterpreter<Float1
         super(Float128.class, 16);
     }
 
+    @Nonnull
     @Override
-    public Float128 interpret(Binary binary, long position) {
+    public Float128 interpret(@Nonnull Binary binary, long position) {
         return new Float128(BigEndian.getLong(binary, position),
                             BigEndian.getLong(binary, position + 8));
     }

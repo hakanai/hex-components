@@ -21,6 +21,8 @@ package org.trypticon.hex.interpreters.dates;
 import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 
+import javax.annotation.Nonnull;
+
 /**
  * Common code for all C time interpreters.
  */
@@ -30,8 +32,9 @@ abstract class AbstractCTimeInterpreter extends AbstractFixedLengthInterpreter<D
         super(DateTime.class, length);
     }
 
+    @Nonnull
     @Override
-    protected final DateTime interpret(Binary binary, long position) {
+    protected final DateTime interpret(@Nonnull Binary binary, long position) {
         // Value is the number of seconds intervals since January 1, 1970 (UTC)
         long value = getValue(binary, position);
 

@@ -22,6 +22,8 @@ import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 import org.trypticon.hex.interpreters.primitives.LittleEndian;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interpreter for Lotus Notes {@code TIMEDATE} values.
  *
@@ -35,8 +37,9 @@ public class NotesTimeDateInterpreter extends AbstractFixedLengthInterpreter<Dat
         super(DateTime.class, 8);
     }
 
+    @Nonnull
     @Override
-    protected DateTime interpret(Binary binary, long position) {
+    protected DateTime interpret(@Nonnull Binary binary, long position) {
         // typedef struct tagTIMEDATE {
         //    DWORD Innards[2];
         // } TIMEDATE;

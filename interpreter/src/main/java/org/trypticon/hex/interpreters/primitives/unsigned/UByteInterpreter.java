@@ -21,6 +21,8 @@ package org.trypticon.hex.interpreters.primitives.unsigned;
 import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interpreter for unsigned byte values.
  *
@@ -31,8 +33,9 @@ public class UByteInterpreter extends AbstractFixedLengthInterpreter<UByte> {
         super(UByte.class, 1);
     }
 
+    @Nonnull
     @Override
-    public UByte interpret(Binary binary, long position) {
+    public UByte interpret(@Nonnull Binary binary, long position) {
         return new UByte(binary.read(position));
     }
 

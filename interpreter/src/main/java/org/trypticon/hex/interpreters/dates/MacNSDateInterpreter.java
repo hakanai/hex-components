@@ -22,6 +22,8 @@ import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 import org.trypticon.hex.interpreters.primitives.BigEndian;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interpreter for NeXTSTEP/Mac OS X {@code NSDate} / {@code CFDateRef} values.
  *
@@ -35,8 +37,9 @@ public class MacNSDateInterpreter extends AbstractFixedLengthInterpreter<DateTim
         super(DateTime.class, 8);
     }
 
+    @Nonnull
     @Override
-    protected DateTime interpret(Binary binary, long position) {
+    protected DateTime interpret(@Nonnull Binary binary, long position) {
         // Value is the number of seconds since January 1, 2001 (UTC)
         double value = Double.longBitsToDouble(BigEndian.getLong(binary, position));
 

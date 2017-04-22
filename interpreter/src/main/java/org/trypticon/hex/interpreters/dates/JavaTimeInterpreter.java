@@ -22,6 +22,8 @@ import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 import org.trypticon.hex.interpreters.primitives.BigEndian;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interpreter for Java time values.
  *
@@ -32,8 +34,9 @@ public class JavaTimeInterpreter extends AbstractFixedLengthInterpreter<DateTime
         super(DateTime.class, 8);
     }
 
+    @Nonnull
     @Override
-    protected DateTime interpret(Binary binary, long position) {
+    protected DateTime interpret(@Nonnull Binary binary, long position) {
         // Value is the number of milliseconds since January 1, 1970 (UTC)
         long value = BigEndian.getLong(binary, position);
 

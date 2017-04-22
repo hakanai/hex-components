@@ -22,6 +22,8 @@ import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 import org.trypticon.hex.interpreters.primitives.BigEndian;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interpreter for signed int values.
  *
@@ -32,8 +34,9 @@ public class SIntInterpreterBE extends AbstractFixedLengthInterpreter<SInt> {
         super(SInt.class, 4);
     }
 
+    @Nonnull
     @Override
-    public SInt interpret(Binary binary, long position) {
+    public SInt interpret(@Nonnull Binary binary, long position) {
         return new SInt(BigEndian.getInt(binary, position));
     }
 

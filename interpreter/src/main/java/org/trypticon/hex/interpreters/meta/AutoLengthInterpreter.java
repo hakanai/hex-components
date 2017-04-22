@@ -23,6 +23,7 @@ import org.trypticon.hex.interpreters.FixedLengthInterpreter;
 import org.trypticon.hex.interpreters.Interpreter;
 import org.trypticon.hex.interpreters.Value;
 
+import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -53,8 +54,9 @@ class AutoLengthInterpreter implements Interpreter<Value> {
         return Value.class; // can't be any more specific unless there happened to be a common superclass to them.
     }
 
+    @Nonnull
     @Override
-    public Value interpret(Binary binary, long position, long length) {
+    public Value interpret(@Nonnull Binary binary, long position, long length) {
         Interpreter<?> interpreter = interpretersByLength.get(length);
         if (interpreter != null) {
             return interpreter.interpret(binary, position, length);

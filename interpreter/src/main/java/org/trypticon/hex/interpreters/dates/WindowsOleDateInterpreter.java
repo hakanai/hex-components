@@ -22,6 +22,8 @@ import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 import org.trypticon.hex.interpreters.primitives.LittleEndian;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interpreter for Windows OLE {@code VT_DATE} / {@code PT_APPTIME} values, common in Office formats, MAPI, etc.
  *
@@ -35,8 +37,9 @@ public class WindowsOleDateInterpreter extends AbstractFixedLengthInterpreter<Da
         super(DateTime.class, 8);
     }
 
+    @Nonnull
     @Override
-    protected DateTime interpret(Binary binary, long position) {
+    protected DateTime interpret(@Nonnull Binary binary, long position) {
         // value is the number of days since December 30, 1899.
         double value = Double.longBitsToDouble(LittleEndian.getLong(binary, position));
 
