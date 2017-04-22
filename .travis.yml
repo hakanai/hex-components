@@ -5,6 +5,8 @@ cache:
 jdk:
   #- openjdk7
   - oraclejdk7
+rvm:
+  - 2.0
 install:
   - gem install buildr
 script: buildr clean upload
