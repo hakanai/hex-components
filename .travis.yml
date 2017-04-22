@@ -1,12 +1,12 @@
-language: java
+# Even though it's a Java project, we're working around travis strangeness.
+language: ruby
 cache:
   directories:
     - $HOME/.m2
 jdk:
   #- openjdk7
   - oraclejdk8
-rvm:
-  - 2.0
+rvm: 2.0
 install:
   - gem install buildr
 script: buildr clean upload
