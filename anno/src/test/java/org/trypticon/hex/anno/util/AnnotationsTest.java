@@ -23,8 +23,8 @@ import org.trypticon.hex.anno.Annotation;
 import org.trypticon.hex.anno.SimpleAnnotation;
 import org.trypticon.hex.interpreters.nulls.NullInterpreter;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.trypticon.hex.anno.util.Annotations.*;
 
 /**
