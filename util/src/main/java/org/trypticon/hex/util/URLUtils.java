@@ -18,10 +18,8 @@
 
 package org.trypticon.hex.util;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Level;
@@ -52,18 +50,4 @@ public class URLUtils {
         }
     }
 
-    /**
-     * Decodes a URL-encoded string.
-     *
-     * @param urlEncoded the URL-encoded string.
-     * @return the decoded string.
-     */
-    public static String decode(String urlEncoded) {
-        try {
-            return URLDecoder.decode(urlEncoded, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            LoggerUtils.get().log(Level.WARNING, "UTF-8 missing from the JRE somehow, decoding URL: " + urlEncoded, e);
-            return urlEncoded;
-        }
-    }
 }
