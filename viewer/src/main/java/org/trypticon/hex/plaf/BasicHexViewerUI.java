@@ -70,6 +70,7 @@ public class BasicHexViewerUI extends HexViewerUI {
      * @param component the component the UI is being created for.
      * @return the UI.
      */
+    @SuppressWarnings("unused") // Called reflectively.
     public static ComponentUI createUI(JComponent component) {
         return new BasicHexViewerUI();
     }

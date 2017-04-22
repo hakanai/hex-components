@@ -40,5 +40,13 @@ public class OverlappingAnnotationException extends Exception {
         this.attempted = attempted;
     }
 
+    public Annotation getExisting() {
+        return existing;
+    }
+
+    public Annotation getAttempted() {
+        return attempted;
+    }
+
     // TODO: Reconstruct message after deserialisation
 }
