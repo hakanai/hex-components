@@ -34,7 +34,7 @@ public interface InterpreterStorage {
      * grouping together options with common behaviour, e.g. all the types which are essentially
      * the same can be grouped together into a single interpreter for handling that type with
      * different lengths, or big and little endian implementations can be grouped together into
-     * a single interpreter info which allows choosing the endian-ness.
+     * a single interpreter info which allows choosing the endianness.
      *
      * @return the list of interpreter info.
      */

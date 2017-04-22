@@ -31,7 +31,7 @@ import java.util.ResourceBundle;
  */
 public enum LengthOption implements Localisable {
     /**
-     * Determinea the length automatically (via the selected length or whatever.)
+     * Determine the length automatically (via the selected length or whatever.)
      */
     AUTO,
 

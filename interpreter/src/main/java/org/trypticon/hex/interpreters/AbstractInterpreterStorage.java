@@ -35,9 +35,9 @@ public abstract class AbstractInterpreterStorage implements InterpreterStorage {
     protected AbstractInterpreterStorage() {
     }
 
-    protected void register(String name, Class<? extends Interpreter> klass) {
-        classToName.put(klass, name);
-        nameToClass.put(name, klass);
+    protected void register(String name, Class<? extends Interpreter> clazz) {
+        classToName.put(clazz, name);
+        nameToClass.put(name, clazz);
     }
 
     @Override
@@ -55,10 +55,10 @@ public abstract class AbstractInterpreterStorage implements InterpreterStorage {
     @Override
     public Interpreter fromMap(Map<String, Object> map) {
         String name = (String) map.get("name");
-        Class<? extends Interpreter> klass = nameToClass.get(name);
-        if (klass != null) {
+        Class<? extends Interpreter> clazz = nameToClass.get(name);
+        if (clazz != null) {
             try {
-                return klass.newInstance();
+                return clazz.newInstance();
             } catch (InstantiationException e) {
                 throw new IllegalStateException("Constructor should have been no-op", e);
             } catch (IllegalAccessException e) {

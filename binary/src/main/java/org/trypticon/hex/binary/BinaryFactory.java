@@ -87,15 +87,15 @@ public class BinaryFactory {
             return open(URLUtils.toPath(location));
         } else {
             // TODO: This could be improved to load in the background.
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
             try (InputStream in = location.openStream()) {
                 byte[] buf = new byte[16 * 1024];
                 int bytesRead;
                 while ((bytesRead = in.read(buf)) != -1) {
-                    baos.write(buf, 0, bytesRead);
+                    stream.write(buf, 0, bytesRead);
                 }
             }
-            return wrap(baos.toByteArray());
+            return wrap(stream.toByteArray());
         }
     }
 }

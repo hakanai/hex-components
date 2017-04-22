@@ -39,7 +39,6 @@ import java.util.prefs.Preferences;
 public class HexViewerExample {
     public static void main(String[] args) throws Exception {
         // Replace this with a file you have available.
-        //final Binary binary = BinaryFactory.open(Paths.get("/Volumes/Media/Software/OS Updates/snowleopard.dmg"));
         final Binary binary = BinaryFactory.open(Paths.get("/Users/Trejkaz/Downloads/lol emoticons.rtf"));
 
         SwingUtilities.invokeLater(new Runnable() {
