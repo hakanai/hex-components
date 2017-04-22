@@ -13,6 +13,8 @@ if ENV['DEPLOY_USER']
                                      'https://oss.sonatype.org/service/local/staging/deploy/maven2' ),
                               username: ENV['DEPLOY_USER'],
                               password: ENV['DEPLOY_PASS'] }
+end
+if ENV['GPG_USER']
   require 'buildr/gpg'
 end
 
