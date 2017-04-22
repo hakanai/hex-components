@@ -16,7 +16,7 @@ if ENV['DEPLOY_USER']
   require 'buildr/gpg'
 end
 
-INTELLIJ_ANNOTATIONS  =   artifact('com.intellij:annotations:jar:12.0')
+JAVAX_ANNOTATIONS     =   artifact('com.google.code.findbugs:jsr305:jar:3.0.2')
 ICU4J                 = [ artifact('com.ibm.icu:icu4j:jar:53.1'),
                           artifact('com.ibm.icu:icu4j-charsets:jar:53.1') ]
 SWINGX                = [ artifact('org.swinglabs.swingx:swingx-action:jar:1.6.6-SNAPSHOT'),
@@ -56,7 +56,7 @@ define 'hex' do
   desc 'Hex Utilities'
   define 'util' do
     pom.description = 'Utilities used by other hex components'
-    compile.with INTELLIJ_ANNOTATIONS
+    compile.with JAVAX_ANNOTATIONS
     compile.with ICU4J
     compile.with SWINGX
     package :jar
@@ -68,7 +68,7 @@ define 'hex' do
   define 'binary' do
     pom.description = 'API for abstraction of things containing binary data'
     compile.with project('util').package(:jar)
-    compile.with INTELLIJ_ANNOTATIONS
+    compile.with JAVAX_ANNOTATIONS
     package :jar
     package :sources
     package :javadoc
@@ -79,7 +79,7 @@ define 'hex' do
     pom.description = 'API for interpreting runs of binary as values humans can understand'
     compile.with project('binary').package(:jar)
     compile.with project('util').package(:jar)
-    compile.with INTELLIJ_ANNOTATIONS
+    compile.with JAVAX_ANNOTATIONS
     package :jar
     package :sources
     package :javadoc
@@ -91,7 +91,7 @@ define 'hex' do
     compile.with project('binary').package(:jar)
     compile.with project('interpreter').package(:jar)
     compile.with project('util').package(:jar)
-    compile.with INTELLIJ_ANNOTATIONS
+    compile.with JAVAX_ANNOTATIONS
     package :jar
     package :sources
     package :javadoc
@@ -104,7 +104,7 @@ define 'hex' do
     compile.with project('binary').package(:jar)
     compile.with project('interpreter').package(:jar)
     compile.with project('util').package(:jar)
-    compile.with INTELLIJ_ANNOTATIONS
+    compile.with JAVAX_ANNOTATIONS
     compile.with SWINGX
     package :jar
     package :sources
@@ -119,7 +119,7 @@ define 'hex' do
     compile.with project('interpreter').package(:jar)
     compile.with project('util').package(:jar)
     compile.with project('viewer').package(:jar)
-    compile.with INTELLIJ_ANNOTATIONS
+    compile.with JAVAX_ANNOTATIONS
     package :jar
     package :sources
     package :javadoc
