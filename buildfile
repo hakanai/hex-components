@@ -17,8 +17,8 @@ if ENV['DEPLOY_USER']
 end
 
 JAVAX_ANNOTATIONS     =   artifact('com.google.code.findbugs:jsr305:jar:3.0.2')
-ICU4J                 = [ artifact('com.ibm.icu:icu4j:jar:53.1'),
-                          artifact('com.ibm.icu:icu4j-charsets:jar:53.1') ]
+ICU4J                 = [ artifact('com.ibm.icu:icu4j:jar:59.1'),
+                          artifact('com.ibm.icu:icu4j-charsets:jar:59.1') ]
 SWINGX                = [ artifact('org.swinglabs.swingx:swingx-action:jar:1.6.6-SNAPSHOT'),
                           artifact('org.swinglabs.swingx:swingx-common:jar:1.6.6-SNAPSHOT'),
                           artifact('org.swinglabs.swingx:swingx-core:jar:1.6.6-SNAPSHOT'),
@@ -35,8 +35,8 @@ download artifact('org.swinglabs.swingx:swingx-painters:jar:1.6.6-SNAPSHOT') =>
   'https://github.com/trejkaz/swingx/releases/download/v1.6.6-SNAPSHOT.2014.06.15/swingx-painters-1.6.6-SNAPSHOT.jar'
 download artifact('org.swinglabs.swingx:swingx-plaf:jar:1.6.6-SNAPSHOT') =>
   'https://github.com/trejkaz/swingx/releases/download/v1.6.6-SNAPSHOT.2014.06.15/swingx-plaf-1.6.6-SNAPSHOT.jar'
-download artifact('com.ibm.icu:icu4j-charsets:jar:53.1') =>
-  'http://download.icu-project.org/files/icu4j/53.1/icu4j-charset-53_1.jar'
+download artifact('com.ibm.icu:icu4j-charsets:jar:59.1') =>
+  'http://download.icu-project.org/files/icu4j/59.1/icu4j-charset-59_1.jar'
 
 
 require 'buildr/custom_pom'
