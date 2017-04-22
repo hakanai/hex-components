@@ -18,9 +18,9 @@
 
 package org.trypticon.hex.renderer;
 
-import java.awt.Component;
-
 import org.trypticon.hex.HexViewer;
+
+import java.awt.Component;
 
 /**
  * Interface for rendering cells in the viewer.
@@ -30,9 +30,9 @@ import org.trypticon.hex.HexViewer;
 public interface CellRenderer
 {
     // XXX: We should still consider allowing the user to customise the columns more freely than this.
-    public static final int ROW_OFFSET = 0;
-    public static final int HEX = 1;
-    public static final int ASCII = 2;
+    int ROW_OFFSET = 0;
+    int HEX = 1;
+    int ASCII = 2;
 
     Component getRendererComponent(HexViewer viewer, boolean selected, boolean onCursorRow, boolean atCursor,
                                    long position, int valueDisplayMode);

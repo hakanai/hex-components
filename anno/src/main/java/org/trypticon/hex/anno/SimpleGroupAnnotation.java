@@ -22,6 +22,7 @@ import org.trypticon.hex.anno.util.AnnotationPositionComparator;
 import org.trypticon.hex.interpreters.nulls.NullInterpreter;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -52,11 +53,13 @@ public class SimpleGroupAnnotation extends SimpleAnnotation implements GroupAnno
         this.annotations = new ArrayList<>(annotations);
     }
 
+    @Nonnull
     @Override
     public List<? extends Annotation> getAnnotations() {
         return Collections.unmodifiableList(annotations);
     }
 
+    @Nullable
     @Override
     public Annotation findAnnotationAt(long position) {
         if (position < 0) {
@@ -88,6 +91,7 @@ public class SimpleGroupAnnotation extends SimpleAnnotation implements GroupAnno
         }
     }
 
+    @Nullable
     @Override
     public GroupAnnotation findDeepestGroupAnnotationAt(long position) {
         Annotation annotation = findAnnotationAt(position);
@@ -105,7 +109,7 @@ public class SimpleGroupAnnotation extends SimpleAnnotation implements GroupAnno
     }
 
     @Override
-    public int add(Annotation annotation) {
+    public int add(@Nonnull Annotation annotation) {
         int index = binaryPositionSearch(annotation.getPosition());
         if (index < 0) {
             index = -index - 1;
@@ -115,7 +119,7 @@ public class SimpleGroupAnnotation extends SimpleAnnotation implements GroupAnno
     }
 
     @Override
-    public int remove(Annotation annotation) {
+    public int remove(@Nonnull Annotation annotation) {
         int index = binaryPositionSearch(annotation.getPosition());
         if (index < 0) {
             throw new IllegalArgumentException("Annotation is not present so cannot be removed: " + annotation);

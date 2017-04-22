@@ -18,6 +18,8 @@
 
 package org.trypticon.hex.anno;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -31,6 +33,7 @@ public interface AnnotationCollection {
      *
      * @return the root group annotation.
      */
+    @Nonnull
     GroupAnnotation getRootGroup();
 
     /**
@@ -38,6 +41,7 @@ public interface AnnotationCollection {
      *
      * @return the list of the top-level annotations.
      */
+    @Nonnull
     List<? extends Annotation> getTopLevel();
 
     /**
@@ -47,6 +51,7 @@ public interface AnnotationCollection {
      * @return the path to the deepest annotation at that position, including the group annotations
      *         which contain it.  Returns {@code null} if outside all annotations.
      */
+    @Nullable
     List<? extends Annotation> getAnnotationPathAt(long position);
 
     /**
@@ -56,6 +61,7 @@ public interface AnnotationCollection {
      * @return the path to that annotation.
      * @throws IllegalArgumentException if tha annotation is not in the collection.
      */
+    @Nonnull
     List<? extends Annotation> getAnnotationPathFor(Annotation annotation);
 
     /**
@@ -64,33 +70,33 @@ public interface AnnotationCollection {
      * @param annotation the annotation to add.
      * @throws OverlappingAnnotationException if the annotation overlaps an existing one.
      */
-    void add(Annotation annotation) throws OverlappingAnnotationException;
+    void add(@Nonnull Annotation annotation) throws OverlappingAnnotationException;
 
     /**
      * Removes an annotation.
      *
      * @param annotation the annotation to remove.
      */
-    void remove(Annotation annotation);
+    void remove(@Nonnull Annotation annotation);
 
     /**
      * Removes an annotation along with the entire tree underneath it.
      *
      * @param annotation the annotation to remove.
      */
-    void removeWithDescendants(Annotation annotation);
+    void removeWithDescendants(@Nonnull Annotation annotation);
 
     /**
      * Adds a listener for changes in the collection.
      *
      * @param listener the listener to add.
      */
-    void addAnnotationCollectionListener(AnnotationCollectionListener listener);
+    void addAnnotationCollectionListener(@Nonnull AnnotationCollectionListener listener);
 
     /**
      * Removes a listener for changes in the collection.
      *
      * @param listener the listener to remove.
      */
-    void removeAnnotationCollectionListener(AnnotationCollectionListener listener);
+    void removeAnnotationCollectionListener(@Nonnull AnnotationCollectionListener listener);
 }

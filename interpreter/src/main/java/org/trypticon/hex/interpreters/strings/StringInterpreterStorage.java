@@ -39,6 +39,7 @@ public class StringInterpreterStorage implements InterpreterStorage {
         return getInterpreterInfos();
     }
 
+    @Override
     public List<InterpreterInfo> getInterpreterInfos() {
         return Arrays.<InterpreterInfo>asList(
                 new StringInterpreterInfo(), new StringzInterpreterInfo(),

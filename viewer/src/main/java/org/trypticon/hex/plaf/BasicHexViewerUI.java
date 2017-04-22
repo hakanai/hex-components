@@ -92,7 +92,7 @@ public class BasicHexViewerUI extends HexViewerUI {
 
         // Now adjust for the margins again...
 
-        return new Rectangle(xFixed + 3 + viewer.getOffsetColumnDigits() + 1 + 1 * charWidth,
+        return new Rectangle(xFixed + 3 + viewer.getOffsetColumnDigits() + 1 + charWidth,
                              (int) (yFixed - viewer.getFirstVisibleRow()),
                              3 * charWidth,
                              rowHeight);
@@ -239,10 +239,12 @@ public class BasicHexViewerUI extends HexViewerUI {
             Rectangle viewportContent = new Rectangle(0, 0, c.getWidth(), c.getHeight());
 
             Insets viewportInsets = getViewportBorderInsets(viewer);
-            viewportContent.x += viewportInsets.left;
-            viewportContent.y += viewportInsets.top;
-            viewportContent.width -= (viewportInsets.left + viewportInsets.right);
-            viewportContent.height -= (viewportInsets.top + viewportInsets.bottom);
+            if (viewportInsets != null) {
+                viewportContent.x += viewportInsets.left;
+                viewportContent.y += viewportInsets.top;
+                viewportContent.width -= (viewportInsets.left + viewportInsets.right);
+                viewportContent.height -= (viewportInsets.top + viewportInsets.bottom);
+            }
 
             Insets insets = viewer.getInsets();
             if (insets != null) {

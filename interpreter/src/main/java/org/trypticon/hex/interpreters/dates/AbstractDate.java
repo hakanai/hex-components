@@ -64,6 +64,7 @@ public abstract class AbstractDate implements Date {
     public String toLocalisedString(Format style, Locale locale) {
         DateFormat format = DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
         Calendar calendar = new GregorianCalendar(locale);
+        //noinspection MagicConstant
         calendar.set(getYear(), getMonth() - 1, getDay());
         return format.format(calendar.getTime());
     }

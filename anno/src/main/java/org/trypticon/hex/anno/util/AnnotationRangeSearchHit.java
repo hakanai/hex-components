@@ -66,7 +66,7 @@ public class AnnotationRangeSearchHit {
     /**
      * Enumerates the possible relationships for a hit.
      */
-    public static enum Relation {
+    public enum Relation {
         /**
          * The annotation found covers exactly the same range as the search range.
          */

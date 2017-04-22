@@ -18,6 +18,8 @@
 
 package org.trypticon.hex.anno;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -34,6 +36,7 @@ public interface GroupAnnotation extends Annotation {
      *
      * @return the list of contained annotations.
      */
+    @Nonnull
     List<? extends Annotation> getAnnotations();
 
     /**
@@ -42,6 +45,7 @@ public interface GroupAnnotation extends Annotation {
      * @param position the position (relative to the entire file.)
      * @return the annotation found.  Returns {@code null} if no annotation is found.
      */
+    @Nullable
     Annotation findAnnotationAt(long position);
 
     /**
@@ -50,6 +54,7 @@ public interface GroupAnnotation extends Annotation {
      * @param position the position (relative to the entire file.)
      * @return the group annotation found.  Returns {@code null} if this group annotation is the deepest.
      */
+    @Nullable
     GroupAnnotation findDeepestGroupAnnotationAt(long position);
 
     /**
@@ -58,7 +63,7 @@ public interface GroupAnnotation extends Annotation {
      * @param annotation the annotation to add.
      * @return the index it was added at.
      */
-    int add(Annotation annotation);
+    int add(@Nonnull Annotation annotation);
 
     /**
      * Removes an annotation from the group annotation.
@@ -68,7 +73,7 @@ public interface GroupAnnotation extends Annotation {
      * @return the index it was removed from.
      * @throws IllegalArgumentException if the annotation isn't actually in the group.
      */
-    int remove(Annotation annotation);
+    int remove(@Nonnull Annotation annotation);
 
     /**
      * Removes all descendants.

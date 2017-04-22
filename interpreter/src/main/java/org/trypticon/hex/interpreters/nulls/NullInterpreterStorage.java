@@ -21,7 +21,7 @@ package org.trypticon.hex.interpreters.nulls;
 import org.trypticon.hex.interpreters.AbstractInterpreterStorage;
 import org.trypticon.hex.interpreters.InterpreterInfo;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -41,6 +41,6 @@ public class NullInterpreterStorage extends AbstractInterpreterStorage {
 
     @Override
     public List<InterpreterInfo> getInterpreterInfos() {
-        return Arrays.<InterpreterInfo>asList(new NullInterpreterInfo());
+        return Collections.<InterpreterInfo>singletonList(new NullInterpreterInfo());
     }
 }

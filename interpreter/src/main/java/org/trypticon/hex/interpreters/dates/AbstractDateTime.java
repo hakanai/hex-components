@@ -40,8 +40,11 @@ public abstract class AbstractDateTime implements DateTime {
     public String toLocalisedString(Format style, Locale locale) {
         DateFormat format = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, locale);
         Calendar calendar = new GregorianCalendar(locale);
-        calendar.set(getDate().getYear(), getDate().getMonth() - 1, getDate().getDay(),
-                     getTime().getHour(), getTime().getMinute(), getTime().getSecond());
+        Date date = getDate();
+        Time time = getTime();
+        //noinspection MagicConstant
+        calendar.set(date.getYear(), date.getMonth() - 1, date.getDay(),
+                     time.getHour(), time.getMinute(), time.getSecond());
         return format.format(calendar.getTime());
     }
 

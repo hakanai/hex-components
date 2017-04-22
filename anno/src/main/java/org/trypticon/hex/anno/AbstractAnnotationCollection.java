@@ -21,9 +21,10 @@ package org.trypticon.hex.anno;
 import org.trypticon.hex.anno.util.AnnotationRangeSearchHit;
 import org.trypticon.hex.anno.util.AnnotationRangeSearcher;
 
+import javax.annotation.Nonnull;
 import javax.swing.event.EventListenerList;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -37,8 +38,8 @@ public abstract class AbstractAnnotationCollection implements AnnotationCollecti
     private EventListenerList listenerList;
 
     @Override
-    public void add(Annotation annotation) throws OverlappingAnnotationException {
-        doAdd(Arrays.asList((GroupAnnotation) getRootGroup()), annotation);
+    public void add(@Nonnull Annotation annotation) throws OverlappingAnnotationException {
+        doAdd(Collections.singletonList(getRootGroup()), annotation);
     }
 
     /**
@@ -58,7 +59,7 @@ public abstract class AbstractAnnotationCollection implements AnnotationCollecti
         if (hits.size() == 0) {
             // No annotations in the vicinity at all, just add it and bail.
             int index = parentAnnotation.add(annotation);
-            fireAnnotationsAdded(parentAnnotationPath, Arrays.asList(index), Arrays.asList(annotation));
+            fireAnnotationsAdded(parentAnnotationPath, Collections.singletonList(index), Collections.singletonList(annotation));
             return;
         }
 
@@ -129,7 +130,7 @@ public abstract class AbstractAnnotationCollection implements AnnotationCollecti
                 // And finally add the group to ourselves.  We know this must be safe because we just removed all the
                 // annotations in its location.
                 int index = parentAnnotation.add(annotation);
-                fireAnnotationsAdded(parentAnnotationPath, Arrays.asList(index), Arrays.asList(annotation));
+                fireAnnotationsAdded(parentAnnotationPath, Collections.singletonList(index), Collections.singletonList(annotation));
             } else {
                 // We annotation we're trying to add contains children which may themselves overlap
                 // with the existing annotations in the region.
@@ -151,13 +152,13 @@ public abstract class AbstractAnnotationCollection implements AnnotationCollecti
     }
 
     @Override
-    public void remove(Annotation annotation) {
-        doRemove(Arrays.asList((GroupAnnotation) getRootGroup()), annotation, false);
+    public void remove(@Nonnull Annotation annotation) {
+        doRemove(Collections.singletonList(getRootGroup()), annotation, false);
     }
 
     @Override
-    public void removeWithDescendants(Annotation annotation) {
-        doRemove(Arrays.asList((GroupAnnotation) getRootGroup()), annotation, true);
+    public void removeWithDescendants(@Nonnull Annotation annotation) {
+        doRemove(Collections.singletonList(getRootGroup()), annotation, true);
     }
 
     private void doRemove(List<GroupAnnotation> parentAnnotationPath, Annotation annotation,
@@ -173,7 +174,7 @@ public abstract class AbstractAnnotationCollection implements AnnotationCollecti
 
         if (foundAnnotation.equals(annotation)) {
             int removedIndex = parentAnnotation.remove(annotation);
-            fireAnnotationsRemoved(parentAnnotationPath, Arrays.asList(removedIndex), Arrays.asList(annotation));
+            fireAnnotationsRemoved(parentAnnotationPath, Collections.singletonList(removedIndex), Collections.singletonList(annotation));
 
             if (!removeDescendants) {
                 // We removed a group so we have to add its children back.
@@ -251,18 +252,18 @@ public abstract class AbstractAnnotationCollection implements AnnotationCollecti
         }
     }
 
-    protected void fireAnnotationChanged(Annotation annotation) {
+    protected void fireAnnotationChanged(@Nonnull Annotation annotation) {
         if (listenerList != null) {
             List<? extends Annotation> path = this.getAnnotationPathFor(annotation);
             @SuppressWarnings("unchecked") // safe for now because all ancestors must be GroupAnnotation.
                     List<? extends GroupAnnotation> parentPath = (List<? extends GroupAnnotation>)
                     path.subList(0, path.size() - 1);
             int index = parentPath.get(parentPath.size() - 1).getAnnotations().indexOf(annotation);
-            fireAnnotationsChanged(parentPath, Arrays.asList(index), Arrays.asList(annotation));
+            fireAnnotationsChanged(parentPath, Collections.singletonList(index), Collections.singletonList(annotation));
         }
     }
 
-    protected void fireAnnotationsChanged(AnnotationCollectionEvent event) {
+    protected void fireAnnotationsChanged(@Nonnull AnnotationCollectionEvent event) {
         if (listenerList != null) {
             for (AnnotationCollectionListener listener :
                 listenerList.getListeners(AnnotationCollectionListener.class)) {
@@ -273,7 +274,7 @@ public abstract class AbstractAnnotationCollection implements AnnotationCollecti
     }
 
     @Override
-    public void addAnnotationCollectionListener(AnnotationCollectionListener listener) {
+    public void addAnnotationCollectionListener(@Nonnull AnnotationCollectionListener listener) {
         if (listenerList == null) {
             listenerList = new EventListenerList();
         }
@@ -281,7 +282,7 @@ public abstract class AbstractAnnotationCollection implements AnnotationCollecti
     }
 
     @Override
-    public void removeAnnotationCollectionListener(AnnotationCollectionListener listener) {
+    public void removeAnnotationCollectionListener(@Nonnull AnnotationCollectionListener listener) {
         if (listenerList != null) {
             listenerList.remove(AnnotationCollectionListener.class, listener);
         }

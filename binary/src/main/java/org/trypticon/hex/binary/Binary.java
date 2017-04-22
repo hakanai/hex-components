@@ -34,7 +34,7 @@ public interface Binary extends Closeable {
      *
      * @return the length of the binary, in bytes.
      */
-    public long length();
+    long length();
 
     /**
      * Reads a single byte from a given position.
@@ -43,7 +43,7 @@ public interface Binary extends Closeable {
      * @return the single byte.
      * @throws IndexOutOfBoundsException if the position is out of bounds.
      */
-    public byte read(long position);
+    byte read(long position);
 
     /**
      * Reads bytes from a given position into the buffer provided, filling the entire buffer.
@@ -53,7 +53,7 @@ public interface Binary extends Closeable {
      * @param offset the offset in the buffer to begin reading into.
      * @param length the number of bytes to read.
      */
-    public void read(long position, byte[] buffer, int offset, int length);
+    void read(long position, byte[] buffer, int offset, int length);
 
     /**
      * Reads bytes from a given position into the buffer provided, filling the entire buffer.
@@ -61,7 +61,7 @@ public interface Binary extends Closeable {
      * @param position tne position to begin reading from.
      * @param buffer the buffer to read into.
      */
-    public void read(long position, byte[] buffer);
+    void read(long position, byte[] buffer);
 
     /**
      * Reads bytes from a given position into the buffer provided.
@@ -69,7 +69,7 @@ public interface Binary extends Closeable {
      * @param position the position to begin reading from.
      * @param buffer the buffer to read into.
      */
-    public void read(long position, ByteBuffer buffer);
+    void read(long position, ByteBuffer buffer);
 
     /**
      * Gets a view of one slice of the binary.
@@ -78,7 +78,7 @@ public interface Binary extends Closeable {
      * @param length the length to return.
      * @return the slice of the binary.
      */
-    public Binary slice(long position, long length);
+    Binary slice(long position, long length);
 
     /**
      * Closes the binary.  Other methods SHOULD NOT be used after closing.

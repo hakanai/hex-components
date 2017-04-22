@@ -54,7 +54,7 @@ public interface InterpreterInfo extends Localisable {
     /**
      * Class describing options which can be passed to the interpreter.
      */
-    public static class Option<T> implements Localisable {
+    class Option<T> implements Localisable {
         private final String name;
         private final Class<T> type;
         private final boolean required;

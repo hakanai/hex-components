@@ -23,7 +23,7 @@ import org.trypticon.hex.interpreters.Interpreter;
 import org.trypticon.hex.util.LocalisedName;
 
 import java.nio.charset.Charset;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +39,7 @@ public class StringInterpreterInfo extends AbstractInterpreterInfo {
 
     @Override
     public List<Option<?>> getOptions() {
-        return Arrays.<Option<?>>asList(new Option<>("encoding", Charset.class, true));
+        return Collections.<Option<?>>singletonList(new Option<>("encoding", Charset.class, true));
     }
 
     @Override

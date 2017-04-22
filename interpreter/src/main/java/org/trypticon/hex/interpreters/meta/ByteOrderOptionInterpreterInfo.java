@@ -25,7 +25,7 @@ import org.trypticon.hex.interpreters.Value;
 import org.trypticon.hex.interpreters.options.ByteOrderOption;
 import org.trypticon.hex.util.Localisable;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -57,7 +57,7 @@ public class ByteOrderOptionInterpreterInfo<V extends Value> extends AbstractInt
 
     @Override
     public List<Option<?>> getOptions() {
-        return Arrays.<Option<?>>asList(new Option<>("byteOrder", ByteOrderOption.class, true));
+        return Collections.<Option<?>>singletonList(new Option<>("byteOrder", ByteOrderOption.class, true));
     }
 
     @Override

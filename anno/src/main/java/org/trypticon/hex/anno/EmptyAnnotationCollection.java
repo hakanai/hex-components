@@ -18,6 +18,8 @@
 
 package org.trypticon.hex.anno;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,21 +29,25 @@ import java.util.List;
  * @author trejkaz
  */
 public class EmptyAnnotationCollection extends AbstractAnnotationCollection {
+    @Nonnull
     @Override
     public GroupAnnotation getRootGroup() {
         return new SimpleGroupAnnotation(0, 1);
     }
 
+    @Nonnull
     @Override
     public List<Annotation> getTopLevel() {
         return Collections.emptyList();
     }
 
+    @Nullable
     @Override
     public List<Annotation> getAnnotationPathAt(long position) {
         return null;
     }
 
+    @Nonnull
     @Override
     public List<? extends Annotation> getAnnotationPathFor(Annotation annotation) {
         throw new IllegalArgumentException("Annotation is not in the collection: " + annotation);

@@ -18,6 +18,8 @@
 
 package org.trypticon.hex.anno;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -38,16 +40,19 @@ public class MemoryAnnotationCollection extends AbstractAnnotationCollection {
         this.rootGroup = rootGroup;
     }
 
+    @Nonnull
     @Override
     public GroupAnnotation getRootGroup() {
         return rootGroup;
     }
 
+    @Nonnull
     @Override
     public List<? extends Annotation> getTopLevel() {
         return rootGroup.getAnnotations();
     }
 
+    @Nullable
     @Override
     public List<? extends Annotation> getAnnotationPathAt(long position) {
         if (position < 0) {
@@ -72,6 +77,7 @@ public class MemoryAnnotationCollection extends AbstractAnnotationCollection {
         return path;
     }
 
+    @Nonnull
     @Override
     public List<? extends Annotation> getAnnotationPathFor(Annotation annotation) {
         List<Annotation> path = new LinkedList<>();
