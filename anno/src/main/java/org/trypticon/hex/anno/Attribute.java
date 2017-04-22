@@ -43,4 +43,9 @@ public final class Attribute<V> {
     public static <V> Attribute<V> named(String name) {
         return new Attribute<>(name);
     }
+
+    @Override
+    public String toString() {;
+        return "Attribute[" + name + ']';
+    }
 }
