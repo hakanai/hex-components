@@ -41,7 +41,7 @@ public class TestConsistency {
     private void check(List<InterpreterInfo> infos) {
         Set<String> shortNames = new LinkedHashSet<>();
         Set<String> longNames = new LinkedHashSet<>();
-        for (InterpreterInfo info : new MasterInterpreterStorage().getInterpreterInfos()) {
+        for (InterpreterInfo info : infos) {
             String shortName = info.toLocalisedString(Format.SHORT, Locale.ROOT);
             if (!shortNames.add(shortName)) {
                 fail("Duplicate short name: " + shortName);
