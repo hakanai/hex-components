@@ -1,6 +1,6 @@
 
 VERSION_NUMBER = '0.8.0-SNAPSHOT'
-COPYRIGHT = 'Copyright \u00A9 2009-2014,2017  Hex Project'
+COPYRIGHT = 'Copyright \u00A9 2009-2014,2016-2017  Hex Project'
 
 repositories.remote << 'https://oss.sonatype.org/content/groups/public'
 repositories.remote << 'http://central.maven.org/maven2/'
