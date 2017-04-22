@@ -19,6 +19,9 @@
 package org.trypticon.hex.plaf;
 
 import org.trypticon.hex.HexViewer;
+import org.trypticon.hex.binary.Binary;
+
+import javax.annotation.Nonnull;
 
 /**
  * Action to move the selection to the start of the binary.
@@ -27,7 +30,7 @@ import org.trypticon.hex.HexViewer;
  */
 class SelectionHomeAction extends AbstractSelectionMoveAction {
     @Override
-    protected long getNewCursorPos(HexViewer viewer) {
+    protected long getNewCursorPos(@Nonnull HexViewer viewer, @Nonnull Binary binary) {
         return 0;
     }
 }

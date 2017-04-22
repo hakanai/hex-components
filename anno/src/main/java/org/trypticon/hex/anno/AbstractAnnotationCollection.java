@@ -197,8 +197,8 @@ public abstract class AbstractAnnotationCollection implements AnnotationCollecti
             // Found one but it wasn't the one we were looking for.
             // If it's a group annotation then we might find it further down the tree.
             if (foundAnnotation instanceof GroupAnnotation) {
-                List<GroupAnnotation> newParentAnnotationPath = null;
-                newParentAnnotationPath = new ArrayList<>(parentAnnotationPath.size() + 1);
+                List<GroupAnnotation> newParentAnnotationPath =
+                        new ArrayList<>(parentAnnotationPath.size() + 1);
                 newParentAnnotationPath.addAll(parentAnnotationPath);
                 newParentAnnotationPath.add((GroupAnnotation) foundAnnotation);
                 doRemove(newParentAnnotationPath, annotation, removeDescendants);

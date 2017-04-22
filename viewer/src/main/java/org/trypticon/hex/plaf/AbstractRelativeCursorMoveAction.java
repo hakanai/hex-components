@@ -19,6 +19,9 @@
 package org.trypticon.hex.plaf;
 
 import org.trypticon.hex.HexViewer;
+import org.trypticon.hex.binary.Binary;
+
+import javax.annotation.Nonnull;
 
 /**
  * Base class for actions which move the cursor.
@@ -27,7 +30,7 @@ import org.trypticon.hex.HexViewer;
  */
 abstract class AbstractRelativeCursorMoveAction extends AbstractCursorMoveAction {
     @Override
-    protected long getNewCursorPos(HexViewer viewer) {
+    protected long getNewCursorPos(@Nonnull HexViewer viewer, @Nonnull Binary binary) {
         return viewer.getSelectionModel().getCursor() + getShift(viewer);
     }
 
@@ -39,6 +42,6 @@ abstract class AbstractRelativeCursorMoveAction extends AbstractCursorMoveAction
      * @param viewer the hex viewer.
      * @return the amount by which the cursor should shift.
      */
-    protected abstract int getShift(HexViewer viewer);
+    protected abstract int getShift(@Nonnull HexViewer viewer);
 
 }

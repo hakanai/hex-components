@@ -24,6 +24,7 @@ import org.trypticon.hex.HexUtils;
 import org.trypticon.hex.HexViewer;
 import org.trypticon.hex.anno.Annotation;
 import org.trypticon.hex.anno.AnnotationCollection;
+import org.trypticon.hex.binary.Binary;
 
 import javax.swing.JLabel;
 import javax.swing.border.Border;
@@ -54,6 +55,11 @@ public class DefaultCellRenderer extends JLabel implements CellRenderer {
     public Component getRendererComponent(HexViewer viewer, boolean selected, boolean onCursorRow, boolean atCursor,
                                           long position, int valueDisplayMode) {
 
+        Binary binary = viewer.getBinary();
+        if (binary == null) {
+            return this;
+        }
+
         // XXX: I should probably split this logic into different renderers for each column.
         //int charYOffset = (rowHeight - metrics.getAscent()) / 2;
 
@@ -68,7 +74,7 @@ public class DefaultCellRenderer extends JLabel implements CellRenderer {
         // XXX: This is redundant if rendering the address column.
         int b;
         try {
-            b = viewer.getBinary().read(position) & 0xFF;
+            b = binary.read(position) & 0xFF;
         } catch (Exception e) {
             // Eat the exception but mark it as an error
             b = ERROR_PLACEHOLDER;

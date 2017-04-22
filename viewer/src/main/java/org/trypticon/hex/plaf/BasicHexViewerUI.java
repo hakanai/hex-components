@@ -103,7 +103,12 @@ public class BasicHexViewerUI extends HexViewerUI {
         int charWidth = computeCharWidth(viewer);
         int rowHeight = viewer.getRowHeight();
 
-        long binaryLength = viewer.getBinary().length();
+        Binary binary = viewer.getBinary();
+        if (binary == null) {
+            return 0L;
+        }
+
+        long binaryLength = binary.length();
         int bytesPerRow = viewer.getBytesPerRow();
         int maxBytesX = bytesPerRow - 1;
         long maxBytesY = binaryLength / bytesPerRow;

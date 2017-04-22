@@ -19,6 +19,9 @@
 package org.trypticon.hex.plaf;
 
 import org.trypticon.hex.HexViewer;
+import org.trypticon.hex.binary.Binary;
+
+import javax.annotation.Nonnull;
 
 /**
  * Action to move the cursor to the end of the binary.
@@ -27,7 +30,7 @@ import org.trypticon.hex.HexViewer;
  */
 class CursorEndAction extends AbstractCursorMoveAction {
     @Override
-    protected long getNewCursorPos(HexViewer viewer) {
-        return viewer.getBinary().length() - 1;
+    protected long getNewCursorPos(@Nonnull HexViewer viewer, @Nonnull Binary binary) {
+        return binary.length() - 1;
     }
 }

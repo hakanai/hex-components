@@ -20,6 +20,8 @@ package org.trypticon.hex.plaf;
 
 import org.trypticon.hex.HexViewer;
 
+import javax.annotation.Nonnull;
+
 /**
  * Action to move the cursor down one row.
  *
@@ -27,7 +29,7 @@ import org.trypticon.hex.HexViewer;
  */
 class CursorDownAction extends AbstractRelativeCursorMoveAction {
     @Override
-    protected int getShift(HexViewer viewer) {
+    protected int getShift(@Nonnull HexViewer viewer) {
         return viewer.getBytesPerRow();
     }
 }

@@ -19,6 +19,7 @@
 package org.trypticon.hex.plaf;
 
 import org.trypticon.hex.HexViewer;
+import org.trypticon.hex.binary.Binary;
 
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
@@ -32,6 +33,11 @@ class SelectAllAction extends AbstractAction {
     @Override
     public void actionPerformed(ActionEvent event) {
         HexViewer viewer = (HexViewer) event.getSource();
-        viewer.getSelectionModel().setSelection(0, viewer.getBinary().length() - 1);
+        Binary binary = viewer.getBinary();
+        if (binary == null) {
+            return;
+        }
+
+        viewer.getSelectionModel().setSelection(0, binary.length() - 1);
     }
 }

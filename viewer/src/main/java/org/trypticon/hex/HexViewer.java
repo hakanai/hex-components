@@ -30,6 +30,7 @@ import org.trypticon.hex.plaf.LookAndFeelExtensions;
 import org.trypticon.hex.renderer.CellRenderer;
 import org.trypticon.hex.renderer.DefaultCellRenderer;
 
+import javax.annotation.Nullable;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JScrollBar;
@@ -232,6 +233,7 @@ public class HexViewer extends JComponent {
      *
      * @return the binary being viewed.
      */
+    @Nullable
     public Binary getBinary() {
         return binary;
     }

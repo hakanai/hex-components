@@ -19,7 +19,9 @@
 package org.trypticon.hex.plaf;
 
 import org.trypticon.hex.HexViewer;
+import org.trypticon.hex.binary.Binary;
 
+import javax.annotation.Nonnull;
 import javax.swing.AbstractAction;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -34,8 +36,14 @@ abstract class AbstractCursorMoveAction extends AbstractAction {
     public void actionPerformed(ActionEvent event) {
         HexViewer viewer = (HexViewer) event.getSource();
 
-        long newCursorPos = getNewCursorPos(viewer);
-        long length = viewer.getBinary().length();
+        Binary binary = viewer.getBinary();
+        if (binary == null) {
+            return;
+        }
+
+        long newCursorPos = getNewCursorPos(viewer, binary);
+
+        long length = binary.length();
 
         if (newCursorPos >= length) {
             newCursorPos = length - 1;
@@ -54,9 +62,10 @@ abstract class AbstractCursorMoveAction extends AbstractAction {
      * Gets the new cursor position.
      *
      * @param viewer the hex viewer.
+     * @param binary the binary displayed in the viewer.
      * @return the new (absolute) cursor position.
      */
-    protected abstract long getNewCursorPos(HexViewer viewer);
+    protected abstract long getNewCursorPos(@Nonnull HexViewer viewer, @Nonnull Binary binary);
 
     /**
      * Called to move the cursor.
