@@ -1,5 +1,5 @@
 
-VERSION_NUMBER = '0.8.0-SNAPSHOT'
+VERSION_NUMBER = "0.8.0"
 COPYRIGHT = 'Copyright \u00A9 2009-2014,2016-2017  Hex Project'
 
 repositories.remote << 'https://oss.sonatype.org/content/groups/public'
