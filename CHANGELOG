@@ -1,4 +1,8 @@
 
+Version 0.8 (2017-04-22)
+
+   Fixed: Fixed multiple NullPointerException risks.
+
 Version 0.7 (2016-08-23)
 
      New: Method to remove an entire sub-tree of annotations (the normal remove method removes group
