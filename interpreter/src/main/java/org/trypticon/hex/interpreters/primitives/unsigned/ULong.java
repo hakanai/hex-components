@@ -70,7 +70,7 @@ public class ULong extends AbstractNumberValue {
 
     @Override
     public String toLocalisedString(Format style, Locale locale) {
-        return NumberFormat.getInstance().format(toBigInteger());
+        return NumberFormat.getInstance(locale).format(toBigInteger());
     }
 
     private BigInteger toBigInteger() {

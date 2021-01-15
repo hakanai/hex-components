@@ -69,6 +69,6 @@ public class SLong extends AbstractNumberValue {
 
     @Override
     public String toLocalisedString(Format style, Locale locale) {
-        return NumberFormat.getInstance().format(longValue());
+        return NumberFormat.getInstance(locale).format(longValue());
     }
 }

@@ -35,7 +35,7 @@ public class StringInterpreter extends AbstractInterpreter<StringValue> {
     private final Charset charset;
 
     public StringInterpreter(Charset charset) {
-        super(String.format("string(%s)", charset.name()), StringValue.class);
+        super("string(" + charset.name() + ')', StringValue.class);
         this.charset = charset;
     }
 

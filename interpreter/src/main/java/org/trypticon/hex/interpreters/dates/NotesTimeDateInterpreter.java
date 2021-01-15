@@ -23,6 +23,7 @@ import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 import org.trypticon.hex.interpreters.primitives.LittleEndian;
 
 import javax.annotation.Nonnull;
+import java.time.Instant;
 
 /**
  * Interpreter for Lotus Notes {@code TIMEDATE} values.
@@ -31,7 +32,7 @@ import javax.annotation.Nonnull;
  */
 public class NotesTimeDateInterpreter extends AbstractFixedLengthInterpreter<DateTime> {
     // Computed using Calendar for January 1, 4713 BC 00:00 UTC and then just taking the value.
-    private static final long EPOCH = -210866803200000L;
+    private static final Instant EPOCH = Instant.ofEpochMilli(-210866803200000L);
 
     public NotesTimeDateInterpreter() {
         super("notes_time_date", DateTime.class, 8);

@@ -82,7 +82,8 @@ public interface InterpreterInfo extends Localisable {
 
         @Override
         public String toLocalisedString(Format style, Locale locale) {
-            return ResourceBundle.getBundle("org/trypticon/hex/interpreters/Bundle").getString("Option." + getName());
+            return ResourceBundle.getBundle("org/trypticon/hex/interpreters/Bundle", locale)
+                    .getString("Option." + getName());
         }
 
         public Class<?> getType() {

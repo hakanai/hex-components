@@ -69,6 +69,6 @@ public class SInt extends AbstractNumberValue {
 
     @Override
     public String toLocalisedString(Format style, Locale locale) {
-        return NumberFormat.getInstance().format(intValue());
+        return NumberFormat.getInstance(locale).format(intValue());
     }
 }

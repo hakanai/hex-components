@@ -23,6 +23,7 @@ import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 import org.trypticon.hex.interpreters.primitives.LittleEndian;
 
 import javax.annotation.Nonnull;
+import java.time.Instant;
 
 /**
  * Interpreter for Windows OLE {@code VT_DATE} / {@code PT_APPTIME} values, common in Office formats, MAPI, etc.
@@ -31,7 +32,7 @@ import javax.annotation.Nonnull;
  */
 public class WindowsOleDateInterpreter extends AbstractFixedLengthInterpreter<DateTime> {
     // Computed using Calendar for December 30, 1899 00:00 UTC and then just taking the value.
-    private static final long EPOCH = -2209161600000L;
+    private static final Instant EPOCH = Instant.ofEpochMilli(-2209161600000L);
 
     public WindowsOleDateInterpreter() {
         super("win_ole_date", DateTime.class, 8);

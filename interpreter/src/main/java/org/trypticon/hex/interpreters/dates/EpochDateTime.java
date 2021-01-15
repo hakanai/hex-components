@@ -18,19 +18,20 @@
 
 package org.trypticon.hex.interpreters.dates;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 
 /**
- * A date-time value using {@link Calendar} to compute the date based on an epoch
+ * A date-time value using {@link ZonedDateTime} to compute the date based on an epoch
  * and the offsets the subclass passes in.
  */
 public class EpochDateTime extends AbstractDateTime {
     private final int length;
-    private final long millis;
+    private final Instant epoch;
+    private final long millisSinceEpoch;
     private final int remainingNanos;
-    private Calendar calendar;
+    private ZonedDateTime dateTime;
 
     /**
      * Constructs the date-time.
@@ -41,9 +42,10 @@ public class EpochDateTime extends AbstractDateTime {
      * @param remainingNanos any remaining nanoseconds which should be taken into account (workaround for
      *                       the APIs not letting us put them into the date value until Java 8.)
      */
-    public EpochDateTime(int length, long epoch, long millisSinceEpoch, int remainingNanos) {
+    public EpochDateTime(int length, Instant epoch, long millisSinceEpoch, int remainingNanos) {
         this.length = length;
-        this.millis = epoch + millisSinceEpoch;
+        this.epoch = epoch;
+        this.millisSinceEpoch = millisSinceEpoch;
         this.remainingNanos = remainingNanos;
     }
 
@@ -62,30 +64,27 @@ public class EpochDateTime extends AbstractDateTime {
         return length;
     }
 
-    private Calendar getCalendar() {
-        if (calendar == null) {
-            calendar = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
-            // add() doesn't support long so we manually add it like this.
-            calendar.setTimeInMillis(millis);
+    private ZonedDateTime getDateTime() {
+        if (dateTime == null) {
+            dateTime = epoch.plusMillis(millisSinceEpoch).plusNanos(remainingNanos).atZone(ZoneOffset.UTC);
         }
-        return calendar;
+        return dateTime;
     }
 
     private class CalendarDate extends AbstractDate {
         @Override
         public int getYear() {
-            return getCalendar().get(Calendar.YEAR);
+            return getDateTime().getYear();
         }
 
         @Override
         public int getMonth() {
-            // Calendar API months are zero-indexed.
-            return getCalendar().get(Calendar.MONTH) + 1;
+            return getDateTime().getMonthValue();
         }
 
         @Override
         public int getDay() {
-            return getCalendar().get(Calendar.DAY_OF_MONTH);
+            return getDateTime().getDayOfMonth();
         }
 
         @Override
@@ -97,22 +96,22 @@ public class EpochDateTime extends AbstractDateTime {
     private class CalendarTime extends AbstractTime {
         @Override
         public int getHour() {
-            return getCalendar().get(Calendar.HOUR_OF_DAY);
+            return getDateTime().getHour();
         }
 
         @Override
         public int getMinute() {
-            return getCalendar().get(Calendar.MINUTE);
+            return getDateTime().getMinute();
         }
 
         @Override
         public int getSecond() {
-            return getCalendar().get(Calendar.SECOND);
+            return getDateTime().getSecond();
         }
 
         @Override
         public int getNanos() {
-            return getCalendar().get(Calendar.MILLISECOND) * DateConversion.NANOS_IN_MILLISECOND + remainingNanos;
+            return getDateTime().getNano();
         }
 
         @Override

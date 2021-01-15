@@ -20,9 +20,11 @@ package org.trypticon.hex.interpreters.dates;
 
 import org.trypticon.hex.util.Format;
 
-import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.FormatStyle;
 import java.util.Locale;
 
 /**
@@ -70,20 +72,20 @@ public abstract class AbstractTime implements Time {
 
     @Override
     public String toLocalisedString(Format style, Locale locale) {
-        //TODO: How do nanoseconds fit into this?
-        DateFormat format = DateFormat.getTimeInstance(DateFormat.LONG, locale);
-        Calendar calendar = new GregorianCalendar(locale);
-        calendar.set(2001, Calendar.JANUARY, 1, getHour(), getMinute(), getSecond());
-        return format.format(calendar.getTime());
+        return new DateTimeFormatterBuilder()
+                .appendLocalized(null, FormatStyle.LONG)
+                .toFormatter(locale)
+                .withZone(ZoneOffset.UTC)
+                .format(LocalTime.of(getHour(), getMinute(), getSecond(), getNanos()));
     }
 
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder(18);
-        builder.append(String.format("%02d:%02d:%02d", getHour(), getMinute(), getSecond()));
+        builder.append(String.format(Locale.ROOT, "%02d:%02d:%02d", getHour(), getMinute(), getSecond()));
         if (getNanos() != 0) {
             // XXX: Really it should print only as many decimal places as are present.
-            builder.append(String.format("%09d", getNanos()));
+            builder.append(String.format(Locale.ROOT, "%09d", getNanos()));
         }
         return builder.toString();
     }

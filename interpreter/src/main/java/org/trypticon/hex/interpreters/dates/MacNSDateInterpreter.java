@@ -23,6 +23,7 @@ import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 import org.trypticon.hex.interpreters.primitives.BigEndian;
 
 import javax.annotation.Nonnull;
+import java.time.Instant;
 
 /**
  * Interpreter for NeXTSTEP/Mac OS X {@code NSDate} / {@code CFDateRef} values.
@@ -31,7 +32,7 @@ import javax.annotation.Nonnull;
  */
 public class MacNSDateInterpreter extends AbstractFixedLengthInterpreter<DateTime> {
     // Computed using Calendar for January 1, 2001 00:00 UTC and then just taking the value.
-    private static final long EPOCH = 978307200000L;
+    private static final Instant EPOCH = Instant.ofEpochMilli(978307200000L);
 
     public MacNSDateInterpreter() {
         super("mac_osx_nsdate", DateTime.class, 8);

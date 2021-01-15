@@ -69,6 +69,6 @@ public class SByte extends AbstractNumberValue {
 
     @Override
     public String toLocalisedString(Format style, Locale locale) {
-        return NumberFormat.getInstance().format(byteValue());
+        return NumberFormat.getInstance(locale).format(byteValue());
     }
 }

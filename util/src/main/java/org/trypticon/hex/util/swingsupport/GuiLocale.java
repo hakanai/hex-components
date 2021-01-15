@@ -16,31 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.interpreters.dates;
+package org.trypticon.hex.util.swingsupport;
 
-import org.trypticon.hex.binary.Binary;
-import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
-import org.trypticon.hex.interpreters.primitives.BigEndian;
-
-import javax.annotation.Nonnull;
-import java.time.Instant;
+import java.util.Locale;
 
 /**
- * Interpreter for Java time values.
- *
- * @author trejkaz
+ * Convenience utility for getting the GUI locale.
  */
-public class JavaTimeInterpreter extends AbstractFixedLengthInterpreter<DateTime> {
-    public JavaTimeInterpreter() {
-        super("java_time", DateTime.class, 8);
+public class GuiLocale {
+    private GuiLocale() {
     }
 
-    @Nonnull
-    @Override
-    protected DateTime interpret(@Nonnull Binary binary, long position) {
-        // Value is the number of milliseconds since January 1, 1970 (UTC)
-        long value = BigEndian.getLong(binary, position);
-
-        return new EpochDateTime(8, Instant.EPOCH, value, 0);
+    /**
+     * Gets the locale for the GUI.
+     *
+     * @return the GUI locale.
+     */
+    public static Locale get() {
+        return Locale.getDefault();
     }
 }

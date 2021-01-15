@@ -20,6 +20,7 @@ package org.trypticon.hex.accessory;
 
 import org.jdesktop.swingx.JXCollapsiblePane;
 import org.trypticon.hex.HexViewer;
+import org.trypticon.hex.util.swingsupport.GuiLocale;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -197,7 +198,7 @@ public class ExpandableAccessoryBar extends AccessoryBar {
             bar.setBorder(BorderFactory.createEmptyBorder(1, 0, 1, 0));
             bar.setOpaque(false);
 
-            ResourceBundle bundle = ResourceBundle.getBundle("org/trypticon/hex/Bundle");
+            ResourceBundle bundle = ResourceBundle.getBundle("org/trypticon/hex/Bundle", GuiLocale.get());
 
             removeButton = new JButton(new ImageIcon(getClass().getResource("Remove.png")));
             removeButton.setRolloverIcon(new ImageIcon(getClass().getResource("RemoveRollover.png")));

@@ -1,3 +1,6 @@
+import de.thetaphi.forbiddenapis.gradle.CheckForbiddenApisExtension
+import de.thetaphi.forbiddenapis.gradle.ForbiddenApisPlugin
+
 /*
  * Hex - a hex viewer and annotator
  * Copyright (C) 2009-2014,2016-2017,2021  Hakanai, Hex Project
@@ -15,6 +18,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath("de.thetaphi:forbiddenapis:3.1")
+    }
+}
 
 allprojects {
     repositories {
@@ -80,7 +92,9 @@ allprojects {
         sign(extensions.getByType<PublishingExtension>().publications["mavenJava"])
     }
 
-    plugins.withType<JavaPlugin>().configureEach {
+    plugins.withType<JavaPlugin> {
+        plugins.apply(ForbiddenApisPlugin::class)
+
         configure<JavaPluginExtension> {
             sourceCompatibility = JavaVersion.VERSION_11
             withJavadocJar()
@@ -91,6 +105,10 @@ allprojects {
             // How is this still not the default, Gradle?!
             options.encoding = "UTF-8"
             options.compilerArgs = listOf("-Xlint:all")
+        }
+
+        configure<CheckForbiddenApisExtension> {
+            bundledSignatures = setOf("jdk-unsafe", "jdk-deprecated", "jdk-system-out")
         }
 
         tasks.withType<Test>().configureEach {

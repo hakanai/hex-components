@@ -47,8 +47,8 @@ public enum ByteOrderOption implements Localisable {
 
     @Override
     public String toLocalisedString(Format style, Locale locale) {
-        return ResourceBundle.getBundle("org/trypticon/hex/interpreters/Bundle")
-                .getString(String.format("ByteOrderOption.%s.%s", name(), style.name()));
+        return ResourceBundle.getBundle("org/trypticon/hex/interpreters/Bundle", locale)
+                .getString("ByteOrderOption." + name() + '.' + style.name());
     }
 
     @Override

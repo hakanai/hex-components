@@ -34,8 +34,8 @@ public class OverlappingAnnotationException extends Exception {
     private final Annotation attempted;
 
     public OverlappingAnnotationException(@Nonnull Annotation existing, @Nonnull Annotation attempted) {
-        super(String.format("Overlapping annotations.\n  attempted to add: %s\n  would have overlapped: %s",
-                            attempted, existing));
+        super("Overlapping annotations.\n  attempted to add: " + attempted +
+              "\n  would have overlapped: " + existing);
         this.existing = existing;
         this.attempted = attempted;
     }

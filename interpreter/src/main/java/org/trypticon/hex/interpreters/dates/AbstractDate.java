@@ -20,9 +20,11 @@ package org.trypticon.hex.interpreters.dates;
 
 import org.trypticon.hex.util.Format;
 
-import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.FormatStyle;
 import java.util.Locale;
 
 /**
@@ -62,11 +64,11 @@ public abstract class AbstractDate implements Date {
 
     @Override
     public String toLocalisedString(Format style, Locale locale) {
-        DateFormat format = DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
-        Calendar calendar = new GregorianCalendar(locale);
-        //noinspection MagicConstant
-        calendar.set(getYear(), getMonth() - 1, getDay());
-        return format.format(calendar.getTime());
+        return new DateTimeFormatterBuilder()
+                .appendLocalized(FormatStyle.MEDIUM, null)
+                .toFormatter(locale)
+                .withZone(ZoneOffset.UTC)
+                .format(LocalDate.of(getYear(), getMonth(), getDay()));
     }
 
     @Override

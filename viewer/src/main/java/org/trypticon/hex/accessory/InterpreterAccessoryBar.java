@@ -28,6 +28,7 @@ import org.trypticon.hex.interpreters.nulls.NullInterpreterInfo;
 import org.trypticon.hex.interpreters.options.ByteOrderOption;
 import org.trypticon.hex.interpreters.options.LengthOption;
 import org.trypticon.hex.util.Format;
+import org.trypticon.hex.util.swingsupport.GuiLocale;
 import org.trypticon.hex.util.swingsupport.SelectEncodingButton;
 import org.trypticon.hex.util.swingsupport.LocalisableComboBox;
 import org.trypticon.hex.util.swingsupport.PLAFUtils;
@@ -63,7 +64,7 @@ import java.util.prefs.Preferences;
 // Swing's own guidelines say not to use serialisation.
 @SuppressWarnings("serial")
 public class InterpreterAccessoryBar extends AccessoryBar {
-    private final ResourceBundle bundle = ResourceBundle.getBundle("org/trypticon/hex/Bundle");
+    private final ResourceBundle bundle = ResourceBundle.getBundle("org/trypticon/hex/Bundle", GuiLocale.get());
 
     private final HexViewer viewer;
     private final JComboBox<InterpreterInfo> typeComboBox;

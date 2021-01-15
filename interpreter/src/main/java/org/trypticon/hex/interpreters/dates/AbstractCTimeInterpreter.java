@@ -22,6 +22,7 @@ import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 
 import javax.annotation.Nonnull;
+import java.time.Instant;
 
 /**
  * Common code for all C time interpreters.
@@ -38,7 +39,7 @@ abstract class AbstractCTimeInterpreter extends AbstractFixedLengthInterpreter<D
         // Value is the number of seconds intervals since January 1, 1970 (UTC)
         long value = getValue(binary, position);
 
-        return new EpochDateTime((int) getValueLength(), 0, value * 1000, 0);
+        return new EpochDateTime((int) getValueLength(), Instant.EPOCH, value * 1000, 0);
     }
 
     /**

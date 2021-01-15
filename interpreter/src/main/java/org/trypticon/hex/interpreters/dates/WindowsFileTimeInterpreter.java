@@ -23,6 +23,7 @@ import org.trypticon.hex.interpreters.AbstractFixedLengthInterpreter;
 import org.trypticon.hex.interpreters.primitives.LittleEndian;
 
 import javax.annotation.Nonnull;
+import java.time.Instant;
 
 /**
  * Interpreter for Windows NT {@code FILETIME} values, which are used in a number of other formats.
@@ -31,7 +32,7 @@ import javax.annotation.Nonnull;
  */
 public class WindowsFileTimeInterpreter extends AbstractFixedLengthInterpreter<DateTime> {
     // Computed using Calendar for January 1, 1601 00:00 UTC and then just taking the value.
-    private static final long EPOCH = -11644473600000L;
+    private static final Instant EPOCH = Instant.ofEpochMilli(-11644473600000L);
     private static final int NANOS_PER_TIME_UNIT = 100;
     private static final int TIME_UNITS_PER_MILLISECOND = 10000;
 

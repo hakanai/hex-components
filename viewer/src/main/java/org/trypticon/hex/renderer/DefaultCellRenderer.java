@@ -25,6 +25,7 @@ import org.trypticon.hex.HexViewer;
 import org.trypticon.hex.anno.Annotation;
 import org.trypticon.hex.anno.AnnotationCollection;
 import org.trypticon.hex.binary.Binary;
+import org.trypticon.hex.util.swingsupport.GuiLocale;
 
 import javax.swing.JLabel;
 import javax.swing.border.Border;
@@ -156,7 +157,7 @@ public class DefaultCellRenderer extends JLabel implements CellRenderer {
         switch (valueDisplayMode) {
             case ROW_OFFSET:
                 String format = "%0" + viewer.getOffsetColumnDigits() + "x";
-                str = String.format(format, position);
+                str = String.format(GuiLocale.get(), format, position);
                 break;
             case HEX:
                 if (b == ERROR_PLACEHOLDER) {

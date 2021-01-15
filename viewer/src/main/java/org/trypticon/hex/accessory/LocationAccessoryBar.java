@@ -21,6 +21,7 @@ package org.trypticon.hex.accessory;
 import org.trypticon.hex.HexViewer;
 import org.trypticon.hex.HexViewerSelectionModel;
 import org.trypticon.hex.binary.Binary;
+import org.trypticon.hex.util.swingsupport.GuiLocale;
 import org.trypticon.hex.util.swingsupport.PLAFUtils;
 import org.trypticon.hex.util.swingsupport.StealthFormattedTextField;
 import org.trypticon.hex.util.swingsupport.StealthSpinner;
@@ -62,7 +63,7 @@ public class LocationAccessoryBar extends AccessoryBar {
         this.viewer = viewer;
         handler = new Handler();
 
-        ResourceBundle bundle = ResourceBundle.getBundle("org/trypticon/hex/Bundle");
+        ResourceBundle bundle = ResourceBundle.getBundle("org/trypticon/hex/Bundle", GuiLocale.get());
         JLabel columnsLabel = new JLabel(bundle.getString("AccessoryBars.Location.columns"));
         columnsSpinner = new StealthSpinner(new SpinnerNumberModel(16, 8, 64, 8));
         JLabel offsetLabel = new JLabel(bundle.getString("AccessoryBars.Location.offset"));

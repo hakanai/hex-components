@@ -69,6 +69,6 @@ public class UByte extends AbstractNumberValue {
 
     @Override
     public String toLocalisedString(Format style, Locale locale) {
-        return NumberFormat.getInstance().format(shortValue());
+        return NumberFormat.getInstance(locale).format(shortValue());
     }
 }

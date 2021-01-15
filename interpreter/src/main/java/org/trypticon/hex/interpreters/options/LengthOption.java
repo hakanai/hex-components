@@ -77,8 +77,8 @@ public enum LengthOption implements Localisable {
 
     @Override
     public String toLocalisedString(Format style, Locale locale) {
-        return ResourceBundle.getBundle("org/trypticon/hex/interpreters/Bundle")
-                .getString(String.format("LengthOption.%s.%s", name(), style.name()));
+        return ResourceBundle.getBundle("org/trypticon/hex/interpreters/Bundle", locale)
+                .getString("LengthOption." + name() + '.' + style.name());
     }
 
     @Override

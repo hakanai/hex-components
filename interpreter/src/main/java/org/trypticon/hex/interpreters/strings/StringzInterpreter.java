@@ -25,6 +25,7 @@ import javax.annotation.Nonnull;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
+import java.util.Locale;
 
 /**
  * Interpreter for null-terminated string values.
@@ -40,7 +41,7 @@ public class StringzInterpreter extends AbstractInterpreter<StringValue> {
     }
 
     public StringzInterpreter(Charset charset) {
-        super(String.format("stringz(%s)", charset.name()), StringValue.class);
+        super("stringz(" + charset.name() + ')', StringValue.class);
         this.charset = charset;
     }
 

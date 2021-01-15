@@ -87,7 +87,7 @@ class SelectEncodingPane extends SelectObjectPane<Charset> {
      * @return the chosen encoding.
      */
     public Charset showDialog(Component parentComponent) {
-        ResourceBundle bundle = ResourceBundle.getBundle("org/trypticon/hex/Bundle");
+        ResourceBundle bundle = ResourceBundle.getBundle("org/trypticon/hex/Bundle", GuiLocale.get());
         return showDialog(parentComponent,
                           bundle.getString("SelectEncoding.title"),
                           bundle.getString("SelectEncoding.okButton"));

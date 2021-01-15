@@ -25,6 +25,7 @@ import org.trypticon.hex.interpreters.Value;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -121,6 +122,6 @@ public class SimpleAnnotation implements Annotation {
 
     @Override
     public String toString() {
-        return String.format("@%d..%d:%s(%s)", position, position + length - 1, interpreter, attributes);
+        return String.format(Locale.ROOT, "@%d..%d:%s(%s)", position, position + length - 1, interpreter, attributes);
     }
 }
