@@ -22,7 +22,7 @@ dependencies {
     constraints {
         "api"("com.google.code.findbugs:jsr305:3.0.2")
 
-        val icu4jVersion = "60.1"
+        val icu4jVersion = "68.2"
         "api"("com.ibm.icu:icu4j:$icu4jVersion")
         "api"("com.ibm.icu:icu4j-charset:$icu4jVersion")
 
