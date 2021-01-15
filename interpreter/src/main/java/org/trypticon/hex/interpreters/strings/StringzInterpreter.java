@@ -76,7 +76,7 @@ public class StringzInterpreter extends AbstractInterpreter<StringValue> {
 
     @Override
     public boolean equals(Object o) {
-        return o == this || o instanceof StringzInterpreter && charset.equals(((StringzInterpreter) o).charset);
+        return o == this || (o instanceof StringzInterpreter && charset.equals(((StringzInterpreter) o).charset));
     }
 
     @Override

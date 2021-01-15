@@ -33,5 +33,6 @@ public interface BinaryStringValue extends Value {
      *
      * @return the string.
      */
+    @Override
     String toString();
 }

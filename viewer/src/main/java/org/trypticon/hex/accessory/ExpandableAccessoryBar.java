@@ -35,6 +35,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -130,7 +131,7 @@ public class ExpandableAccessoryBar extends AccessoryBar {
      * @return all accessory bars of that class.
      */
     public <B extends AccessoryBar> List<B> getAccessoryBars(Class<B> barClass) {
-        List<B> results = new LinkedList<>();
+        List<B> results = new ArrayList<>(getComponentCount());
         for (Component component : getComponents()) {
             AccessoryBar bar = ((AccessoryBarWithButtons) component).bar;
             if (barClass.isInstance(bar)) {

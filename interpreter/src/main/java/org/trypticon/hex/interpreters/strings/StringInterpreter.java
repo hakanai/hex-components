@@ -60,7 +60,7 @@ public class StringInterpreter extends AbstractInterpreter<StringValue> {
 
     @Override
     public boolean equals(Object o) {
-        return o == this || o instanceof StringInterpreter && charset.equals(((StringInterpreter) o).charset);
+        return o == this || (o instanceof StringInterpreter && charset.equals(((StringInterpreter) o).charset));
     }
 
     @Override

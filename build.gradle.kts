@@ -1,5 +1,6 @@
 import de.thetaphi.forbiddenapis.gradle.CheckForbiddenApisExtension
 import de.thetaphi.forbiddenapis.gradle.ForbiddenApisPlugin
+import net.ltgt.gradle.errorprone.ErrorPronePlugin
 
 /*
  * Hex - a hex viewer and annotator
@@ -21,10 +22,11 @@ import de.thetaphi.forbiddenapis.gradle.ForbiddenApisPlugin
 
 buildscript {
     repositories {
-        jcenter()
+        gradlePluginPortal()
     }
     dependencies {
         classpath("de.thetaphi:forbiddenapis:3.1")
+        classpath("net.ltgt.gradle:gradle-errorprone-plugin:1.3.0")
     }
 }
 
@@ -94,6 +96,7 @@ allprojects {
 
     plugins.withType<JavaPlugin> {
         plugins.apply(ForbiddenApisPlugin::class)
+        plugins.apply(ErrorPronePlugin::class)
 
         configure<JavaPluginExtension> {
             sourceCompatibility = JavaVersion.VERSION_11
@@ -116,6 +119,7 @@ allprojects {
         }
         dependencies {
             "testRuntimeOnly"("org.junit.jupiter:junit-jupiter-engine")
+            "errorprone"("com.google.errorprone:error_prone_core:2.4.0")
         }
 
         tasks.named<Jar>("jar") {

@@ -29,11 +29,11 @@ import javax.swing.ListCellRenderer;
 // Swing's own guidelines say not to use serialisation.
 @SuppressWarnings("serial")
 public abstract class DelegateRenderingComboBox<E> extends JComboBox<E> {
-    public DelegateRenderingComboBox() {
+    protected DelegateRenderingComboBox() {
         super();
     }
 
-    public DelegateRenderingComboBox(E[] items) {
+    protected DelegateRenderingComboBox(E[] items) {
         super(items);
     }
 

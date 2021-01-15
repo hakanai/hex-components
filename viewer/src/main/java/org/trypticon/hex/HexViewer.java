@@ -204,11 +204,7 @@ public class HexViewer extends JComponent {
         return "HexViewerUI";
     }
 
-    /**
-     * Gets the UI for pluggable look and feel of this component.
-     *
-     * @return the UI.
-     */
+    @Override
     public HexViewerUI getUI() {
         return (HexViewerUI) ui;
     }

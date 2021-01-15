@@ -60,23 +60,10 @@ public class DerivedColor extends Color implements UIResource {
      */
     public int deriveColor() {
         float[] tmp = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
-        //tmp[0] = rotate(tmp[0], hOffset);
         tmp[1] = clamp(tmp[1] * saturationMultiplier);
         tmp[2] = clamp(tmp[2] + lightnessAddend);
-//        int alpha = clamp(color.getAlpha() + aOffset);
         int alpha = clamp((int) (color.getAlpha() * alphaMultiplier));
         return (Color.HSBtoRGB(tmp[0], tmp[1], tmp[2]) & 0xFFFFFF) | (alpha << 24);
-    }
-
-    // Rotate a colour value
-    private float rotate(float value, float rotation) {
-        value += rotation;
-        if (value < 0.0f) {
-            value += 1.0f;
-        } else if (value >= 1.0f) {
-            value -= 1.0f;
-        }
-        return clamp(value);
     }
 
     private float clamp(float value) {

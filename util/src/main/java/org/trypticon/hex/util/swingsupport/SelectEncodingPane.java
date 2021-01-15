@@ -26,7 +26,9 @@ import java.awt.Component;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.SortedMap;
 
 /**
  * Pane to select a character encoding.
@@ -38,7 +40,9 @@ import java.util.ResourceBundle;
 class SelectEncodingPane extends SelectObjectPane<Charset> {
     @Override
     protected List<Charset> createList() {
-        return new ArrayList<>(Charset.availableCharsets().values());
+        // Use of Map variable instead of inlining it dodges warning about SortedMap usage
+        Map<String, Charset> availableCharsets = Charset.availableCharsets();
+        return new ArrayList<>(availableCharsets.values());
     }
 
     @Override

@@ -23,6 +23,7 @@ import javax.swing.border.Border;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Insets;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ import java.util.List;
 // Swing's own guidelines say not to use serialisation.
 @SuppressWarnings("serial")
 public class StackedBorder extends AbstractBorder {
-    private final List<Border> borders = new LinkedList<>();
+    private final List<Border> borders = new ArrayList<>();
 
     public StackedBorder(Border firstBorder) {
         borders.add(firstBorder);

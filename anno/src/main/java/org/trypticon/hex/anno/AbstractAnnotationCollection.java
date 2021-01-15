@@ -113,8 +113,8 @@ public abstract class AbstractAnnotationCollection implements AnnotationCollecti
                 // something dumb like putting some annotations inside the group.  If it fails, at least the
                 // subsequent calls will not be made, so things should still be consistent.
                 // This is done in reverse so that we can collect the indices.
-                List<Integer> childIndices = new LinkedList<>();
-                List<Annotation> children = new LinkedList<>();
+                List<Integer> childIndices = new ArrayList<>(hits.size());
+                List<Annotation> children = new ArrayList<>(hits.size());
                 for (ListIterator<AnnotationRangeSearchHit> iterator = hits.listIterator(hits.size());
                      iterator.hasPrevious(); ) {
 
@@ -180,8 +180,8 @@ public abstract class AbstractAnnotationCollection implements AnnotationCollecti
                 // We removed a group so we have to add its children back.
                 if (annotation instanceof GroupAnnotation) {
                     GroupAnnotation groupAnnotation = (GroupAnnotation) annotation;
-                    List<Integer> childIndices = new LinkedList<>();
-                    List<Annotation> children = new LinkedList<>();
+                    List<Integer> childIndices = new ArrayList<>();
+                    List<Annotation> children = new ArrayList<>();
                     for (Annotation child : groupAnnotation.getAnnotations()) {
                         int index = parentAnnotation.add(child);
                         childIndices.add(index);

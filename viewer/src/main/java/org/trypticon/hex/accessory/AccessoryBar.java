@@ -31,7 +31,7 @@ import java.util.prefs.Preferences;
 public abstract class AccessoryBar extends JToolBar {
     private Preferences preferencesNode;
 
-    public AccessoryBar() {
+    protected AccessoryBar() {
         setFloatable(false);
     }
 
