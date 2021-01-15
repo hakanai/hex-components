@@ -1,12 +1,12 @@
 Hex Components - A simple hex viewer written in Java.
 
-Copyright (C) 2009-2014  Trejkaz, Hex Project
+Copyright (C) 2009-2014,2016-2017,2021  Hakanai, Hex Project
 
 
 Usage
 -----
 
-For now, see the example in the examples/ subdirectory.
+For now, see the example in the `examples/` subfolder.
 
 
 UI Defaults
@@ -31,17 +31,8 @@ In all cases, if a value is absent, sensible fallback logic is used to derive a 
 Building
 --------
 
-You'll need a Java build environment.  I'm developing this on Java 7 at
+You'll need a Java build environment.  I'm developing this on Java 11 at
 the moment.
 
-You'll also need [Buildr][].
-
-To build, execute `buildr package` in the top directory. The binaries zip will
-be created in `target`.
-
-If you plan to also build [Hex][], execute `buildr install` instead to copy the
-binaries into your local repository.
-
-[Buildr]: http://buildr.apache.org/
-[Hex]: https://github.com/trejkaz/hex
-
+To build, execute `gradlew build` in the top project. Jar files will be
+created in the `build/libs` folder of each subproject.
