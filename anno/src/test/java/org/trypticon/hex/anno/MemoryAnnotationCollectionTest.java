@@ -30,7 +30,9 @@ import org.trypticon.hex.interpreters.nulls.NullInterpreter;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Tests for {@link MemoryAnnotationCollection}.
@@ -311,15 +313,15 @@ public class MemoryAnnotationCollectionTest {
     }
 
     private void assertStructure(GroupAnnotation group, Object[] expected) {
-        assertEquals("Wrong node (note didn't match)", expected[0], group.get(CommonAttributes.NOTE));
+        assertThat(group.get(CommonAttributes.NOTE), is(expected[0]));
         List<? extends Annotation> children = group.getAnnotations();
-        assertEquals("Wrong number of children inside " + group, expected.length - 1, children.size());
+        assertThat(children, hasSize(expected.length - 1));
         for (int i = 1; i < expected.length; i++) {
             Annotation child = children.get(i - 1);
             if (child instanceof GroupAnnotation) {
                 assertStructure((GroupAnnotation) child, (Object[]) expected[i]);
             } else {
-                assertEquals("Wrong node (note didn't match)", expected[i], child.get(CommonAttributes.NOTE));
+                assertThat(child.get(CommonAttributes.NOTE), is(expected[i]));
             }
         }
     }

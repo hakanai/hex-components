@@ -20,7 +20,8 @@ package org.trypticon.hex.interpreters.primitives;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Tests for {@link org.trypticon.hex.interpreters.primitives.IntBitField}.
@@ -34,19 +35,19 @@ public class LongBitFieldTest {
 
         // Three reads of 5 bits at a time, just to make sure it shifts correctly.
         LongBitField last5Bits = LongBitField.lowest(5);
-        assertEquals("Wrong value", 0x1F, last5Bits.evaluate(0xFFFFFFFFL));
+        assertThat(last5Bits.evaluate(0xFFFFFFFFL), is(0x1F));
         LongBitField next5Bits = last5Bits;
         for (int i = 0; i < 5; i++) {
             next5Bits = next5Bits.next(5);
-            assertEquals("Wrong value", 0x1F, next5Bits.evaluate(0xFFFFFFFFL));
+            assertThat(next5Bits.evaluate(0xFFFFFFFFL), is(0x1F));
         }
         next5Bits = next5Bits.next(5);
-        assertEquals("Wrong value", 0x3, next5Bits.evaluate(0xFFFFFFFFL));
+        assertThat(next5Bits.evaluate(0xFFFFFFFFL), is(0x3));
     }
 
     @Test
     public void testLargerThanInt() {
         LongBitField last48Bits = LongBitField.lowest(48);
-        assertEquals("Wrong value", 0xFFFFFFFFFFFFL, last48Bits.evaluate(0xFFFFFFFFFFFFFFFFL));
+        assertThat(last48Bits.evaluate(0xFFFFFFFFFFFFFFFFL), is(0xFFFFFFFFFFFFL));
     }
 }

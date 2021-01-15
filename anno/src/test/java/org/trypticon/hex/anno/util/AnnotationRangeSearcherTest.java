@@ -26,7 +26,8 @@ import org.trypticon.hex.interpreters.nulls.NullInterpreter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.trypticon.hex.anno.util.AnnotationRangeSearchHit.Relation.*;
 
 /**
@@ -138,6 +139,7 @@ public class AnnotationRangeSearcherTest {
     }
 
     private void test(int position, int length) {
-        assertEquals("Wrong result", expected, searcher.findAllInRange(list, new SimpleAnnotation(position, length, new NullInterpreter())));
+        assertThat(searcher.findAllInRange(list, new SimpleAnnotation(position, length, new NullInterpreter())),
+                   is(expected));
     }
 }

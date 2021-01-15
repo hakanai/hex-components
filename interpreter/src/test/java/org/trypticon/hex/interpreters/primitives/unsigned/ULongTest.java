@@ -23,7 +23,8 @@ import java.util.Locale;
 import org.junit.Test;
 import org.trypticon.hex.util.Format;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Tests for {@link org.trypticon.hex.interpreters.primitives.unsigned.ULong}.
@@ -34,6 +35,7 @@ public class ULongTest {
 
     @Test
     public void testToString() {
-        assertEquals("Wrong string value", "9,223,372,036,854,775,808", new ULong(0x8000000000000000L).toLocalisedString(Format.LONG, Locale.ROOT));
+        assertThat(new ULong(0x8000000000000000L).toLocalisedString(Format.LONG, Locale.ROOT),
+                   is("9,223,372,036,854,775,808"));
     }
 }

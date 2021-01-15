@@ -22,7 +22,8 @@ import org.junit.Test;
 import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.binary.BinaryFactory;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Tests for {@link LittleEndian}.
@@ -34,14 +35,14 @@ public class LittleEndianTest {
     @Test
     public void testGetShort() {
         Binary binary = BinaryFactory.wrap(new byte[] { 0x01, 0x02, (byte) 0xC1, (byte) 0xC2 });
-        assertEquals("Wrong value", (short) 0x0201, LittleEndian.getShort(binary, 0));
-        assertEquals("Wrong value", (short) 0xC2C1, LittleEndian.getShort(binary, 2));
+        assertThat(LittleEndian.getShort(binary, 0), is((short) 0x0201));
+        assertThat(LittleEndian.getShort(binary, 2), is((short) 0xC2C1));
     }
 
     @Test
     public void testGetUShort() {
         Binary binary = BinaryFactory.wrap(new byte[] { 0x01, 0x02, (byte) 0xC1, (byte) 0xC2 });
-        assertEquals("Wrong value", 0x0201, LittleEndian.getUShort(binary, 0));
-        assertEquals("Wrong value", 0xC2C1, LittleEndian.getUShort(binary, 2));
+        assertThat(LittleEndian.getUShort(binary, 0), is(0x0201));
+        assertThat(LittleEndian.getUShort(binary, 2), is(0xC2C1));
     }
 }

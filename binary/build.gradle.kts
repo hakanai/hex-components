@@ -26,4 +26,5 @@ dependencies {
     "implementation"("com.google.code.findbugs:jsr305")
 
     "testImplementation"("junit:junit")
+    "testImplementation"("org.hamcrest:hamcrest")
 }

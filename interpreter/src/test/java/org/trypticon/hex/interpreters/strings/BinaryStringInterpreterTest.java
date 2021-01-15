@@ -22,7 +22,8 @@ import org.junit.Test;
 import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.binary.BinaryFactory;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Tests for {@link BinaryStringInterpreter}.
@@ -33,14 +34,14 @@ public class BinaryStringInterpreterTest {
     @Test
     public void testInterpreting() throws Exception {
         Binary binary = BinaryFactory.wrap("This is a test".getBytes("UTF-8"));
-        assertEquals("Wrong value interpreted", "This",
-                     new BinaryStringInterpreter().interpret(binary, 0, 4).toString());
+        assertThat(new BinaryStringInterpreter().interpret(binary, 0, 4).toString(),
+                   is("This"));
     }
 
     @Test
     public void testInterpretingOverNullTerminator() throws Exception {
         Binary binary = BinaryFactory.wrap("Th\0is is a test".getBytes("UTF-8"));
-        assertEquals("Wrong value interpreted", "Th\0i",
-                     new BinaryStringInterpreter().interpret(binary, 0, 4).toString());
+        assertThat(new BinaryStringInterpreter().interpret(binary, 0, 4).toString(),
+                   is("Th\0i"));
     }
 }

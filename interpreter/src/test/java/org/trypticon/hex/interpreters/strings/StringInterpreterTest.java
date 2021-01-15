@@ -24,7 +24,8 @@ import org.trypticon.hex.binary.BinaryFactory;
 
 import java.nio.charset.StandardCharsets;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Tests for {@link StringInterpreter}.
@@ -35,14 +36,14 @@ public class StringInterpreterTest {
     @Test
     public void testInterpretingUTF8() throws Exception {
         Binary binary = BinaryFactory.wrap("This is a test".getBytes("UTF-8"));
-        assertEquals("Wrong value interpreted", "This",
-                     new StringInterpreter(StandardCharsets.UTF_8).interpret(binary, 0, 4).toString());
+        assertThat(new StringInterpreter(StandardCharsets.UTF_8).interpret(binary, 0, 4).toString(),
+                   is("This"));
     }
 
     @Test
     public void testInterpretingUTF8OverNullTerminator() throws Exception {
         Binary binary = BinaryFactory.wrap("Th\0is is a test".getBytes("UTF-8"));
-        assertEquals("Wrong value interpreted", "Th\0i",
-                new StringInterpreter(StandardCharsets.UTF_8).interpret(binary, 0, 4).toString());
+        assertThat(new StringInterpreter(StandardCharsets.UTF_8).interpret(binary, 0, 4).toString(),
+                   is("Th\0i"));
     }
 }

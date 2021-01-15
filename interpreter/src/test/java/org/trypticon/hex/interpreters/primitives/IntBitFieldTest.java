@@ -20,7 +20,8 @@ package org.trypticon.hex.interpreters.primitives;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Tests for {@link IntBitField}.
@@ -34,8 +35,8 @@ public class IntBitFieldTest {
 
         // Three reads of 5 bits at a time, just to make sure it shifts correctly.
         IntBitField last5Bits = IntBitField.lowest(5);
-        assertEquals("Wrong value", 0x1F, last5Bits.evaluate(0xFFFF));
-        assertEquals("Wrong value", 0x1F, last5Bits.next(5).evaluate(0xFFFF));
-        assertEquals("Wrong value", 0x1F, last5Bits.next(5).next(5).evaluate(0xFFFF));
+        assertThat(last5Bits.evaluate(0xFFFF), is(0x1F));
+        assertThat(last5Bits.next(5).evaluate(0xFFFF), is(0x1F));
+        assertThat(last5Bits.next(5).next(5).evaluate(0xFFFF), is(0x1F));
     }
 }

@@ -22,8 +22,8 @@ import org.junit.Test;
 
 import java.nio.ByteBuffer;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.fail;
 
 /**
@@ -46,15 +46,15 @@ public abstract class AbstractBinaryTest {
     @Test
     public void testReading() throws Exception {
         try (Binary binary = createBinary(SAMPLE_DATA)) {
-            assertEquals("Wrong result", 0, binary.read(0));
+            assertThat(binary.read(0), is(0));
 
             byte[] tmp = new byte[4];
             binary.read(1, tmp);
-            assertArrayEquals("Wrong result", new byte[]{1, 2, 3, 4}, tmp);
+            assertThat(tmp, is(new byte[]{1, 2, 3, 4}));
             binary.read(5, tmp);
-            assertArrayEquals("Wrong result", new byte[]{5, 6, 7, 8}, tmp);
+            assertThat(tmp, is(new byte[]{5, 6, 7, 8}));
 
-            assertEquals("Wrong result", 9, binary.read(9));
+            assertThat(binary.read(9), is(9));
         }
     }
 

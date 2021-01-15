@@ -24,7 +24,8 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Tests for {@link URLUtils}.
@@ -36,12 +37,12 @@ public class URLUtilsTest {
     @Test
     public void testToPath() throws Exception {
         Path file = Paths.get(System.getProperty("user.home"));
-        assertEquals("Round trip gives the wrong result", file, URLUtils.toPath(file.toUri().toURL()));
+        assertThat(URLUtils.toPath(file.toUri().toURL()), is(file));
     }
 
     @Test
     public void testToFileForInvalidURL() throws Exception {
-        assertEquals("Wrong result for invalid URL case", Paths.get("/path/with spaces"),
-                     URLUtils.toPath(new URL("file:/path/with spaces")));
+        assertThat(URLUtils.toPath(new URL("file:/path/with spaces")),
+                   is(Paths.get("/path/with spaces")));
     }
 }

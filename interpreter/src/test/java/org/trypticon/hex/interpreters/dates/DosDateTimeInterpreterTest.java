@@ -19,7 +19,11 @@
 package org.trypticon.hex.interpreters.dates;
 
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasProperty;
 
 import org.trypticon.hex.interpreters.Interpreter;
 import org.trypticon.hex.binary.BinaryFactory;
@@ -36,20 +40,21 @@ public class DosDateTimeInterpreterTest {
 
         byte[] data = { 0x67, 0x64, (byte) 0xAC, (byte) 0x2E };
 
-        assertDateTimeEquals("Wrong date value", 2003, 5, 12, 12, 35, 14,
+        assertDateTimeEquals(2003, 5, 12, 12, 35, 14,
                              interpreter.interpret(BinaryFactory.wrap(data), 0, 4));
 
     }
 
-    private static void assertDateTimeEquals(String message, int year, int month, int day,
+    private static void assertDateTimeEquals(int year, int month, int day,
                                              int hour, int minute, int second,
                                              DateTime value) {
 
-        assertEquals(message + " (year)", year, value.getDate().getYear());
-        assertEquals(message + " (month)", month, value.getDate().getMonth());
-        assertEquals(message + " (day)", day, value.getDate().getDay());
-        assertEquals(message + " (hour)", hour, value.getTime().getHour());
-        assertEquals(message + " (minute)", minute, value.getTime().getMinute());
-        assertEquals(message + " (second)", second, value.getTime().getSecond());
+        assertThat(value.getDate(), allOf(
+                hasProperty("year", equalTo(year)),
+                hasProperty("month", equalTo(month)),
+                hasProperty("day", equalTo(day)),
+                hasProperty("hour", equalTo(hour)),
+                hasProperty("minute", equalTo(minute)),
+                hasProperty("second", equalTo(second))));
     }
 }

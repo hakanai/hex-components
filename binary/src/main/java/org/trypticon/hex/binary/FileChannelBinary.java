@@ -18,8 +18,8 @@
 
 package org.trypticon.hex.binary;
 
-import java.io.Closeable;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Path;
@@ -29,7 +29,7 @@ import java.nio.file.Path;
  *
  * @author trejkaz
  */
-public class FileChannelBinary extends AbstractBinary implements Binary, Closeable {
+public class FileChannelBinary extends AbstractBinary {
 
     /**
      * The file channel.
@@ -63,7 +63,7 @@ public class FileChannelBinary extends AbstractBinary implements Binary, Closeab
         try {
             channel.read(buffer, position);
         } catch (IOException e) {
-            throw new RuntimeException("Could not read from file", e);
+            throw new UncheckedIOException(e);
         }
         buffer.flip();
         return buffer.get();
@@ -77,7 +77,7 @@ public class FileChannelBinary extends AbstractBinary implements Binary, Closeab
                 position += read;
             }
         } catch (IOException e) {
-            throw new RuntimeException("Could not read from file", e);
+            throw new UncheckedIOException(e);
         }
     }
 }
