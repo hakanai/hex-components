@@ -33,6 +33,6 @@ dependencies {
     "implementation"("org.swinglabs.swingx:swingx-painters")
     "implementation"("org.swinglabs.swingx:swingx-plaf")
 
-    "testImplementation"("junit:junit")
+    "testImplementation"("org.junit.jupiter:junit-jupiter-api")
     "testImplementation"("org.hamcrest:hamcrest")
 }

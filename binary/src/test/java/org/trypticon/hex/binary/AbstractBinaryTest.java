@@ -18,13 +18,13 @@
 
 package org.trypticon.hex.binary;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.nio.ByteBuffer;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Test cases common to multiple binary tests.
@@ -46,7 +46,7 @@ public abstract class AbstractBinaryTest {
     @Test
     public void testReading() throws Exception {
         try (Binary binary = createBinary(SAMPLE_DATA)) {
-            assertThat(binary.read(0), is(0));
+            assertThat(binary.read(0), is((byte) 0));
 
             byte[] tmp = new byte[4];
             binary.read(1, tmp);
@@ -54,7 +54,7 @@ public abstract class AbstractBinaryTest {
             binary.read(5, tmp);
             assertThat(tmp, is(new byte[]{5, 6, 7, 8}));
 
-            assertThat(binary.read(9), is(9));
+            assertThat(binary.read(9), is((byte) 9));
         }
     }
 
@@ -63,12 +63,8 @@ public abstract class AbstractBinaryTest {
         try (Binary binary = createBinary(SAMPLE_DATA)) {
             binary.read(0);
 
-            try {
-                binary.read(-1);
-                fail("Expected IndexOutOfBoundsException");
-            } catch (IndexOutOfBoundsException e) {
-                // Expected.
-            }
+            assertThrows(IndexOutOfBoundsException.class,
+                         () -> binary.read(-1));
         }
     }
 
@@ -77,12 +73,8 @@ public abstract class AbstractBinaryTest {
         try (Binary binary = createBinary(SAMPLE_DATA)) {
             binary.read(binary.length() - 1);
 
-            try {
-                binary.read(binary.length());
-                fail("Expected IndexOutOfBoundsException");
-            } catch (IndexOutOfBoundsException e) {
-                // Expected.
-            }
+            assertThrows(IndexOutOfBoundsException.class,
+                         () -> binary.read(binary.length()));
         }
     }
 
@@ -93,12 +85,8 @@ public abstract class AbstractBinaryTest {
             binary.read(0, buffer);
 
             buffer.clear();
-            try {
-                binary.read(-1, buffer);
-                fail("Expected IndexOutOfBoundsException");
-            } catch (IndexOutOfBoundsException e) {
-                // Expected.
-            }
+            assertThrows(IndexOutOfBoundsException.class,
+                         () -> binary.read(-1, buffer));
         }
     }
 
@@ -109,12 +97,8 @@ public abstract class AbstractBinaryTest {
             binary.read(binary.length() - 1, buffer);
 
             buffer.clear();
-            try {
-                binary.read(binary.length(), buffer);
-                fail("Expected IndexOutOfBoundsException");
-            } catch (IndexOutOfBoundsException e) {
-                // Expected.
-            }
+            assertThrows(IndexOutOfBoundsException.class,
+                         () -> binary.read(binary.length(), buffer));
         }
     }
 }

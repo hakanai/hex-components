@@ -26,6 +26,6 @@ dependencies {
     "implementation"(project(":hex-util"))
     "implementation"("com.google.code.findbugs:jsr305")
 
-    "testImplementation"("junit:junit")
+    "testImplementation"("org.junit.jupiter:junit-jupiter-api")
     "testImplementation"("org.hamcrest:hamcrest")
 }

@@ -20,7 +20,7 @@ package org.trypticon.hex.interpreters.primitives.unsigned;
 
 import java.util.Locale;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.trypticon.hex.util.Format;
 
 import static org.hamcrest.MatcherAssert.assertThat;

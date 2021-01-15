@@ -18,13 +18,13 @@
 
 package org.trypticon.hex.anno.util;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.trypticon.hex.anno.Annotation;
 import org.trypticon.hex.anno.SimpleAnnotation;
 import org.trypticon.hex.interpreters.nulls.NullInterpreter;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.trypticon.hex.anno.util.Annotations.*;
 
 /**
@@ -36,52 +36,52 @@ public class AnnotationsTest {
 
     @Test
     public void testContains_OverlapOfOnePosition() {
-        assertFalse(contains(a(0, 10), a(9, 10)));
+        assertThat(contains(a(0, 10), a(9, 10)), is(false));
     }
 
     @Test
     public void testContains_TouchingRegions() {
-        assertFalse(contains(a(0, 10), a(10, 10)));
+        assertThat(contains(a(0, 10), a(10, 10)), is(false));
     }
 
     @Test
     public void testContains_FirstContainedInSecond() {
-        assertFalse(contains(a(0, 5), a(0, 10)));
+        assertThat(contains(a(0, 5), a(0, 10)), is(false));
     }
 
     @Test
     public void testContains_SecondContainedInFirst() {
-        assertTrue(contains(a(0, 10), a(0, 5)));
+        assertThat(contains(a(0, 10), a(0, 5)), is(true));
     }
 
     @Test
     public void testContains_SameRegion() {
-        assertTrue(contains(a(0, 10), a(0, 10)));
+        assertThat(contains(a(0, 10), a(0, 10)), is(true));
     }
 
     @Test
     public void testOverlap_OverlapOfOnePosition() {
-        assertTrue(overlap(a(0, 10), a(9, 10)));
+        assertThat(overlap(a(0, 10), a(9, 10)), is(true));
     }
 
     @Test
     public void testOverlap_TouchingRegions() {
-        assertFalse(overlap(a(0, 10), a(10, 10)));
+        assertThat(overlap(a(0, 10), a(10, 10)), is(false));
     }
 
     @Test
     public void testOverlap_FirstContainedInSecond() {
-        assertTrue(overlap(a(0, 5), a(0, 10)));
+        assertThat(overlap(a(0, 5), a(0, 10)), is(true));
     }
 
     @Test
     public void testOverlap_SecondContainedInFirst() {
-        assertTrue(overlap(a(0, 10), a(0, 5)));
+        assertThat(overlap(a(0, 10), a(0, 5)), is(true));
     }
 
     @Test
     public void testOverlap_SameRegion() {
-        assertTrue(overlap(a(0, 10), a(0, 10)));
+        assertThat(overlap(a(0, 10), a(0, 10)), is(true));
     }
 
     private static Annotation a(int start, int length) {

@@ -18,7 +18,7 @@
 
 package org.trypticon.hex.interpreters.primitives;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -35,14 +35,14 @@ public class LongBitFieldTest {
 
         // Three reads of 5 bits at a time, just to make sure it shifts correctly.
         LongBitField last5Bits = LongBitField.lowest(5);
-        assertThat(last5Bits.evaluate(0xFFFFFFFFL), is(0x1F));
+        assertThat(last5Bits.evaluate(0xFFFFFFFFL), is(0x1FL));
         LongBitField next5Bits = last5Bits;
         for (int i = 0; i < 5; i++) {
             next5Bits = next5Bits.next(5);
-            assertThat(next5Bits.evaluate(0xFFFFFFFFL), is(0x1F));
+            assertThat(next5Bits.evaluate(0xFFFFFFFFL), is(0x1FL));
         }
         next5Bits = next5Bits.next(5);
-        assertThat(next5Bits.evaluate(0xFFFFFFFFL), is(0x3));
+        assertThat(next5Bits.evaluate(0xFFFFFFFFL), is(0x3L));
     }
 
     @Test

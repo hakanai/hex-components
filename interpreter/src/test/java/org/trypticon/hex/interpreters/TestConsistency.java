@@ -18,7 +18,7 @@
 
 package org.trypticon.hex.interpreters;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.trypticon.hex.util.Format;
 
 import java.util.LinkedHashSet;
@@ -26,7 +26,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import static org.junit.Assert.fail;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Tests for overall consistency of the implementation.
@@ -43,13 +44,10 @@ public class TestConsistency {
         Set<String> longNames = new LinkedHashSet<>();
         for (InterpreterInfo info : infos) {
             String shortName = info.toLocalisedString(Format.SHORT, Locale.ROOT);
-            if (!shortNames.add(shortName)) {
-                fail("Duplicate short name: " + shortName);
-            }
+            assertThat(shortNames.add(shortName), is(true));
+
             String longName = info.toLocalisedString(Format.LONG, Locale.ROOT);
-            if (!longNames.add(longName)) {
-                fail("Duplicate long name: " + longName);
-            }
+            assertThat(longNames.add(longName), is(true));
         }
     }
 }

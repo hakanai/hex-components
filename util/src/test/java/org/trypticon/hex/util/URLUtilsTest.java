@@ -18,7 +18,7 @@
 
 package org.trypticon.hex.util;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.net.URL;
 import java.nio.file.Path;

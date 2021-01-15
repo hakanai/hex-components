@@ -29,5 +29,5 @@ dependencies {
     "implementation"(project(":hex-viewer"))
     "implementation"("com.google.code.findbugs:jsr305")
 
-    "testImplementation"("junit:junit")
+    "testImplementation"("org.junit.jupiter:junit-jupiter-api")
 }

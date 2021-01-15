@@ -93,6 +93,13 @@ allprojects {
             options.compilerArgs = listOf("-Xlint:all")
         }
 
+        tasks.withType<Test>().configureEach {
+            useJUnitPlatform()
+        }
+        dependencies {
+            "testRuntimeOnly"("org.junit.jupiter:junit-jupiter-engine")
+        }
+
         tasks.named<Jar>("jar") {
             manifest {
                 attributes("Copyright" to project.extra["copyright"])

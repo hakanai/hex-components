@@ -33,7 +33,9 @@ dependencies {
         "api"("org.swinglabs.swingx:swingx-painters:$swingXVersion")
         "api"("org.swinglabs.swingx:swingx-plaf:$swingXVersion")
 
-        "api"("junit:junit:4.13")
+        val junitVersion = "5.3.1"
+        "api"("org.junit.jupiter:junit-jupiter-api:$junitVersion")
+        "api"("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
 
         "api"("org.hamcrest:hamcrest:2.2")
 

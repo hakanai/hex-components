@@ -18,7 +18,7 @@
 
 package org.trypticon.hex.interpreters.primitives.floating;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.trypticon.hex.util.Format;
 
 import java.math.BigInteger;

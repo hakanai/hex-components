@@ -18,11 +18,11 @@
 
 package org.trypticon.hex.binary;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.nio.ByteBuffer;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Tests for {@link EmptyBinary}.
@@ -33,12 +33,8 @@ public class EmptyBinaryTest {
     @Test
     public void testReading_OneByte() {
         try (Binary binary = new EmptyBinary()) {
-            try {
-                binary.read(0);
-                fail("Expected IndexOutOfBoundsException");
-            } catch (IndexOutOfBoundsException e) {
-                // Expected.
-            }
+            assertThrows(IndexOutOfBoundsException.class,
+                         () -> binary.read(0));
         }
     }
 
@@ -46,12 +42,8 @@ public class EmptyBinaryTest {
     public void testReading_MultipleBytes() {
         try (Binary binary = new EmptyBinary()) {
             ByteBuffer buffer = ByteBuffer.allocate(1);
-            try {
-                binary.read(0, buffer);
-                fail("Expected IndexOutOfBoundsException");
-            } catch (IndexOutOfBoundsException e) {
-                // Expected.
-            }
+            assertThrows(IndexOutOfBoundsException.class,
+                         () -> binary.read(0, buffer));
         }
     }
 }

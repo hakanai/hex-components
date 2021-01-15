@@ -18,7 +18,7 @@
 
 package org.trypticon.hex.binary;
 
-import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -38,7 +38,7 @@ public class FileChannelBinaryTest extends AbstractBinaryTest {
         return new FileChannelBinary(tempFile);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         if (tempFile != null) {
             Files.delete(tempFile);

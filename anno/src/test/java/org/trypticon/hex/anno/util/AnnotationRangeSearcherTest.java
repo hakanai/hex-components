@@ -18,7 +18,7 @@
 
 package org.trypticon.hex.anno.util;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.trypticon.hex.anno.Annotation;
 import org.trypticon.hex.anno.SimpleAnnotation;
 import org.trypticon.hex.interpreters.nulls.NullInterpreter;

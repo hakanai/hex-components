@@ -18,13 +18,15 @@
 
 package org.trypticon.hex.anno;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.trypticon.hex.interpreters.nulls.NullInterpreter;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.fail;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.sameInstance;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Tests for {@link SimpleGroupAnnotation}.
@@ -51,48 +53,44 @@ public class SimpleGroupAnnotationTest {
     @Test
     public void testRemove_NotPresent() throws Exception {
         Annotation annotation = new SimpleAnnotation(20, 20, new NullInterpreter());
-        try {
-            group.remove(annotation);
-            fail("Expected IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
-            // Expected.
-        }
+        assertThrows(IllegalArgumentException.class,
+                     () -> group.remove(annotation));
     }
 
     @Test
     public void testFindAnnotationAt_Found_HitAtBottom() throws Exception {
         group.add(new SimpleAnnotation(20, 20, new NullInterpreter()));
-        assertNotNull(group.findAnnotationAt(20));
+        assertThat(group.findAnnotationAt(20), is(notNullValue()));
     }
 
     @Test
     public void testFindAnnotationAt_Found_HitAtTop() throws Exception {
         group.add(new SimpleAnnotation(20, 20, new NullInterpreter()));
-        assertNotNull(group.findAnnotationAt(39));
+        assertThat(group.findAnnotationAt(39), is(notNullValue()));
     }
 
     @Test
     public void testFindAnnotationAt_NotFound_MissedByOneBelow() throws Exception {
         group.add(new SimpleAnnotation(20, 20, new NullInterpreter()));
-        assertNull(group.findAnnotationAt(19));
+        assertThat(group.findAnnotationAt(19), is(nullValue()));
     }
 
     @Test
     public void testFindAnnotationAt_NotFound_MissedByOneAbove() throws Exception {
         group.add(new SimpleAnnotation(20, 20, new NullInterpreter()));
-        assertNull(group.findAnnotationAt(40));
+        assertThat(group.findAnnotationAt(40), is(nullValue()));
     }
 
     @Test
     public void testFindDeepestGroupAnnotationAt_NotFound() throws Exception {
         group.add(new SimpleAnnotation(20, 20, new NullInterpreter()));
-        assertNull(group.findDeepestGroupAnnotationAt(19));
+        assertThat(group.findDeepestGroupAnnotationAt(19), is(nullValue()));
     }
 
     @Test
     public void testFindDeepestGroupAnnotationAt_NotFound_ButFoundNonGroup() throws Exception {
         group.add(new SimpleAnnotation(20, 20, new NullInterpreter()));
-        assertNull(group.findDeepestGroupAnnotationAt(20));
+        assertThat(group.findDeepestGroupAnnotationAt(20), is(nullValue()));
     }
 
     @Test
@@ -103,7 +101,7 @@ public class SimpleGroupAnnotationTest {
         level2.set(CommonAttributes.NOTE, "level2");
         group.add(level1);
         group.add(level2);
-        assertSame(level1, group.findDeepestGroupAnnotationAt(24));
+        assertThat(group.findDeepestGroupAnnotationAt(24), is(sameInstance(level1)));
     }
 
     @Test
@@ -114,6 +112,6 @@ public class SimpleGroupAnnotationTest {
         level2.set(CommonAttributes.NOTE, "level2");
         group.add(level1);
         group.add(level2);
-        assertSame(level2, group.findDeepestGroupAnnotationAt(25));
+        assertThat(group.findDeepestGroupAnnotationAt(25), is(sameInstance(level2)));
     }
 }

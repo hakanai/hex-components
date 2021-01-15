@@ -18,7 +18,7 @@
 
 package org.trypticon.hex.interpreters.primitives;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.binary.BinaryFactory;
 

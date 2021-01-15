@@ -23,9 +23,9 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.trypticon.hex.interpreters.nulls.NullInterpreter;
 
 import java.util.List;
@@ -326,12 +326,12 @@ public class MemoryAnnotationCollectionTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         listener = mockery.mock(AnnotationCollectionListener.class);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         mockery.assertIsSatisfied();
     }

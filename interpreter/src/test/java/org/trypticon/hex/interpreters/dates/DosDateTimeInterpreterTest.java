@@ -18,7 +18,7 @@
 
 package org.trypticon.hex.interpreters.dates;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
@@ -52,7 +52,8 @@ public class DosDateTimeInterpreterTest {
         assertThat(value.getDate(), allOf(
                 hasProperty("year", equalTo(year)),
                 hasProperty("month", equalTo(month)),
-                hasProperty("day", equalTo(day)),
+                hasProperty("day", equalTo(day))));
+        assertThat(value.getTime(), allOf(
                 hasProperty("hour", equalTo(hour)),
                 hasProperty("minute", equalTo(minute)),
                 hasProperty("second", equalTo(second))));
