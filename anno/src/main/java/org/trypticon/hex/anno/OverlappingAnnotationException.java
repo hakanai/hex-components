@@ -25,6 +25,7 @@ import javax.annotation.Nonnull;
  * it would cross over some other annotation.
  */
 public class OverlappingAnnotationException extends Exception {
+    private static final long serialVersionUID = 1L;
 
     @Nonnull
     private final Annotation existing;

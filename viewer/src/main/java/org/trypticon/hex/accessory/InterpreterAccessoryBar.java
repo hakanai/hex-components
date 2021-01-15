@@ -1,6 +1,6 @@
 /*
  * Hex - a hex viewer and annotator
- * Copyright (C) 2009-2014,2016-2017  Trejkaz, Hex Project
+ * Copyright (C) 2009-2014,2016-2017,2021  Trejkaz, Hex Project
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -60,6 +60,8 @@ import java.util.prefs.Preferences;
  *
  * @author trejkaz
  */
+// Swing's own guidelines say not to use serialisation.
+@SuppressWarnings("serial")
 public class InterpreterAccessoryBar extends AccessoryBar {
     private final ResourceBundle bundle = ResourceBundle.getBundle("org/trypticon/hex/Bundle");
 
@@ -256,7 +258,7 @@ public class InterpreterAccessoryBar extends AccessoryBar {
     }
 
     private List<LengthOption> getLengthOptions(InterpreterInfo info) {
-        for (InterpreterInfo.Option option : info.getOptions()) {
+        for (InterpreterInfo.Option<?> option : info.getOptions()) {
             // Can expand this as the UI grows to support more options.
             if ("length".equals(option.getName()) && LengthOption.class.equals(option.getType())) {
                 @SuppressWarnings("unchecked")
@@ -268,7 +270,7 @@ public class InterpreterAccessoryBar extends AccessoryBar {
     }
 
     private boolean interpreterHasLengthOption(InterpreterInfo info) {
-        for (InterpreterInfo.Option option : info.getOptions()) {
+        for (InterpreterInfo.Option<?> option : info.getOptions()) {
             // Can expand this as the UI grows to support more options.
             if ("length".equals(option.getName()) && LengthOption.class.equals(option.getType())) {
                 return true;
@@ -278,7 +280,7 @@ public class InterpreterAccessoryBar extends AccessoryBar {
     }
 
     private boolean interpreterHasByteOrderOption(InterpreterInfo info) {
-        for (InterpreterInfo.Option option : info.getOptions()) {
+        for (InterpreterInfo.Option<?> option : info.getOptions()) {
             // Can expand this as the UI grows to support more options.
             if ("byteOrder".equals(option.getName()) && ByteOrderOption.class.equals(option.getType())) {
                 return true;
@@ -288,7 +290,7 @@ public class InterpreterAccessoryBar extends AccessoryBar {
     }
 
     private boolean interpreterHasEncodingOption(InterpreterInfo info) {
-        for (InterpreterInfo.Option options : info.getOptions()) {
+        for (InterpreterInfo.Option<?> options : info.getOptions()) {
             if ("encoding".equals(options.getName()) && Charset.class.equals(options.getType())) {
                 return true;
             }
@@ -305,7 +307,7 @@ public class InterpreterAccessoryBar extends AccessoryBar {
             }
 
             boolean usable = true;
-            for (InterpreterInfo.Option option : info.getOptions()) {
+            for (InterpreterInfo.Option<?> option : info.getOptions()) {
                 // Can expand this as the UI grows to support more options.
                 if (!("byteOrder".equals(option.getName()) && ByteOrderOption.class.equals(option.getType())) &&
                     !("length".equals(option.getName()) && LengthOption.class.equals(option.getType())) &&

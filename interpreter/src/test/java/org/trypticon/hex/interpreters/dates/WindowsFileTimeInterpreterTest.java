@@ -1,6 +1,6 @@
 /*
  * Hex - a hex viewer and annotator
- * Copyright (C) 2009-2014,2016-2017  Trejkaz, Hex Project
+ * Copyright (C) 2009-2014,2016-2017,2021  Trejkaz, Hex Project
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,9 +22,8 @@ import org.junit.Test;
 import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.binary.BinaryFactory;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Tests for {@link WindowsFileTimeInterpreter}.

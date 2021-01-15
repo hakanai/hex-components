@@ -1,6 +1,6 @@
 /*
  * Hex - a hex viewer and annotator
- * Copyright (C) 2009-2014,2016-2017  Trejkaz, Hex Project
+ * Copyright (C) 2009-2014,2016-2017,2021  Trejkaz, Hex Project
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -36,7 +36,12 @@ public class DelegatingListCellRenderer<E> implements ListCellRenderer<E> {
     }
 
     @Override
-    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+    // rawtypes and unchecked suppressions here are both Java's own fault
+    // for not having generics on the parameter
+    @SuppressWarnings("unchecked")
+    public Component getListCellRendererComponent(@SuppressWarnings("rawtypes") JList list,
+            Object value, int index, boolean isSelected, boolean cellHasFocus) {
+        
         return delegate.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
     }
 }

@@ -1,6 +1,6 @@
 /*
  * Hex - a hex viewer and annotator
- * Copyright (C) 2009-2014,2016-2017  Trejkaz, Hex Project
+ * Copyright (C) 2009-2014,2016-2017,2021  Trejkaz, Hex Project
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -47,9 +47,11 @@ import java.util.List;
  * @param <E> the type of object being selected.
  * @author trejkaz
  */
+// Swing's own guidelines say not to use serialisation.
+@SuppressWarnings("serial")
 public abstract class SelectObjectPane<E> extends ValidatingPanel {
     private final JTextField textField;
-    private final JXList list;
+    private final JXList<E> list;
 
     protected SelectObjectPane() {
         textField = new JTextField();
@@ -78,7 +80,7 @@ public abstract class SelectObjectPane<E> extends ValidatingPanel {
             listModel.addElement(element);
         }
 
-        list = new JXList(listModel);
+        list = new JXList<>(listModel);
         list.setCellRenderer(new DefaultListRenderer(createDisplayConverter()));
         list.setAutoCreateRowSorter(true);
         list.setVisibleRowCount(8);
@@ -170,9 +172,9 @@ public abstract class SelectObjectPane<E> extends ValidatingPanel {
             list.setRowFilter(null);
         } else {
             final Predicate<E> filterPredicate = createFilterPredicate(text);
-            list.setRowFilter(new RowFilter<ListModel, Integer>() {
+            list.setRowFilter(new RowFilter<ListModel<E>, Integer>() {
                 @Override
-                public boolean include(Entry<? extends ListModel, ? extends Integer> entry) {
+                public boolean include(Entry<? extends ListModel<E>, ? extends Integer> entry) {
                     return filterPredicate.test(safeCast(entry.getValue(0)));
                 }
             });

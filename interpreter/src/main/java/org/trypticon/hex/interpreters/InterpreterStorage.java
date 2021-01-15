@@ -58,7 +58,7 @@ public interface InterpreterStorage {
      * @return the map.  Returns {@code null} if the interpreter is not one
      *         known by this storage.
      */
-    Map<String, Object> toMap(Interpreter interpreter);
+    Map<String, Object> toMap(Interpreter<?> interpreter);
 
     /**
      * Converts a map into an interpreter.
@@ -67,5 +67,5 @@ public interface InterpreterStorage {
      * @return the interpreter.  Returns {@code null} if this storage does not
      *         know about an interpreter with the name specified in the map.
      */
-    Interpreter fromMap(Map<String, Object> map);
+    Interpreter<?> fromMap(Map<String, Object> map);
 }

@@ -1,6 +1,6 @@
 /*
  * Hex - a hex viewer and annotator
- * Copyright (C) 2009-2014,2016-2017  Trejkaz, Hex Project
+ * Copyright (C) 2009-2014,2016-2017,2021  Trejkaz, Hex Project
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -30,9 +30,9 @@ import java.util.Map;
  */
 public class SingleFixedLengthInterpreterInfo extends AbstractInterpreterInfo implements FixedLengthInterpreterInfo {
     // Since interpreters are assumed to carry no state, you can share the instances.
-    private final FixedLengthInterpreter interpreter;
+    private final FixedLengthInterpreter<?> interpreter;
 
-    public SingleFixedLengthInterpreterInfo(Localisable name, FixedLengthInterpreter interpreter) {
+    public SingleFixedLengthInterpreterInfo(Localisable name, FixedLengthInterpreter<?> interpreter) {
         super(name);
         this.interpreter = interpreter;
     }

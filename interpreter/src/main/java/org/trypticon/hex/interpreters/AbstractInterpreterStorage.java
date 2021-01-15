@@ -1,6 +1,6 @@
 /*
  * Hex - a hex viewer and annotator
- * Copyright (C) 2009-2014,2016-2017  Trejkaz, Hex Project
+ * Copyright (C) 2009-2014,2016-2017,2021  Trejkaz, Hex Project
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -18,6 +18,7 @@
 
 package org.trypticon.hex.interpreters;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,21 +28,21 @@ import java.util.Map;
  * @author trejkaz
  */
 public abstract class AbstractInterpreterStorage implements InterpreterStorage {
-    private final Map<Class<? extends Interpreter>, String> classToName =
+    private final Map<Class<? extends Interpreter<?>>, String> classToName =
             new HashMap<>(10);
-    private final Map<String, Class<? extends Interpreter>> nameToClass =
+    private final Map<String, Class<? extends Interpreter<?>>> nameToClass =
             new HashMap<>(10);
 
     protected AbstractInterpreterStorage() {
     }
 
-    protected void register(String name, Class<? extends Interpreter> clazz) {
+    protected void register(String name, Class<? extends Interpreter<?>> clazz) {
         classToName.put(clazz, name);
         nameToClass.put(name, clazz);
     }
 
     @Override
-    public Map<String, Object> toMap(Interpreter interpreter) {
+    public Map<String, Object> toMap(Interpreter<?> interpreter) {
         String name = classToName.get(interpreter.getClass());
         if (name != null) {
             Map<String, Object> result = new HashMap<>(1);
@@ -53,16 +54,20 @@ public abstract class AbstractInterpreterStorage implements InterpreterStorage {
     }
 
     @Override
-    public Interpreter fromMap(Map<String, Object> map) {
+    public Interpreter<?> fromMap(Map<String, Object> map) {
         String name = (String) map.get("name");
-        Class<? extends Interpreter> clazz = nameToClass.get(name);
+        Class<? extends Interpreter<?>> clazz = nameToClass.get(name);
         if (clazz != null) {
             try {
-                return clazz.newInstance();
+                return clazz.getConstructor().newInstance();
+            } catch (NoSuchMethodException e) {
+                throw new IllegalStateException("Constructor was missing", e);
             } catch (InstantiationException e) {
                 throw new IllegalStateException("Constructor should have been no-op", e);
             } catch (IllegalAccessException e) {
                 throw new IllegalStateException("Constructor should have been accessible", e);
+            } catch (InvocationTargetException e) {
+                throw new RuntimeException("Error calling constructor", e);
             }
         } else {
             return null;

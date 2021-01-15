@@ -1,6 +1,6 @@
 /*
  * Hex - a hex viewer and annotator
- * Copyright (C) 2009-2014,2016-2017  Trejkaz, Hex Project
+ * Copyright (C) 2009-2014,2016-2017,2021  Trejkaz, Hex Project
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -28,6 +28,8 @@ import java.util.List;
  *
  * @author trejkaz
  */
+// We don't serialise our events.
+@SuppressWarnings("serial")
 public class AnnotationCollectionEvent extends EventObject {
     private final List<GroupAnnotation> parentPath;
     private final List<Integer> childIndices;

@@ -38,12 +38,12 @@ public class SimpleAnnotation implements Annotation {
     private long length;
 
     @Nonnull
-    private Interpreter interpreter;
+    private Interpreter<?> interpreter;
 
     @Nonnull
     private final Map<Attribute<?>, Object> attributes = new LinkedHashMap<>();
 
-    public SimpleAnnotation(long position, long length, @Nonnull Interpreter interpreter) {
+    public SimpleAnnotation(long position, long length, @Nonnull Interpreter<?> interpreter) {
         if (position < 0) {
             throw new IllegalArgumentException("position cannot be negative");
         }
@@ -91,7 +91,7 @@ public class SimpleAnnotation implements Annotation {
         return interpreter;
     }
 
-    public void setInterpreter(@Nonnull Interpreter interpreter) {
+    public void setInterpreter(@Nonnull Interpreter<?> interpreter) {
         Objects.requireNonNull(interpreter, "interpreter must not be null");
 
         this.interpreter = interpreter;

@@ -1,6 +1,6 @@
 /*
  * Hex - a hex viewer and annotator
- * Copyright (C) 2009-2014,2016-2017  Trejkaz, Hex Project
+ * Copyright (C) 2009-2014,2016-2017,2021  Trejkaz, Hex Project
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -61,7 +61,7 @@ public class AutoLengthInterpreterInfo extends AbstractInterpreterInfo {
     }
 
     @Override
-    public Interpreter create(Map<String, Object> options) {
+    public Interpreter<?> create(Map<String, Object> options) {
         LengthOption length = (LengthOption) options.get("length");
         if (length != null && length != LengthOption.AUTO) { //TODO: Surely AUTO == null
             for (FixedLengthInterpreterInfo info : infos) {
@@ -73,7 +73,7 @@ public class AutoLengthInterpreterInfo extends AbstractInterpreterInfo {
         } else {
             List<FixedLengthInterpreter<?>> interpreters = new ArrayList<>(infos.length);
             for (FixedLengthInterpreterInfo info : infos) {
-                FixedLengthInterpreter interpreter = info.create(options);
+                FixedLengthInterpreter<?> interpreter = info.create(options);
                 interpreters.add(interpreter);
             }
             return new AutoLengthInterpreter(interpreters);

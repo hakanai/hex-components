@@ -90,6 +90,7 @@ allprojects {
         tasks.withType<JavaCompile>().configureEach {
             // How is this still not the default, Gradle?!
             options.encoding = "UTF-8"
+            options.compilerArgs = listOf("-Xlint:all")
         }
 
         tasks.named<Jar>("jar") {

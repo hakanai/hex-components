@@ -33,6 +33,7 @@ import org.trypticon.hex.HexViewer;
  * @author trejkaz
  */
 public class HexViewerTransferHandler extends TransferHandler {
+    private static final long serialVersionUID = 1L;
 
     @Override
     public int getSourceActions(JComponent c) {

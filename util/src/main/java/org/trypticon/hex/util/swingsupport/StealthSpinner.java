@@ -1,6 +1,6 @@
 /*
  * Hex - a hex viewer and annotator
- * Copyright (C) 2009-2014,2016-2017  Trejkaz, Hex Project
+ * Copyright (C) 2009-2014,2016-2017,2021  Trejkaz, Hex Project
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -28,6 +28,8 @@ import javax.swing.SpinnerNumberModel;
 /**
  * A spinner which looks a lot like a label when it isn't being used to edit the value.
  */
+// Swing's own guidelines say not to use serialisation.
+@SuppressWarnings("serial")
 public class StealthSpinner extends JSpinner {
     public StealthSpinner(SpinnerModel model) {
         super(model);

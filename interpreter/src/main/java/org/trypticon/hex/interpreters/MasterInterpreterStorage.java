@@ -1,6 +1,6 @@
 /*
  * Hex - a hex viewer and annotator
- * Copyright (C) 2009-2014,2016-2017  Trejkaz, Hex Project
+ * Copyright (C) 2009-2014,2016-2017,2021  Trejkaz, Hex Project
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -65,7 +65,7 @@ public class MasterInterpreterStorage implements InterpreterStorage {
     }
 
     @Override
-    public Map<String, Object> toMap(Interpreter interpreter) {
+    public Map<String, Object> toMap(Interpreter<?> interpreter) {
         for (InterpreterStorage provider : providers) {
             Map<String, Object> map = provider.toMap(interpreter);
             if (map != null) {
@@ -76,9 +76,9 @@ public class MasterInterpreterStorage implements InterpreterStorage {
     }
 
     @Override
-    public Interpreter fromMap(Map<String, Object> map) {
+    public Interpreter<?> fromMap(Map<String, Object> map) {
         for (InterpreterStorage provider : providers) {
-            Interpreter interpreter = provider.fromMap(map);
+            Interpreter<?> interpreter = provider.fromMap(map);
             if (interpreter != null) {
                 return interpreter;
             }
