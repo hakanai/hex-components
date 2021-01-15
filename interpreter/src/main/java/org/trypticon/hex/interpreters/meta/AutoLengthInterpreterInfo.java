@@ -36,12 +36,14 @@ import java.util.Map;
  * Interpreter info which provides multiple kinds of interpreter which differ only by length.
  */
 public class AutoLengthInterpreterInfo extends AbstractInterpreterInfo {
+    private final String name;
     private final FixedLengthInterpreterInfo[] infos;
     private final List<Option<?>> options;
 
-    public AutoLengthInterpreterInfo(Localisable name, FixedLengthInterpreterInfo... infos) {
-        super(name);
+    public AutoLengthInterpreterInfo(String name, Localisable localisableName, FixedLengthInterpreterInfo... infos) {
+        super(localisableName);
 
+        this.name = name;
         this.infos = Arrays.copyOf(infos, infos.length);
 
         LinkedHashSet<Option<?>> options = new LinkedHashSet<>(4);
@@ -76,7 +78,7 @@ public class AutoLengthInterpreterInfo extends AbstractInterpreterInfo {
                 FixedLengthInterpreter<?> interpreter = info.create(options);
                 interpreters.add(interpreter);
             }
-            return new AutoLengthInterpreter(interpreters);
+            return new AutoLengthInterpreter(name, interpreters);
         }
     }
 }

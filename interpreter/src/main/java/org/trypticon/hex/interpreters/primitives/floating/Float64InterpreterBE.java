@@ -32,7 +32,7 @@ import java.lang.*;
  */
 public class Float64InterpreterBE extends AbstractFixedLengthInterpreter<Float64> {
     public Float64InterpreterBE() {
-        super(Float64.class, 8);
+        super("float8be", Float64.class, 8);
     }
 
     @Nonnull
@@ -49,10 +49,5 @@ public class Float64InterpreterBE extends AbstractFixedLengthInterpreter<Float64
     @Override
     public int hashCode() {
         return 101641;
-    }
-
-    @Override
-    public String toString() {
-        return "float8be";
     }
 }

@@ -31,7 +31,7 @@ import javax.annotation.Nonnull;
  */
 public class UIntInterpreterBE extends AbstractFixedLengthInterpreter<UInt> {
     public UIntInterpreterBE() {
-        super(UInt.class, 4);
+        super("uint4be", UInt.class, 4);
     }
 
     @Nonnull
@@ -48,10 +48,5 @@ public class UIntInterpreterBE extends AbstractFixedLengthInterpreter<UInt> {
     @Override
     public int hashCode() {
         return 100321;
-    }
-
-    @Override
-    public String toString() {
-        return "uint4be";
     }
 }

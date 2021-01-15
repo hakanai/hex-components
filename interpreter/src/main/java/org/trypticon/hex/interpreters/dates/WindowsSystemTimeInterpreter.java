@@ -32,7 +32,7 @@ import javax.annotation.Nonnull;
 public class WindowsSystemTimeInterpreter extends AbstractFixedLengthInterpreter<DateTime> {
 
     public WindowsSystemTimeInterpreter() {
-        super(DateTime.class, 16);
+        super("win_system_time", DateTime.class, 16);
     }
 
     @Nonnull

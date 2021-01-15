@@ -30,7 +30,7 @@ import javax.annotation.Nonnull;
  */
 public class SByteInterpreter extends AbstractFixedLengthInterpreter<SByte> {
     public SByteInterpreter() {
-        super(SByte.class, 1);
+        super("sint1", SByte.class, 1);
     }
 
     @Nonnull
@@ -47,10 +47,5 @@ public class SByteInterpreter extends AbstractFixedLengthInterpreter<SByte> {
     @Override
     public int hashCode() {
         return 100081;
-    }
-
-    @Override
-    public String toString() {
-        return "sint1";
     }
 }

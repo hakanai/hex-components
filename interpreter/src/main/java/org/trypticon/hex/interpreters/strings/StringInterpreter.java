@@ -35,7 +35,7 @@ public class StringInterpreter extends AbstractInterpreter<StringValue> {
     private final Charset charset;
 
     public StringInterpreter(Charset charset) {
-        super(StringValue.class);
+        super(String.format("string(%s)", charset.name()), StringValue.class);
         this.charset = charset;
     }
 
@@ -66,10 +66,5 @@ public class StringInterpreter extends AbstractInterpreter<StringValue> {
     @Override
     public int hashCode() {
         return 234611 ^ charset.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return String.format("string(%s)", charset.name());
     }
 }

@@ -40,7 +40,7 @@ public class StringzInterpreter extends AbstractInterpreter<StringValue> {
     }
 
     public StringzInterpreter(Charset charset) {
-        super(StringValue.class);
+        super(String.format("stringz(%s)", charset.name()), StringValue.class);
         this.charset = charset;
     }
 
@@ -81,10 +81,5 @@ public class StringzInterpreter extends AbstractInterpreter<StringValue> {
     @Override
     public int hashCode() {
         return 234613 ^ charset.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return String.format("stringz(%s)", charset.name());
     }
 }

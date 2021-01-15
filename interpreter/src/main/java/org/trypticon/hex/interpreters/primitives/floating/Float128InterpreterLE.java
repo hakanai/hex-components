@@ -31,7 +31,7 @@ import javax.annotation.Nonnull;
  */
 public class Float128InterpreterLE extends AbstractFixedLengthInterpreter<Float128> {
     public Float128InterpreterLE() {
-        super(Float128.class, 16);
+        super("float16le", Float128.class, 16);
     }
 
     @Nonnull
@@ -49,10 +49,5 @@ public class Float128InterpreterLE extends AbstractFixedLengthInterpreter<Float1
     @Override
     public int hashCode() {
         return 102282;
-    }
-
-    @Override
-    public String toString() {
-        return "float16le";
     }
 }

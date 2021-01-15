@@ -30,7 +30,7 @@ import javax.annotation.Nonnull;
  */
 public class UByteInterpreter extends AbstractFixedLengthInterpreter<UByte> {
     public UByteInterpreter() {
-        super(UByte.class, 1);
+        super("uint1", UByte.class, 1);
     }
 
     @Nonnull
@@ -47,10 +47,5 @@ public class UByteInterpreter extends AbstractFixedLengthInterpreter<UByte> {
     @Override
     public int hashCode() {
         return 100081;
-    }
-
-    @Override
-    public String toString() {
-        return "uint1";
     }
 }

@@ -33,7 +33,7 @@ import javax.annotation.Nonnull;
 public class NullInterpreter extends AbstractInterpreter<NullValue> {
 
     public NullInterpreter() {
-        super(NullValue.class);
+        super("null", NullValue.class);
     }
 
     @Nonnull
@@ -50,10 +50,5 @@ public class NullInterpreter extends AbstractInterpreter<NullValue> {
     @Override
     public int hashCode() {
         return 3425671;
-    }
-
-    @Override
-    public String toString() {
-        return "null";
     }
 }

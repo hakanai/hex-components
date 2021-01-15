@@ -29,7 +29,7 @@ import org.trypticon.hex.interpreters.primitives.BigEndian;
 public class CTimeInterpreterBE64 extends AbstractCTimeInterpreter {
 
     public CTimeInterpreterBE64() {
-        super(8);
+        super("c_time64_be", 8);
     }
 
     @Override

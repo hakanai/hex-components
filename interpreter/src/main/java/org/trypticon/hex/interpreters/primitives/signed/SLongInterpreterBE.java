@@ -31,12 +31,7 @@ import javax.annotation.Nonnull;
  */
 public class SLongInterpreterBE extends AbstractFixedLengthInterpreter<SLong> {
     public SLongInterpreterBE() {
-        super(SLong.class, 8);
-    }
-
-    @Override
-    public Class<SLong> getType() {
-        return SLong.class;
+        super("sint8be", SLong.class, 8);
     }
 
     @Nonnull
@@ -53,10 +48,5 @@ public class SLongInterpreterBE extends AbstractFixedLengthInterpreter<SLong> {
     @Override
     public int hashCode() {
         return 100641;
-    }
-
-    @Override
-    public String toString() {
-        return "sint8be";
     }
 }

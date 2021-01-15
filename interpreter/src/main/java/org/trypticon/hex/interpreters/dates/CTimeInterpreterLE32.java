@@ -29,7 +29,7 @@ import org.trypticon.hex.interpreters.primitives.LittleEndian;
 public class CTimeInterpreterLE32 extends AbstractCTimeInterpreter {
 
     public CTimeInterpreterLE32() {
-        super(4);
+        super("c_time32_le", 4);
     }
 
     @Override

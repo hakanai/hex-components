@@ -37,7 +37,7 @@ public class DosTimeInterpreter extends AbstractFixedLengthInterpreter<Time> {
     private static final int SECOND_RESOLUTION = 2;
 
     public DosTimeInterpreter() {
-        super(Time.class, 2);
+        super("dos_time", Time.class, 2);
     }
 
     @Nonnull

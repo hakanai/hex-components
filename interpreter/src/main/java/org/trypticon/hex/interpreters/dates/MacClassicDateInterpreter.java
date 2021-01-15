@@ -34,7 +34,7 @@ public class MacClassicDateInterpreter extends AbstractFixedLengthInterpreter<Da
     private static final long EPOCH = -2082844800000L;
 
     public MacClassicDateInterpreter() {
-        super(DateTime.class, 4);
+        super("mac_classic_date", DateTime.class, 4);
     }
 
     @Nonnull

@@ -31,6 +31,14 @@ import javax.annotation.Nonnull;
 public interface Interpreter<V extends Value> {
 
     /**
+     * Gets the name of the interpreter.
+     * This is a short identifier which uniquely names the interpreter.
+     *
+     * @return the name of the interpreter.
+     */
+    String getName();
+
+    /**
      * Gets the type of the interpreted values.
      *
      * @return the type of the interpreted values.

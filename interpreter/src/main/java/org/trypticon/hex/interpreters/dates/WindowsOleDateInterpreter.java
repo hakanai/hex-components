@@ -34,7 +34,7 @@ public class WindowsOleDateInterpreter extends AbstractFixedLengthInterpreter<Da
     private static final long EPOCH = -2209161600000L;
 
     public WindowsOleDateInterpreter() {
-        super(DateTime.class, 8);
+        super("win_ole_date", DateTime.class, 8);
     }
 
     @Nonnull

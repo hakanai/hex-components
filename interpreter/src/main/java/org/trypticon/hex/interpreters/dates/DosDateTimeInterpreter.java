@@ -34,7 +34,7 @@ public class DosDateTimeInterpreter extends AbstractFixedLengthInterpreter<DateT
     private final Interpreter<Time> timeInterpreter = new DosTimeInterpreter();
 
     public DosDateTimeInterpreter() {
-        super(DateTime.class, 4);
+        super("dos_date_time", DateTime.class, 4);
     }
 
     @Nonnull

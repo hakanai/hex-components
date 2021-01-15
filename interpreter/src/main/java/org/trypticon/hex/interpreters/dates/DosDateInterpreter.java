@@ -32,7 +32,7 @@ import javax.annotation.Nonnull;
  */
 public class DosDateInterpreter extends AbstractFixedLengthInterpreter<Date> {
     public DosDateInterpreter() {
-        super(Date.class, 2);
+        super("dos_date", Date.class, 2);
     }
 
     @Nonnull

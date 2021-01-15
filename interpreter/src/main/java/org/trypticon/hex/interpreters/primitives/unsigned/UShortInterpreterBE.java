@@ -31,12 +31,7 @@ import javax.annotation.Nonnull;
  */
 public class UShortInterpreterBE extends AbstractFixedLengthInterpreter<UShort> {
     public UShortInterpreterBE() {
-        super(UShort.class, 2);
-    }
-
-    @Override
-    public Class<UShort> getType() {
-        return UShort.class;
+        super("uint2be", UShort.class, 2);
     }
 
     @Nonnull
@@ -53,10 +48,5 @@ public class UShortInterpreterBE extends AbstractFixedLengthInterpreter<UShort> 
     @Override
     public int hashCode() {
         return 100161;
-    }
-
-    @Override
-    public String toString() {
-        return "uint2be";
     }
 }

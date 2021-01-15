@@ -36,17 +36,24 @@ import java.util.Map;
  *    the value being interpreted.</p>
  */
 class AutoLengthInterpreter implements Interpreter<Value> {
+    private final String name;
     private final Map<Long, Interpreter<?>> interpretersByLength;
 
-    public AutoLengthInterpreter(FixedLengthInterpreter<?>... interpreters) {
-        this(Arrays.asList(interpreters));
+    public AutoLengthInterpreter(String name, FixedLengthInterpreter<?>... interpreters) {
+        this(name, Arrays.asList(interpreters));
     }
 
-    public AutoLengthInterpreter(Collection<? extends FixedLengthInterpreter<?>> interpreters) {
+    public AutoLengthInterpreter(String name, Collection<? extends FixedLengthInterpreter<?>> interpreters) {
+        this.name = name;
         this.interpretersByLength = new HashMap<>(interpreters.size());
         for (FixedLengthInterpreter<?> interpreter : interpreters) {
             this.interpretersByLength.put(interpreter.getValueLength(), interpreter);
         }
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     @Override

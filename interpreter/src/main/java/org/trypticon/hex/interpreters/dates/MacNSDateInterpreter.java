@@ -34,7 +34,7 @@ public class MacNSDateInterpreter extends AbstractFixedLengthInterpreter<DateTim
     private static final long EPOCH = 978307200000L;
 
     public MacNSDateInterpreter() {
-        super(DateTime.class, 8);
+        super("mac_osx_nsdate", DateTime.class, 8);
     }
 
     @Nonnull

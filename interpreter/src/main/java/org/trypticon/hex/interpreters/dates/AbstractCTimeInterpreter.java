@@ -28,8 +28,8 @@ import javax.annotation.Nonnull;
  */
 abstract class AbstractCTimeInterpreter extends AbstractFixedLengthInterpreter<DateTime> {
 
-    protected AbstractCTimeInterpreter(int length) {
-        super(DateTime.class, length);
+    protected AbstractCTimeInterpreter(String name, int length) {
+        super(name, DateTime.class, length);
     }
 
     @Nonnull

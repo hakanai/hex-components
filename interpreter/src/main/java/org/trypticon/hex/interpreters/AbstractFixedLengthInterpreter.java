@@ -34,8 +34,9 @@ public abstract class AbstractFixedLengthInterpreter<V extends Value>
 
     private final long valueLength;
 
-    protected AbstractFixedLengthInterpreter(Class<V> type, long valueLength) {
-        super(type);
+    protected AbstractFixedLengthInterpreter(String name, Class<V> valueType, long valueLength) {
+        super(name, valueType);
+
         this.valueLength = valueLength;
     }
 

@@ -34,7 +34,7 @@ public class NotesTimeDateInterpreter extends AbstractFixedLengthInterpreter<Dat
     private static final long EPOCH = -210866803200000L;
 
     public NotesTimeDateInterpreter() {
-        super(DateTime.class, 8);
+        super("notes_time_date", DateTime.class, 8);
     }
 
     @Nonnull

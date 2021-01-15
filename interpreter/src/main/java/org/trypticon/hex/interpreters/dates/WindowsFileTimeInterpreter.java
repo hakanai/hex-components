@@ -36,7 +36,7 @@ public class WindowsFileTimeInterpreter extends AbstractFixedLengthInterpreter<D
     private static final int TIME_UNITS_PER_MILLISECOND = 10000;
 
     public WindowsFileTimeInterpreter() {
-        super(DateTime.class, 8);
+        super("win_file_time", DateTime.class, 8);
     }
 
     @Nonnull

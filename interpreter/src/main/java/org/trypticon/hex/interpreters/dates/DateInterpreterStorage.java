@@ -54,6 +54,7 @@ public class DateInterpreterStorage extends AbstractInterpreterStorage {
     public List<InterpreterInfo> getGroupedInterpreterInfos() {
         return Arrays.asList(
                 new AutoLengthInterpreterInfo(
+                        "c_time",
                         new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.GroupedCTime"),
                         new ByteOrderOptionInterpreterInfo<>(
                                 new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.CTime32"),

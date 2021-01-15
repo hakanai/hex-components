@@ -25,14 +25,26 @@ package org.trypticon.hex.interpreters;
  * @author trejkaz
  */
 public abstract class AbstractInterpreter<V extends Value> implements Interpreter<V> {
-    private final Class<V> type;
+    private final String name;
+    private final Class<V> valueType;
 
-    protected AbstractInterpreter(Class<V> type) {
-        this.type = type;
+    protected AbstractInterpreter(String name, Class<V> valueType) {
+        this.name = name;
+        this.valueType = valueType;
     }
 
     @Override
-    public Class<V> getType() {
-        return type;
+    public final String getName() {
+        return name;
+    }
+
+    @Override
+    public final Class<V> getType() {
+        return valueType;
+    }
+
+    @Override
+    public final String toString() {
+        return getName();
     }
 }

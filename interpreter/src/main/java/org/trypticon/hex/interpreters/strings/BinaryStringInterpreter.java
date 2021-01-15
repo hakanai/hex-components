@@ -30,7 +30,7 @@ import javax.annotation.Nonnull;
  */
 public class BinaryStringInterpreter extends AbstractInterpreter<BinaryStringValue> {
     public BinaryStringInterpreter() {
-        super(BinaryStringValue.class);
+        super("binstring", BinaryStringValue.class);
     }
 
     @Nonnull

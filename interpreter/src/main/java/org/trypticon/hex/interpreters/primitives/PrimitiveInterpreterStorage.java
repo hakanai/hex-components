@@ -85,6 +85,7 @@ public class PrimitiveInterpreterStorage extends AbstractInterpreterStorage {
     public List<InterpreterInfo> getGroupedInterpreterInfos() {
         return Arrays.<InterpreterInfo>asList(
                 new AutoLengthInterpreterInfo(
+                        "sint",
                         new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.GroupedSigned"),
                         PrimitiveInterpreters.SINT8_INFO,
                         new ByteOrderOptionInterpreterInfo<>(
@@ -100,6 +101,7 @@ public class PrimitiveInterpreterStorage extends AbstractInterpreterStorage {
                                 PrimitiveInterpreters.SINT64_BE,
                                 PrimitiveInterpreters.SINT64_LE)),
                 new AutoLengthInterpreterInfo(
+                        "uint",
                         new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.GroupedUnsigned"),
                         PrimitiveInterpreters.UINT8_INFO,
                         new ByteOrderOptionInterpreterInfo<>(
@@ -115,6 +117,7 @@ public class PrimitiveInterpreterStorage extends AbstractInterpreterStorage {
                                 PrimitiveInterpreters.UINT64_BE,
                                 PrimitiveInterpreters.UINT64_LE)),
                 new AutoLengthInterpreterInfo(
+                        "float",
                         new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.GroupedFloat"),
                         new ByteOrderOptionInterpreterInfo<>(
                                 new LocalisedName("org/trypticon/hex/interpreters/Bundle", "Interpreters.Float16"),

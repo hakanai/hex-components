@@ -31,7 +31,7 @@ import javax.annotation.Nonnull;
  */
 public class JavaTimeInterpreter extends AbstractFixedLengthInterpreter<DateTime> {
     public JavaTimeInterpreter() {
-        super(DateTime.class, 8);
+        super("java_time", DateTime.class, 8);
     }
 
     @Nonnull

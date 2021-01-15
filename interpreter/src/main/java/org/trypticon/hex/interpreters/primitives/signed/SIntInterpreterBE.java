@@ -31,7 +31,7 @@ import javax.annotation.Nonnull;
  */
 public class SIntInterpreterBE extends AbstractFixedLengthInterpreter<SInt> {
     public SIntInterpreterBE() {
-        super(SInt.class, 4);
+        super("sint4be", SInt.class, 4);
     }
 
     @Nonnull
@@ -48,10 +48,5 @@ public class SIntInterpreterBE extends AbstractFixedLengthInterpreter<SInt> {
     @Override
     public int hashCode() {
         return 100321;
-    }
-
-    @Override
-    public String toString() {
-        return "sint4be";
     }
 }

@@ -32,7 +32,7 @@ import java.lang.*;
  */
 public class Float32InterpreterLE extends AbstractFixedLengthInterpreter<Float32> {
     public Float32InterpreterLE() {
-        super(Float32.class, 4);
+        super("float4le", Float32.class, 4);
     }
 
     @Nonnull
@@ -49,10 +49,5 @@ public class Float32InterpreterLE extends AbstractFixedLengthInterpreter<Float32
     @Override
     public int hashCode() {
         return 101321;
-    }
-
-    @Override
-    public String toString() {
-        return "float4le";
     }
 }

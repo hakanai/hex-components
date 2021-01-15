@@ -31,7 +31,7 @@ import javax.annotation.Nonnull;
  */
 public class UShortInterpreterLE extends AbstractFixedLengthInterpreter<UShort> {
     public UShortInterpreterLE() {
-        super(UShort.class, 2);
+        super("uint2le", UShort.class, 2);
     }
 
     @Nonnull
@@ -48,10 +48,5 @@ public class UShortInterpreterLE extends AbstractFixedLengthInterpreter<UShort> 
     @Override
     public int hashCode() {
         return 100162;
-    }
-
-    @Override
-    public String toString() {
-        return "uint2le";
     }
 }
