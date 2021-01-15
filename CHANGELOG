@@ -1,6 +1,8 @@
 
 Version ?.? (????-??-??)
 
+   Fixed: Fixed some code paths which could have produced NullPointerException in edge cases
+
  Changed: AbstractInterpreter now takes a name at construction-time and its methods are final,
           thus ensuring that interpreters always have a name.
  Changed: Dropped support for Java 8, 9, 10.
