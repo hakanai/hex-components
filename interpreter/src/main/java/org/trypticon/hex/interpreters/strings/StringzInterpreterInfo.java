@@ -45,6 +45,9 @@ public class StringzInterpreterInfo extends AbstractInterpreterInfo {
     @Override
     public Interpreter<StringValue> create(Map<String, Object> options) {
         Charset charset = (Charset) options.get("encoding");
+        if (charset == null) {
+            throw new IllegalArgumentException("Missing encoding parameter: " + options);
+        }
         return new StringzInterpreter(charset);
     }
 }

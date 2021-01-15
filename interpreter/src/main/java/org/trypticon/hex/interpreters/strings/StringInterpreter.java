@@ -32,13 +32,15 @@ import java.nio.charset.Charset;
  * @author trejkaz
  */
 public class StringInterpreter extends AbstractInterpreter<StringValue> {
+    @Nonnull
     private final Charset charset;
 
-    public StringInterpreter(Charset charset) {
+    public StringInterpreter(@Nonnull Charset charset) {
         super("string(" + charset.name() + ')', StringValue.class);
         this.charset = charset;
     }
 
+    @Nonnull
     public Charset getCharset() {
         return charset;
     }

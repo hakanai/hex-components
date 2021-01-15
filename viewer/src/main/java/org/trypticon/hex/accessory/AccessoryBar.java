@@ -18,6 +18,7 @@
 
 package org.trypticon.hex.accessory;
 
+import javax.annotation.Nullable;
 import javax.swing.JToolBar;
 import java.util.prefs.Preferences;
 
@@ -29,6 +30,7 @@ import java.util.prefs.Preferences;
 // Swing's own guidelines say not to use serialisation.
 @SuppressWarnings("serial")
 public abstract class AccessoryBar extends JToolBar {
+    @Nullable
     private Preferences preferencesNode;
 
     protected AccessoryBar() {
@@ -40,6 +42,7 @@ public abstract class AccessoryBar extends JToolBar {
      *
      * @return the preferences node.
      */
+    @Nullable
     public final Preferences getPreferencesNode() {
         return preferencesNode;
     }
@@ -51,7 +54,7 @@ public abstract class AccessoryBar extends JToolBar {
      *
      * @param node the preferences node to synchronise with.
      */
-    public final void setPreferencesNode(Preferences node) {
+    public final void setPreferencesNode(@Nullable Preferences node) {
         if (preferencesNode != null) {
             preferencesNodeDetached(preferencesNode);
         }

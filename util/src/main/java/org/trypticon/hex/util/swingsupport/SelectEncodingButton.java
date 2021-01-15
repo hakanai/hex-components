@@ -32,18 +32,15 @@ import java.nio.charset.StandardCharsets;
 // Swing's own guidelines say not to use serialisation.
 @SuppressWarnings("serial")
 public class SelectEncodingButton extends JButton {
-    private Charset encoding;
+    private Charset encoding = StandardCharsets.UTF_8;
 
     public SelectEncodingButton() {
-        setEncoding(StandardCharsets.UTF_8);
-        addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                SelectEncodingPane pane = new SelectEncodingPane();
-                Charset selected = pane.showDialog(getRootPane());
-                if (selected != null) {
-                    setEncoding(selected);
-                }
+        setText(encoding.name());
+        addActionListener(event -> {
+            SelectEncodingPane pane = new SelectEncodingPane();
+            Charset selected = pane.showDialog(getRootPane());
+            if (selected != null) {
+                setEncoding(selected);
             }
         });
     }

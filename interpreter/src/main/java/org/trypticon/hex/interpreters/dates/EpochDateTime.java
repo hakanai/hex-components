@@ -18,6 +18,7 @@
 
 package org.trypticon.hex.interpreters.dates;
 
+import javax.annotation.Nullable;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -31,6 +32,8 @@ public class EpochDateTime extends AbstractDateTime {
     private final Instant epoch;
     private final long millisSinceEpoch;
     private final int remainingNanos;
+
+    @Nullable
     private ZonedDateTime dateTime;
 
     /**

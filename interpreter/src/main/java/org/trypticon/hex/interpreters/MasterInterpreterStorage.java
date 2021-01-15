@@ -23,6 +23,7 @@ import org.trypticon.hex.interpreters.nulls.NullInterpreterStorage;
 import org.trypticon.hex.interpreters.primitives.PrimitiveInterpreterStorage;
 import org.trypticon.hex.interpreters.strings.StringInterpreterStorage;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -64,6 +65,7 @@ public class MasterInterpreterStorage implements InterpreterStorage {
         return Collections.unmodifiableList(infos);
     }
 
+    @Nullable
     @Override
     public Map<String, Object> toMap(Interpreter<?> interpreter) {
         for (InterpreterStorage provider : providers) {
@@ -75,6 +77,7 @@ public class MasterInterpreterStorage implements InterpreterStorage {
         return null;
     }
 
+    @Nullable
     @Override
     public Interpreter<?> fromMap(Map<String, Object> map) {
         for (InterpreterStorage provider : providers) {

@@ -23,6 +23,7 @@ import org.jdesktop.swingx.renderer.DefaultListRenderer;
 import org.jdesktop.swingx.renderer.StringValue;
 import org.trypticon.hex.util.Predicate;
 
+import javax.annotation.Nullable;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
@@ -145,8 +146,9 @@ public abstract class SelectObjectPane<E> extends ValidatingPanel {
      * @param parentComponent the parent component.
      * @param title the title of the dialog.
      * @param okButtonText the text to show on the OK button.
-     * @return the chosen interpreter.
+     * @return the chosen interpreter. Returns {@code null} if cancelled.
      */
+    @Nullable
     protected E showDialog(Component parentComponent, String title, String okButtonText) {
         if (OptionPanes.showInputDialog(parentComponent, this, textField,
                                         title, okButtonText,

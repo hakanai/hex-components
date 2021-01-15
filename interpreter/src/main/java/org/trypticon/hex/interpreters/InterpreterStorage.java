@@ -18,6 +18,7 @@
 
 package org.trypticon.hex.interpreters;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 
@@ -58,6 +59,7 @@ public interface InterpreterStorage {
      * @return the map.  Returns {@code null} if the interpreter is not one
      *         known by this storage.
      */
+    @Nullable
     Map<String, Object> toMap(Interpreter<?> interpreter);
 
     /**
@@ -67,5 +69,6 @@ public interface InterpreterStorage {
      * @return the interpreter.  Returns {@code null} if this storage does not
      *         know about an interpreter with the name specified in the map.
      */
+    @Nullable
     Interpreter<?> fromMap(Map<String, Object> map);
 }

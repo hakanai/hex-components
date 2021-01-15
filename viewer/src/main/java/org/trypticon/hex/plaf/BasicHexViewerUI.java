@@ -23,6 +23,8 @@ import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.renderer.CellRenderer;
 import org.trypticon.hex.util.DerivedColor;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
@@ -50,10 +52,12 @@ import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.SystemColor;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.geom.Line2D;
+import java.util.function.Supplier;
 
 /**
  * Basic user interface for the hex viewer.
@@ -61,7 +65,10 @@ import java.awt.geom.Line2D;
  * @author trejkaz
  */
 public class BasicHexViewerUI extends HexViewerUI {
+    @Nullable
     MouseAdapter mouseAdapter;
+
+    @Nullable
     FocusListener focusAdapter;
 
     /**
@@ -192,6 +199,7 @@ public class BasicHexViewerUI extends HexViewerUI {
         return new Dimension(width, height);
     }
 
+    @Nullable
     private Insets getViewportBorderInsets(HexViewer viewer) {
         Border border = viewer.getViewportBorder();
         if (border != null) {
@@ -201,6 +209,7 @@ public class BasicHexViewerUI extends HexViewerUI {
         }
     }
 
+    @Nullable
     private JScrollBar getVerticalScrollBar(JComponent c) {
         for (Component component : c.getComponents()) {
             if (component instanceof JScrollBar &&
@@ -211,6 +220,7 @@ public class BasicHexViewerUI extends HexViewerUI {
         return null;
     }
 
+    @Nullable
     private JScrollBar getHorizontalScrollBar(JComponent c) {
         for (Component component : c.getComponents()) {
             if (component instanceof JScrollBar &&
@@ -444,29 +454,30 @@ public class BasicHexViewerUI extends HexViewerUI {
     protected void installDefaults(HexViewer viewer) {
         Color background = viewer.getBackground();
         if (background == null || background instanceof ColorUIResource) {
-            viewer.setBackground(getColour("background"));
+            viewer.setBackground(getColour("background", SystemColor.text));
         }
 
         Color foreground = viewer.getForeground();
         if (foreground == null || background instanceof ColorUIResource) {
-            viewer.setForeground(getColour("foreground"));
+            viewer.setForeground(getColour("foreground", SystemColor.textText));
         }
 
         Color selectionBackground = viewer.getSelectionBackground();
         if (selectionBackground == null || selectionBackground instanceof ColorUIResource) {
-            viewer.setSelectionBackground(getColour("selectionBackground"));
+            selectionBackground = getColour("selectionBackground", SystemColor.textHighlight);
+            viewer.setSelectionBackground(selectionBackground);
         }
 
         Color selectionForeground = viewer.getSelectionForeground();
         if (selectionForeground == null || selectionForeground instanceof ColorUIResource) {
-            viewer.setSelectionForeground(getColour("selectionForeground"));
+            viewer.setSelectionForeground(getColour("selectionForeground", SystemColor.textHighlightText));
         }
 
         Color cursorBackground = viewer.getCursorBackground();
         if (cursorBackground == null || cursorBackground instanceof ColorUIResource) {
             Color colour = UIManager.getColor("HexViewer.cursorBackground");
             if (colour == null) {
-                colour = new DerivedColor(viewer.getSelectionBackground(), 1.25f, -0.125f, 1.0f);
+                colour = new DerivedColor(selectionBackground, 1.25f, -0.125f, 1.0f);
             }
             viewer.setCursorBackground(colour);
         }
@@ -475,7 +486,7 @@ public class BasicHexViewerUI extends HexViewerUI {
         if (cursorForeground == null || cursorForeground instanceof ColorUIResource) {
             Color colour = UIManager.getColor("HexViewer.cursorForeground");
             if (colour == null) {
-                colour = viewer.getSelectionForeground();
+                colour = selectionForeground;
             }
             viewer.setCursorForeground(colour);
         }
@@ -484,7 +495,7 @@ public class BasicHexViewerUI extends HexViewerUI {
         if (cursorRowBackground == null || cursorRowBackground instanceof ColorUIResource) {
             Color colour = UIManager.getColor("HexViewer.cursorRowBackground");
             if (colour == null) {
-                colour = new DerivedColor(viewer.getSelectionBackground(), 1.0f, 0.0f, 0.25f);
+                colour = new DerivedColor(selectionBackground, 1.0f, 0.0f, 0.25f);
             }
             viewer.setCursorRowBackground(colour);
         }
@@ -519,10 +530,14 @@ public class BasicHexViewerUI extends HexViewerUI {
         }
     }
 
-    private Color getColour(String suffix) {
+    @Nonnull
+    private Color getColour(String suffix, Color lastResort) {
         Color colour = UIManager.getColor("HexViewer." + suffix);
         if (colour == null) {
             colour = UIManager.getColor("TextArea." + suffix);
+        }
+        if (colour == null) {
+            colour = lastResort;
         }
         return colour;
     }

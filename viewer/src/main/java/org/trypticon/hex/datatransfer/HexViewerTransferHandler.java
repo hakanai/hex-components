@@ -20,6 +20,7 @@ package org.trypticon.hex.datatransfer;
 
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
+import javax.annotation.Nullable;
 import javax.swing.JComponent;
 import javax.swing.TransferHandler;
 
@@ -41,10 +42,15 @@ public class HexViewerTransferHandler extends TransferHandler {
     }
 
     @Override
+    @Nullable
     protected Transferable createTransferable(JComponent c) {
         HexViewer viewer = (HexViewer) c;
 
         Binary binary = viewer.getBinary();
+        if (binary == null) {
+            return null;
+        }
+
         long selectionStart = viewer.getSelectionModel().getSelectionStart();
         long selectionEnd = viewer.getSelectionModel().getSelectionEnd();
 

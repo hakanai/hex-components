@@ -20,6 +20,8 @@ package org.trypticon.hex;
 
 import org.trypticon.hex.binary.Binary;
 
+import javax.annotation.Nonnull;
+
 /**
  * Utilities for converting hex to text.
  *
@@ -85,7 +87,7 @@ public class HexUtils {
      * @param end the end position, inclusive.
      * @return the hex string.
      */
-    public static String toHex(Binary binary, long start, long end) {
+    public static String toHex(@Nonnull Binary binary, long start, long end) {
         if (start < 0) {
             throw new IllegalArgumentException("start (" + start + ") < 0");
         }

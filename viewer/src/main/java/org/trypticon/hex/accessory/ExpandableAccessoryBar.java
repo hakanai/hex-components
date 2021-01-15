@@ -22,6 +22,7 @@ import org.jdesktop.swingx.JXCollapsiblePane;
 import org.trypticon.hex.HexViewer;
 import org.trypticon.hex.util.swingsupport.GuiLocale;
 
+import javax.annotation.Nullable;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
@@ -113,6 +114,7 @@ public class ExpandableAccessoryBar extends AccessoryBar {
      * @param <B> the accessory bar class.
      * @return the first accessory bar of that class. Returns {@code null} if there isn't one.
      */
+    @Nullable
     public <B extends AccessoryBar> B getFirstAccessoryBar(Class<B> barClass) {
         for (Component component : getComponents()) {
             AccessoryBar bar = ((AccessoryBarWithButtons) component).bar;
@@ -148,7 +150,7 @@ public class ExpandableAccessoryBar extends AccessoryBar {
         bar.setDirection(JXCollapsiblePane.Direction.END);
         bar.setCollapsed(true);
         if (node != null) {
-            Preferences childNode = getPreferencesNode().node("interpreter" + interpreterIndex);
+            Preferences childNode = node.node("interpreter" + interpreterIndex);
             bar.bar.setPreferencesNode(childNode);
         }
         add(bar, 0);

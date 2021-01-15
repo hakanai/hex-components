@@ -18,6 +18,7 @@
 
 package org.trypticon.hex.interpreters;
 
+import javax.annotation.Nullable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,6 +42,7 @@ public abstract class AbstractInterpreterStorage implements InterpreterStorage {
         nameToClass.put(name, clazz);
     }
 
+    @Nullable
     @Override
     public Map<String, Object> toMap(Interpreter<?> interpreter) {
         String name = classToName.get(interpreter.getClass());
@@ -53,9 +55,13 @@ public abstract class AbstractInterpreterStorage implements InterpreterStorage {
         }
     }
 
+    @Nullable
     @Override
     public Interpreter<?> fromMap(Map<String, Object> map) {
         String name = (String) map.get("name");
+        if (name == null) {
+            throw new IllegalArgumentException("Missing name parameter: " + map);
+        }
         Class<? extends Interpreter<?>> clazz = nameToClass.get(name);
         if (clazz != null) {
             try {

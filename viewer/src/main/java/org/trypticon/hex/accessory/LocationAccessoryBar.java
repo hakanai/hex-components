@@ -26,6 +26,8 @@ import org.trypticon.hex.util.swingsupport.PLAFUtils;
 import org.trypticon.hex.util.swingsupport.StealthFormattedTextField;
 import org.trypticon.hex.util.swingsupport.StealthSpinner;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.swing.GroupLayout;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -57,6 +59,8 @@ public class LocationAccessoryBar extends AccessoryBar {
     private final CustomHexFormattedTextField offsetField;
     private final CustomHexFormattedTextField lengthField;
     private final Handler handler;
+
+    @Nullable
     private Preferences preferencesNode;
 
     public LocationAccessoryBar(HexViewer viewer) {
@@ -237,6 +241,7 @@ public class LocationAccessoryBar extends AccessoryBar {
                 public AbstractFormatter getFormatter(JFormattedTextField tf) {
                     return new AbstractFormatter() {
                         @Override
+                        @Nullable
                         public Object stringToValue(String text) throws ParseException {
                             text = text.trim();
                             if (text.isEmpty()) {
@@ -250,6 +255,7 @@ public class LocationAccessoryBar extends AccessoryBar {
                         }
 
                         @Override
+                        @Nonnull
                         public String valueToString(Object value) throws ParseException {
                             if (value == null) {
                                 return "";

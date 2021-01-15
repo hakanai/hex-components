@@ -18,6 +18,7 @@
 
 package org.trypticon.hex;
 
+import javax.annotation.Nullable;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
@@ -28,6 +29,7 @@ import javax.swing.event.EventListenerList;
  * @author trejkaz
  */
 public class HexViewerSelectionModel {
+    @Nullable
     private EventListenerList listenerList;
 
     private long selectionStart;

@@ -27,6 +27,7 @@ import org.trypticon.hex.anno.AnnotationCollection;
 import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.util.swingsupport.GuiLocale;
 
+import javax.annotation.Nullable;
 import javax.swing.JLabel;
 import javax.swing.border.Border;
 import java.awt.Color;
@@ -48,6 +49,7 @@ public class DefaultCellRenderer extends JLabel implements CellRenderer {
 
     private static final Color transparent = new Color(0, 0, 0, 0);
 
+    @Nullable
     private Paint backgroundPaint;
 
     public DefaultCellRenderer() {
@@ -96,7 +98,8 @@ public class DefaultCellRenderer extends JLabel implements CellRenderer {
             AnnotationStyleScheme annotationStyleScheme = viewer.getAnnotationStyleScheme();
             int bytesPerRow = viewer.getBytesPerRow();
 
-            List<? extends Annotation> annotationPath = annotations.getAnnotationPathAt(position);
+            List<? extends Annotation> annotationPath =
+                    annotations == null ? null : annotations.getAnnotationPathAt(position);
             if (annotationPath != null) {
                 Border border = null;
 

@@ -22,6 +22,7 @@ import org.jdesktop.swingx.renderer.StringValue;
 import org.trypticon.hex.util.Predicate;
 import org.trypticon.hex.util.Strings;
 
+import javax.annotation.Nullable;
 import java.awt.Component;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -88,8 +89,9 @@ class SelectEncodingPane extends SelectObjectPane<Charset> {
      * Shows the encoding selection pane in a dialog.
      *
      * @param parentComponent the parent component.
-     * @return the chosen encoding.
+     * @return the chosen encoding. Returns {@code null} if cancelled.
      */
+    @Nullable
     public Charset showDialog(Component parentComponent) {
         ResourceBundle bundle = ResourceBundle.getBundle("org/trypticon/hex/Bundle", GuiLocale.get());
         return showDialog(parentComponent,

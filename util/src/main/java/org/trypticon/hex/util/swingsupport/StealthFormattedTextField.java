@@ -49,12 +49,10 @@ public class StealthFormattedTextField extends JFormattedTextField {
     }
 
     private void commonInit() {
-        addPropertyChangeListener("JComponent.sizeVariant", new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent event) {
-                updateProperties();
-            }
-        });
+        labelTemplate = new JLabel();
+        textFieldTemplate = new JTextField();
+
+        addPropertyChangeListener("JComponent.sizeVariant", event -> updateProperties());
         addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent event) {

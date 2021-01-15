@@ -22,6 +22,7 @@ import org.trypticon.hex.interpreters.Interpreter;
 import org.trypticon.hex.interpreters.InterpreterInfo;
 import org.trypticon.hex.interpreters.InterpreterStorage;
 
+import javax.annotation.Nullable;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -46,6 +47,7 @@ public class StringInterpreterStorage implements InterpreterStorage {
                 new BinaryStringInterpreterInfo(), new BinaryStringzInterpreterInfo());
     }
 
+    @Nullable
     @Override
     public Map<String, Object> toMap(Interpreter<?> interpreter) {
         if (interpreter instanceof StringInterpreter) {
@@ -71,9 +73,13 @@ public class StringInterpreterStorage implements InterpreterStorage {
         }
     }
 
+    @Nullable
     @Override
     public Interpreter<?> fromMap(Map<String, Object> map) {
         String name = (String) map.get("name");
+        if (name == null) {
+            throw new IllegalArgumentException("Missing name parameter: " + map);
+        }
         switch (name) {
             case "string": {
                 String charset = (String) map.get("charset");

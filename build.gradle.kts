@@ -1,7 +1,3 @@
-import de.thetaphi.forbiddenapis.gradle.CheckForbiddenApisExtension
-import de.thetaphi.forbiddenapis.gradle.ForbiddenApisPlugin
-import net.ltgt.gradle.errorprone.ErrorPronePlugin
-
 /*
  * Hex - a hex viewer and annotator
  * Copyright (C) 2009-2014,2016-2017,2021  Hakanai, Hex Project
@@ -20,6 +16,14 @@ import net.ltgt.gradle.errorprone.ErrorPronePlugin
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import de.thetaphi.forbiddenapis.gradle.CheckForbiddenApisExtension
+import de.thetaphi.forbiddenapis.gradle.ForbiddenApisPlugin
+import net.ltgt.gradle.errorprone.ErrorPronePlugin
+import net.ltgt.gradle.nullaway.NullAwayExtension
+import net.ltgt.gradle.nullaway.NullAwayPlugin
+import net.ltgt.gradle.errorprone.*
+import net.ltgt.gradle.nullaway.nullaway
+
 buildscript {
     repositories {
         gradlePluginPortal()
@@ -27,6 +31,7 @@ buildscript {
     dependencies {
         classpath("de.thetaphi:forbiddenapis:3.1")
         classpath("net.ltgt.gradle:gradle-errorprone-plugin:1.3.0")
+        classpath("net.ltgt.gradle:gradle-nullaway-plugin:1.0.2")
     }
 }
 
@@ -97,6 +102,7 @@ allprojects {
     plugins.withType<JavaPlugin> {
         plugins.apply(ForbiddenApisPlugin::class)
         plugins.apply(ErrorPronePlugin::class)
+        plugins.apply(NullAwayPlugin::class)
 
         configure<JavaPluginExtension> {
             sourceCompatibility = JavaVersion.VERSION_11
@@ -108,6 +114,14 @@ allprojects {
             // How is this still not the default, Gradle?!
             options.encoding = "UTF-8"
             options.compilerArgs = listOf("-Xlint:all")
+
+            options.errorprone.nullaway {
+                severity.set(if (name.contains("Test")) CheckSeverity.OFF else CheckSeverity.ERROR)
+            }
+        }
+
+        configure<NullAwayExtension> {
+            annotatedPackages.add("org.trypticon.hex")
         }
 
         configure<CheckForbiddenApisExtension> {
@@ -120,6 +134,7 @@ allprojects {
         dependencies {
             "testRuntimeOnly"("org.junit.jupiter:junit-jupiter-engine")
             "errorprone"("com.google.errorprone:error_prone_core:2.4.0")
+            "errorprone"("com.uber.nullaway:nullaway:0.8.0")
         }
 
         tasks.named<Jar>("jar") {

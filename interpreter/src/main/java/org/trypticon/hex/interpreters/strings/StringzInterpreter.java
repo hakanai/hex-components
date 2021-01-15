@@ -33,18 +33,20 @@ import java.util.Locale;
  * @author trejkaz
  */
 public class StringzInterpreter extends AbstractInterpreter<StringValue> {
+    @Nonnull
     private final Charset charset;
 
     @Deprecated
-    public StringzInterpreter(String charset) {
+    public StringzInterpreter(@Nonnull String charset) {
         this(Charset.forName(charset));
     }
 
-    public StringzInterpreter(Charset charset) {
+    public StringzInterpreter(@Nonnull Charset charset) {
         super("stringz(" + charset.name() + ')', StringValue.class);
         this.charset = charset;
     }
 
+    @Nonnull
     public Charset getCharset() {
         return charset;
     }

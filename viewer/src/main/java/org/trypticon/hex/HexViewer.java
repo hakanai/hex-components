@@ -74,11 +74,13 @@ public class HexViewer extends JComponent {
     /**
      * The binary being viewed.
      */
+    @Nullable
     private Binary binary;
 
     /**
      * The collection of annotations to show.
      */
+    @Nullable
     private AnnotationCollection annotations;
 
     /**
@@ -89,7 +91,7 @@ public class HexViewer extends JComponent {
     /**
      * The cell renderer.
      */
-    private CellRenderer cellRenderer = new DefaultCellRenderer();
+    private final CellRenderer cellRenderer = new DefaultCellRenderer();
 
     /**
      * The number of digits shown in the offset column.
@@ -98,12 +100,19 @@ public class HexViewer extends JComponent {
 
     // Colours.
     // XXX: These should probably come from UIDefaults.
+    @Nullable
     private Color offsetForeground = null;
+    @Nullable
     private Color errorForeground = Color.RED;
+    @Nullable
     private Color cursorForeground = null;
+    @Nullable
     private Color cursorBackground = null;
+    @Nullable
     private Color cursorRowBackground = null;
+    @Nullable
     private Color selectionForeground = null;
+    @Nullable
     private Color selectionBackground = null;
 
     /**
@@ -122,6 +131,7 @@ public class HexViewer extends JComponent {
     /**
      * This listener will repaint the viewer when the annotations change.
      */
+    @Nullable
     private AnnotationCollectionListener repaintListener;
 
     /**
@@ -138,27 +148,28 @@ public class HexViewer extends JComponent {
     /**
      * The border to render around the viewport.
      */
+    @Nullable
     private Border viewportBorder;
 
     /**
      * The vertical scroll bar.
      */
-    private JScrollBar verticalScrollBar;
+    private final JScrollBar verticalScrollBar;
 
     /**
      * The horizontal scroll bar.
      */
-    private JScrollBar horizontalScrollBar;
+    private final JScrollBar horizontalScrollBar;
 
     /**
      * A panel to occupy the corner so that events don't land on the hex viewer.
      */
-    private JComponent corner;
+    private final JComponent corner;
 
     /**
      * Takes care of syncing the view with the scroll bar.
      */
-    private ScrollBarSync scrollBarSync;
+    private final ScrollBarSync scrollBarSync;
 
     /**
      * Constructs the hex viewer.
@@ -271,6 +282,7 @@ public class HexViewer extends JComponent {
      *
      * @return the annotations to show.
      */
+    @Nullable
     public AnnotationCollection getAnnotations() {
         return annotations;
     }
@@ -281,11 +293,14 @@ public class HexViewer extends JComponent {
      *
      * @param annotations the annotations to show.
      */
-    public void setAnnotations(AnnotationCollection annotations) {
+    public void setAnnotations(@Nullable AnnotationCollection annotations) {
         AnnotationCollection oldAnnotations = this.annotations;
         if (!Objects.equals(oldAnnotations, annotations)) {
             if (oldAnnotations != null) {
-                oldAnnotations.removeAnnotationCollectionListener(repaintListener);
+                AnnotationCollectionListener repaintListener = this.repaintListener;
+                if (repaintListener != null) {
+                    oldAnnotations.removeAnnotationCollectionListener(repaintListener);
+                }
             }
 
             this.annotations = annotations;
@@ -368,6 +383,7 @@ public class HexViewer extends JComponent {
      *
      * @return the offset foreground.
      */
+    @Nullable
     public Color getOffsetForeground() {
         return offsetForeground;
     }
@@ -377,7 +393,7 @@ public class HexViewer extends JComponent {
      *
      * @param offsetForeground the offset foreground.
      */
-    public void setOffsetForeground(Color offsetForeground) {
+    public void setOffsetForeground(@Nullable Color offsetForeground) {
         this.offsetForeground = offsetForeground;
     }
 
@@ -386,6 +402,7 @@ public class HexViewer extends JComponent {
      *
      * @return the error foreground.
      */
+    @Nullable
     public Color getErrorForeground() {
         return errorForeground;
     }
@@ -395,7 +412,7 @@ public class HexViewer extends JComponent {
      *
      * @param errorForeground the error foreground.
      */
-    public void setErrorForeground(Color errorForeground) {
+    public void setErrorForeground(@Nullable Color errorForeground) {
         this.errorForeground = errorForeground;
     }
 
@@ -405,6 +422,7 @@ public class HexViewer extends JComponent {
      *
      * @return the cursor foreground.
      */
+    @Nullable
     public Color getCursorForeground() {
         return cursorForeground;
     }
@@ -415,7 +433,7 @@ public class HexViewer extends JComponent {
      *
      * @param cursorForeground the cursor foreground.
      */
-    public void setCursorForeground(Color cursorForeground) {
+    public void setCursorForeground(@Nullable Color cursorForeground) {
         this.cursorForeground = cursorForeground;
     }
 
@@ -424,6 +442,7 @@ public class HexViewer extends JComponent {
      *
      * @return the cursor background.
      */
+    @Nullable
     public Color getCursorBackground() {
         return cursorBackground;
     }
@@ -433,7 +452,7 @@ public class HexViewer extends JComponent {
      *
      * @param cursorBackground the cursor background.
      */
-    public void setCursorBackground(Color cursorBackground) {
+    public void setCursorBackground(@Nullable Color cursorBackground) {
         this.cursorBackground = cursorBackground;
     }
 
@@ -442,6 +461,7 @@ public class HexViewer extends JComponent {
      *
      * @return the cursor row background.
      */
+    @Nullable
     public Color getCursorRowBackground() {
         return cursorRowBackground;
     }
@@ -451,7 +471,7 @@ public class HexViewer extends JComponent {
      *
      * @param cursorRowBackground the cursor row background.
      */
-    public void setCursorRowBackground(Color cursorRowBackground) {
+    public void setCursorRowBackground(@Nullable Color cursorRowBackground) {
         this.cursorRowBackground = cursorRowBackground;
     }
 
@@ -461,6 +481,7 @@ public class HexViewer extends JComponent {
      *
      * @return the selection foreground.
      */
+    @Nullable
     public Color getSelectionForeground() {
         return selectionForeground;
     }
@@ -471,7 +492,7 @@ public class HexViewer extends JComponent {
      *
      * @param selectionForeground the selection foreground.
      */
-    public void setSelectionForeground(Color selectionForeground) {
+    public void setSelectionForeground(@Nullable Color selectionForeground) {
         this.selectionForeground = selectionForeground;
     }
 
@@ -480,6 +501,7 @@ public class HexViewer extends JComponent {
      *
      * @return the selection background.
      */
+    @Nullable
     public Color getSelectionBackground() {
         return selectionBackground;
     }
@@ -489,7 +511,7 @@ public class HexViewer extends JComponent {
      *
      * @param selectionBackground the selection background.
      */
-    public void setSelectionBackground(Color selectionBackground) {
+    public void setSelectionBackground(@Nullable Color selectionBackground) {
         this.selectionBackground = selectionBackground;
     }
 
@@ -632,6 +654,7 @@ public class HexViewer extends JComponent {
      *
      * @return the viewport border.
      */
+    @Nullable
     public Border getViewportBorder() {
         return viewportBorder;
     }
@@ -641,7 +664,7 @@ public class HexViewer extends JComponent {
      *
      * @param viewportBorder the viewport border.
      */
-    public void setViewportBorder(Border viewportBorder) {
+    public void setViewportBorder(@Nullable Border viewportBorder) {
         this.viewportBorder = viewportBorder;
     }
 
@@ -651,7 +674,7 @@ public class HexViewer extends JComponent {
      * @param pos the position.
      */
     public void scrollPosToVisible(long pos) {
-        if (pos < 0 || pos >= binary.length()) {
+        if (pos < 0 || binary == null || pos >= binary.length()) {
             throw new IllegalArgumentException("Position out of bounds: " + pos);
         }
 

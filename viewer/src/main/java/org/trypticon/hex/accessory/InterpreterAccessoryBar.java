@@ -34,6 +34,7 @@ import org.trypticon.hex.util.swingsupport.LocalisableComboBox;
 import org.trypticon.hex.util.swingsupport.PLAFUtils;
 import org.trypticon.hex.util.swingsupport.StealthFormattedTextField;
 
+import javax.annotation.Nullable;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
@@ -258,6 +259,7 @@ public class InterpreterAccessoryBar extends AccessoryBar {
         valueTextField.setValue(value);
     }
 
+    @Nullable
     private List<LengthOption> getLengthOptions(InterpreterInfo info) {
         for (InterpreterInfo.Option<?> option : info.getOptions()) {
             // Can expand this as the UI grows to support more options.

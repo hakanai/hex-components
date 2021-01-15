@@ -18,6 +18,7 @@
 
 package org.trypticon.hex.util;
 
+import javax.annotation.Nonnull;
 import javax.swing.plaf.UIResource;
 import java.awt.Color;
 
@@ -36,8 +37,9 @@ public class DerivedColor extends Color implements UIResource {
     int cachedRGB;
     int cachedForRGB;
 
-    public DerivedColor(Color color, float saturationMultiplier, float lightnessAddend, float alphaMultiplier) {
+    public DerivedColor(@Nonnull Color color, float saturationMultiplier, float lightnessAddend, float alphaMultiplier) {
         super(color.getRGB());
+
         this.color = color;
         this.saturationMultiplier = saturationMultiplier;
         this.lightnessAddend = lightnessAddend;

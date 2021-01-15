@@ -22,10 +22,10 @@ import org.trypticon.hex.anno.util.AnnotationRangeSearchHit;
 import org.trypticon.hex.anno.util.AnnotationRangeSearcher;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.swing.event.EventListenerList;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -35,6 +35,7 @@ import java.util.ListIterator;
  * @author trejkaz
  */
 public abstract class AbstractAnnotationCollection implements AnnotationCollection {
+    @Nullable
     private EventListenerList listenerList;
 
     @Override
@@ -49,7 +50,7 @@ public abstract class AbstractAnnotationCollection implements AnnotationCollecti
      * @param annotation the annotation being added.
      * @throws OverlappingAnnotationException if the annotation would overlap another annotation.
      */
-    private void doAdd(List<GroupAnnotation> parentAnnotationPath, Annotation annotation)
+    private void doAdd(@Nonnull List<GroupAnnotation> parentAnnotationPath, @Nonnull Annotation annotation)
             throws OverlappingAnnotationException {
 
         GroupAnnotation parentAnnotation = parentAnnotationPath.get(parentAnnotationPath.size() - 1);
@@ -72,19 +73,13 @@ public abstract class AbstractAnnotationCollection implements AnnotationCollecti
         }
 
         Annotation newParentAnnotation = hits.get(0).getAnnotation();
-        List<GroupAnnotation> newParentAnnotationPath = null;
-        if (newParentAnnotation instanceof GroupAnnotation) {
-            newParentAnnotationPath = new ArrayList<>(parentAnnotationPath.size() + 1);
-            newParentAnnotationPath.addAll(parentAnnotationPath);
-            newParentAnnotationPath.add((GroupAnnotation) newParentAnnotation);
-        }
 
         // Dealing with surrounding is simple.  If it was a group then we recurse to add inside the group,
         // otherwise it's illegal.
         if (hits.get(0).getRelation() == AnnotationRangeSearchHit.Relation.SURROUNDING) {
             if (newParentAnnotation instanceof GroupAnnotation) {
                 // No problem, the new annotation will go into that group.
-                doAdd(newParentAnnotationPath, annotation);
+                doAddInside(parentAnnotationPath, (GroupAnnotation) newParentAnnotation, annotation);
                 return;
             } else {
                 throw new OverlappingAnnotationException(newParentAnnotation, annotation);
@@ -96,7 +91,7 @@ public abstract class AbstractAnnotationCollection implements AnnotationCollecti
             if (newParentAnnotation instanceof GroupAnnotation) {
                 // The case of annotation also being a GroupAnnotation is ambiguous in that we could nest
                 // them either way.  But we'll just treat the new one as inside the old one, which is simpler.
-                doAdd(newParentAnnotationPath, annotation);
+                doAddInside(parentAnnotationPath, (GroupAnnotation) newParentAnnotation, annotation);
                 return;
             } else {
                 // Otherwise we treat it the same as CONTAINED_WITHIN which is handled below.
@@ -149,6 +144,19 @@ public abstract class AbstractAnnotationCollection implements AnnotationCollecti
         } else {
             throw new OverlappingAnnotationException(hits.get(0).getAnnotation(), annotation); // picks the first one
         }
+    }
+
+    // Extraction of some repetitive code from doAdd for the case of adding inside a group.
+    private void doAddInside(@Nonnull List<GroupAnnotation> parentAnnotationPath,
+                             @Nonnull GroupAnnotation newParentAnnotation,
+                             @Nonnull Annotation annotation)
+            throws OverlappingAnnotationException {
+
+        List<GroupAnnotation> newParentAnnotationPath = new ArrayList<>(parentAnnotationPath.size() + 1);
+        newParentAnnotationPath.addAll(parentAnnotationPath);
+        newParentAnnotationPath.add(newParentAnnotation);
+
+        doAdd(newParentAnnotationPath, annotation);
     }
 
     @Override
