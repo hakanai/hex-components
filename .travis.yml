@@ -1,12 +1,7 @@
-# Even though it's a Java project, we're working around travis strangeness.
-language: ruby
+language: java
 cache:
   directories:
-    - $HOME/.m2
+    - $HOME/.gradle
 jdk:
-  #- openjdk7
-  - oraclejdk8
-rvm: 2.0
-install:
-  - gem install buildr
-script: buildr clean upload
+  - adoptopenjdk11
+script: ./gradlew publish

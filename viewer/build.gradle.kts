@@ -16,21 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.util;
+apply(plugin = "java-library")
 
-import org.junit.Test;
+description = "Hex viewer and related components"
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+dependencies {
+    "implementation"(platform(project(":hex-dependencies")))
+    "implementation"(project(":hex-anno"))
+    "implementation"(project(":hex-binary"))
+    "implementation"(project(":hex-interpreter"))
+    "implementation"(project(":hex-util"))
+    "implementation"("com.google.code.findbugs:jsr305")
+    "implementation"("org.swinglabs.swingx:swingx-action")
+    "implementation"("org.swinglabs.swingx:swingx-common")
+    "implementation"("org.swinglabs.swingx:swingx-core")
+    "implementation"("org.swinglabs.swingx:swingx-painters")
+    "implementation"("org.swinglabs.swingx:swingx-plaf")
 
-/**
- * Tests for {@link LoggerUtils}.
- *
- * @author trejkaz
- */
-public class LoggerUtilsTest {
-    @Test
-    public void testGettingLogger() throws Exception {
-        assertThat(LoggerUtils.get().getName(), is("org.trypticon.hex.util.LoggerUtilsTest"));
-    }
+    "testImplementation"("junit:junit")
+    "testImplementation"("org.hamcrest:hamcrest")
 }

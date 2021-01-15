@@ -1,6 +1,6 @@
 /*
  * Hex - a hex viewer and annotator
- * Copyright (C) 2009-2014,2016-2017  Trejkaz, Hex Project
+ * Copyright (C) 2009-2014,2016-2017,2021  Trejkaz, Hex Project
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -20,7 +20,6 @@ package org.trypticon.hex.binary;
 
 import org.junit.Test;
 
-import java.lang.Exception;
 import java.nio.ByteBuffer;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -46,17 +45,17 @@ public abstract class AbstractBinaryTest {
 
     @Test
     public void testReading() throws Exception {
-        Binary binary = createBinary(SAMPLE_DATA);
+        try (Binary binary = createBinary(SAMPLE_DATA)) {
+            assertEquals("Wrong result", 0, binary.read(0));
 
-        assertEquals("Wrong result", 0, binary.read(0));
+            byte[] tmp = new byte[4];
+            binary.read(1, tmp);
+            assertArrayEquals("Wrong result", new byte[]{1, 2, 3, 4}, tmp);
+            binary.read(5, tmp);
+            assertArrayEquals("Wrong result", new byte[]{5, 6, 7, 8}, tmp);
 
-        byte[] tmp = new byte[4];
-        binary.read(1, tmp);
-        assertArrayEquals("Wrong result", new byte[]{1, 2, 3, 4}, tmp);
-        binary.read(5, tmp);
-        assertArrayEquals("Wrong result", new byte[]{5, 6, 7, 8}, tmp);
-
-        assertEquals("Wrong result", 9, binary.read(9));
+            assertEquals("Wrong result", 9, binary.read(9));
+        }
     }
 
     @Test

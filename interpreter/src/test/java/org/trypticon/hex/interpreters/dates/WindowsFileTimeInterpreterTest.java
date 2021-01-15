@@ -45,6 +45,6 @@ public class WindowsFileTimeInterpreterTest {
                 (byte) 0x01,
         });
         DateTime value = new WindowsFileTimeInterpreter().interpret(binary, 0);
-        assertThat(value.toString(), is(equalTo("Jan 9, 2013 6:41:22 PM")));
+        assertThat(value.toString(), is(equalTo("2013 Jan 9 18:41:22")));
     }
 }

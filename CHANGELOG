@@ -1,4 +1,8 @@
 
+Version ?.? (????-??-??)
+
+ Changed: Dropped support for Java 8, 9, 10.
+
 Version 0.8 (2017-04-22)
 
    Fixed: Fixed multiple NullPointerException risks.

@@ -16,29 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.trypticon.hex.util;
+apply(plugin = "java-library")
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.logging.Logger;
+description = "API for abstraction of things containing binary data"
 
-/**
- * Logger utility methods.
- *
- * @author trejkaz
- */
-public class LoggerUtils {
-    private static final StackWalker stackWalker = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE);
+dependencies {
+    "implementation"(platform(project(":hex-dependencies")))
+    "implementation"(project(":hex-util"))
+    "implementation"("com.google.code.findbugs:jsr305")
 
-    private LoggerUtils() {
-    }
-
-    /**
-     * Gets a logger appropriate for whichever class was the caller.
-     *
-     * @return the logger.
-     */
-    public static Logger get() {
-        return Logger.getLogger(stackWalker.getCallerClass().getName());
-    }
+    "testImplementation"("junit:junit")
 }

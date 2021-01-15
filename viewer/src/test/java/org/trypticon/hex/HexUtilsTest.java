@@ -1,6 +1,6 @@
 /*
  * Hex - a hex viewer and annotator
- * Copyright (C) 2009-2014,2016-2017  Trejkaz, Hex Project
+ * Copyright (C) 2009-2014,2016-2017,2021  Trejkaz, Hex Project
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,7 +19,8 @@
 package org.trypticon.hex;
 
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Tests for {@link HexUtils}.
@@ -30,21 +31,21 @@ public class HexUtilsTest {
 
     @Test
     public void testToHex() {
-        assertEquals("Wrong hex", "0A", HexUtils.toHex((byte) 0x0A));
-        assertEquals("Wrong hex", "CA", HexUtils.toHex((byte) 0xCA));
+        assertThat(HexUtils.toHex((byte) 0x0A), is("0A"));
+        assertThat(HexUtils.toHex((byte) 0xCA), is("CA"));
     }
 
     @Test
     public void testToAscii() {
-        assertEquals("Should be replaced", "·", HexUtils.toAscii((byte) 0x00));
-        assertEquals("Should be replaced", "·", HexUtils.toAscii((byte) 0x1F));
+        assertThat(HexUtils.toAscii((byte) 0x00), is("·"));
+        assertThat(HexUtils.toAscii((byte) 0x1F), is("·"));
 
-        assertEquals("Wrong ASCII", " ", HexUtils.toAscii((byte) 0x20));
-        assertEquals("Wrong ASCII", "U", HexUtils.toAscii((byte) 0x55));
+        assertThat(HexUtils.toAscii((byte) 0x20), is(" "));
+        assertThat(HexUtils.toAscii((byte) 0x55), is("U"));
 
-        assertEquals("Should be replaced", "·", HexUtils.toAscii((byte) 0xCA));
-        assertEquals("Should be replaced", "·", HexUtils.toAscii((byte) 0xFE));
-        assertEquals("Should be replaced", "·", HexUtils.toAscii((byte) 0xBA));
-        assertEquals("Should be replaced", "·", HexUtils.toAscii((byte) 0xBE));
+        assertThat(HexUtils.toAscii((byte) 0xCA), is("·"));
+        assertThat(HexUtils.toAscii((byte) 0xFE), is("·"));
+        assertThat(HexUtils.toAscii((byte) 0xBA), is("·"));
+        assertThat(HexUtils.toAscii((byte) 0xBE), is("·"));
     }
 }

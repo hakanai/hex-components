@@ -16,14 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package org.trypticon.hex.binary;
-
-import sun.nio.ch.DirectBuffer;
 
 import java.nio.ByteBuffer;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -109,8 +102,8 @@ class ByteBufferBinary extends AbstractBinary {
             // has access to the buffer, it will cause the entire VM to segfault.
             // This is why we jump through hoops to lock it and make sure other
             // threads can't be using it at the same time.
-            if (buffer instanceof DirectBuffer) {
-                ((DirectBuffer) buffer).cleaner().clean();
+            if (buffer.isDirect()) {
+                ByteBufferUnmapper.unmap(buffer);
             }
         } finally {
             lock.writeLock().unlock();
