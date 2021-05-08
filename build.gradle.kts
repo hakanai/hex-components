@@ -16,30 +16,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import de.thetaphi.forbiddenapis.gradle.CheckForbiddenApisExtension
-import de.thetaphi.forbiddenapis.gradle.ForbiddenApisPlugin
-import net.ltgt.gradle.errorprone.ErrorPronePlugin
-import net.ltgt.gradle.nullaway.NullAwayExtension
-import net.ltgt.gradle.nullaway.NullAwayPlugin
+import de.thetaphi.forbiddenapis.gradle.*
 import net.ltgt.gradle.errorprone.*
-import net.ltgt.gradle.nullaway.nullaway
+import net.ltgt.gradle.nullaway.*
 
-buildscript {
-    repositories {
-        gradlePluginPortal()
-    }
-    dependencies {
-        classpath("de.thetaphi:forbiddenapis:3.1")
-        classpath("net.ltgt.gradle:gradle-errorprone-plugin:1.3.0")
-        classpath("net.ltgt.gradle:gradle-nullaway-plugin:1.0.2")
-    }
+plugins {
+    id("de.thetaphi.forbiddenapis") version "3.1"
+    id("net.ltgt.errorprone") version "1.3.0"
+    id("net.ltgt.nullaway") version "1.0.2"
 }
 
 allprojects {
     repositories {
         jcenter()
         maven {
-            url = uri("https://ephemeral-laboratories.bintray.com/maven")
+            url = uri("https://jitpack.io")
+        }
+    }
+    configurations.all {
+        resolutionStrategy.dependencySubstitution {
+            substitute(module("org.swinglabs.swingx:swingx-action"))
+                    .with(module("com.github.hakanai.swingx:swingx-action:master-SNAPSHOT"))
+            substitute(module("org.swinglabs.swingx:swingx-common"))
+                    .with(module("com.github.hakanai.swingx:swingx-common:master-SNAPSHOT"))
+            substitute(module("org.swinglabs.swingx:swingx-core"))
+                    .with(module("com.github.hakanai.swingx:swingx-core:master-SNAPSHOT"))
+            substitute(module("org.swinglabs.swingx:swingx-painters"))
+                    .with(module("com.github.hakanai.swingx:swingx-painters:master-SNAPSHOT"))
+            substitute(module("org.swinglabs.swingx:swingx-plaf"))
+                    .with(module("com.github.hakanai.swingx:swingx-plaf:master-SNAPSHOT"))
         }
     }
 
@@ -135,6 +140,7 @@ allprojects {
             "testRuntimeOnly"("org.junit.jupiter:junit-jupiter-engine")
             "errorprone"("com.google.errorprone:error_prone_core:2.4.0")
             "errorprone"("com.uber.nullaway:nullaway:0.8.0")
+            "errorproneJavac"("com.google.errorprone:javac:9+181-r4173-1")
         }
 
         tasks.named<Jar>("jar") {
