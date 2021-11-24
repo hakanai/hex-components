@@ -253,18 +253,19 @@ public class HexViewer extends JComponent {
      *
      * @param binary the binary being viewed.
      */
-    public void setBinary(Binary binary) {
+    public void setBinary(@Nullable Binary binary) {
         Binary oldBinary = this.binary;
         if (!Objects.equals(oldBinary, binary)) {
             this.binary = binary;
 
-            offsetColumnDigits = Long.toString(binary.length(), 16).length();
+            long binaryLength = binary == null ? 0 : binary.length();
+            offsetColumnDigits = Long.toString(binaryLength, 16).length();
 
             if (annotations == null) {
-                if (binary.length() == 0) {
+                if (binaryLength == 0) {
                     annotations = new EmptyAnnotationCollection();
                 } else {
-                    annotations = new MemoryAnnotationCollection(binary.length());
+                    annotations = new MemoryAnnotationCollection(binaryLength);
                 }
             }
 

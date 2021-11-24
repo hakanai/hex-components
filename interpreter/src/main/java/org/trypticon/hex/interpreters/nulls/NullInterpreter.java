@@ -18,10 +18,10 @@
 
 package org.trypticon.hex.interpreters.nulls;
 
-import org.trypticon.hex.interpreters.AbstractInterpreter;
-import org.trypticon.hex.binary.Binary;
-
 import javax.annotation.Nonnull;
+
+import org.trypticon.hex.binary.Binary;
+import org.trypticon.hex.interpreters.AbstractInterpreter;
 
 /**
  * An interpreter which can mark a range as meaning nothing.  Useful for
@@ -44,7 +44,7 @@ public class NullInterpreter extends AbstractInterpreter<NullValue> {
 
     @Override
     public boolean equals(Object o) {
-        return o == this || o instanceof NullInterpreter;
+        return o instanceof NullInterpreter;
     }
 
     @Override

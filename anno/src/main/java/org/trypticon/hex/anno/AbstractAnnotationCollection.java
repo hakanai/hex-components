@@ -18,16 +18,16 @@
 
 package org.trypticon.hex.anno;
 
-import org.trypticon.hex.anno.util.AnnotationRangeSearchHit;
-import org.trypticon.hex.anno.util.AnnotationRangeSearcher;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.swing.event.EventListenerList;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.swing.event.EventListenerList;
+
+import org.trypticon.hex.anno.util.AnnotationRangeSearchHit;
+import org.trypticon.hex.anno.util.AnnotationRangeSearcher;
 
 /**
  * Base abstract class for implementing annotation collections.
@@ -94,7 +94,7 @@ public abstract class AbstractAnnotationCollection implements AnnotationCollecti
                 doAddInside(parentAnnotationPath, (GroupAnnotation) newParentAnnotation, annotation);
                 return;
             } else {
-                // Otherwise we treat it the same as CONTAINED_WITHIN which is handled below.
+                // Otherwise, we treat it the same as CONTAINED_WITHIN which is handled below.
             }
         }
 

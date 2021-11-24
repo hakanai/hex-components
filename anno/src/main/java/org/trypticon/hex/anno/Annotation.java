@@ -18,12 +18,12 @@
 
 package org.trypticon.hex.anno;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.Interpreter;
 import org.trypticon.hex.interpreters.Value;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * Interface marking an annotation within the binary.
@@ -62,7 +62,9 @@ public interface Annotation {
      * @return the value.
      */
     @Nonnull
-    Value interpret(@Nonnull Binary binary);
+    default Value interpret(@Nonnull Binary binary) {
+        return getInterpreter().interpret(binary, getPosition(), getLength());
+    }
 
     /**
      * Gets the value of a custom attribute.
@@ -81,6 +83,14 @@ public interface Annotation {
      * @param value the attribute value.
      * @param <T> the attribute type.
      */
-    <T> void set(@Nonnull Attribute<T> attribute, T value);
+    <T> void set(@Nonnull Attribute<T> attribute, @Nullable T value);
 
+    /**
+     * Sets the value of a custom attribute, but only if there is actually a value.
+     *
+     * @param attribute the custom attribute.
+     * @param value the attribute value.
+     * @param <T> the attribute type.
+     */
+    <T> void setIfNotNull(@Nonnull Attribute<T> attribute, @Nullable T value);
 }

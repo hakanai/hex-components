@@ -18,9 +18,9 @@
 
 package org.trypticon.hex.anno;
 
+import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
 
 /**
  * A collection of annotations.
@@ -59,7 +59,7 @@ public interface AnnotationCollection {
      *
      * @param annotation the annotation to look up.
      * @return the path to that annotation.
-     * @throws IllegalArgumentException if tha annotation is not in the collection.
+     * @throws IllegalArgumentException if the annotation is not in the collection.
      */
     @Nonnull
     List<? extends Annotation> getAnnotationPathFor(Annotation annotation);

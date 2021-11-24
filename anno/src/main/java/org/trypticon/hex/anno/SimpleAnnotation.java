@@ -18,16 +18,16 @@
 
 package org.trypticon.hex.anno;
 
-import org.trypticon.hex.binary.Binary;
-import org.trypticon.hex.interpreters.Interpreter;
-import org.trypticon.hex.interpreters.Value;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.trypticon.hex.binary.Binary;
+import org.trypticon.hex.interpreters.Interpreter;
+import org.trypticon.hex.interpreters.Value;
 
 /**
  * Implementation of a single annotation.
@@ -112,11 +112,18 @@ public class SimpleAnnotation implements Annotation {
     }
 
     @Override
-    public <T> void set(@Nonnull Attribute<T> attribute, T value) {
+    public <T> void set(@Nonnull Attribute<T> attribute, @Nullable T value) {
         if (value == null) {
             attributes.remove(attribute);
         } else {
             attributes.put(attribute, value);
+        }
+    }
+
+    @Override
+    public <T> void setIfNotNull(@Nonnull Attribute<T> attribute, @Nullable T value) {
+        if (value != null) {
+            set(attribute, value);
         }
     }
 
