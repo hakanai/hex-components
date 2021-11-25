@@ -18,15 +18,14 @@
 
 package org.trypticon.hex.interpreters;
 
-import org.trypticon.hex.util.Format;
-import org.trypticon.hex.util.Localisable;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+
+import org.trypticon.hex.util.Format;
+import org.trypticon.hex.util.Localisable;
 
 /**
  * Holds information about an interpreter.
@@ -68,7 +67,7 @@ public interface InterpreterInfo extends Localisable {
             this.name = name;
             this.type = type;
             this.required = required;
-            this.values = Collections.unmodifiableList(new ArrayList<>(values));
+            this.values = List.copyOf(values);
         }
 
         public String getName() {
