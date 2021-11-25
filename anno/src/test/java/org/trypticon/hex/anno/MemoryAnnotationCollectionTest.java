@@ -18,6 +18,8 @@
 
 package org.trypticon.hex.anno;
 
+import java.util.List;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -26,9 +28,8 @@ import org.jmock.Mockery;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.trypticon.hex.interpreters.nulls.NullInterpreter;
 
-import java.util.List;
+import org.trypticon.hex.interpreters.nulls.NullInterpreter;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
@@ -40,9 +41,20 @@ import static org.hamcrest.Matchers.is;
  * @author trejkaz
  */
 public class MemoryAnnotationCollectionTest {
-    Mockery mockery = new Mockery();
-    AnnotationCollectionListener listener;
-    MemoryAnnotationCollection collection;
+    private Mockery mockery;
+    private AnnotationCollectionListener listener;
+    private MemoryAnnotationCollection collection;
+
+    @BeforeEach
+    public void setUp() {
+        mockery = new Mockery();
+        listener = mockery.mock(AnnotationCollectionListener.class);
+    }
+
+    @AfterEach
+    public void tearDown() {
+        mockery.assertIsSatisfied();
+    }
 
     @Test
     public void testAddingAnnotationInsideGroupAtStartPosition() throws Exception {
@@ -324,15 +336,5 @@ public class MemoryAnnotationCollectionTest {
                 assertThat(child.get(CommonAttributes.NOTE), is(expected[i]));
             }
         }
-    }
-
-    @BeforeEach
-    public void setUp() {
-        listener = mockery.mock(AnnotationCollectionListener.class);
-    }
-
-    @AfterEach
-    public void tearDown() {
-        mockery.assertIsSatisfied();
     }
 }

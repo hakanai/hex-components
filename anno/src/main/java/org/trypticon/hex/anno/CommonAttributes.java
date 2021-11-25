@@ -30,5 +30,5 @@ public class CommonAttributes {
     /**
      * A simple text note on the attribute.
      */
-    public static Attribute<String> NOTE = Attribute.named("org.trypticon.hex.anno.note");
+    public static final Attribute<String> NOTE = Attribute.named("org.trypticon.hex.anno.note");
 }

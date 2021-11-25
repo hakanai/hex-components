@@ -30,7 +30,7 @@ import static org.hamcrest.Matchers.*;
  */
 public class LoggerUtilsTest {
     @Test
-    public void testGettingLogger() throws Exception {
+    public void testGettingLogger() {
         assertThat(LoggerUtils.get().getName(), is("org.trypticon.hex.util.LoggerUtilsTest"));
     }
 }

@@ -18,25 +18,36 @@
 
 package org.trypticon.hex.anno.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.trypticon.hex.anno.Annotation;
 import org.trypticon.hex.anno.SimpleAnnotation;
 import org.trypticon.hex.interpreters.nulls.NullInterpreter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.trypticon.hex.anno.util.AnnotationRangeSearchHit.Relation.*;
+import static org.trypticon.hex.anno.util.AnnotationRangeSearchHit.Relation.CONTAINED_WITHIN;
+import static org.trypticon.hex.anno.util.AnnotationRangeSearchHit.Relation.INTERSECTING_END;
+import static org.trypticon.hex.anno.util.AnnotationRangeSearchHit.Relation.INTERSECTING_START;
+import static org.trypticon.hex.anno.util.AnnotationRangeSearchHit.Relation.SAME_RANGE;
+import static org.trypticon.hex.anno.util.AnnotationRangeSearchHit.Relation.SURROUNDING;
 
 /**
  * Tests for {@link AnnotationRangeSearcher}.
  */
 public class AnnotationRangeSearcherTest {
-    AnnotationRangeSearcher searcher = new AnnotationRangeSearcher();
-    List<Annotation> list;
-    List<AnnotationRangeSearchHit> expected;
+    private AnnotationRangeSearcher searcher;
+    private List<Annotation> list;
+    private List<AnnotationRangeSearchHit> expected;
+
+    @BeforeEach
+    public void setUp() {
+        searcher = new AnnotationRangeSearcher();
+    }
 
     @Test
     public void testOutside() {

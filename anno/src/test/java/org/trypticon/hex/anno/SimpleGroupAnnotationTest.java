@@ -35,66 +35,66 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  */
 public class SimpleGroupAnnotationTest {
 
-    GroupAnnotation group = new SimpleGroupAnnotation(0, 100);
+    private final GroupAnnotation group = new SimpleGroupAnnotation(0, 100);
 
     @Test
-    public void testAdd_Consecutive() throws Exception {
+    public void testAdd_Consecutive() {
         group.add(new SimpleAnnotation(20, 20, new NullInterpreter()));
         group.add(new SimpleAnnotation(40, 20, new NullInterpreter()));
     }
 
     @Test
-    public void testRemove() throws Exception {
+    public void testRemove() {
         Annotation annotation = new SimpleAnnotation(20, 20, new NullInterpreter());
         group.add(annotation);
         group.remove(annotation);
     }
 
     @Test
-    public void testRemove_NotPresent() throws Exception {
+    public void testRemove_NotPresent() {
         Annotation annotation = new SimpleAnnotation(20, 20, new NullInterpreter());
         assertThrows(IllegalArgumentException.class,
                      () -> group.remove(annotation));
     }
 
     @Test
-    public void testFindAnnotationAt_Found_HitAtBottom() throws Exception {
+    public void testFindAnnotationAt_Found_HitAtBottom() {
         group.add(new SimpleAnnotation(20, 20, new NullInterpreter()));
         assertThat(group.findAnnotationAt(20), is(notNullValue()));
     }
 
     @Test
-    public void testFindAnnotationAt_Found_HitAtTop() throws Exception {
+    public void testFindAnnotationAt_Found_HitAtTop() {
         group.add(new SimpleAnnotation(20, 20, new NullInterpreter()));
         assertThat(group.findAnnotationAt(39), is(notNullValue()));
     }
 
     @Test
-    public void testFindAnnotationAt_NotFound_MissedByOneBelow() throws Exception {
+    public void testFindAnnotationAt_NotFound_MissedByOneBelow() {
         group.add(new SimpleAnnotation(20, 20, new NullInterpreter()));
         assertThat(group.findAnnotationAt(19), is(nullValue()));
     }
 
     @Test
-    public void testFindAnnotationAt_NotFound_MissedByOneAbove() throws Exception {
+    public void testFindAnnotationAt_NotFound_MissedByOneAbove() {
         group.add(new SimpleAnnotation(20, 20, new NullInterpreter()));
         assertThat(group.findAnnotationAt(40), is(nullValue()));
     }
 
     @Test
-    public void testFindDeepestGroupAnnotationAt_NotFound() throws Exception {
+    public void testFindDeepestGroupAnnotationAt_NotFound() {
         group.add(new SimpleAnnotation(20, 20, new NullInterpreter()));
         assertThat(group.findDeepestGroupAnnotationAt(19), is(nullValue()));
     }
 
     @Test
-    public void testFindDeepestGroupAnnotationAt_NotFound_ButFoundNonGroup() throws Exception {
+    public void testFindDeepestGroupAnnotationAt_NotFound_ButFoundNonGroup() {
         group.add(new SimpleAnnotation(20, 20, new NullInterpreter()));
         assertThat(group.findDeepestGroupAnnotationAt(20), is(nullValue()));
     }
 
     @Test
-    public void testFindDeepestGroupAnnotationAt_Found_OneDeep() throws Exception {
+    public void testFindDeepestGroupAnnotationAt_Found_OneDeep() {
         GroupAnnotation level1 = new SimpleGroupAnnotation(20, 20);
         level1.set(CommonAttributes.NOTE, "level1");
         GroupAnnotation level2 = new SimpleGroupAnnotation(25, 10);
@@ -105,7 +105,7 @@ public class SimpleGroupAnnotationTest {
     }
 
     @Test
-    public void testFindDeepestGroupAnnotationAt_Found_TwoDeep() throws Exception {
+    public void testFindDeepestGroupAnnotationAt_Found_TwoDeep() {
         GroupAnnotation level1 = new SimpleGroupAnnotation(20, 20);
         level1.set(CommonAttributes.NOTE, "level1");
         GroupAnnotation level2 = new SimpleGroupAnnotation(25, 10);

@@ -18,16 +18,16 @@
 
 package org.trypticon.hex.interpreters;
 
-import org.trypticon.hex.interpreters.dates.DateInterpreterStorage;
-import org.trypticon.hex.interpreters.nulls.NullInterpreterStorage;
-import org.trypticon.hex.interpreters.primitives.PrimitiveInterpreterStorage;
-import org.trypticon.hex.interpreters.strings.StringInterpreterStorage;
-
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.Nullable;
+
+import org.trypticon.hex.interpreters.dates.DateInterpreterStorage;
+import org.trypticon.hex.interpreters.nulls.NullInterpreterStorage;
+import org.trypticon.hex.interpreters.primitives.PrimitiveInterpreterStorage;
+import org.trypticon.hex.interpreters.strings.StringInterpreterStorage;
 
 /**
  * Storage routines for annotations.  Basically these just convert to and
@@ -37,7 +37,7 @@ import java.util.Map;
  * @author trejkaz
  */
 public class MasterInterpreterStorage implements InterpreterStorage {
-    private List<InterpreterStorage> providers = new ArrayList<>(10);
+    private final List<InterpreterStorage> providers = new ArrayList<>(10);
 
     public MasterInterpreterStorage() {
         // TODO: Look up using Service Provider API.

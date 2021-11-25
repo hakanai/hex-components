@@ -20,7 +20,8 @@ apply(plugin = "java-platform")
 
 dependencies {
     constraints {
-        "api"("com.google.code.findbugs:jsr305:3.0.2")
+        val jsr305Version = "3.0.2"
+        "api"("com.google.code.findbugs:jsr305:$jsr305Version")
 
         val icu4jVersion = "68.2"
         "api"("com.ibm.icu:icu4j:$icu4jVersion")
@@ -35,9 +36,11 @@ dependencies {
 
         val junitVersion = "5.3.1"
         "api"("org.junit.jupiter:junit-jupiter-api:$junitVersion")
+        "api"("org.junit.jupiter:junit-jupiter-params:$junitVersion")
         "api"("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
 
-        "api"("org.hamcrest:hamcrest:2.2")
+        val hamcrestVersion = "2.2"
+        "api"("org.hamcrest:hamcrest:$hamcrestVersion")
 
         val jmockVersion = "2.12.0"
         "api"("org.jmock:jmock:$jmockVersion")
