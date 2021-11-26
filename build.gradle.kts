@@ -137,6 +137,8 @@ allprojects {
             useJUnitPlatform()
         }
         dependencies {
+            "testImplementation"("org.junit.jupiter:junit-jupiter-api")
+            "testImplementation"("org.junit.jupiter:junit-jupiter-params")
             "testRuntimeOnly"("org.junit.jupiter:junit-jupiter-engine")
             "errorprone"("com.google.errorprone:error_prone_core:2.4.0")
             "errorprone"("com.uber.nullaway:nullaway:0.8.0")

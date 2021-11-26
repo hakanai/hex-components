@@ -18,10 +18,17 @@
 
 package org.trypticon.hex.accessory;
 
-import org.jdesktop.swingx.JXCollapsiblePane;
-import org.trypticon.hex.HexViewer;
-import org.trypticon.hex.util.swingsupport.GuiLocale;
-
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
 import javax.annotation.Nullable;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -30,19 +37,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.logging.Logger;
-import java.util.prefs.BackingStoreException;
-import java.util.prefs.Preferences;
+
+import org.jdesktop.swingx.JXCollapsiblePane;
+
+import org.trypticon.hex.HexViewer;
+import org.trypticon.hex.util.LoggerUtils;
+import org.trypticon.hex.util.swingsupport.GuiLocale;
 
 /**
  * An accessory bar consisting of a main {@link LocationAccessoryBar} along with controls to optionally
@@ -72,7 +72,7 @@ public class ExpandableAccessoryBar extends AccessoryBar {
             childNames = node.childrenNames();
         } catch (BackingStoreException e) {
             // Not much we can do.
-            Logger.getLogger(getClass().getName()).warning("Couldn't list child preference nodes: " + node);
+            LoggerUtils.get().warning("Couldn't list child preference nodes: " + node);
             return;
         }
 
@@ -166,7 +166,7 @@ public class ExpandableAccessoryBar extends AccessoryBar {
                 node.removeNode();
             } catch (BackingStoreException e) {
                 // Not much we can do.
-                Logger.getLogger(getClass().getName()).warning("Couldn't remove preference node: " + node);
+                LoggerUtils.get().warning("Couldn't remove preference node: " + node);
             }
         }
 
