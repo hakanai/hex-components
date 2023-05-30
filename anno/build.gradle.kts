@@ -16,17 +16,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-apply(plugin = "java-library")
+plugins {
+    id("my.convention.java-library")
+}
 
 description = "API for annotating runs of binary with arbitrary annotations"
 
 dependencies {
-    "implementation"(platform(project(":hex-dependencies")))
-    "implementation"(project(":hex-binary"))
-    "implementation"(project(":hex-interpreter"))
-    "implementation"(project(":hex-util"))
-    "implementation"("com.google.code.findbugs:jsr305")
+    implementation(platform(project(":hex-dependencies")))
+    implementation(project(":hex-binary"))
+    implementation(project(":hex-interpreter"))
+    implementation(project(":hex-util"))
+    implementation("com.google.code.findbugs:jsr305")
 
-    "testImplementation"("org.jmock:jmock")
-    "testImplementation"("org.jmock:jmock-junit4")
+    testImplementation("org.jmock:jmock")
+    testImplementation("org.jmock:jmock-junit4")
 }

@@ -25,8 +25,6 @@ import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 
 /**
  * Utility working around Java's continued lack of a proper API for cleaning up
@@ -54,16 +52,10 @@ class ByteBufferUnmapper {
                 if (!buffer.isDirect()) {
                     throw new IllegalArgumentException("unmapping only works with direct buffers");
                 }
-                Throwable error = AccessController.doPrivileged((PrivilegedAction<Throwable>) () -> {
-                    try {
-                        boundCleanerMethod.invokeExact(buffer);
-                        return null;
-                    } catch (Throwable t) {
-                        return t;
-                    }
-                });
-                if (error != null) {
-                    throw new UncheckedIOException(new IOException("Unable to unmap the mapped buffer", error));
+                try {
+                    boundCleanerMethod.invokeExact(buffer);
+                } catch (Throwable t) {
+                    throw new UncheckedIOException(new IOException("Unable to unmap the mapped buffer", t));
                 }
               };
 

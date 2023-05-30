@@ -17,21 +17,6 @@
  */
 
 plugins {
-    id("my.convention.java-library")
-}
-
-description = "Utilities used by other hex components"
-
-dependencies {
-    implementation(platform(project(":hex-dependencies")))
-    implementation("com.google.code.findbugs:jsr305")
-    implementation("com.ibm.icu:icu4j")
-    implementation("com.ibm.icu:icu4j-charset")
-    implementation("org.swinglabs.swingx:swingx-action")
-    implementation("org.swinglabs.swingx:swingx-common")
-    implementation("org.swinglabs.swingx:swingx-core")
-    implementation("org.swinglabs.swingx:swingx-painters")
-    implementation("org.swinglabs.swingx:swingx-plaf")
-
-    testImplementation("org.hamcrest:hamcrest")
+    `java-platform`
+    id("my.convention.java-base")
 }

@@ -144,7 +144,7 @@ public class ExpandableAccessoryBar extends AccessoryBar {
     }
 
     private void addAccessoryBar() {
-        int interpreterIndex = (nextInterpreterIndex++);
+        int interpreterIndex = nextInterpreterIndex++;
         Preferences node = getPreferencesNode();
         AccessoryBarWithButtons bar = new AccessoryBarWithButtons(new InterpreterAccessoryBar(viewer), true);
         bar.setDirection(JXCollapsiblePane.Direction.END);

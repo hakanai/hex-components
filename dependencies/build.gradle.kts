@@ -16,12 +16,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-apply(plugin = "java-platform")
+plugins {
+    id("my.convention.java-platform")
+}
 
 dependencies {
     constraints {
         val jsr305Version = "3.0.2"
         "api"("com.google.code.findbugs:jsr305:$jsr305Version")
+
+        val errorProneVersion = "2.19.1"
+        "api"("com.google.errorprone:error_prone_annotations:$errorProneVersion")
 
         val icu4jVersion = "68.2"
         "api"("com.ibm.icu:icu4j:$icu4jVersion")

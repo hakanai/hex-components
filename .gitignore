@@ -3,8 +3,7 @@
 build
 target
 reports
-/.idea/out
-/.idea/workspace.xml
+/.idea
 
 # Ignore Gradle project-specific cache directory
 .gradle

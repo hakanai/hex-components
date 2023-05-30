@@ -16,14 +16,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-apply(plugin = "java-library")
+plugins {
+    id("my.convention.java-library")
+}
 
 description = "API for abstraction of things containing binary data"
 
 dependencies {
-    "implementation"(platform(project(":hex-dependencies")))
-    "implementation"(project(":hex-util"))
-    "implementation"("com.google.code.findbugs:jsr305")
+    implementation(platform(project(":hex-dependencies")))
+    implementation(project(":hex-util"))
+    implementation("com.google.code.findbugs:jsr305")
 
-    "testImplementation"("org.hamcrest:hamcrest")
+    testImplementation("org.hamcrest:hamcrest")
 }

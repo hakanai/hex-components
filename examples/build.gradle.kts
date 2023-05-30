@@ -16,16 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-apply(plugin = "application")
+plugins {
+    id("my.convention.java-application")
+}
 
 description = "Examples"
 
 dependencies {
-    "implementation"(platform(project(":hex-dependencies")))
-    "implementation"(project(":hex-anno"))
-    "implementation"(project(":hex-binary"))
-    "implementation"(project(":hex-interpreter"))
-    "implementation"(project(":hex-util"))
-    "implementation"(project(":hex-viewer"))
-    "implementation"("com.google.code.findbugs:jsr305")
+    implementation(platform(project(":hex-dependencies")))
+    implementation(project(":hex-anno"))
+    implementation(project(":hex-binary"))
+    implementation(project(":hex-interpreter"))
+    implementation(project(":hex-util"))
+    implementation(project(":hex-viewer"))
+    implementation("com.google.code.findbugs:jsr305")
 }

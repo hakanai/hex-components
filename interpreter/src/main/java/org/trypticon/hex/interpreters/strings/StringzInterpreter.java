@@ -18,6 +18,7 @@
 
 package org.trypticon.hex.interpreters.strings;
 
+import com.google.errorprone.annotations.InlineMe;
 import org.trypticon.hex.binary.Binary;
 import org.trypticon.hex.interpreters.AbstractInterpreter;
 
@@ -37,6 +38,7 @@ public class StringzInterpreter extends AbstractInterpreter<StringValue> {
     private final Charset charset;
 
     @Deprecated
+    @InlineMe(replacement = "this(Charset.forName(charset))", imports = "java.nio.charset.Charset")
     public StringzInterpreter(@Nonnull String charset) {
         this(Charset.forName(charset));
     }

@@ -23,6 +23,8 @@ package org.trypticon.hex.anno;
  *
  * @author trejkaz
  */
+// Seems to be a false positive - the type parameter is used in several places
+@SuppressWarnings("UnusedTypeParameter")
 public final class Attribute<V> {
     private final String name;
 

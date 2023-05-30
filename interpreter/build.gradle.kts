@@ -16,15 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-apply(plugin = "java-library")
+plugins {
+    id("my.convention.java-library")
+}
 
 description = "API for interpreting runs of binary as values humans can understand"
 
 dependencies {
-    "implementation"(platform(project(":hex-dependencies")))
-    "implementation"(project(":hex-binary"))
-    "implementation"(project(":hex-util"))
-    "implementation"("com.google.code.findbugs:jsr305")
+    implementation(platform(project(":hex-dependencies")))
+    implementation(project(":hex-binary"))
+    implementation(project(":hex-util"))
+    implementation("com.google.code.findbugs:jsr305")
+    implementation("com.google.errorprone:error_prone_annotations")
 
-    "testImplementation"("org.hamcrest:hamcrest")
+    testImplementation("org.hamcrest:hamcrest")
 }
